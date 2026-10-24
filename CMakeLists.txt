@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
-project(gujaratilang VERSION 0.1.0 LANGUAGES C)
+if(POLICY CMP0091)
+    cmake_policy(SET CMP0091 NEW)
+endif()
+project(gujaratilang VERSION 0.2.0 LANGUAGES C)
 
 include(CTest)
 
@@ -7,6 +10,8 @@ add_executable(gujarati src/main.c)
 target_compile_features(gujarati PRIVATE c_std_99)
 
 if(MSVC)
+    set_property(TARGET gujarati PROPERTY
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     target_compile_options(gujarati PRIVATE /W4 /utf-8)
 else()
     target_compile_options(gujarati PRIVATE -Wall -Wextra -Wpedantic)

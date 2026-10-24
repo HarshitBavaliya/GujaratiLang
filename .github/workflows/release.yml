@@ -1,0 +1,65 @@
+name: Windows release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows-release:
+    name: Build portable Windows release
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build -A x64 -DBUILD_TESTING=ON
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Test
+        run: ctest --test-dir build --build-config Release --output-on-failure
+
+      - name: Stage portable package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist, package\examples | Out-Null
+          Copy-Item build\Release\gujarati.exe package\gujarati.exe
+          Copy-Item examples\hello.gj package\examples\hello.gj
+          Copy-Item release\README.txt package\README.txt
+          Compress-Archive -Path package\* -DestinationPath dist\gujaratilang-windows-x64.zip -Force
+          $hash = (Get-FileHash dist\gujaratilang-windows-x64.zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  gujaratilang-windows-x64.zip" | Set-Content dist\checksums.txt -Encoding ascii
+
+      - name: Verify packaged interpreter
+        shell: pwsh
+        run: |
+          Expand-Archive dist\gujaratilang-windows-x64.zip -DestinationPath package-test
+          $process = Start-Process -FilePath package-test\gujarati.exe `
+            -ArgumentList package-test\examples\hello.gj `
+            -Wait -PassThru -NoNewWindow `
+            -RedirectStandardOutput package-test\stdout.txt `
+            -RedirectStandardError package-test\stderr.txt
+          if ($process.ExitCode -ne 0) {
+            Get-Content package-test\stderr.txt
+            throw "The packaged GujaratiLang sample failed with exit code $($process.ExitCode)."
+          }
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: gujaratilang-windows-x64
+          path: dist/*
+
+      - name: Publish GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$env:GITHUB_REF_NAME" dist/gujaratilang-windows-x64.zip dist/checksums.txt --title "GujaratiLang $env:GITHUB_REF_NAME" --generate-notes

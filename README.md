@@ -106,18 +106,60 @@ declared functions. A function returns
 છાપો ગુણાકાર(5);
 ```
 
-## Build and run
+## Install, build, and run
 
-Requires a C99 compiler and CMake 3.16 or newer.
+### Run GujaratiLang on Windows
 
-```powershell
+You do not need to install a compiler, CMake, Git, or a separate runtime to run
+the prebuilt Windows version:
+
+1. Download the latest
+   [GujaratiLang Windows 64-bit release](https://github.com/HarshitBavaliya/GujaratiLang/releases/latest/download/gujaratilang-windows-x64.zip).
+2. Extract the ZIP file.
+3. Open PowerShell in the extracted folder and run the included example:
+
+   ```powershell
+   .\gujarati.exe .\examples\hello.gj
+   ```
+
+4. Run your own program by giving its `.gj` file path:
+
+   ```powershell
+   .\gujarati.exe C:\path\to\your-program.gj
+   ```
+
+The download includes the interpreter, the example program, and a short
+`README.txt`. Verify the downloaded ZIP against `checksums.txt` attached to the
+same GitHub release if desired. The sample's final warning is intentional.
+
+The first ready-to-run download is for Windows 64-bit. To build from source,
+contribute, or run GujaratiLang on other platforms, follow the developer setup
+below.
+
+### Build from source
+
+Building requires Git, CMake 3.16 or newer, and a C99 compiler. On Windows,
+install Visual Studio or Build Tools with the **Desktop development with C++**
+workload. On Debian or Ubuntu, install the tools with
+`sudo apt install build-essential cmake git`. On macOS, install Xcode Command
+Line Tools and CMake.
+
+Then clone, build, and run the example:
+
+```text
+git clone https://github.com/HarshitBavaliya/GujaratiLang.git
+cd GujaratiLang
 cmake -S . -B build
-cmake --build build
-.\build\Debug\gujarati.exe .\examples\hello.gj
+cmake --build build --config Release
 ```
 
-For a single-configuration generator, the executable may instead be at
-`build/gujarati.exe`.
+On Windows, run
+`.\build\Release\gujarati.exe .\examples\hello.gj`. On Linux or macOS, run
+`./build/gujarati ./examples/hello.gj`. For a single-configuration CMake
+generator, the executable may instead be at `build/gujarati.exe` on Windows.
+
+If PowerShell says `cmake` is not recognized, install CMake, add it to `PATH`,
+and open a new PowerShell window.
 
 ## Tests
 
@@ -129,6 +171,14 @@ ctest --test-dir build --output-on-failure
 
 GitHub Actions builds and runs the tests on Windows and Ubuntu for pushes and
 pull requests.
+
+## Project website
+
+The static landing page is in `website/index.html`. It has no build step or
+external dependencies. Upload it as `index.html` to the subdomain's web root
+using FTPS or SFTP; avoid unencrypted FTP when transferring hosting credentials.
+The VS Code FTPS profile in `.vscode/sftp.json` is local-only and excluded from
+Git. It leaves the password unset so the SFTP extension can prompt for it.
 
 ## Roadmap
 
