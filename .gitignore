@@ -1,0 +1,5 @@
+/build/
+.qodo/
+*.obj
+*.ilk
+*.pdb
