@@ -19,7 +19,7 @@ The initial interpreter supports:
 - Mutable, zero-based lists with nested values, indexed reads and writes, and
   list support in `લંબાઈ`
 - `દરેક (item માં list) { ... }` list loops and
-  `દરેક (index in start..end) { ... }` integer ranges with an exclusive end
+  `દરેક (index માં start..end) { ... }` integer ranges with an exclusive end
 - `import "module.gj";` with importer-relative paths, one-time execution,
   shared globals, and circular-import detection
 - Variables created and assigned with `name = value;`; assigning an existing
@@ -93,12 +93,12 @@ can be used in the same program. Multi-word spellings use underscores.
 | `નહિતર` | `nahitar` | Else |
 | `જ્યાં સુધી` | `jya_sudhi` | While loop |
 | `દરેક` | `darek` | For loop |
-| `માં` | `in` | For-loop separator |
+| `માં` | `ma` | For-loop separator |
 | `અને` | `ane` | And |
 | `અથવા` | `athva` | Or |
 | `નહીં` | `nahi` | Not |
 | `નકામો` | `nakamo` | Null |
-| `કાર્ય` | `karya` | Function |
+| `કાર્ય` | `kary` | Function |
 | `પરત` | `parat` | Return |
 | `આયાત` | `aayat` or `import` | Import a module |
 | `ચેતવણી` | `chetavani` | Warning |
@@ -112,9 +112,9 @@ spellings:
 
 ```text
 aavo
-karya double(value) { parat value * 2; }
+kary double(value) { parat value * 2; }
 items = [10, 20, 30];
-darek (item in items) {
+darek (item ma items) {
     chhapo double(item);
 }
 jo (lambai(items) == 3) {
@@ -146,8 +146,12 @@ integer range. The start is included and the end is excluded:
 
 ```text
 દરેક (item માં items) { છાપો item; }
-દરેક (index in 0..લંબાઈ(items)) { છાપો index; }
+દરેક (index માં 0..લંબાઈ(items)) { છાપો index; }
 ```
+
+In English-keyboard code, write the same loop as `darek (item ma items)`.
+Use `ma` between the loop variable and either a list (`items`) or a numeric
+range (`0..end`).
 
 Import another `.gj` file with `આયાત "helpers.gj";` (`aayat` or `import`).
 Import paths are

@@ -1,9 +1,9 @@
 aavo
 // Every keyword below can be typed with an English keyboard.
-karya double(value) { parat value * 2; }
+kary double(value) { parat value * 2; }
 items = [1, 2, 3];
 
-darek (item in items) {
+darek (item ma items) {
     chhapo double(item);
 }
 

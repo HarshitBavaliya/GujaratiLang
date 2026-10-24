@@ -5,11 +5,11 @@ items[0] = 5;
 chhapo items;
 chhapo lambai(items);
 
-darek (item in items) {
+darek (item ma items) {
     chhapo item;
 }
 
-darek (index in 0..lambai(items)) {
+darek (index ma 0..lambai(items)) {
     chhapo index;
 }
 aavjo

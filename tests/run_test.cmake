@@ -587,7 +587,7 @@ elseif(TEST_CASE STREQUAL "invalid_language")
     set(language_args --language fr)
 elseif(TEST_CASE STREQUAL "romanized_keywords")
     set(source [=[aavo
-karya double(value) { parat value * 2; }
+kary double(value) { parat value * 2; }
 count = 0;
 jya_sudhi (count < 2 ane nahi 0) {
     count = count + 1;
@@ -627,7 +627,7 @@ aavjo
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "reserved_romanized_builtin")
     set(source [=[aavo
-karya lambai(text) { parat 0; }
+kary lambai(text) { parat 0; }
 aavjo
 ]=])
     set(expected_stdout "")
@@ -701,7 +701,7 @@ aavjo
 elseif(TEST_CASE STREQUAL "for_list_iteration")
     set(source [=[aavo
 items = [1, "two", 3];
-darek (item in items) { chhapo item; }
+darek (item ma items) { chhapo item; }
 aavjo
 ]=])
     set(expected_stdout "1\ntwo\n3\n")
@@ -709,7 +709,7 @@ aavjo
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "for_numeric_range")
     set(source [=[aavo
-darek (index in 2..5) { chhapo index; }
+darek (index ma 2..5) { chhapo index; }
 aavjo
 ]=])
     set(expected_stdout "2\n3\n4\n")
@@ -717,7 +717,7 @@ aavjo
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "for_empty_range")
     set(source [=[aavo
-darek (index in 5..2) { chhapo "wrong"; }
+darek (index ma 5..2) { chhapo "wrong"; }
 chhapo "after";
 aavjo
 ]=])
@@ -726,7 +726,7 @@ aavjo
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "for_non_list_error")
     set(source [=[aavo
-darek (item in 3) { chhapo item; }
+darek (item ma 3) { chhapo item; }
 aavjo
 ]=])
     set(expected_stdout "")
@@ -736,7 +736,7 @@ elseif(TEST_CASE STREQUAL "module_import_shared_namespace")
     set(module_directory "${TEST_BINARY_DIR}/module-import")
     file(MAKE_DIRECTORY "${module_directory}")
     file(WRITE "${module_directory}/library.gj"
-        "aavo\nshared = \"from module\";\nkarya get_value() { parat shared; }\nchhapo \"loaded\";\naavjo\n")
+        "aavo\nshared = \"from module\";\nkary get_value() { parat shared; }\nchhapo \"loaded\";\naavjo\n")
     set(source_path "${module_directory}/main.gj")
     set(source [=[aavo
 import "library.gj";
@@ -798,7 +798,7 @@ elseif(TEST_CASE STREQUAL "repl_source_reallocation")
     set(source "")
     set(program_arguments --repl)
     set(input_text [=[message = "persist";
-karya get_message() { parat message; }
+kary get_message() { parat message; }
 pad1 = "1234567890123456789012345678901234567890";
 pad2 = "1234567890123456789012345678901234567890";
 pad3 = "1234567890123456789012345678901234567890";
