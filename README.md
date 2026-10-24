@@ -108,10 +108,14 @@ declared functions. A function returns
 
 ## Install, build, and run
 
-### Run GujaratiLang on Windows
+### Run a prebuilt release
 
-You do not need to install a compiler, CMake, Git, or a separate runtime to run
-the prebuilt Windows version:
+Prebuilt packages are available for Windows x64, Linux x64, and macOS on both
+Intel (x64) and Apple Silicon (arm64). Download the matching package from the
+[latest GitHub release](https://github.com/HarshitBavaliya/GujaratiLang/releases/latest).
+The release includes SHA-256 checksums for all platform packages.
+
+#### Windows x64
 
 1. Download the latest
    [GujaratiLang Windows 64-bit release](https://github.com/HarshitBavaliya/GujaratiLang/releases/latest/download/gujaratilang-windows-x64.zip).
@@ -128,13 +132,38 @@ the prebuilt Windows version:
    .\gujarati.exe C:\path\to\your-program.gj
    ```
 
-The download includes the interpreter, the example program, and a short
-`README.txt`. Verify the downloaded ZIP against `checksums.txt` attached to the
-same GitHub release if desired. The sample's final warning is intentional.
+#### Linux x64
 
-The first ready-to-run download is for Windows 64-bit. To build from source,
-contribute, or run GujaratiLang on other platforms, follow the developer setup
-below.
+Download `gujaratilang-linux-x64.tar.gz`, then extract and run it from a
+terminal:
+
+```sh
+tar -xzf gujaratilang-linux-x64.tar.gz
+./gujarati ./examples/hello.gj
+./gujarati /path/to/your-program.gj
+```
+
+This package is built on Ubuntu 22.04 and requires a compatible glibc-based
+Linux distribution.
+
+#### macOS Intel and Apple Silicon
+
+Download `gujaratilang-macos-x64.tar.gz` for Intel Macs or
+`gujaratilang-macos-arm64.tar.gz` for Apple Silicon Macs. In Terminal, extract
+the matching package and run the example:
+
+```sh
+tar -xzf gujaratilang-macos-arm64.tar.gz
+./gujarati ./examples/hello.gj
+./gujarati /path/to/your-program.gj
+```
+
+Use the `macos-x64` archive on Intel instead of the `macos-arm64` archive shown
+in the extraction command. The macOS binaries are not signed or notarized, so
+macOS may display a security warning. The release package contains the
+interpreter, example program, and a short `README.txt`.
+
+To build from source or contribute, follow the developer setup below.
 
 ### Build from source
 
@@ -169,8 +198,9 @@ CTest runs the interpreter regression suite after building:
 ctest --test-dir build --output-on-failure
 ```
 
-GitHub Actions builds and runs the tests on Windows and Ubuntu for pushes and
-pull requests.
+GitHub Actions builds and runs the tests on Windows, Ubuntu, and both Intel and
+Apple Silicon macOS runners for pushes and pull requests. Tagged releases
+publish prebuilt packages for all four supported platform targets.
 
 ## Project website
 
