@@ -29,6 +29,16 @@ if(BUILD_TESTING)
             duplicate_variable
             undefined_variable
             undefined_variable_gujarati
+            function_calls
+            nested_function_calls
+            recursive_function
+            function_returns
+            function_local_and_global_variables
+            function_undefined
+            function_wrong_argument_count
+            function_duplicate
+            function_duplicate_parameter
+            return_outside_function
             warnings_english
             warnings_gujarati
             errors

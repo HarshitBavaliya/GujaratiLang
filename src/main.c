@@ -24,6 +24,8 @@ typedef enum {
     TOKEN_FATAL_ERROR,
     TOKEN_WARNING,
     TOKEN_DECLARE_VARIABLE,
+    TOKEN_FUNCTION,
+    TOKEN_RETURN,
     TOKEN_IDENTIFIER,
     TOKEN_NUMBER,
     TOKEN_STRING,
@@ -40,6 +42,7 @@ typedef enum {
     TOKEN_GREATER_EQUAL,
     TOKEN_LEFT_PAREN,
     TOKEN_RIGHT_PAREN,
+    TOKEN_COMMA,
     TOKEN_LEFT_BRACE,
     TOKEN_RIGHT_BRACE,
     TOKEN_SEMICOLON,
@@ -96,6 +99,18 @@ typedef enum {
     MESSAGE_UNDEFINED_VARIABLE,
     MESSAGE_OUT_OF_MEMORY_FOR_VARIABLE,
     MESSAGE_LOGICAL_OPERANDS_REQUIRED,
+    MESSAGE_EXPECTED_FUNCTION_NAME,
+    MESSAGE_EXPECTED_FUNCTION_OPEN,
+    MESSAGE_EXPECTED_PARAMETER,
+    MESSAGE_EXPECTED_FUNCTION_CLOSE,
+    MESSAGE_EXPECTED_FUNCTION_BODY,
+    MESSAGE_DUPLICATE_FUNCTION,
+    MESSAGE_UNDEFINED_FUNCTION,
+    MESSAGE_WRONG_ARGUMENT_COUNT,
+    MESSAGE_DUPLICATE_PARAMETER,
+    MESSAGE_RETURN_OUTSIDE_FUNCTION,
+    MESSAGE_OUT_OF_MEMORY_FOR_FUNCTION,
+    MESSAGE_OUT_OF_MEMORY_FOR_ARGUMENTS,
     MESSAGE_EXPECTED_PROGRAM_START,
     MESSAGE_EXPECTED_PROGRAM_END,
     MESSAGE_EXPECTED_END_OF_FILE,
@@ -121,6 +136,22 @@ typedef struct {
     Value value;
 } Variable;
 
+typedef struct Environment {
+    Variable *variables;
+    size_t variable_count;
+    size_t variable_capacity;
+    struct Environment *parent;
+} Environment;
+
+typedef struct {
+    size_t name_offset;
+    size_t name_length;
+    size_t declaration_offset;
+    Token *parameters;
+    size_t parameter_count;
+    Token body_open;
+} Function;
+
 typedef struct {
     const char *source;
     size_t offset;
@@ -128,11 +159,16 @@ typedef struct {
     size_t column;
     const char *filename;
     Language language;
-    Variable *variables;
-    size_t variable_count;
-    size_t variable_capacity;
+    Environment *environment;
+    Environment *globals;
+    Function *functions;
+    size_t function_count;
+    size_t function_capacity;
     Token current;
     int failed;
+    int in_function;
+    int returned;
+    Value return_value;
 } Parser;
 
 static const char *localized_message(Language language, MessageId message)
@@ -156,7 +192,7 @@ static const char *localized_message(Language language, MessageId message)
         "expected a quoted message",
         "expected ';' after diagnostic",
         "could not write diagnostic",
-        "expected 'રાખો', a variable assignment, 'છાપો', 'જો', 'જ્યાં સુધી', or a diagnostic statement",
+        "expected a declaration, function, return, variable assignment, print, conditional, loop, or diagnostic statement",
         "expected ';' after expression",
         "could not write output",
         "comparisons require numbers",
@@ -166,6 +202,18 @@ static const char *localized_message(Language language, MessageId message)
         "undefined variable",
         "out of memory while storing variable",
         "logical operators require a number or 'નકામો'",
+        "expected a function name after 'કાર્ય'",
+        "expected '(' after function name",
+        "expected a parameter name",
+        "expected ')' after function parameters",
+        "expected a function body",
+        "function is already declared",
+        "undefined function",
+        "incorrect number of function arguments",
+        "parameter is already declared",
+        "'પરત' can only be used inside a function",
+        "out of memory while storing function",
+        "out of memory while storing function arguments",
         "expected 'આવો' at the start of the program",
         "expected 'આવજો' at the end of the program",
         "expected end of file after 'આવજો'",
@@ -195,7 +243,7 @@ static const char *localized_message(Language language, MessageId message)
         "અવતરણ ચિહ્નોમાં સંદેશ અપેક્ષિત છે",
         "ડાયગ્નોસ્ટિક પછી ';' અપેક્ષિત છે",
         "ડાયગ્નોસ્ટિક લખી શકાયું નહીં",
-        "'રાખો', ચલ સોંપણી, 'છાપો', 'જો', 'જ્યાં સુધી', અથવા ડાયગ્નોસ્ટિક સ્ટેટમેન્ટ અપેક્ષિત છે",
+        "ચલ, ફંક્શન, પરત, સોંપણી, છાપો, શરત, લૂપ, અથવા ડાયગ્નોસ્ટિક સ્ટેટમેન્ટ અપેક્ષિત છે",
         "અભિવ્યક્તિ પછી ';' અપેક્ષિત છે",
         "આઉટપુટ લખી શકાયું નહીં",
         "તુલના માટે સંખ્યાઓ જરૂરી છે",
@@ -205,6 +253,18 @@ static const char *localized_message(Language language, MessageId message)
         "અવ્યાખ્યાયિત ચલ",
         "ચલ સંગ્રહવા માટે પૂરતી મેમરી મળી નહીં",
         "તાર્કિક ઓપરેટર માટે સંખ્યા અથવા 'નકામો' જરૂરી છે",
+        "'કાર્ય' પછી ફંક્શનનું નામ અપેક્ષિત છે",
+        "ફંક્શનના નામ પછી '(' અપેક્ષિત છે",
+        "પરિમાણનું નામ અપેક્ષિત છે",
+        "ફંક્શનના પરિમાણો પછી ')' અપેક્ષિત છે",
+        "ફંક્શનનું શરીર અપેક્ષિત છે",
+        "ફંક્શન પહેલેથી જાહેર કરેલું છે",
+        "અવ્યાખ્યાયિત ફંક્શન",
+        "ફંક્શન માટે દલીલોની સંખ્યા ખોટી છે",
+        "પરિમાણ પહેલેથી જાહેર કરેલું છે",
+        "'પરત' નો ઉપયોગ ફક્ત ફંક્શનની અંદર થઈ શકે છે",
+        "ફંક્શન સંગ્રહવા માટે પૂરતી મેમરી મળી નહીં",
+        "ફંક્શનની દલીલો સંગ્રહવા માટે પૂરતી મેમરી મળી નહીં",
         "પ્રોગ્રામની શરૂઆતમાં 'આવો' અપેક્ષિત છે",
         "પ્રોગ્રામના અંતે 'આવજો' અપેક્ષિત છે",
         "'આવજો' પછી ફાઇલનો અંત અપેક્ષિત છે",
@@ -341,13 +401,14 @@ static Token scan_token(Parser *parser)
     static const char error_keyword[] = "ભૂલ";
     static const char warning_keyword[] = "ચેતવણી";
     static const char declare_variable_keyword[] = "રાખો";
+    static const char function_keyword[] = "કાર્ય";
+    static const char return_keyword[] = "પરત";
     Token token;
     size_t start;
     char character;
 
     skip_whitespace_and_comments(parser);
     token = make_token(TOKEN_EOF, parser->line, parser->column);
-    token.source_offset = parser->offset;
     token.source_offset = parser->offset;
     character = peek(parser);
     if (character == '\0') {
@@ -474,6 +535,22 @@ static Token scan_token(Parser *parser)
         token.kind = TOKEN_DECLARE_VARIABLE;
         return token;
     }
+    if (keyword_matches(parser, function_keyword)) {
+        size_t index;
+        for (index = 0; index < sizeof(function_keyword) - 1; index++) {
+            advance_char(parser);
+        }
+        token.kind = TOKEN_FUNCTION;
+        return token;
+    }
+    if (keyword_matches(parser, return_keyword)) {
+        size_t index;
+        for (index = 0; index < sizeof(return_keyword) - 1; index++) {
+            advance_char(parser);
+        }
+        token.kind = TOKEN_RETURN;
+        return token;
+    }
     if (is_identifier_start(character)) {
         size_t identifier_start = parser->offset;
         while (is_identifier_continue(peek(parser))) {
@@ -580,6 +657,7 @@ static Token scan_token(Parser *parser)
         break;
     case '(': token.kind = TOKEN_LEFT_PAREN; break;
     case ')': token.kind = TOKEN_RIGHT_PAREN; break;
+    case ',': token.kind = TOKEN_COMMA; break;
     case '{': token.kind = TOKEN_LEFT_BRACE; break;
     case '}': token.kind = TOKEN_RIGHT_BRACE; break;
     case ';': token.kind = TOKEN_SEMICOLON; break;
@@ -611,14 +689,18 @@ static Value number_value(double number)
 
 static Variable *find_variable(Parser *parser, Token name)
 {
-    size_t index;
-    for (index = 0; index < parser->variable_count; index++) {
-        Variable *variable = &parser->variables[index];
-        if (variable->name_length == name.string_length &&
-            memcmp(parser->source + variable->name_offset,
-                   parser->source + name.string_offset,
-                   name.string_length) == 0) {
-            return variable;
+    Environment *environment;
+    for (environment = parser->environment; environment != NULL;
+         environment = environment->parent) {
+        size_t index;
+        for (index = 0; index < environment->variable_count; index++) {
+            Variable *variable = &environment->variables[index];
+            if (variable->name_length == name.string_length &&
+                memcmp(parser->source + variable->name_offset,
+                       parser->source + name.string_offset,
+                       name.string_length) == 0) {
+                return variable;
+            }
         }
     }
     return NULL;
@@ -626,11 +708,23 @@ static Variable *find_variable(Parser *parser, Token name)
 
 static int declare_variable(Parser *parser, Token name, Value value)
 {
+    Environment *environment = parser->environment;
     Variable *variables;
     Variable *existing;
     size_t capacity;
 
-    existing = find_variable(parser, name);
+    size_t index;
+    existing = NULL;
+    for (index = 0; index < environment->variable_count; index++) {
+        Variable *variable = &environment->variables[index];
+        if (variable->name_length == name.string_length &&
+            memcmp(parser->source + variable->name_offset,
+                   parser->source + name.string_offset,
+                   name.string_length) == 0) {
+            existing = variable;
+            break;
+        }
+    }
     if (existing != NULL && existing->declaration_offset == name.source_offset) {
         existing->value = value;
         return 1;
@@ -640,35 +734,37 @@ static int declare_variable(Parser *parser, Token name, Value value)
                      MESSAGE_VARIABLE_ALREADY_DECLARED);
         return 0;
     }
-    if (parser->variable_count == parser->variable_capacity) {
-        if (parser->variable_capacity == 0) {
+    if (environment->variable_count == environment->variable_capacity) {
+        if (environment->variable_capacity == 0) {
             capacity = 8;
         } else {
-            if (parser->variable_capacity >
-                (size_t)-1 / 2 / sizeof(*parser->variables)) {
+            if (environment->variable_capacity >
+                (size_t)-1 / 2 / sizeof(*environment->variables)) {
                 report_error(parser, name.line, name.column,
                              MESSAGE_OUT_OF_MEMORY_FOR_VARIABLE);
                 return 0;
             }
-            capacity = parser->variable_capacity * 2;
+            capacity = environment->variable_capacity * 2;
         }
-        variables = (Variable *)realloc(parser->variables,
+        variables = (Variable *)realloc(environment->variables,
                                         capacity * sizeof(*variables));
         if (variables == NULL) {
             report_error(parser, name.line, name.column,
                          MESSAGE_OUT_OF_MEMORY_FOR_VARIABLE);
             return 0;
         }
-        parser->variables = variables;
-        parser->variable_capacity = capacity;
+        environment->variables = variables;
+        environment->variable_capacity = capacity;
     }
 
-    parser->variables[parser->variable_count].name_offset = name.string_offset;
-    parser->variables[parser->variable_count].name_length = name.string_length;
-    parser->variables[parser->variable_count].declaration_offset =
+    environment->variables[environment->variable_count].name_offset =
+        name.string_offset;
+    environment->variables[environment->variable_count].name_length =
+        name.string_length;
+    environment->variables[environment->variable_count].declaration_offset =
         name.source_offset;
-    parser->variables[parser->variable_count].value = value;
-    parser->variable_count++;
+    environment->variables[environment->variable_count].value = value;
+    environment->variable_count++;
     return 1;
 }
 
@@ -687,6 +783,139 @@ static int assign_variable(Parser *parser, Token name, Value value)
 static Value parse_expression(Parser *parser, int execute);
 static Value parse_additive(Parser *parser, int execute);
 static int value_is_truthy(Value value);
+static int parse_block(Parser *parser, int execute);
+
+static Value null_value(void)
+{
+    Value value = number_value(0.0);
+    value.kind = VALUE_NULL;
+    return value;
+}
+
+static Function *find_function(Parser *parser, Token name)
+{
+    size_t index;
+    for (index = 0; index < parser->function_count; index++) {
+        Function *function = &parser->functions[index];
+        if (function->name_length == name.string_length &&
+            memcmp(parser->source + function->name_offset,
+                   parser->source + name.string_offset,
+                   name.string_length) == 0) {
+            return function;
+        }
+    }
+    return NULL;
+}
+
+static Value call_function(Parser *parser, Function function,
+                           const Value *arguments)
+{
+    Environment local_environment;
+    Parser callee = *parser;
+    size_t index;
+    Value result = null_value();
+
+    memset(&local_environment, 0, sizeof(local_environment));
+    local_environment.parent = parser->globals;
+    callee.environment = &local_environment;
+    callee.in_function = 1;
+    callee.returned = 0;
+    callee.return_value = null_value();
+    callee.failed = 0;
+    callee.offset = function.body_open.source_offset;
+    callee.line = function.body_open.line;
+    callee.column = function.body_open.column;
+    callee.current = make_token(TOKEN_EOF, callee.line, callee.column);
+    advance_token(&callee);
+
+    for (index = 0; index < function.parameter_count; index++) {
+        if (!declare_variable(&callee, function.parameters[index],
+                              arguments[index])) {
+            break;
+        }
+    }
+    if (!callee.failed) {
+        parse_block(&callee, 1);
+    }
+    if (callee.failed) {
+        parser->failed = 1;
+    } else if (callee.returned) {
+        result = callee.return_value;
+    }
+    free(local_environment.variables);
+    return result;
+}
+
+static Value parse_function_call(Parser *parser, Token name, int execute)
+{
+    Value *arguments = NULL;
+    size_t argument_count = 0;
+    size_t argument_capacity = 0;
+    Value result = null_value();
+
+    advance_token(parser);
+    while (!parser->failed &&
+           parser->current.kind != TOKEN_RIGHT_PAREN) {
+        Value argument = parse_expression(parser, execute);
+        if (parser->failed) {
+            break;
+        }
+        if (execute) {
+            if (argument_count == argument_capacity) {
+                size_t capacity = argument_capacity == 0 ? 4 :
+                                  argument_capacity * 2;
+                Value *new_arguments;
+                if (capacity < argument_capacity ||
+                    capacity > (size_t)-1 / sizeof(*arguments)) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_OUT_OF_MEMORY_FOR_ARGUMENTS);
+                    break;
+                }
+                new_arguments = (Value *)realloc(
+                    arguments, capacity * sizeof(*arguments));
+                if (new_arguments == NULL) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_OUT_OF_MEMORY_FOR_ARGUMENTS);
+                    break;
+                }
+                arguments = new_arguments;
+                argument_capacity = capacity;
+            }
+            arguments[argument_count] = argument;
+        }
+        argument_count++;
+        if (parser->current.kind != TOKEN_COMMA) {
+            break;
+        }
+        advance_token(parser);
+        if (parser->current.kind == TOKEN_RIGHT_PAREN) {
+            report_error(parser, parser->current.line, parser->current.column,
+                         MESSAGE_EXPECTED_VALUE);
+            break;
+        }
+    }
+    if (!parser->failed && parser->current.kind != TOKEN_RIGHT_PAREN) {
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_RIGHT_PAREN);
+    }
+    if (!parser->failed) {
+        advance_token(parser);
+        if (execute) {
+            Function *function = find_function(parser, name);
+            if (function == NULL) {
+                report_error(parser, name.line, name.column,
+                             MESSAGE_UNDEFINED_FUNCTION);
+            } else if (function->parameter_count != argument_count) {
+                report_error(parser, name.line, name.column,
+                             MESSAGE_WRONG_ARGUMENT_COUNT);
+            } else {
+                result = call_function(parser, *function, arguments);
+            }
+        }
+    }
+    free(arguments);
+    return result;
+}
 
 static Value parse_primary(Parser *parser, int execute)
 {
@@ -699,8 +928,7 @@ static Value parse_primary(Parser *parser, int execute)
         return value;
     }
     if (token.kind == TOKEN_NULL) {
-        value = number_value(0.0);
-        value.kind = VALUE_NULL;
+        value = null_value();
         advance_token(parser);
         return value;
     }
@@ -715,6 +943,9 @@ static Value parse_primary(Parser *parser, int execute)
     if (token.kind == TOKEN_IDENTIFIER) {
         Variable *variable = find_variable(parser, token);
         advance_token(parser);
+        if (parser->current.kind == TOKEN_LEFT_PAREN) {
+            return parse_function_call(parser, token, execute);
+        }
         if (variable == NULL) {
             if (execute) {
                 report_error(parser, token.line, token.column,
@@ -1016,7 +1247,7 @@ static int parse_block(Parser *parser, int execute)
     while (!parser->failed && parser->current.kind != TOKEN_RIGHT_BRACE &&
            parser->current.kind != TOKEN_EOF &&
            parser->current.kind != TOKEN_END) {
-        parse_statement(parser, execute);
+        parse_statement(parser, execute && !parser->returned);
     }
     if (!parser->failed && parser->current.kind != TOKEN_RIGHT_BRACE) {
         report_error(parser, parser->current.line, parser->current.column,
@@ -1116,6 +1347,9 @@ static int parse_while_loop(Parser *parser, int execute, Token keyword)
         if (!parse_block(parser, body_execute)) {
             return 0;
         }
+        if (parser->returned) {
+            return 1;
+        }
         if (!body_execute) {
             return 1;
         }
@@ -1171,24 +1405,10 @@ static int parse_diagnostic(Parser *parser, Token keyword, int execute)
     return 1;
 }
 
-static int parse_variable_statement(Parser *parser, Token statement,
-                                   int execute, int declaration)
+static int parse_variable_assignment(Parser *parser, Token name, int execute)
 {
-    Token name;
     Value value;
 
-    if (declaration) {
-        advance_token(parser);
-        if (parser->current.kind != TOKEN_IDENTIFIER) {
-            report_error(parser, parser->current.line, parser->current.column,
-                         MESSAGE_EXPECTED_VARIABLE_NAME);
-            return 0;
-        }
-        name = parser->current;
-    } else {
-        name = statement;
-    }
-    advance_token(parser);
     if (parser->current.kind != TOKEN_EQUAL) {
         report_error(parser, parser->current.line, parser->current.column,
                      MESSAGE_EXPECTED_ASSIGNMENT);
@@ -1205,13 +1425,257 @@ static int parse_variable_statement(Parser *parser, Token statement,
         return 0;
     }
     if (execute) {
-        if (declaration) {
-            if (!declare_variable(parser, name, value)) {
-                return 0;
-            }
-        } else if (!assign_variable(parser, name, value)) {
+        if (!assign_variable(parser, name, value)) {
             return 0;
         }
+    }
+    advance_token(parser);
+    return !parser->failed;
+}
+
+static int register_function(Parser *parser, Token name, Token *parameters,
+                             size_t parameter_count, Token body_open)
+{
+    Function *existing = find_function(parser, name);
+    Function *functions;
+    size_t capacity;
+
+    if (existing != NULL) {
+        free(parameters);
+        if (existing->declaration_offset == name.source_offset) {
+            return 1;
+        }
+        report_error(parser, name.line, name.column,
+                     MESSAGE_DUPLICATE_FUNCTION);
+        return 0;
+    }
+    if (parser->function_count == parser->function_capacity) {
+        if (parser->function_capacity == 0) {
+            capacity = 8;
+        } else {
+            if (parser->function_capacity >
+                (size_t)-1 / 2 / sizeof(*parser->functions)) {
+                free(parameters);
+                report_error(parser, name.line, name.column,
+                             MESSAGE_OUT_OF_MEMORY_FOR_FUNCTION);
+                return 0;
+            }
+            capacity = parser->function_capacity * 2;
+        }
+        functions = (Function *)realloc(parser->functions,
+                                        capacity * sizeof(*functions));
+        if (functions == NULL) {
+            free(parameters);
+            report_error(parser, name.line, name.column,
+                         MESSAGE_OUT_OF_MEMORY_FOR_FUNCTION);
+            return 0;
+        }
+        parser->functions = functions;
+        parser->function_capacity = capacity;
+    }
+    parser->functions[parser->function_count].name_offset =
+        name.string_offset;
+    parser->functions[parser->function_count].name_length =
+        name.string_length;
+    parser->functions[parser->function_count].declaration_offset =
+        name.source_offset;
+    parser->functions[parser->function_count].parameters = parameters;
+    parser->functions[parser->function_count].parameter_count =
+        parameter_count;
+    parser->functions[parser->function_count].body_open = body_open;
+    parser->function_count++;
+    return 1;
+}
+
+static int parse_function_declaration(Parser *parser, int execute)
+{
+    Token name;
+    Token *parameters = NULL;
+    size_t parameter_count = 0;
+    size_t parameter_capacity = 0;
+    Token body_open;
+    size_t brace_depth = 0;
+
+    advance_token(parser);
+    if (parser->current.kind != TOKEN_IDENTIFIER) {
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_FUNCTION_NAME);
+        return 0;
+    }
+    name = parser->current;
+    advance_token(parser);
+    if (parser->current.kind != TOKEN_LEFT_PAREN) {
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_FUNCTION_OPEN);
+        return 0;
+    }
+    advance_token(parser);
+    while (!parser->failed &&
+           parser->current.kind != TOKEN_RIGHT_PAREN) {
+        size_t index;
+        Token parameter;
+        if (parser->current.kind != TOKEN_IDENTIFIER) {
+            free(parameters);
+            report_error(parser, parser->current.line, parser->current.column,
+                         MESSAGE_EXPECTED_PARAMETER);
+            return 0;
+        }
+        parameter = parser->current;
+        for (index = 0; index < parameter_count; index++) {
+            if (parameters[index].string_length == parameter.string_length &&
+                memcmp(parser->source + parameters[index].string_offset,
+                       parser->source + parameter.string_offset,
+                       parameter.string_length) == 0) {
+                free(parameters);
+                report_error(parser, parameter.line, parameter.column,
+                             MESSAGE_DUPLICATE_PARAMETER);
+                return 0;
+            }
+        }
+        if (parameter_count == parameter_capacity) {
+            size_t capacity = parameter_capacity == 0 ? 4 :
+                              parameter_capacity * 2;
+            Token *new_parameters;
+            if (capacity < parameter_capacity ||
+                capacity > (size_t)-1 / sizeof(*parameters)) {
+                free(parameters);
+                report_error(parser, parameter.line, parameter.column,
+                             MESSAGE_OUT_OF_MEMORY_FOR_FUNCTION);
+                return 0;
+            }
+            new_parameters = (Token *)realloc(
+                parameters, capacity * sizeof(*parameters));
+            if (new_parameters == NULL) {
+                free(parameters);
+                report_error(parser, parameter.line, parameter.column,
+                             MESSAGE_OUT_OF_MEMORY_FOR_FUNCTION);
+                return 0;
+            }
+            parameters = new_parameters;
+            parameter_capacity = capacity;
+        }
+        parameters[parameter_count++] = parameter;
+        advance_token(parser);
+        if (parser->current.kind != TOKEN_COMMA) {
+            break;
+        }
+        advance_token(parser);
+        if (parser->current.kind == TOKEN_RIGHT_PAREN) {
+            free(parameters);
+            report_error(parser, parser->current.line, parser->current.column,
+                         MESSAGE_EXPECTED_PARAMETER);
+            return 0;
+        }
+    }
+    if (parser->failed) {
+        free(parameters);
+        return 0;
+    }
+    if (parser->current.kind != TOKEN_RIGHT_PAREN) {
+        free(parameters);
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_FUNCTION_CLOSE);
+        return 0;
+    }
+    advance_token(parser);
+    if (parser->current.kind != TOKEN_LEFT_BRACE) {
+        free(parameters);
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_FUNCTION_BODY);
+        return 0;
+    }
+    body_open = parser->current;
+    while (!parser->failed && parser->current.kind != TOKEN_EOF &&
+           parser->current.kind != TOKEN_END) {
+        if (parser->current.kind == TOKEN_LEFT_BRACE) {
+            brace_depth++;
+        } else if (parser->current.kind == TOKEN_RIGHT_BRACE) {
+            brace_depth--;
+            if (brace_depth == 0) {
+                advance_token(parser);
+                break;
+            }
+        }
+        advance_token(parser);
+    }
+    if (parser->failed) {
+        free(parameters);
+        return 0;
+    }
+    if (brace_depth != 0) {
+        free(parameters);
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_BLOCK_CLOSE);
+        return 0;
+    }
+    if (execute) {
+        return register_function(parser, name, parameters, parameter_count,
+                                 body_open);
+    }
+    free(parameters);
+    return 1;
+}
+
+static int parse_return_statement(Parser *parser, Token statement,
+                                  int execute)
+{
+    Value value = null_value();
+
+    advance_token(parser);
+    if (parser->current.kind != TOKEN_SEMICOLON) {
+        value = parse_expression(parser, execute);
+        if (parser->failed) {
+            return 0;
+        }
+    }
+    if (parser->current.kind != TOKEN_SEMICOLON) {
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_EXPRESSION_SEMICOLON);
+        return 0;
+    }
+    if (!parser->in_function) {
+        report_error(parser, statement.line, statement.column,
+                     MESSAGE_RETURN_OUTSIDE_FUNCTION);
+        return 0;
+    }
+    if (execute) {
+        parser->returned = 1;
+        parser->return_value = value;
+    }
+    advance_token(parser);
+    return !parser->failed;
+}
+
+static int parse_variable_declaration(Parser *parser, int execute)
+{
+    Token name;
+    Value value;
+
+    advance_token(parser);
+    if (parser->current.kind != TOKEN_IDENTIFIER) {
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_VARIABLE_NAME);
+        return 0;
+    }
+    name = parser->current;
+    advance_token(parser);
+    if (parser->current.kind != TOKEN_EQUAL) {
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_ASSIGNMENT);
+        return 0;
+    }
+    advance_token(parser);
+    value = parse_expression(parser, execute);
+    if (parser->failed) {
+        return 0;
+    }
+    if (parser->current.kind != TOKEN_SEMICOLON) {
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_EXPRESSION_SEMICOLON);
+        return 0;
+    }
+    if (execute && !declare_variable(parser, name, value)) {
+        return 0;
     }
     advance_token(parser);
     return !parser->failed;
@@ -1230,16 +1694,37 @@ static int parse_statement(Parser *parser, int execute)
         advance_token(parser);
         return parse_while_loop(parser, execute, statement);
     }
+    if (statement.kind == TOKEN_FUNCTION) {
+        return parse_function_declaration(parser, execute);
+    }
+    if (statement.kind == TOKEN_RETURN) {
+        return parse_return_statement(parser, statement, execute);
+    }
     if (statement.kind == TOKEN_ERROR ||
         statement.kind == TOKEN_FATAL_ERROR ||
         statement.kind == TOKEN_WARNING) {
         return parse_diagnostic(parser, statement, execute);
     }
     if (statement.kind == TOKEN_DECLARE_VARIABLE) {
-        return parse_variable_statement(parser, statement, execute, 1);
+        return parse_variable_declaration(parser, execute);
     }
     if (statement.kind == TOKEN_IDENTIFIER) {
-        return parse_variable_statement(parser, statement, execute, 0);
+        advance_token(parser);
+        if (parser->current.kind == TOKEN_LEFT_PAREN) {
+            parse_function_call(parser, statement, execute);
+            if (parser->failed) {
+                return 0;
+            }
+            if (parser->current.kind != TOKEN_SEMICOLON) {
+                report_error(parser, parser->current.line,
+                             parser->current.column,
+                             MESSAGE_EXPECTED_EXPRESSION_SEMICOLON);
+                return 0;
+            }
+            advance_token(parser);
+            return !parser->failed;
+        }
+        return parse_variable_assignment(parser, statement, execute);
     }
     if (statement.kind != TOKEN_PRINT) {
         report_error(parser, statement.line, statement.column,
@@ -1268,17 +1753,24 @@ static int parse_statement(Parser *parser, int execute)
 static int interpret(const char *source, const char *filename, Language language)
 {
     Parser parser;
+    Environment globals;
 
+    memset(&globals, 0, sizeof(globals));
     parser.source = source;
     parser.offset = 0;
     parser.line = 1;
     parser.column = 1;
     parser.filename = filename;
     parser.language = language;
-    parser.variables = NULL;
-    parser.variable_count = 0;
-    parser.variable_capacity = 0;
+    parser.environment = &globals;
+    parser.globals = &globals;
+    parser.functions = NULL;
+    parser.function_count = 0;
+    parser.function_capacity = 0;
     parser.failed = 0;
+    parser.in_function = 0;
+    parser.returned = 0;
+    parser.return_value = null_value();
     parser.current = make_token(TOKEN_EOF, 1, 1);
     advance_token(&parser);
 
@@ -1306,7 +1798,12 @@ static int interpret(const char *source, const char *filename, Language language
                          MESSAGE_EXPECTED_END_OF_FILE);
         }
     }
-    free(parser.variables);
+    free(globals.variables);
+    while (parser.function_count > 0) {
+        parser.function_count--;
+        free(parser.functions[parser.function_count].parameters);
+    }
+    free(parser.functions);
     return parser.failed ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 

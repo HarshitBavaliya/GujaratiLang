@@ -15,6 +15,8 @@ The initial interpreter supports:
 - Logical operators: `અને` (AND), `કે` (OR), and `નહીં` (NOT)
 - `જ્યાં સુધી (condition) { ... }` while loops
 - Variables declared with `રાખો` and reassigned with `=`
+- Functions declared with `કાર્ય name(parameters) { ... }`, called as
+  expressions or statements, and returning values with `પરત expression;`
 - Gujarati or English-letter variable names, with digits and underscores
   allowed after the first character
 - `જો`, `અથવા જો`, and `અથવા` conditional blocks with braces
@@ -51,6 +53,10 @@ Example (`examples/hello.gj`):
 } અથવા {
     છાપો નકામો;
 }
+કાર્ય ઉમેરો(પહેલું, બીજું) {
+    પરત પહેલું + બીજું;
+}
+છાપો ઉમેરો(2, 3);
 ચેતવણી "This is a warning; the program will continue";
 આવજો
 ```
@@ -85,6 +91,20 @@ while the condition is true:
 }
 ```
 
+Declare a function before calling it. Parameters and variables declared inside a
+function are local to that call; functions can read and update global variables
+when they have not declared a local variable with the same name. Functions can
+call themselves or other previously declared functions. A function returns
+`નકામો` if it reaches the end or uses `પરત;` without a value:
+
+```text
+કાર્ય ગુણાકાર(n) {
+    જો (n <= 1) { પરત 1; }
+    પરત n * ગુણાકાર(n - 1);
+}
+છાપો ગુણાકાર(5);
+```
+
 ## Build and run
 
 Requires a C99 compiler and CMake 3.16 or newer.
@@ -111,11 +131,10 @@ pull requests.
 
 ## Roadmap
 
-1. **Core syntax:** lexer, expression parser, arithmetic, and print statements.
-2. **Values and names:** variables, booleans, and Gujarati identifiers.
-3. **Control flow:** functions and additional loop controls.
-4. **Runtime:** functions, useful standard-library operations, and a REPL.
-5. **Language quality:** tests, error recovery, documentation, and packaging.
+1. **Core language:** expressions, values, variables, conditionals, loops, and
+   functions.
+2. **Runtime:** useful standard-library operations and a REPL.
+3. **Language quality:** error recovery, documentation, and packaging.
 
 The early syntax and keyword vocabulary are intentionally small; we can refine
 them as the language takes shape.

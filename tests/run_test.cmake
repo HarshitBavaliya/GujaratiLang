@@ -169,6 +169,116 @@ elseif(TEST_CASE STREQUAL "undefined_variable_gujarati")
     set(expected_stderr "અવ્યાખ્યાયિત ચલ")
     set(expect_failure TRUE)
     set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "function_calls")
+    set(source [=[આવો
+કાર્ય જોડો(પહેલું, બીજું) {
+    પરત પહેલું + બીજું;
+}
+છાપો જોડો(2, 3);
+આવજો
+]=])
+    set(expected_stdout "5\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "nested_function_calls")
+    set(source [=[આવો
+કાર્ય બમણું(કિંમત) { પરત કિંમત * 2; }
+કાર્ય ઉમેરો(પહેલું, બીજું) { પરત પહેલું + બીજું; }
+છાપો ઉમેરો(બમણું(3), બમણું(4));
+આવજો
+]=])
+    set(expected_stdout "14\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "recursive_function")
+    set(source [=[આવો
+કાર્ય ગુણાકાર(n) {
+    જો (n <= 1) { પરત 1; }
+    પરત n * ગુણાકાર(n - 1);
+}
+છાપો ગુણાકાર(5);
+આવજો
+]=])
+    set(expected_stdout "120\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "function_returns")
+    set(source [=[આવો
+કાર્ય ખાલી() { }
+કાર્ય સ્પષ્ટખાલી() { પરત; }
+કાર્ય પહેલા() {
+    જ્યાં સુધી (1) { પરત 9; }
+    પરત 10;
+}
+છાપો ખાલી();
+છાપો સ્પષ્ટખાલી();
+છાપો પહેલા();
+આવજો
+]=])
+    set(expected_stdout "નકામો\nનકામો\n9\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "function_local_and_global_variables")
+    set(source [=[આવો
+રાખો કિંમત = 7;
+કાર્ય સ્થાનિક() {
+    રાખો કિંમત = 2;
+    કિંમત = 3;
+    પરત કિંમત;
+}
+કાર્ય વૈશ્વિકવાંચો() { પરત કિંમત; }
+કાર્ય વૈશ્વિકબદલો() { કિંમત = 8; }
+છાપો સ્થાનિક();
+છાપો વૈશ્વિકવાંચો();
+વૈશ્વિકબદલો();
+છાપો વૈશ્વિકવાંચો();
+આવજો
+]=])
+    set(expected_stdout "3\n7\n8\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "function_undefined")
+    set(source [=[આવો
+છાપો અજ્ઞાત();
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "undefined function")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "function_wrong_argument_count")
+    set(source [=[આવો
+કાર્ય ઓળખો(કિંમત) { પરત કિંમત; }
+છાપો ઓળખો();
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "function_duplicate")
+    set(source [=[આવો
+કાર્ય ઓળખો() { પરત 1; }
+કાર્ય ઓળખો() { પરત 2; }
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "function is already declared")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "function_duplicate_parameter")
+    set(source [=[આવો
+કાર્ય ઓળખો(કિંમત, કિંમત) { પરત કિંમત; }
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "parameter is already declared")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "return_outside_function")
+    set(source [=[આવો
+પરત 1;
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'પરત' can only be used inside a function")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "warnings_english")
     set(source [=[આવો
 ચેતવણી "user warning";
