@@ -216,7 +216,7 @@ elseif(TEST_CASE STREQUAL "string_length_type_error")
 આવજો
 ]=])
     set(expected_stdout "")
-    set(expected_stderr "expected a string argument for 'લંબાઈ'")
+    set(expected_stderr "expected a string or list argument for 'લંબાઈ'")
     set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "reserved_string_length")
     set(source [=[આવો
@@ -649,11 +649,230 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "fatal error: stop here")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "lists_and_indexing")
+    set(source [=[aavo
+items = [1, "two", [3, nakamo]];
+chhapo items;
+chhapo items[1];
+chhapo items[2][0];
+chhapo lambai(items);
+aavjo
+]=])
+    set(expected_stdout "[1, two, [3, નકામો]]\ntwo\n3\n3\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "list_index_assignment")
+    set(source [=[aavo
+items = [1, 2];
+items[1] = "updated";
+chhapo items[1];
+aavjo
+]=])
+    set(expected_stdout "updated\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "list_index_out_of_range")
+    set(source [=[aavo
+items = [1];
+chhapo items[1];
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "list index is out of range")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "list_index_fractional")
+    set(source [=[aavo
+items = [1];
+chhapo items[0.5];
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "list index must be a non-negative whole number")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "non_list_index")
+    set(source [=[aavo
+value = 1;
+chhapo value[0];
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "cannot index a non-list value")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "for_list_iteration")
+    set(source [=[aavo
+items = [1, "two", 3];
+darek (item in items) { chhapo item; }
+aavjo
+]=])
+    set(expected_stdout "1\ntwo\n3\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "for_numeric_range")
+    set(source [=[aavo
+darek (index in 2..5) { chhapo index; }
+aavjo
+]=])
+    set(expected_stdout "2\n3\n4\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "for_empty_range")
+    set(source [=[aavo
+darek (index in 5..2) { chhapo "wrong"; }
+chhapo "after";
+aavjo
+]=])
+    set(expected_stdout "after\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "for_non_list_error")
+    set(source [=[aavo
+darek (item in 3) { chhapo item; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a list argument for loop")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "module_import_shared_namespace")
+    set(module_directory "${TEST_BINARY_DIR}/module-import")
+    file(MAKE_DIRECTORY "${module_directory}")
+    file(WRITE "${module_directory}/library.gj"
+        "aavo\nshared = \"from module\";\nkarya get_value() { parat shared; }\nchhapo \"loaded\";\naavjo\n")
+    set(source_path "${module_directory}/main.gj")
+    set(source [=[aavo
+import "library.gj";
+import "./nested/../library.gj";
+chhapo get_value();
+aavjo
+]=])
+    set(expected_stdout "loaded\nfrom module\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "nested_relative_module_import")
+    set(module_directory "${TEST_BINARY_DIR}/nested-modules")
+    file(MAKE_DIRECTORY "${module_directory}/sub")
+    file(WRITE "${module_directory}/shared.gj"
+        "aavo\nshared = 7;\naavjo\n")
+    file(WRITE "${module_directory}/sub/child.gj"
+        "aavo\nimport \"../shared.gj\";\nshared = shared + 1;\naavjo\n")
+    set(source_path "${module_directory}/main.gj")
+    set(source [=[aavo
+import "sub/child.gj";
+chhapo shared;
+aavjo
+]=])
+    set(expected_stdout "8\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "circular_module_import")
+    set(module_directory "${TEST_BINARY_DIR}/circular-modules")
+    file(MAKE_DIRECTORY "${module_directory}")
+    file(WRITE "${module_directory}/first.gj"
+        "aavo\nimport \"second.gj\";\naavjo\n")
+    file(WRITE "${module_directory}/second.gj"
+        "aavo\nimport \"first.gj\";\naavjo\n")
+    set(source_path "${module_directory}/main.gj")
+    set(source [=[aavo
+import "first.gj";
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "circular module import detected")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "missing_module_import")
+    set(source [=[aavo
+import "missing.gj";
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "could not open file")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "source_context_undefined_variable")
+    set(source [=[aavo
+chhapo missing;
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "  chhapo missing;\n         ^")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "repl_source_reallocation")
+    set(source "")
+    set(program_arguments --repl)
+    set(input_text [=[message = "persist";
+karya get_message() { parat message; }
+pad1 = "1234567890123456789012345678901234567890";
+pad2 = "1234567890123456789012345678901234567890";
+pad3 = "1234567890123456789012345678901234567890";
+pad4 = "1234567890123456789012345678901234567890";
+pad5 = "1234567890123456789012345678901234567890";
+chhapo message;
+chhapo get_message();
+]=])
+    set(expected_stdout "GujaratiLang> GujaratiLang> GujaratiLang> GujaratiLang> GujaratiLang> GujaratiLang> GujaratiLang> GujaratiLang> persist\nGujaratiLang> persist\nGujaratiLang> ")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "nested_list_index_assignment")
+    set(source [=[aavo
+items = [[1, 2]];
+items[0][1] = 9;
+chhapo items;
+aavjo
+]=])
+    set(expected_stdout "[[1, 9]]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "gujarati_for_iteration")
+    set(source [=[આવો
+દરેક (મૂલ્ય માં [4, 5]) { છાપો મૂલ્ય; }
+આવજો
+]=])
+    set(expected_stdout "4\n5\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "romanized_import_alias")
+    set(module_directory "${TEST_BINARY_DIR}/romanized-import")
+    file(MAKE_DIRECTORY "${module_directory}")
+    file(WRITE "${module_directory}/helper.gj"
+        "aavo\nshared = 9;\naavjo\n")
+    set(source_path "${module_directory}/main.gj")
+    set(source [=[aavo
+aayat "helper.gj";
+chhapo shared;
+aavjo
+]=])
+    set(expected_stdout "9\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "gujarati_import_alias")
+    set(module_directory "${TEST_BINARY_DIR}/gujarati-import")
+    file(MAKE_DIRECTORY "${module_directory}")
+    file(WRITE "${module_directory}/helper.gj"
+        "આવો\nshared = 11;\nઆવજો\n")
+    set(source_path "${module_directory}/main.gj")
+    set(source [=[આવો
+આયાત "helper.gj";
+છાપો shared;
+આવજો
+]=])
+    set(expected_stdout "11\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "cyclic_list_printing")
+    set(source [=[aavo
+items = [0];
+items[0] = items;
+chhapo items;
+aavjo
+]=])
+    set(expected_stdout "[<cycle>]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
 else()
     message(FATAL_ERROR "Unknown interpreter test case: ${TEST_CASE}")
 endif()
 
-set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+if(NOT DEFINED source_path)
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+endif()
 set(actual_stdout_path "${TEST_BINARY_DIR}/${TEST_CASE}.stdout")
 set(actual_stderr_path "${TEST_BINARY_DIR}/${TEST_CASE}.stderr")
 set(input_path "${TEST_BINARY_DIR}/${TEST_CASE}.input")

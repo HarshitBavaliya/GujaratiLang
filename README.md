@@ -4,7 +4,7 @@ GujaratiLang is a small programming language runtime implemented in C, following
 the general approach used by languages such as PHP: programs are parsed and run
 by an interpreter rather than translated into C source.
 
-## First milestone
+## Current features
 
 The initial interpreter supports:
 
@@ -16,13 +16,20 @@ The initial interpreter supports:
   support equality with `==` and `!=`
 - Logical operators: `અને` (AND), `અથવા` (OR), and `નહીં` (NOT)
 - `જ્યાં સુધી (condition) { ... }` while loops
+- Mutable, zero-based lists with nested values, indexed reads and writes, and
+  list support in `લંબાઈ`
+- `દરેક (item માં list) { ... }` list loops and
+  `દરેક (index in start..end) { ... }` integer ranges with an exclusive end
+- `import "module.gj";` with importer-relative paths, one-time execution,
+  shared globals, and circular-import detection
 - Variables created and assigned with `name = value;`; assigning an existing
   name updates its value
 - Functions declared with `કાર્ય name(parameters) { ... }`, called as
   expressions or statements, and returning values with `પરત expression;`
 - `વાંચો("prompt")` to display a prompt and read one line of text from standard
   input; the returned value is a string
-- `લંબાઈ(text)` to return the number of Unicode code points in a string
+- `લંબાઈ(value)` to return the number of Unicode code points in a string or
+  the number of items in a list
 - Romanized Gujarati spellings for all Gujarati keywords and built-ins, so
   source code can be typed with an English keyboard
 - Gujarati or English-letter variable names, with digits and underscores
@@ -37,7 +44,8 @@ The initial interpreter supports:
 - `ચેતવણી "message";` to report a warning and continue
 - `ભૂલ "message";` and `ઘાતક ભૂલ "message";` to report an error and stop
 - Semicolon-terminated print statements and `//` line comments
-- Clear file, line, and column diagnostics for invalid input
+- File, line, and column diagnostics with a source-line excerpt and caret
+  indicator
 
 Comparisons have lower precedence than arithmetic and produce `1` for true or
 `0` for false. Numbers support all comparison operators. Strings support `==`
@@ -59,7 +67,8 @@ program check text values:
 ```
 
 Use `લંબાઈ(text)` to count Unicode code points in text rather than its UTF-8
-byte length. Combining marks count as separate code points.
+byte length. Combining marks count as separate code points. For a list,
+`લંબાઈ` returns its item count.
 
 ```text
 છાપો લંબાઈ("Gujarati");
@@ -69,11 +78,42 @@ byte length. Combining marks count as separate code points.
 Gujarati keywords remain supported. Their ASCII romanized aliases are also
 available in lowercase, with underscores for multi-word keywords:
 `aavo`/`aavjo` (program start/end), `chhapo` (print), `jo` (if), `jya_sudhi`
-(while), `nahitar_jo`/`nahitar` (else-if/else), `ane`/`athva`/`nahi` (and/or/not),
-`nakamo` (null), `bhul`/`ghatak_bhul`/`chetavani` (error/fatal error/warning),
-and `karya`/`parat` (function/return). Built-ins can be typed as `vancho` and
-`lambai` as well as `વાંચો` and `લંબાઈ`. For example, see
+(while), `nahitar_jo`/`nahitar` (else-if/else), `darek` (for-each),
+`ane`/`athva`/`nahi` (and/or/not), `nakamo` (null),
+`bhul`/`ghatak_bhul`/`chetavani` (error/fatal error/warning),
+`karya`/`parat` (function/return), and `aayat`/`import` (module import).
+Built-ins can be typed as `vancho` and `lambai` as well as `વાંચો` and `લંબાઈ`.
+For example, see
 [`examples/romanized.gj`](examples/romanized.gj).
+
+### Lists, loops, and modules
+
+Lists can contain numbers, strings, `નકામો`, and other lists. Indexes start at
+zero; use an indexed assignment to replace an item. `લંબાઈ`/`lambai` accepts
+either a string or a list:
+
+```text
+items = [10, "twenty", [30, નકામો]];
+છાપો items[1];
+items[0] = 5;
+છાપો items;
+છાપો લંબાઈ(items);
+```
+
+Use `દરેક` (`darek`) to visit every item in a list, or iterate over an
+integer range. The start is included and the end is excluded:
+
+```text
+દરેક (item માં items) { છાપો item; }
+દરેક (index in 0..લંબાઈ(items)) { છાપો index; }
+```
+
+Import another `.gj` file with `આયાત "helpers.gj";` (`aayat` or `import`).
+Import paths are
+relative to the importing file. Imported code executes once and shares the
+same global variables and functions; circular imports are reported as errors.
+See [`examples/modules.gj`](examples/modules.gj) and
+[`examples/collections.gj`](examples/collections.gj).
 
 Example (`examples/hello.gj`):
 
@@ -101,6 +141,7 @@ Example (`examples/hello.gj`):
 ```
 
 Warnings and errors are written to standard error with the source location.
+Errors include the relevant source line and a caret under the reported column.
 Warnings let the program continue; both error statements stop execution and
 return a failure status. Built-in errors and warning labels are English by
 default, regardless of the Gujarati keywords used in source. Select Gujarati
@@ -114,10 +155,10 @@ English explicitly. Messages supplied by the program remain exactly as written.
 Diagnostic messages and printed strings support `\"`, `\\`, `\n`, `\r`, and
 `\t` escapes.
 
-Variables can contain numbers, strings, or `નકામો`. Assigning to a name for the
-first time creates it; later assignments update it. Reading a name before its
-first assignment is an error. Variables first assigned in a conditional block
-remain available for the rest of the program.
+Variables can contain numbers, strings, lists, or `નકામો`. Assigning to a name
+for the first time creates it; later assignments update it. Reading a name
+before its first assignment is an error. Variables first assigned in a
+conditional block remain available for the rest of the program.
 
 `વાંચો("prompt")` prints the prompt without a newline, reads one line from
 standard input, and returns it as a string. Press Enter to submit an empty
@@ -200,13 +241,23 @@ The release includes SHA-256 checksums for all platform packages.
 1. Download the latest
    [GujaratiLang Windows 64-bit release](https://github.com/HarshitBavaliya/GujaratiLang/releases/latest/download/gujaratilang-windows-x64.zip).
 2. Extract the ZIP file.
-3. Open PowerShell in the extracted folder and run the included example:
+3. Optional: add GujaratiLang to your user `PATH` by opening PowerShell in the
+   extracted folder and running:
+
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File .\install.ps1
+   ```
+
+   This installs under your user profile and does not require administrator
+   access. Open a new terminal after installation to run `gujarati` from any
+   folder. You can also use the executable directly without installing it.
+4. Open PowerShell in the extracted folder and run the included example:
 
    ```powershell
    .\gujarati.exe .\examples\hello.gj
    ```
 
-4. Run your own program by giving its `.gj` file path:
+5. Run your own program by giving its `.gj` file path:
 
    ```powershell
    .\gujarati.exe C:\path\to\your-program.gj
@@ -224,7 +275,9 @@ tar -xzf gujaratilang-linux-x64.tar.gz
 ```
 
 This package is built on Ubuntu 22.04 and requires a compatible glibc-based
-Linux distribution.
+Linux distribution. To make `gujarati` available from any folder, move the
+extracted files to a directory you own and add that directory to your shell's
+`PATH`.
 
 #### macOS Intel and Apple Silicon
 
@@ -241,7 +294,9 @@ tar -xzf gujaratilang-macos-arm64.tar.gz
 Use the `macos-x64` archive on Intel instead of the `macos-arm64` archive shown
 in the extraction command. The macOS binaries are not signed or notarized, so
 macOS may display a security warning. The release package contains the
-interpreter, example program, and a short `README.txt`.
+interpreter, examples, and a short `README.txt`.
+To run `gujarati` from any folder, move the extracted files to a directory you
+own and add that directory to your shell's `PATH`.
 
 To build from source or contribute, follow the developer setup below.
 

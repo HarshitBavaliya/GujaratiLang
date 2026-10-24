@@ -10,6 +10,14 @@ Run the included sample
 Windows:
    .\gujarati.exe .\examples\hello.gj
 
+To install GujaratiLang in your user PATH, open PowerShell in the extracted
+folder and run:
+
+   powershell -ExecutionPolicy Bypass -File .\install.ps1
+
+The installer does not require administrator access. Open a new terminal after
+installation, then run "gujarati --repl" or "gujarati C:\path\to\program.gj".
+
 Linux or macOS:
    ./gujarati ./examples/hello.gj
 

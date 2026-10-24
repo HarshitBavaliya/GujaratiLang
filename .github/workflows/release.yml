@@ -52,6 +52,7 @@ jobs:
           Copy-Item build\Release\gujarati.exe package\gujarati.exe
           Copy-Item examples\*.gj package\examples\
           Copy-Item release\README.txt package\README.txt
+          Copy-Item release\install.ps1 package\install.ps1
           Compress-Archive -Path package\* -DestinationPath dist\gujaratilang-${{ matrix.platform }}.zip -Force
 
       - name: Stage Unix package
@@ -69,6 +70,9 @@ jobs:
         shell: pwsh
         run: |
           Expand-Archive dist\gujaratilang-windows-x64.zip -DestinationPath package-test
+          if (-not (Test-Path package-test\install.ps1)) {
+            throw "The Windows package is missing install.ps1."
+          }
           $process = Start-Process -FilePath package-test\gujarati.exe `
             -ArgumentList package-test\examples\hello.gj `
             -Wait -PassThru -NoNewWindow `

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 0.5.0 LANGUAGES C)
+project(gujaratilang VERSION 0.6.0 LANGUAGES C)
 
 include(CTest)
 
@@ -81,7 +81,27 @@ if(BUILD_TESTING)
             romanized_builtins
             reserved_romanized_builtin
             romanized_error
-            romanized_fatal_error)
+            romanized_fatal_error
+            lists_and_indexing
+            list_index_assignment
+            list_index_out_of_range
+            list_index_fractional
+            non_list_index
+            for_list_iteration
+            for_numeric_range
+            for_empty_range
+            for_non_list_error
+            module_import_shared_namespace
+            nested_relative_module_import
+            circular_module_import
+            missing_module_import
+            source_context_undefined_variable
+            repl_source_reallocation
+            nested_list_index_assignment
+            gujarati_for_iteration
+            romanized_import_alias
+            gujarati_import_alias
+            cyclic_list_printing)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

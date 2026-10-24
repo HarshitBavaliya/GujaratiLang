@@ -1,0 +1,5 @@
+aavo
+karya greeting(name) {
+    parat "Hello, " + name + "!";
+}
+aavjo

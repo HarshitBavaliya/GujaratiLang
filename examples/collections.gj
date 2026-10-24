@@ -1,0 +1,15 @@
+aavo
+items = [10, "twenty", [30, nakamo]];
+chhapo items[1];
+items[0] = 5;
+chhapo items;
+chhapo lambai(items);
+
+darek (item in items) {
+    chhapo item;
+}
+
+darek (index in 0..lambai(items)) {
+    chhapo index;
+}
+aavjo
