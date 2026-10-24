@@ -10,8 +10,10 @@ The initial interpreter supports:
 
 - Programs delimited by `આવો` (start) and `આવજો` (end)
 - UTF-8 source files and the Gujarati `છાપો` (print) keyword
-- Numeric literals, parentheses, unary minus, and `+`, `-`, `*`, `/`
-- Numeric comparisons: `==`, `!=`, `<`, `<=`, `>`, and `>=`
+- Numeric literals, parentheses, unary minus, arithmetic with `+`, `-`, `*`,
+  `/`, and string concatenation with `+`
+- Comparisons: numbers support `==`, `!=`, `<`, `<=`, `>`, and `>=`; strings
+  support equality with `==` and `!=`
 - Logical operators: `અને` (AND), `અથવા` (OR), and `નહીં` (NOT)
 - `જ્યાં સુધી (condition) { ... }` while loops
 - Variables created and assigned with `name = value;`; assigning an existing
@@ -27,17 +29,31 @@ The initial interpreter supports:
   true) and null (false); strings are not valid conditions. Comparison results
   are numbers (`1` for true and `0` for false)
 - Quoted strings with `\"`, `\\`, `\n`, `\r`, and `\t` escapes
+- `+` adds two numbers or joins two strings; mixing a string and number is an
+  error
 - `ચેતવણી "message";` to report a warning and continue
 - `ભૂલ "message";` and `ઘાતક ભૂલ "message";` to report an error and stop
 - Semicolon-terminated print statements and `//` line comments
 - Clear file, line, and column diagnostics for invalid input
 
-Comparisons have lower precedence than arithmetic. They require numeric
-operands and produce `1` for true or `0` for false.
+Comparisons have lower precedence than arithmetic and produce `1` for true or
+`0` for false. Numbers support all comparison operators. Strings support `==`
+and `!=`, comparing their decoded text; string-to-number comparisons and
+ordering comparisons on strings are errors.
 Logical precedence from strongest to weakest is `નહીં`, comparisons, `અને`,
 then `અથવા`. Logical operators accept numbers and `નકામો`, return `1` or `0`,
 and short-circuit when the result is already known. Strings cannot be used as
 logical operands.
+
+The `+` operator adds two numbers or concatenates two strings. It does not
+automatically convert between strings and numbers. String equality lets a
+program check text values:
+
+```text
+નામ = "હર્ષ";
+છાપો "નમસ્તે, " + નામ;
+જો (નામ == "હર્ષ") { છાપો "ફરીથી સ્વાગત છે!"; }
+```
 
 Example (`examples/hello.gj`):
 

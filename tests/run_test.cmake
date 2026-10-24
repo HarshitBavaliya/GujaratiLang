@@ -114,6 +114,65 @@ elseif(TEST_CASE STREQUAL "strings_and_null")
     set(expected_stdout "નકામો\nline\nnext\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "string_concatenation")
+    set(source [=[આવો
+નામ = "હર્ષ";
+સંદેશ = "નમસ્તે, " + નામ + "!";
+છાપો સંદેશ;
+છાપો "line\n" + "next";
+છાપો 1 + 2;
+આવજો
+]=])
+    set(expected_stdout "નમસ્તે, હર્ષ!\nline\nnext\n3\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "string_number_addition_error")
+    set(source [=[આવો
+છાપો "count: " + 2;
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "arithmetic requires numbers")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "string_equality")
+    set(source [=[આવો
+છાપો "હર્ષ" == "હર્ષ";
+છાપો "હર્ષ" != "હર્ષ";
+છાપો "હર્ષ" != "હર્ષભાઈ";
+છાપો "line\nnext" == "line\nnext";
+છાપો "હર્ષ" + "ભાઈ" == "હર્ષભાઈ";
+જો ("હર્ષ" == "હર્ષ") { છાપો "match"; }
+આવજો
+]=])
+    set(expected_stdout "1\n0\n1\n1\n1\nmatch\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "string_equality_input")
+    set(source [=[આવો
+નામ = વાંચો("Name? ");
+જો (નામ == "હર્ષ") { છાપો "welcome"; }
+આવજો
+]=])
+    set(input_text "હર્ષ\n")
+    set(expected_stdout "Name? welcome\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "string_equality_type_error")
+    set(source [=[આવો
+છાપો "1" == 1;
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "comparisons require numbers")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "string_ordering_type_error")
+    set(source [=[આવો
+છાપો "a" < "b";
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "comparisons require numbers")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "variables")
     set(source [=[આવો
 ગણતરી = 3;
@@ -302,11 +361,11 @@ elseif(TEST_CASE STREQUAL "input")
     set(source [=[આવો
 કાર્ય પૂછો() { પરત વાંચો("Name? "); }
 નામ = પૂછો();
-છાપો નામ;
+છાપો "Hello, " + નામ;
 આવજો
 ]=])
     set(input_text "હર્ષ\n")
-    set(expected_stdout "Name? હર્ષ\n")
+    set(expected_stdout "Name? Hello, હર્ષ\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "input_empty_line")
@@ -407,9 +466,9 @@ elseif(TEST_CASE STREQUAL "repl_input")
     set(program_arguments --repl)
     set(input_text [=[name = વાંચો("Name? ");
 હર્ષ
-છાપો name;
+છાપો "Hello, " + name;
 ]=])
-    set(expected_stdout "GujaratiLang> Name? GujaratiLang> હર્ષ\nGujaratiLang> ")
+    set(expected_stdout "GujaratiLang> Name? GujaratiLang> Hello, હર્ષ\nGujaratiLang> ")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "warnings_english")

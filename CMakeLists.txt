@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 0.4.0 LANGUAGES C)
+project(gujaratilang VERSION 0.5.0 LANGUAGES C)
 
 include(CTest)
 
@@ -29,6 +29,12 @@ if(BUILD_TESTING)
             while_false_condition
             while_in_skipped_branch
             strings_and_null
+            string_concatenation
+            string_number_addition_error
+            string_equality
+            string_equality_input
+            string_equality_type_error
+            string_ordering_type_error
             variables
             variable_in_skipped_branch
             variable_skipped_not_created

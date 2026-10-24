@@ -111,6 +111,7 @@ typedef enum {
     MESSAGE_EXPECTED_INPUT_PROMPT,
     MESSAGE_COULD_NOT_READ_INPUT,
     MESSAGE_OUT_OF_MEMORY_FOR_INPUT,
+    MESSAGE_OUT_OF_MEMORY_FOR_STRING,
     MESSAGE_RESERVED_FUNCTION_NAME,
     MESSAGE_EXPECTED_SINGLE_COMMAND,
     MESSAGE_EXPECTED_PROGRAM_START,
@@ -224,6 +225,7 @@ static const char *localized_message(Language language, MessageId message)
         "expected a string prompt for 'વાંચો'",
         "could not read a line from standard input",
         "out of memory while storing input",
+        "out of memory while creating string",
         "built-in function name cannot be declared",
         "expected one complete statement or expression per REPL line",
         "expected 'આવો' at the start of the program",
@@ -278,6 +280,7 @@ static const char *localized_message(Language language, MessageId message)
         "'વાંચો' માટે લખાણરૂપ સંદેશ અપેક્ષિત છે",
         "માનક ઇનપુટમાંથી લીટી વાંચી શકાયી નહીં",
         "ઇનપુટ સંગ્રહવા માટે પૂરતી મેમરી મળી નહીં",
+        "સ્ટ્રિંગ બનાવવા માટે પૂરતી મેમરી મળી નહીં",
         "આ બિલ્ટ-ઇન ફંક્શનનું નામ જાહેર કરી શકાય નહીં",
         "REPL માં દરેક લીટી પર એક પૂરું સ્ટેટમેન્ટ અથવા અભિવ્યક્તિ અપેક્ષિત છે",
         "પ્રોગ્રામની શરૂઆતમાં 'આવો' અપેક્ષિત છે",
@@ -825,6 +828,151 @@ static int store_input_string(Parser *parser, Token name, char *input)
     return 1;
 }
 
+static int store_owned_string(Parser *parser, Token operation, char *string)
+{
+    StringStorage *storage = parser->string_storage;
+    if (storage->count == storage->capacity) {
+        size_t capacity = storage->capacity == 0 ? 4 : storage->capacity * 2;
+        char **items;
+        if (capacity < storage->capacity ||
+            capacity > (size_t)-1 / sizeof(*storage->items)) {
+            free(string);
+            report_error(parser, operation.line, operation.column,
+                         MESSAGE_OUT_OF_MEMORY_FOR_STRING);
+            return 0;
+        }
+        items = (char **)realloc(storage->items, capacity * sizeof(*items));
+        if (items == NULL) {
+            free(string);
+            report_error(parser, operation.line, operation.column,
+                         MESSAGE_OUT_OF_MEMORY_FOR_STRING);
+            return 0;
+        }
+        storage->items = items;
+        storage->capacity = capacity;
+    }
+    storage->items[storage->count++] = string;
+    return 1;
+}
+
+static size_t decoded_string_length(Parser *parser, Value value)
+{
+    size_t index;
+    size_t length = 0;
+    if (value.owned_string != NULL) {
+        return value.string_length;
+    }
+    for (index = 0; index < value.string_length; index++) {
+        if (parser->source[value.string_offset + index] == '\\') {
+            index++;
+        }
+        length++;
+    }
+    return length;
+}
+
+static size_t copy_value_string(Parser *parser, Value value, char *output)
+{
+    size_t index;
+    size_t length = 0;
+    if (value.owned_string != NULL) {
+        memcpy(output, value.owned_string, value.string_length);
+        return value.string_length;
+    }
+    for (index = 0; index < value.string_length; index++) {
+        char character = parser->source[value.string_offset + index];
+        if (character == '\\' && index + 1 < value.string_length) {
+            index++;
+            switch (parser->source[value.string_offset + index]) {
+            case '"': character = '"'; break;
+            case '\\': character = '\\'; break;
+            case 'n': character = '\n'; break;
+            case 'r': character = '\r'; break;
+            case 't': character = '\t'; break;
+            default: break;
+            }
+        }
+        output[length++] = character;
+    }
+    return length;
+}
+
+static int next_string_byte(Parser *parser, Value value, size_t *index)
+{
+    int character;
+    if (value.owned_string != NULL) {
+        return (unsigned char)value.owned_string[(*index)++];
+    }
+    character = (unsigned char)parser->source[value.string_offset + *index];
+    (*index)++;
+    if (character == '\\' && *index < value.string_length) {
+        switch (parser->source[value.string_offset + *index]) {
+        case '"': character = '"'; break;
+        case '\\': character = '\\'; break;
+        case 'n': character = '\n'; break;
+        case 'r': character = '\r'; break;
+        case 't': character = '\t'; break;
+        default: break;
+        }
+        (*index)++;
+    }
+    return character;
+}
+
+static int string_values_equal(Parser *parser, Value left, Value right)
+{
+    size_t left_index = 0;
+    size_t right_index = 0;
+    size_t left_length = decoded_string_length(parser, left);
+    size_t right_length = decoded_string_length(parser, right);
+
+    if (left_length != right_length) {
+        return 0;
+    }
+    while (left_index < left_length) {
+        if (next_string_byte(parser, left, &left_index) !=
+            next_string_byte(parser, right, &right_index)) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static int concatenate_strings(Parser *parser, Token operation,
+                               Value left, Value right, Value *result)
+{
+    size_t left_length = decoded_string_length(parser, left);
+    size_t right_length = decoded_string_length(parser, right);
+    size_t total_length;
+    char *string;
+
+    if (left_length == (size_t)-1 ||
+        right_length > (size_t)-1 - left_length - 1) {
+        report_error(parser, operation.line, operation.column,
+                     MESSAGE_OUT_OF_MEMORY_FOR_STRING);
+        return 0;
+    }
+    total_length = left_length + right_length;
+    string = (char *)malloc(total_length + 1);
+    if (string == NULL) {
+        report_error(parser, operation.line, operation.column,
+                     MESSAGE_OUT_OF_MEMORY_FOR_STRING);
+        return 0;
+    }
+    left_length = copy_value_string(parser, left, string);
+    right_length = copy_value_string(parser, right, string + left_length);
+    string[left_length + right_length] = '\0';
+    if (!store_owned_string(parser, operation, string)) {
+        return 0;
+    }
+
+    *result = number_value(0.0);
+    result->kind = VALUE_STRING;
+    result->string_length = left_length + right_length;
+    result->owned_string = string;
+    return 1;
+}
+
 static int read_input_line(Parser *parser, Token name, Value prompt,
                            Value *result)
 {
@@ -1151,7 +1299,17 @@ static Value parse_additive(Parser *parser, int execute)
         if (parser->failed) {
             return number_value(0.0);
         }
-        if (value.kind != VALUE_NUMBER || right.kind != VALUE_NUMBER) {
+        if (operation.kind == TOKEN_PLUS &&
+            value.kind == VALUE_STRING && right.kind == VALUE_STRING) {
+            if (execute &&
+                !concatenate_strings(parser, operation, value, right, &value)) {
+                return number_value(0.0);
+            }
+            if (!execute) {
+                value = number_value(0.0);
+                value.kind = VALUE_STRING;
+            }
+        } else if (value.kind != VALUE_NUMBER || right.kind != VALUE_NUMBER) {
             report_runtime_error(parser, operation,
                                  MESSAGE_ARITHMETIC_NUMBERS_REQUIRED, execute);
             value = number_value(0.0);
@@ -1184,35 +1342,42 @@ static Value parse_comparison(Parser *parser, int execute)
         if (parser->failed) {
             return number_value(0.0);
         }
-        if (value.kind != VALUE_NUMBER || right.kind != VALUE_NUMBER) {
+        if (value.kind == VALUE_STRING && right.kind == VALUE_STRING &&
+            (operation.kind == TOKEN_EQUAL_EQUAL ||
+             operation.kind == TOKEN_BANG_EQUAL)) {
+            comparison = string_values_equal(parser, value, right);
+            if (operation.kind == TOKEN_BANG_EQUAL) {
+                comparison = !comparison;
+            }
+        } else if (value.kind != VALUE_NUMBER || right.kind != VALUE_NUMBER) {
             report_runtime_error(parser, operation,
                                  MESSAGE_COMPARISON_NUMBERS_REQUIRED, execute);
             value = number_value(0.0);
             continue;
-        }
-
-        switch (operation.kind) {
-        case TOKEN_EQUAL_EQUAL:
-            comparison = value.number == right.number;
-            break;
-        case TOKEN_BANG_EQUAL:
-            comparison = value.number != right.number;
-            break;
-        case TOKEN_LESS:
-            comparison = value.number < right.number;
-            break;
-        case TOKEN_LESS_EQUAL:
-            comparison = value.number <= right.number;
-            break;
-        case TOKEN_GREATER:
-            comparison = value.number > right.number;
-            break;
-        case TOKEN_GREATER_EQUAL:
-            comparison = value.number >= right.number;
-            break;
-        default:
-            comparison = 0;
-            break;
+        } else {
+            switch (operation.kind) {
+            case TOKEN_EQUAL_EQUAL:
+                comparison = value.number == right.number;
+                break;
+            case TOKEN_BANG_EQUAL:
+                comparison = value.number != right.number;
+                break;
+            case TOKEN_LESS:
+                comparison = value.number < right.number;
+                break;
+            case TOKEN_LESS_EQUAL:
+                comparison = value.number <= right.number;
+                break;
+            case TOKEN_GREATER:
+                comparison = value.number > right.number;
+                break;
+            case TOKEN_GREATER_EQUAL:
+                comparison = value.number >= right.number;
+                break;
+            default:
+                comparison = 0;
+                break;
+            }
         }
         value = number_value(comparison ? 1.0 : 0.0);
     }
