@@ -13,6 +13,7 @@ The initial interpreter supports:
 - Numeric literals, parentheses, unary minus, and `+`, `-`, `*`, `/`
 - Numeric comparisons: `==`, `!=`, `<`, `<=`, `>`, and `>=`
 - Logical operators: `અને` (AND), `કે` (OR), and `નહીં` (NOT)
+- `જ્યાં સુધી (condition) { ... }` while loops
 - Variables declared with `રાખો` and reassigned with `=`
 - Gujarati or English-letter variable names, with digits and underscores
   allowed after the first character
@@ -73,6 +74,17 @@ Variables can contain numbers, strings, or `નકામો`. Declare a name onc
 declaring the same name twice is an error. Variables declared in a conditional
 block remain available for the rest of the program.
 
+`જ્યાં સુધી` checks its condition before each iteration and repeats the block
+while the condition is true:
+
+```text
+રાખો ગણતરી = 0;
+જ્યાં સુધી (ગણતરી < 3) {
+    ગણતરી = ગણતરી + 1;
+    છાપો ગણતરી;
+}
+```
+
 ## Build and run
 
 Requires a C99 compiler and CMake 3.16 or newer.
@@ -101,7 +113,7 @@ pull requests.
 
 1. **Core syntax:** lexer, expression parser, arithmetic, and print statements.
 2. **Values and names:** variables, booleans, and Gujarati identifiers.
-3. **Control flow:** logical operators and loops.
+3. **Control flow:** functions and additional loop controls.
 4. **Runtime:** functions, useful standard-library operations, and a REPL.
 5. **Language quality:** tests, error recovery, documentation, and packaging.
 

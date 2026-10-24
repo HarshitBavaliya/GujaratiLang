@@ -19,6 +19,10 @@ if(BUILD_TESTING)
             logical_operators
             logical_short_circuit
             logical_type_error
+            while_loop
+            nested_while_loops
+            while_false_condition
+            while_in_skipped_branch
             strings_and_null
             variables
             variable_in_skipped_branch

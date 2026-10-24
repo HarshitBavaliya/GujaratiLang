@@ -13,6 +13,7 @@ typedef enum {
     TOKEN_END,
     TOKEN_PRINT,
     TOKEN_IF,
+    TOKEN_WHILE,
     TOKEN_ELSE,
     TOKEN_ELSE_IF,
     TOKEN_AND,
@@ -50,6 +51,7 @@ typedef struct {
     double number;
     size_t string_offset;
     size_t string_length;
+    size_t source_offset;
     size_t line;
     size_t column;
 } Token;
@@ -78,6 +80,7 @@ typedef enum {
     MESSAGE_EXPECTED_BLOCK_OPEN,
     MESSAGE_EXPECTED_BLOCK_CLOSE,
     MESSAGE_EXPECTED_IF_OPEN,
+    MESSAGE_EXPECTED_WHILE_OPEN,
     MESSAGE_EXPECTED_CONDITION_CLOSE,
     MESSAGE_CONDITION_TYPE,
     MESSAGE_EXPECTED_QUOTED_MESSAGE,
@@ -114,6 +117,7 @@ typedef struct {
 typedef struct {
     size_t name_offset;
     size_t name_length;
+    size_t declaration_offset;
     Value value;
 } Variable;
 
@@ -146,12 +150,13 @@ static const char *localized_message(Language language, MessageId message)
         "expected '{' before block",
         "expected '}' after block",
         "expected '(' after 'જો'",
+        "expected '(' after 'જ્યાં સુધી'",
         "expected ')' after condition",
         "condition must be a number or 'નકામો'",
         "expected a quoted message",
         "expected ';' after diagnostic",
         "could not write diagnostic",
-        "expected 'રાખો', a variable assignment, 'છાપો', 'જો', or a diagnostic statement",
+        "expected 'રાખો', a variable assignment, 'છાપો', 'જો', 'જ્યાં સુધી', or a diagnostic statement",
         "expected ';' after expression",
         "could not write output",
         "comparisons require numbers",
@@ -184,12 +189,13 @@ static const char *localized_message(Language language, MessageId message)
         "બ્લોક પહેલાં '{' અપેક્ષિત છે",
         "બ્લોક પછી '}' અપેક્ષિત છે",
         "'જો' પછી '(' અપેક્ષિત છે",
+        "'જ્યાં સુધી' પછી '(' અપેક્ષિત છે",
         "શરત પછી ')' અપેક્ષિત છે",
         "શરત સંખ્યા અથવા 'નકામો' હોવી જોઈએ",
         "અવતરણ ચિહ્નોમાં સંદેશ અપેક્ષિત છે",
         "ડાયગ્નોસ્ટિક પછી ';' અપેક્ષિત છે",
         "ડાયગ્નોસ્ટિક લખી શકાયું નહીં",
-        "'રાખો', ચલ સોંપણી, 'છાપો', 'જો', અથવા ડાયગ્નોસ્ટિક સ્ટેટમેન્ટ અપેક્ષિત છે",
+        "'રાખો', ચલ સોંપણી, 'છાપો', 'જો', 'જ્યાં સુધી', અથવા ડાયગ્નોસ્ટિક સ્ટેટમેન્ટ અપેક્ષિત છે",
         "અભિવ્યક્તિ પછી ';' અપેક્ષિત છે",
         "આઉટપુટ લખી શકાયું નહીં",
         "તુલના માટે સંખ્યાઓ જરૂરી છે",
@@ -311,6 +317,8 @@ static Token make_token(TokenKind kind, size_t line, size_t column)
     token.number = 0.0;
     token.string_offset = 0;
     token.string_length = 0;
+    token.source_offset = 0;
+    token.source_offset = 0;
     token.line = line;
     token.column = column;
     return token;
@@ -322,6 +330,7 @@ static Token scan_token(Parser *parser)
     static const char end_keyword[] = "આવજો";
     static const char print_keyword[] = "છાપો";
     static const char if_keyword[] = "જો";
+    static const char while_keyword[] = "જ્યાં સુધી";
     static const char else_if_keyword[] = "અથવા જો";
     static const char else_keyword[] = "અથવા";
     static const char and_keyword[] = "અને";
@@ -338,6 +347,8 @@ static Token scan_token(Parser *parser)
 
     skip_whitespace_and_comments(parser);
     token = make_token(TOKEN_EOF, parser->line, parser->column);
+    token.source_offset = parser->offset;
+    token.source_offset = parser->offset;
     character = peek(parser);
     if (character == '\0') {
         return token;
@@ -389,6 +400,14 @@ static Token scan_token(Parser *parser)
             advance_char(parser);
         }
         token.kind = TOKEN_IF;
+        return token;
+    }
+    if (keyword_matches(parser, while_keyword)) {
+        size_t index;
+        for (index = 0; index < sizeof(while_keyword) - 1; index++) {
+            advance_char(parser);
+        }
+        token.kind = TOKEN_WHILE;
         return token;
     }
     if (keyword_matches(parser, and_keyword)) {
@@ -608,9 +627,15 @@ static Variable *find_variable(Parser *parser, Token name)
 static int declare_variable(Parser *parser, Token name, Value value)
 {
     Variable *variables;
+    Variable *existing;
     size_t capacity;
 
-    if (find_variable(parser, name) != NULL) {
+    existing = find_variable(parser, name);
+    if (existing != NULL && existing->declaration_offset == name.source_offset) {
+        existing->value = value;
+        return 1;
+    }
+    if (existing != NULL) {
         report_error(parser, name.line, name.column,
                      MESSAGE_VARIABLE_ALREADY_DECLARED);
         return 0;
@@ -640,6 +665,8 @@ static int declare_variable(Parser *parser, Token name, Value value)
 
     parser->variables[parser->variable_count].name_offset = name.string_offset;
     parser->variables[parser->variable_count].name_length = name.string_length;
+    parser->variables[parser->variable_count].declaration_offset =
+        name.source_offset;
     parser->variables[parser->variable_count].value = value;
     parser->variable_count++;
     return 1;
@@ -1053,6 +1080,54 @@ static int parse_if_condition(Parser *parser, int execute, Token keyword)
     return !parser->failed;
 }
 
+static int parse_while_loop(Parser *parser, int execute, Token keyword)
+{
+    Token condition_open = parser->current;
+
+    for (;;) {
+        Value condition;
+        int body_execute;
+
+        if (parser->current.kind != TOKEN_LEFT_PAREN) {
+            report_error(parser, parser->current.line, parser->current.column,
+                         MESSAGE_EXPECTED_WHILE_OPEN);
+            return 0;
+        }
+        advance_token(parser);
+        condition = parse_expression(parser, execute);
+        if (parser->failed) {
+            return 0;
+        }
+        if (parser->current.kind != TOKEN_RIGHT_PAREN) {
+            report_error(parser, parser->current.line, parser->current.column,
+                         MESSAGE_EXPECTED_CONDITION_CLOSE);
+            return 0;
+        }
+        if (condition.kind == VALUE_STRING) {
+            report_runtime_error(parser, keyword, MESSAGE_CONDITION_TYPE,
+                                 execute);
+            if (parser->failed) {
+                return 0;
+            }
+        }
+
+        body_execute = execute && value_is_truthy(condition);
+        advance_token(parser);
+        if (!parse_block(parser, body_execute)) {
+            return 0;
+        }
+        if (!body_execute) {
+            return 1;
+        }
+
+        parser->offset = condition_open.source_offset;
+        parser->line = condition_open.line;
+        parser->column = condition_open.column;
+        parser->current = make_token(TOKEN_EOF, parser->line, parser->column);
+        advance_token(parser);
+    }
+}
+
 static int parse_diagnostic(Parser *parser, Token keyword, int execute)
 {
     Token message;
@@ -1150,6 +1225,10 @@ static int parse_statement(Parser *parser, int execute)
     if (statement.kind == TOKEN_IF) {
         advance_token(parser);
         return parse_if_condition(parser, execute, statement);
+    }
+    if (statement.kind == TOKEN_WHILE) {
+        advance_token(parser);
+        return parse_while_loop(parser, execute, statement);
     }
     if (statement.kind == TOKEN_ERROR ||
         statement.kind == TOKEN_FATAL_ERROR ||

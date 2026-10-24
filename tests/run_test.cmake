@@ -53,6 +53,57 @@ elseif(TEST_CASE STREQUAL "logical_type_error")
     set(expected_stdout "")
     set(expected_stderr "logical operators require a number or 'નકામો'")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "while_loop")
+    set(source [=[આવો
+રાખો ગણતરી = 0;
+જ્યાં સુધી (ગણતરી < 3) {
+    ગણતરી = ગણતરી + 1;
+    રાખો હાલનું = ગણતરી;
+    છાપો હાલનું;
+}
+છાપો હાલનું;
+આવજો
+]=])
+    set(expected_stdout "1\n2\n3\n3\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "nested_while_loops")
+    set(source [=[આવો
+રાખો બહાર = 0;
+રાખો અંદર = 0;
+રાખો સરવાળો = 0;
+જ્યાં સુધી (બહાર < 2) {
+    અંદર = 0;
+    જ્યાં સુધી (અંદર < 2) {
+        સરવાળો = સરવાળો + 1;
+        અંદર = અંદર + 1;
+    }
+    બહાર = બહાર + 1;
+}
+છાપો સરવાળો;
+આવજો
+]=])
+    set(expected_stdout "4\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "while_false_condition")
+    set(source [=[આવો
+જ્યાં સુધી (0) { છાપો "wrong"; }
+છાપો "after";
+આવજો
+]=])
+    set(expected_stdout "after\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "while_in_skipped_branch")
+    set(source [=[આવો
+જો (0) { જ્યાં સુધી (1) { છાપો "wrong"; } }
+છાપો "after";
+આવજો
+]=])
+    set(expected_stdout "after\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "strings_and_null")
     set(source [=[આવો
 છાપો નકામો;
