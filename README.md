@@ -30,8 +30,8 @@ The initial interpreter supports:
   input; the returned value is a string
 - `લંબાઈ(value)` to return the number of Unicode code points in a string or
   the number of items in a list
-- Romanized Gujarati spellings for all Gujarati keywords and built-ins, so
-  source code can be typed with an English keyboard
+- Romanized Gujarati spellings for all keywords and built-ins, so programs can
+  be written using an English keyboard
 - Gujarati or English-letter variable names, with digits and underscores
   allowed after the first character
 - `જો`, `નહિતર જો`, and `નહિતર` conditional blocks with braces
@@ -75,16 +75,57 @@ byte length. Combining marks count as separate code points. For a list,
 છાપો લંબાઈ("હર્ષ");
 ```
 
-Gujarati keywords remain supported. Their ASCII romanized aliases are also
-available in lowercase, with underscores for multi-word keywords:
-`aavo`/`aavjo` (program start/end), `chhapo` (print), `jo` (if), `jya_sudhi`
-(while), `nahitar_jo`/`nahitar` (else-if/else), `darek` (for-each),
-`ane`/`athva`/`nahi` (and/or/not), `nakamo` (null),
-`bhul`/`ghatak_bhul`/`chetavani` (error/fatal error/warning),
-`karya`/`parat` (function/return), and `aayat`/`import` (module import).
-Built-ins can be typed as `vancho` and `lambai` as well as `વાંચો` and `લંબાઈ`.
-For example, see
-[`examples/romanized.gj`](examples/romanized.gj).
+### Use GujaratiLang with an English keyboard
+
+You do not need to switch to a Gujarati keyboard to write GujaratiLang.
+Every Gujarati keyword has a lowercase ASCII spelling (a romanized Gujarati
+transliteration). These are alternate spellings of the same keywords, not
+English translations. Gujarati spellings continue to work too, and both forms
+can be used in the same program. Multi-word spellings use underscores.
+
+| Gujarati keyword | English-keyboard spelling | Meaning |
+| --- | --- | --- |
+| `આવો` | `aavo` | Start a program |
+| `આવજો` | `aavjo` | End a program |
+| `છાપો` | `chhapo` | Print |
+| `જો` | `jo` | If |
+| `નહિતર જો` | `nahitar_jo` | Else if |
+| `નહિતર` | `nahitar` | Else |
+| `જ્યાં સુધી` | `jya_sudhi` | While loop |
+| `દરેક` | `darek` | For loop |
+| `માં` | `in` | For-loop separator |
+| `અને` | `ane` | And |
+| `અથવા` | `athva` | Or |
+| `નહીં` | `nahi` | Not |
+| `નકામો` | `nakamo` | Null |
+| `કાર્ય` | `karya` | Function |
+| `પરત` | `parat` | Return |
+| `આયાત` | `aayat` or `import` | Import a module |
+| `ચેતવણી` | `chetavani` | Warning |
+| `ભૂલ` | `bhul` | Error |
+| `ઘાતક ભૂલ` | `ghatak_bhul` | Fatal error |
+| `વાંચો(...)` | `vancho(...)` | Read input |
+| `લંબાઈ(...)` | `lambai(...)` | Get string or list length |
+
+Here is a complete program written using only English-keyboard keyword
+spellings:
+
+```text
+aavo
+karya double(value) { parat value * 2; }
+items = [10, 20, 30];
+darek (item in items) {
+    chhapo double(item);
+}
+jo (lambai(items) == 3) {
+    chhapo "All three items were processed.";
+}
+aavjo
+```
+
+Save it as `english_keyboard.gj`, then run
+`gujarati english_keyboard.gj`. The project also includes the runnable
+[`examples/romanized.gj`](examples/romanized.gj) sample.
 
 ### Lists, loops, and modules
 

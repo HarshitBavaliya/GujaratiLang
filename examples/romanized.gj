@@ -1,12 +1,15 @@
 aavo
+// Every keyword below can be typed with an English keyboard.
 karya double(value) { parat value * 2; }
-count = 0;
-jya_sudhi (count < 2 ane nahi 0) {
-    count = count + 1;
+items = [1, 2, 3];
+
+darek (item in items) {
+    chhapo double(item);
 }
-jo (count == 2 athva 0) {
-    chhapo double(count);
+
+jo (lambai(items) == 3) {
+    chhapo "All three items were processed.";
 } nahitar {
-    chhapo nakamo;
+    chhapo "Unexpected list length.";
 }
 aavjo
