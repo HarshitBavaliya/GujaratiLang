@@ -108,6 +108,11 @@ typedef enum {
     MESSAGE_RETURN_OUTSIDE_FUNCTION,
     MESSAGE_OUT_OF_MEMORY_FOR_FUNCTION,
     MESSAGE_OUT_OF_MEMORY_FOR_ARGUMENTS,
+    MESSAGE_EXPECTED_INPUT_PROMPT,
+    MESSAGE_COULD_NOT_READ_INPUT,
+    MESSAGE_OUT_OF_MEMORY_FOR_INPUT,
+    MESSAGE_RESERVED_FUNCTION_NAME,
+    MESSAGE_EXPECTED_SINGLE_COMMAND,
     MESSAGE_EXPECTED_PROGRAM_START,
     MESSAGE_EXPECTED_PROGRAM_END,
     MESSAGE_EXPECTED_END_OF_FILE,
@@ -124,7 +129,14 @@ typedef struct {
     double number;
     size_t string_offset;
     size_t string_length;
+    char *owned_string;
 } Value;
+
+typedef struct {
+    char **items;
+    size_t count;
+    size_t capacity;
+} StringStorage;
 
 typedef struct {
     size_t name_offset;
@@ -160,6 +172,7 @@ typedef struct {
     Function *functions;
     size_t function_count;
     size_t function_capacity;
+    StringStorage *string_storage;
     Token current;
     int failed;
     int in_function;
@@ -208,6 +221,11 @@ static const char *localized_message(Language language, MessageId message)
         "'પરત' can only be used inside a function",
         "out of memory while storing function",
         "out of memory while storing function arguments",
+        "expected a string prompt for 'વાંચો'",
+        "could not read a line from standard input",
+        "out of memory while storing input",
+        "built-in function name cannot be declared",
+        "expected one complete statement or expression per REPL line",
         "expected 'આવો' at the start of the program",
         "expected 'આવજો' at the end of the program",
         "expected end of file after 'આવજો'",
@@ -216,7 +234,7 @@ static const char *localized_message(Language language, MessageId message)
         "out of memory while reading file",
         "file contains a NUL byte",
         "could not set console output to UTF-8",
-        "usage: %s [--language en|gu] <source.gj>"
+        "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
         "સ્ટ્રિંગમાં આ એસ્કેપ માન્ય નથી",
@@ -257,6 +275,11 @@ static const char *localized_message(Language language, MessageId message)
         "'પરત' નો ઉપયોગ ફક્ત ફંક્શનની અંદર થઈ શકે છે",
         "ફંક્શન સંગ્રહવા માટે પૂરતી મેમરી મળી નહીં",
         "ફંક્શનની દલીલો સંગ્રહવા માટે પૂરતી મેમરી મળી નહીં",
+        "'વાંચો' માટે લખાણરૂપ સંદેશ અપેક્ષિત છે",
+        "માનક ઇનપુટમાંથી લીટી વાંચી શકાયી નહીં",
+        "ઇનપુટ સંગ્રહવા માટે પૂરતી મેમરી મળી નહીં",
+        "આ બિલ્ટ-ઇન ફંક્શનનું નામ જાહેર કરી શકાય નહીં",
+        "REPL માં દરેક લીટી પર એક પૂરું સ્ટેટમેન્ટ અથવા અભિવ્યક્તિ અપેક્ષિત છે",
         "પ્રોગ્રામની શરૂઆતમાં 'આવો' અપેક્ષિત છે",
         "પ્રોગ્રામના અંતે 'આવજો' અપેક્ષિત છે",
         "'આવજો' પછી ફાઇલનો અંત અપેક્ષિત છે",
@@ -265,7 +288,7 @@ static const char *localized_message(Language language, MessageId message)
         "ફાઇલ વાંચતી વખતે પૂરતી મેમરી મળી નહીં",
         "ફાઇલમાં NUL બાઇટ છે",
         "કોન્સોલનું આઉટપુટ UTF-8 પર સેટ કરી શકાયું નહીં",
-        "ઉપયોગ: %s [--language en|gu] <source.gj>"
+        "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
     if (language == LANGUAGE_GUJARATI) {
@@ -666,6 +689,7 @@ static Value number_value(double number)
     value.number = number;
     value.string_offset = 0;
     value.string_length = 0;
+    value.owned_string = NULL;
     return value;
 }
 
@@ -764,6 +788,124 @@ static Function *find_function(Parser *parser, Token name)
     return NULL;
 }
 
+static int write_string(Parser *parser, FILE *output,
+                        size_t offset, size_t length);
+
+static int token_matches(Parser *parser, Token token, const char *text)
+{
+    size_t length = strlen(text);
+    return token.string_length == length &&
+           memcmp(parser->source + token.string_offset, text, length) == 0;
+}
+
+static int store_input_string(Parser *parser, Token name, char *input)
+{
+    StringStorage *storage = parser->string_storage;
+    if (storage->count == storage->capacity) {
+        size_t capacity = storage->capacity == 0 ? 4 : storage->capacity * 2;
+        char **items;
+        if (capacity < storage->capacity ||
+            capacity > (size_t)-1 / sizeof(*storage->items)) {
+            free(input);
+            report_error(parser, name.line, name.column,
+                         MESSAGE_OUT_OF_MEMORY_FOR_INPUT);
+            return 0;
+        }
+        items = (char **)realloc(storage->items, capacity * sizeof(*items));
+        if (items == NULL) {
+            free(input);
+            report_error(parser, name.line, name.column,
+                         MESSAGE_OUT_OF_MEMORY_FOR_INPUT);
+            return 0;
+        }
+        storage->items = items;
+        storage->capacity = capacity;
+    }
+    storage->items[storage->count++] = input;
+    return 1;
+}
+
+static int read_input_line(Parser *parser, Token name, Value prompt,
+                           Value *result)
+{
+    size_t capacity = 64;
+    size_t length = 0;
+    int received_character = 0;
+    char *input = (char *)malloc(capacity);
+    int character;
+
+    if (input == NULL) {
+        report_error(parser, name.line, name.column,
+                     MESSAGE_OUT_OF_MEMORY_FOR_INPUT);
+        return 0;
+    }
+    if (prompt.owned_string != NULL) {
+        if (fwrite(prompt.owned_string, 1, prompt.string_length, stdout) !=
+                prompt.string_length ||
+            fflush(stdout) == EOF) {
+            free(input);
+            report_error(parser, name.line, name.column, MESSAGE_WRITE_OUTPUT);
+            return 0;
+        }
+    } else if (!write_string(parser, stdout, prompt.string_offset,
+                             prompt.string_length) ||
+               fflush(stdout) == EOF) {
+        free(input);
+        report_error(parser, name.line, name.column, MESSAGE_WRITE_OUTPUT);
+        return 0;
+    }
+
+    while ((character = fgetc(stdin)) != EOF && character != '\n') {
+        received_character = 1;
+        if (character == '\0') {
+            free(input);
+            report_error(parser, name.line, name.column,
+                         MESSAGE_COULD_NOT_READ_INPUT);
+            return 0;
+        }
+        if (length + 1 >= capacity) {
+            size_t new_capacity;
+            char *new_input;
+            if (capacity > (size_t)-1 / 2) {
+                free(input);
+                report_error(parser, name.line, name.column,
+                             MESSAGE_OUT_OF_MEMORY_FOR_INPUT);
+                return 0;
+            }
+            new_capacity = capacity * 2;
+            new_input = (char *)realloc(input, new_capacity);
+            if (new_input == NULL) {
+                free(input);
+                report_error(parser, name.line, name.column,
+                             MESSAGE_OUT_OF_MEMORY_FOR_INPUT);
+                return 0;
+            }
+            input = new_input;
+            capacity = new_capacity;
+        }
+        input[length++] = (char)character;
+    }
+    if (ferror(stdin) || (character == EOF && !received_character)) {
+        free(input);
+        report_error(parser, name.line, name.column,
+                     MESSAGE_COULD_NOT_READ_INPUT);
+        return 0;
+    }
+    if (length > 0 && input[length - 1] == '\r') {
+        length--;
+    }
+    input[length] = '\0';
+    if (!store_input_string(parser, name, input)) {
+        return 0;
+    }
+
+    *result = number_value(0.0);
+    result->kind = VALUE_STRING;
+    result->string_length = length;
+    result->owned_string = input;
+    return 1;
+}
+
 static Value call_function(Parser *parser, Function function,
                            const Value *arguments)
 {
@@ -858,15 +1000,27 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
     if (!parser->failed) {
         advance_token(parser);
         if (execute) {
-            Function *function = find_function(parser, name);
-            if (function == NULL) {
-                report_error(parser, name.line, name.column,
-                             MESSAGE_UNDEFINED_FUNCTION);
-            } else if (function->parameter_count != argument_count) {
-                report_error(parser, name.line, name.column,
-                             MESSAGE_WRONG_ARGUMENT_COUNT);
+            if (token_matches(parser, name, "વાંચો")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_INPUT_PROMPT);
+                } else {
+                    read_input_line(parser, name, arguments[0], &result);
+                }
             } else {
-                result = call_function(parser, *function, arguments);
+                Function *function = find_function(parser, name);
+                if (function == NULL) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_UNDEFINED_FUNCTION);
+                } else if (function->parameter_count != argument_count) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = call_function(parser, *function, arguments);
+                }
             }
         }
     }
@@ -894,6 +1048,7 @@ static Value parse_primary(Parser *parser, int execute)
         value.kind = VALUE_STRING;
         value.string_offset = token.string_offset;
         value.string_length = token.string_length;
+        value.owned_string = NULL;
         advance_token(parser);
         return value;
     }
@@ -1171,6 +1326,10 @@ static int write_string(Parser *parser, FILE *output,
 static int write_value(Parser *parser, Value value)
 {
     if (value.kind == VALUE_STRING) {
+        if (value.owned_string != NULL) {
+            return fwrite(value.owned_string, 1, value.string_length, stdout) ==
+                   value.string_length;
+        }
         return write_string(parser, stdout, value.string_offset,
                             value.string_length);
     }
@@ -1464,6 +1623,11 @@ static int parse_function_declaration(Parser *parser, int execute)
         return 0;
     }
     name = parser->current;
+    if (token_matches(parser, name, "વાંચો")) {
+        report_error(parser, name.line, name.column,
+                     MESSAGE_RESERVED_FUNCTION_NAME);
+        return 0;
+    }
     advance_token(parser);
     if (parser->current.kind != TOKEN_LEFT_PAREN) {
         report_error(parser, parser->current.line, parser->current.column,
@@ -1673,12 +1837,282 @@ static int parse_statement(Parser *parser, int execute)
     return !parser->failed;
 }
 
+static int parse_repl_command(Parser *parser, int execute)
+{
+    Token command = parser->current;
+    Value value;
+    int is_assignment = 0;
+
+    if (parser->current.kind == TOKEN_IDENTIFIER) {
+        Parser lookahead = *parser;
+        advance_token(&lookahead);
+        is_assignment = !lookahead.failed &&
+                        lookahead.current.kind == TOKEN_EQUAL;
+    }
+    if (parser->current.kind == TOKEN_PRINT ||
+        parser->current.kind == TOKEN_IF ||
+        parser->current.kind == TOKEN_WHILE ||
+        parser->current.kind == TOKEN_FUNCTION ||
+        parser->current.kind == TOKEN_RETURN ||
+        parser->current.kind == TOKEN_ERROR ||
+        parser->current.kind == TOKEN_FATAL_ERROR ||
+        parser->current.kind == TOKEN_WARNING ||
+        is_assignment) {
+        return parse_statement(parser, execute);
+    }
+
+    value = parse_expression(parser, execute);
+    if (parser->failed) {
+        return 0;
+    }
+    if (parser->current.kind == TOKEN_SEMICOLON) {
+        advance_token(parser);
+    }
+    if (!parser->failed && parser->current.kind != TOKEN_EOF) {
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_SINGLE_COMMAND);
+        return 0;
+    }
+    if (execute && (!write_value(parser, value) || fputc('\n', stdout) == EOF)) {
+        report_error(parser, command.line, command.column,
+                     MESSAGE_WRITE_OUTPUT);
+        return 0;
+    }
+    return !parser->failed;
+}
+
+static int read_repl_line(Parser *parser, char **line, size_t *length)
+{
+    size_t capacity = 64;
+    size_t used = 0;
+    int character;
+    char *buffer = (char *)malloc(capacity);
+
+    if (buffer == NULL) {
+        report_error(parser, parser->line, parser->column,
+                     MESSAGE_OUT_OF_MEMORY_FOR_INPUT);
+        return -1;
+    }
+    while ((character = fgetc(stdin)) != EOF && character != '\n') {
+        if (character == '\0') {
+            free(buffer);
+            report_error(parser, parser->line, parser->column,
+                         MESSAGE_COULD_NOT_READ_INPUT);
+            return -1;
+        }
+        if (used + 1 >= capacity) {
+            size_t new_capacity;
+            char *new_buffer;
+            if (capacity > (size_t)-1 / 2) {
+                free(buffer);
+                report_error(parser, parser->line, parser->column,
+                             MESSAGE_OUT_OF_MEMORY_FOR_INPUT);
+                return -1;
+            }
+            new_capacity = capacity * 2;
+            new_buffer = (char *)realloc(buffer, new_capacity);
+            if (new_buffer == NULL) {
+                free(buffer);
+                report_error(parser, parser->line, parser->column,
+                             MESSAGE_OUT_OF_MEMORY_FOR_INPUT);
+                return -1;
+            }
+            buffer = new_buffer;
+            capacity = new_capacity;
+        }
+        buffer[used++] = (char)character;
+    }
+    if (ferror(stdin)) {
+        free(buffer);
+        report_error(parser, parser->line, parser->column,
+                     MESSAGE_COULD_NOT_READ_INPUT);
+        return -1;
+    }
+    if (character == EOF && used == 0) {
+        free(buffer);
+        return 0;
+    }
+    if (used > 0 && buffer[used - 1] == '\r') {
+        used--;
+    }
+    buffer[used] = '\0';
+    *line = buffer;
+    *length = used;
+    return 1;
+}
+
+static int line_is_blank(const char *line, size_t length)
+{
+    size_t index;
+    for (index = 0; index < length; index++) {
+        if (line[index] != ' ' && line[index] != '\t' &&
+            line[index] != '\r') {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static int append_repl_line(char **source, size_t *source_length,
+                            size_t *source_capacity, const char *line,
+                            size_t line_length)
+{
+    size_t required;
+    if (*source_length > (size_t)-1 - 2 ||
+        line_length > (size_t)-1 - *source_length - 2) {
+        return 0;
+    }
+    required = *source_length + line_length + 2;
+    if (required > *source_capacity) {
+        size_t capacity = *source_capacity == 0 ? 256 : *source_capacity;
+        char *new_source;
+        while (capacity < required) {
+            if (capacity > (size_t)-1 / 2) {
+                capacity = required;
+                break;
+            }
+            capacity *= 2;
+        }
+        new_source = (char *)realloc(*source, capacity);
+        if (new_source == NULL) {
+            return 0;
+        }
+        *source = new_source;
+        *source_capacity = capacity;
+    }
+    memcpy(*source + *source_length, line, line_length);
+    (*source)[*source_length + line_length] = '\n';
+    *source_length += line_length + 1;
+    (*source)[*source_length] = '\0';
+    return 1;
+}
+
+static int run_repl(Language language)
+{
+    Parser parser;
+    Environment globals;
+    StringStorage string_storage;
+    char *source = NULL;
+    size_t source_length = 0;
+    size_t source_capacity = 0;
+    int read_status;
+    int result = EXIT_SUCCESS;
+
+    memset(&globals, 0, sizeof(globals));
+    memset(&string_storage, 0, sizeof(string_storage));
+    memset(&parser, 0, sizeof(parser));
+    parser.source = "";
+    parser.filename = "REPL";
+    parser.language = language;
+    parser.environment = &globals;
+    parser.globals = &globals;
+    parser.string_storage = &string_storage;
+    parser.line = 1;
+    parser.column = 1;
+
+    for (;;) {
+        char *line;
+        size_t line_length;
+        size_t command_offset;
+        size_t command_line;
+        Parser validation;
+
+        if (fputs("GujaratiLang> ", stdout) == EOF || fflush(stdout) == EOF) {
+            report_error(&parser, parser.line, parser.column,
+                         MESSAGE_WRITE_OUTPUT);
+            result = EXIT_FAILURE;
+            break;
+        }
+        read_status = read_repl_line(&parser, &line, &line_length);
+        if (read_status <= 0) {
+            if (read_status < 0) {
+                result = EXIT_FAILURE;
+            }
+            break;
+        }
+        if (line_is_blank(line, line_length)) {
+            free(line);
+            continue;
+        }
+
+        command_offset = source_length;
+        command_line = parser.line;
+        if (!append_repl_line(&source, &source_length, &source_capacity,
+                              line, line_length)) {
+            free(line);
+            report_error(&parser, parser.line, parser.column,
+                         MESSAGE_OUT_OF_MEMORY_FOR_INPUT);
+            result = EXIT_FAILURE;
+            break;
+        }
+        free(line);
+
+        parser.source = source;
+        parser.offset = command_offset;
+        parser.line = command_line;
+        parser.column = 1;
+        parser.current = make_token(TOKEN_EOF, command_line, 1);
+        parser.failed = 0;
+        parser.in_function = 0;
+        parser.returned = 0;
+        advance_token(&parser);
+
+        validation = parser;
+        if (!validation.failed) {
+            parse_repl_command(&validation, 0);
+        }
+        if (!validation.failed &&
+            validation.current.kind != TOKEN_EOF) {
+            report_error(&validation, validation.current.line,
+                         validation.current.column,
+                         MESSAGE_EXPECTED_SINGLE_COMMAND);
+        }
+        if (!validation.failed) {
+            parser.offset = command_offset;
+            parser.line = command_line;
+            parser.column = 1;
+            parser.current = make_token(TOKEN_EOF, command_line, 1);
+            advance_token(&parser);
+            parse_repl_command(&parser, 1);
+            if (!parser.failed && parser.current.kind != TOKEN_EOF) {
+                report_error(&parser, parser.current.line,
+                             parser.current.column,
+                             MESSAGE_EXPECTED_SINGLE_COMMAND);
+            }
+        }
+
+        parser.source = source;
+        parser.offset = source_length;
+        parser.line = command_line + 1;
+        parser.column = 1;
+        parser.current = make_token(TOKEN_EOF, parser.line, parser.column);
+        parser.failed = 0;
+        parser.in_function = 0;
+        parser.returned = 0;
+    }
+
+    free(globals.variables);
+    while (parser.function_count > 0) {
+        parser.function_count--;
+        free(parser.functions[parser.function_count].parameters);
+    }
+    free(parser.functions);
+    while (string_storage.count > 0) {
+        free(string_storage.items[--string_storage.count]);
+    }
+    free(string_storage.items);
+    free(source);
+    return result;
+}
+
 static int interpret(const char *source, const char *filename, Language language)
 {
     Parser parser;
     Environment globals;
+    StringStorage string_storage;
 
     memset(&globals, 0, sizeof(globals));
+    memset(&string_storage, 0, sizeof(string_storage));
     parser.source = source;
     parser.offset = 0;
     parser.line = 1;
@@ -1690,6 +2124,7 @@ static int interpret(const char *source, const char *filename, Language language
     parser.functions = NULL;
     parser.function_count = 0;
     parser.function_capacity = 0;
+    parser.string_storage = &string_storage;
     parser.failed = 0;
     parser.in_function = 0;
     parser.returned = 0;
@@ -1727,6 +2162,10 @@ static int interpret(const char *source, const char *filename, Language language
         free(parser.functions[parser.function_count].parameters);
     }
     free(parser.functions);
+    while (string_storage.count > 0) {
+        free(string_storage.items[--string_storage.count]);
+    }
+    free(string_storage.items);
     return parser.failed ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
@@ -1781,12 +2220,17 @@ static char *read_source_file(const char *filename, Language language)
 int main(int argc, char **argv)
 {
     char *source;
-    const char *filename;
+    const char *filename = NULL;
     Language language = LANGUAGE_ENGLISH;
     int result;
+    int repl = 0;
 
     if (argc == 2) {
-        filename = argv[1];
+        if (strcmp(argv[1], "--repl") == 0) {
+            repl = 1;
+        } else {
+            filename = argv[1];
+        }
     } else if (argc == 4 && strcmp(argv[1], "--language") == 0) {
         if (strcmp(argv[2], "en") == 0) {
             language = LANGUAGE_ENGLISH;
@@ -1797,7 +2241,11 @@ int main(int argc, char **argv)
                     argv[0]);
             return EXIT_FAILURE;
         }
-        filename = argv[3];
+        if (strcmp(argv[3], "--repl") == 0) {
+            repl = 1;
+        } else {
+            filename = argv[3];
+        }
     } else {
         fprintf(stderr, localized_message(LANGUAGE_ENGLISH, MESSAGE_USAGE),
                 argv[0]);
@@ -1808,6 +2256,7 @@ int main(int argc, char **argv)
     {
         DWORD console_mode;
         HANDLE stdout_handle = GetStdHandle(STD_OUTPUT_HANDLE);
+        HANDLE stdin_handle = GetStdHandle(STD_INPUT_HANDLE);
         if (stdout_handle != INVALID_HANDLE_VALUE &&
             GetConsoleMode(stdout_handle, &console_mode) &&
             !SetConsoleOutputCP(CP_UTF8)) {
@@ -1815,9 +2264,19 @@ int main(int argc, char **argv)
                     localized_message(language, MESSAGE_SET_CONSOLE_ENCODING));
             return EXIT_FAILURE;
         }
+        if (stdin_handle != INVALID_HANDLE_VALUE &&
+            GetConsoleMode(stdin_handle, &console_mode) &&
+            !SetConsoleCP(CP_UTF8)) {
+            fprintf(stderr, "%s\n",
+                    localized_message(language, MESSAGE_SET_CONSOLE_ENCODING));
+            return EXIT_FAILURE;
+        }
     }
 #endif
 
+    if (repl) {
+        return run_repl(language);
+    }
     source = read_source_file(filename, language);
     if (source == NULL) {
         return EXIT_FAILURE;

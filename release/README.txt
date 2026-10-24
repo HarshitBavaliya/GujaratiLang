@@ -1,7 +1,7 @@
 GujaratiLang portable releases
 ==============================
 
-This package includes the GujaratiLang interpreter and a sample program. No
+This package includes the GujaratiLang interpreter and sample programs. No
 compiler, CMake, or Git installation is needed to run it.
 
 Run the included sample
@@ -12,6 +12,29 @@ Windows:
 
 Linux or macOS:
    ./gujarati ./examples/hello.gj
+
+To try interactive input instead, run:
+
+Windows:
+   .\gujarati.exe .\examples\input.gj
+
+Linux or macOS:
+   ./gujarati ./examples/input.gj
+
+Type a response and press Enter when the program prompts you.
+
+Start the interactive REPL
+--------------------------
+
+Windows:
+   .\gujarati.exe --repl
+
+Linux or macOS:
+   ./gujarati --repl
+
+Enter one complete statement or expression per line. Variables and functions
+stay available for the session. Enter Ctrl+Z then Enter on Windows, or Ctrl+D
+on Linux/macOS, to exit.
 
 Run your own program
 --------------------

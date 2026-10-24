@@ -50,7 +50,7 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path dist, package\examples | Out-Null
           Copy-Item build\Release\gujarati.exe package\gujarati.exe
-          Copy-Item examples\hello.gj package\examples\hello.gj
+          Copy-Item examples\*.gj package\examples\
           Copy-Item release\README.txt package\README.txt
           Compress-Archive -Path package\* -DestinationPath dist\gujaratilang-${{ matrix.platform }}.zip -Force
 
@@ -60,7 +60,7 @@ jobs:
         run: |
           mkdir -p dist package/examples
           cp build/gujarati package/gujarati
-          cp examples/hello.gj package/examples/hello.gj
+          cp examples/*.gj package/examples/
           cp release/README.txt package/README.txt
           tar -czf "dist/gujaratilang-${{ matrix.platform }}.tar.gz" -C package .
 

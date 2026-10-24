@@ -1,4 +1,5 @@
 file(MAKE_DIRECTORY "${TEST_BINARY_DIR}")
+set(input_text "")
 
 if(TEST_CASE STREQUAL "arithmetic_and_comparisons")
     set(source [=[આવો
@@ -297,6 +298,120 @@ elseif(TEST_CASE STREQUAL "return_outside_function")
     set(expected_stdout "")
     set(expected_stderr "'પરત' can only be used inside a function")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "input")
+    set(source [=[આવો
+કાર્ય પૂછો() { પરત વાંચો("Name? "); }
+નામ = પૂછો();
+છાપો નામ;
+આવજો
+]=])
+    set(input_text "હર્ષ\n")
+    set(expected_stdout "Name? હર્ષ\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "input_empty_line")
+    set(source [=[આવો
+જવાબ = વાંચો("Value: ");
+છાપો જવાબ;
+આવજો
+]=])
+    set(input_text "\n")
+    set(expected_stdout "Value: \n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "input_long_line")
+    string(REPEAT "x" 128 input_text)
+    string(APPEND input_text "\n")
+    set(source [=[આવો
+જવાબ = વાંચો("Long: ");
+છાપો જવાબ;
+આવજો
+]=])
+    set(expected_stdout "Long: ${input_text}")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "input_eof")
+    set(source [=[આવો
+જવાબ = વાંચો("Enter: ");
+આવજો
+]=])
+    set(input_text "")
+    set(expected_stdout "Enter: ")
+    set(expected_stderr "could not read a line from standard input")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "input_wrong_argument_count")
+    set(source [=[આવો
+જવાબ = વાંચો();
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "input_prompt_type")
+    set(source [=[આવો
+જવાબ = વાંચો(1);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a string prompt for 'વાંચો'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "input_skipped_branch")
+    set(source [=[આવો
+જો (0) { છુપાયેલું = વાંચો("Do not ask: "); }
+છાપો "after";
+આવજો
+]=])
+    set(input_text "")
+    set(expected_stdout "after\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "reserved_input_function")
+    set(source [=[આવો
+કાર્ય વાંચો(prompt) { પરત prompt; }
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "repl_persistence")
+    set(source "")
+    set(program_arguments --repl)
+    set(input_text [=[count = 2;
+count + 3
+કાર્ય double(value) { પરત value * 2; }
+double(count)
+]=])
+    set(expected_stdout "GujaratiLang> GujaratiLang> 5\nGujaratiLang> GujaratiLang> 4\nGujaratiLang> ")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "repl_error_recovery")
+    set(source "")
+    set(program_arguments --repl)
+    set(input_text [=[છાપો (1 + );
+છાપો 2 + 3;
+]=])
+    set(expected_stdout "GujaratiLang> GujaratiLang> 5\nGujaratiLang> ")
+    set(expected_stderr "expected a number")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "repl_runtime_error_recovery")
+    set(source "")
+    set(program_arguments --repl)
+    set(input_text [=[છાપો unknown;
+છાપો 7;
+]=])
+    set(expected_stdout "GujaratiLang> GujaratiLang> 7\nGujaratiLang> ")
+    set(expected_stderr "undefined variable")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "repl_input")
+    set(source "")
+    set(program_arguments --repl)
+    set(input_text [=[name = વાંચો("Name? ");
+હર્ષ
+છાપો name;
+]=])
+    set(expected_stdout "GujaratiLang> Name? GujaratiLang> હર્ષ\nGujaratiLang> ")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "warnings_english")
     set(source [=[આવો
 ચેતવણી "user warning";
@@ -357,15 +472,21 @@ endif()
 set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
 set(actual_stdout_path "${TEST_BINARY_DIR}/${TEST_CASE}.stdout")
 set(actual_stderr_path "${TEST_BINARY_DIR}/${TEST_CASE}.stderr")
+set(input_path "${TEST_BINARY_DIR}/${TEST_CASE}.input")
 set(expected_stdout_path "${TEST_BINARY_DIR}/${TEST_CASE}.expected-stdout")
 set(expected_stderr_path "${TEST_BINARY_DIR}/${TEST_CASE}.expected-stderr")
 file(WRITE "${source_path}" "${source}")
+file(WRITE "${input_path}" "${input_text}")
 file(WRITE "${expected_stdout_path}" "${expected_stdout}")
 file(WRITE "${expected_stderr_path}" "${expected_stderr}")
 
+if(NOT DEFINED program_arguments)
+    set(program_arguments ${language_args} "${source_path}")
+endif()
 execute_process(
-    COMMAND "${PROGRAM}" ${language_args} "${source_path}"
+    COMMAND "${PROGRAM}" ${program_arguments}
     RESULT_VARIABLE actual_status
+    INPUT_FILE "${input_path}"
     OUTPUT_FILE "${actual_stdout_path}"
     ERROR_FILE "${actual_stderr_path}"
 )

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 0.3.0 LANGUAGES C)
+project(gujaratilang VERSION 0.4.0 LANGUAGES C)
 
 include(CTest)
 
@@ -45,6 +45,18 @@ if(BUILD_TESTING)
             function_duplicate
             function_duplicate_parameter
             return_outside_function
+            input
+            input_empty_line
+            input_long_line
+            input_eof
+            input_wrong_argument_count
+            input_prompt_type
+            input_skipped_branch
+            reserved_input_function
+            repl_persistence
+            repl_error_recovery
+            repl_runtime_error_recovery
+            repl_input
             warnings_english
             warnings_gujarati
             errors

@@ -18,6 +18,8 @@ The initial interpreter supports:
   name updates its value
 - Functions declared with `કાર્ય name(parameters) { ... }`, called as
   expressions or statements, and returning values with `પરત expression;`
+- `વાંચો("prompt")` to display a prompt and read one line of text from standard
+  input; the returned value is a string
 - Gujarati or English-letter variable names, with digits and underscores
   allowed after the first character
 - `જો`, `નહિતર જો`, and `નહિતર` conditional blocks with braces
@@ -80,6 +82,48 @@ Variables can contain numbers, strings, or `નકામો`. Assigning to a nam
 first time creates it; later assignments update it. Reading a name before its
 first assignment is an error. Variables first assigned in a conditional block
 remain available for the rest of the program.
+
+`વાંચો("prompt")` prints the prompt without a newline, reads one line from
+standard input, and returns it as a string. Press Enter to submit an empty
+string. Reaching end-of-file before a line is read is an error:
+
+```text
+આવો
+નામ = વાંચો("તમારું નામ શું છે? ");
+છાપો "નમસ્તે";
+છાપો નામ;
+આવજો
+```
+
+Run the interactive example with `./build/gujarati ./examples/input.gj` on
+Linux or macOS, or `.\build\Release\gujarati.exe .\examples\input.gj` on
+Windows.
+
+### Try commands in the REPL
+
+Start the interactive prompt without a source file:
+
+```powershell
+.\build\Release\gujarati.exe --repl
+```
+
+On Linux or macOS, run `./build/gujarati --repl`. At the prompt, enter one
+complete statement or expression per line. Variables and functions remain
+available until you exit; a bare expression prints its result:
+
+```text
+GujaratiLang> ગણતરી = 2;
+GujaratiLang> ગણતરી + 3
+5
+GujaratiLang> કાર્ય બમણું(મૂલ્ય) { પરત મૂલ્ય * 2; }
+GujaratiLang> બમણું(ગણતરી)
+4
+```
+
+Use `છાપો` to print a value without automatically printing an expression
+result. A syntax or runtime error is reported and the prompt remains available.
+Enter Ctrl+Z followed by Enter in PowerShell, or Ctrl+D on Linux/macOS, to exit.
+Select Gujarati diagnostics with `--language gu --repl`.
 
 `જ્યાં સુધી` checks its condition before each iteration and repeats the block
 while the condition is true:
@@ -214,7 +258,7 @@ Git. It leaves the password unset so the SFTP extension can prompt for it.
 
 1. **Core language:** expressions, values, variables, conditionals, loops, and
    functions.
-2. **Runtime:** useful standard-library operations and a REPL.
+2. **Runtime:** useful standard-library operations.
 3. **Language quality:** error recovery, documentation, and packaging.
 
 The early syntax and keyword vocabulary are intentionally small; we can refine
