@@ -4,3 +4,4 @@
 *.ilk
 *.pdb
 .vscode/sftp.json
+/website/
