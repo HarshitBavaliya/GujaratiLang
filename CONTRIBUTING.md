@@ -12,11 +12,12 @@ the output you expected and received.
 
 1. Fork the repository and create a branch for your change.
 2. Keep source files and `.gj` examples encoded as UTF-8.
-3. Build the interpreter and run the sample program:
+3. Build the interpreter, run the regression tests, and run the sample program:
 
    ```powershell
    cmake -S . -B build
    cmake --build build
+   ctest --test-dir build --output-on-failure
    .\build\gujarati.exe .\examples\hello.gj
    ```
 

@@ -70,6 +70,17 @@ cmake --build build
 For a single-configuration generator, the executable may instead be at
 `build/gujarati.exe`.
 
+## Tests
+
+CTest runs the interpreter regression suite after building:
+
+```powershell
+ctest --test-dir build --output-on-failure
+```
+
+GitHub Actions builds and runs the tests on Windows and Ubuntu for pushes and
+pull requests.
+
 ## Roadmap
 
 1. **Core syntax:** lexer, expression parser, arithmetic, and print statements.
