@@ -26,7 +26,8 @@ if(BUILD_TESTING)
             strings_and_null
             variables
             variable_in_skipped_branch
-            duplicate_variable
+            variable_skipped_not_created
+            variable_reassignment
             undefined_variable
             undefined_variable_gujarati
             function_calls

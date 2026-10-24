@@ -16,8 +16,8 @@ if(TEST_CASE STREQUAL "arithmetic_and_comparisons")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "conditionals")
     set(source [=[આવો
-જો (0) { છાપો "wrong"; } અથવા જો (2 > 1) { છાપો "second"; } અથવા { છાપો "wrong"; }
-જો (1 < 0) { છાપો "wrong"; } અથવા { છાપો "else"; }
+જો (0) { છાપો "wrong"; } નહિતર જો (2 > 1) { છાપો "second"; } નહિતર { છાપો "wrong"; }
+જો (1 < 0) { છાપો "wrong"; } નહિતર { છાપો "else"; }
 આવજો
 ]=])
     set(expected_stdout "second\nelse\n")
@@ -26,11 +26,11 @@ elseif(TEST_CASE STREQUAL "conditionals")
 elseif(TEST_CASE STREQUAL "logical_operators")
     set(source [=[આવો
 છાપો 1 અને 2 > 1;
-છાપો 1 કે 0 અને 0;
+છાપો 1 અથવા 0 અને 0;
 છાપો નહીં 1 == 1;
 છાપો નહીં 0 == 1;
 જો (2 > 1 અને નહીં 0) { છાપો "and and not"; }
-જો (0 કે 3 == 3) { છાપો "or"; }
+જો (0 અથવા 3 == 3) { છાપો "or"; }
 આવજો
 ]=])
     set(expected_stdout "1\n1\n0\n1\nand and not\nor\n")
@@ -38,7 +38,7 @@ elseif(TEST_CASE STREQUAL "logical_operators")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "logical_short_circuit")
     set(source [=[આવો
-છાપો 1 કે 1 / 0 == 0;
+છાપો 1 અથવા 1 / 0 == 0;
 છાપો 0 અને 1 / 0 == 0;
 આવજો
 ]=])
@@ -55,10 +55,10 @@ elseif(TEST_CASE STREQUAL "logical_type_error")
     set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "while_loop")
     set(source [=[આવો
-રાખો ગણતરી = 0;
+ગણતરી = 0;
 જ્યાં સુધી (ગણતરી < 3) {
     ગણતરી = ગણતરી + 1;
-    રાખો હાલનું = ગણતરી;
+    હાલનું = ગણતરી;
     છાપો હાલનું;
 }
 છાપો હાલનું;
@@ -69,9 +69,9 @@ elseif(TEST_CASE STREQUAL "while_loop")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "nested_while_loops")
     set(source [=[આવો
-રાખો બહાર = 0;
-રાખો અંદર = 0;
-રાખો સરવાળો = 0;
+બહાર = 0;
+અંદર = 0;
+સરવાળો = 0;
 જ્યાં સુધી (બહાર < 2) {
     અંદર = 0;
     જ્યાં સુધી (અંદર < 2) {
@@ -115,46 +115,58 @@ elseif(TEST_CASE STREQUAL "strings_and_null")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "variables")
     set(source [=[આવો
-રાખો ગણતરી = 3;
+ગણતરી = 3;
 ગણતરી = ગણતરી + 2;
-રાખો count = ગણતરી * 2;
-રાખો item_2 = count + 1;
-રાખો છાપોવસ્તુ = item_2 + 1;
+count = ગણતરી * 2;
+item_2 = count + 1;
+છાપોવસ્તુ = item_2 + 1;
+કે = 13;
 છાપો ગણતરી;
 છાપો count;
 છાપો છાપોવસ્તુ;
-રાખો સંદેશ = "Gujarati \nstring";
+છાપો કે;
+સંદેશ = "Gujarati \nstring";
 છાપો સંદેશ;
-રાખો નકામું = નકામો;
+નકામું = નકામો;
 છાપો નકામું;
 જો (ગણતરી == 5) { છાપો "variable condition"; }
 આવજો
 ]=])
-    set(expected_stdout "5\n10\n12\nGujarati \nstring\nનકામો\nvariable condition\n")
+    set(expected_stdout "5\n10\n12\n13\nGujarati \nstring\nનકામો\nvariable condition\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "variable_in_skipped_branch")
     set(source [=[આવો
-જો (0) { રાખો ખોટું = 1; }
-રાખો સાચું = 2;
+જો (0) { ખોટું = 1; }
+સાચું = 2;
 છાપો સાચું;
 આવજો
 ]=])
     set(expected_stdout "2\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
-elseif(TEST_CASE STREQUAL "duplicate_variable")
+elseif(TEST_CASE STREQUAL "variable_skipped_not_created")
     set(source [=[આવો
-રાખો કિંમત = 1;
-રાખો કિંમત = 2;
+જો (0) { છુપાયેલું = 1; }
+છાપો છુપાયેલું;
 આવજો
 ]=])
     set(expected_stdout "")
-    set(expected_stderr "variable is already declared")
+    set(expected_stderr "undefined variable")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "variable_reassignment")
+    set(source [=[આવો
+કિંમત = 1;
+કિંમત = 2;
+છાપો કિંમત;
+આવજો
+]=])
+    set(expected_stdout "2\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "undefined_variable")
     set(source [=[આવો
-અજ્ઞાત = 1;
+જવાબ = અજ્ઞાત;
 આવજો
 ]=])
     set(expected_stdout "")
@@ -220,21 +232,27 @@ elseif(TEST_CASE STREQUAL "function_returns")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "function_local_and_global_variables")
     set(source [=[આવો
-રાખો કિંમત = 7;
+કિંમત = 7;
 કાર્ય સ્થાનિક() {
-    રાખો કિંમત = 2;
     કિંમત = 3;
     પરત કિંમત;
 }
 કાર્ય વૈશ્વિકવાંચો() { પરત કિંમત; }
 કાર્ય વૈશ્વિકબદલો() { કિંમત = 8; }
+કાર્ય નવીસ્થાનિક() {
+    અસ્થાયી = 1;
+    અસ્થાયી = અસ્થાયી + 1;
+    પરત અસ્થાયી;
+}
 છાપો સ્થાનિક();
 છાપો વૈશ્વિકવાંચો();
 વૈશ્વિકબદલો();
 છાપો વૈશ્વિકવાંચો();
+છાપો નવીસ્થાનિક();
+છાપો નવીસ્થાનિક();
 આવજો
 ]=])
-    set(expected_stdout "3\n7\n8\n")
+    set(expected_stdout "3\n3\n8\n2\n2\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "function_undefined")

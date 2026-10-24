@@ -12,14 +12,15 @@ The initial interpreter supports:
 - UTF-8 source files and the Gujarati `છાપો` (print) keyword
 - Numeric literals, parentheses, unary minus, and `+`, `-`, `*`, `/`
 - Numeric comparisons: `==`, `!=`, `<`, `<=`, `>`, and `>=`
-- Logical operators: `અને` (AND), `કે` (OR), and `નહીં` (NOT)
+- Logical operators: `અને` (AND), `અથવા` (OR), and `નહીં` (NOT)
 - `જ્યાં સુધી (condition) { ... }` while loops
-- Variables declared with `રાખો` and reassigned with `=`
+- Variables created and assigned with `name = value;`; assigning an existing
+  name updates its value
 - Functions declared with `કાર્ય name(parameters) { ... }`, called as
   expressions or statements, and returning values with `પરત expression;`
 - Gujarati or English-letter variable names, with digits and underscores
   allowed after the first character
-- `જો`, `અથવા જો`, and `અથવા` conditional blocks with braces
+- `જો`, `નહિતર જો`, and `નહિતર` conditional blocks with braces
 - The `નકામો` null value; conditions accept numbers (`0` is false, nonzero is
   true) and null (false); strings are not valid conditions. Comparison results
   are numbers (`1` for true and `0` for false)
@@ -32,7 +33,7 @@ The initial interpreter supports:
 Comparisons have lower precedence than arithmetic. They require numeric
 operands and produce `1` for true or `0` for false.
 Logical precedence from strongest to weakest is `નહીં`, comparisons, `અને`,
-then `કે`. Logical operators accept numbers and `નકામો`, return `1` or `0`,
+then `અથવા`. Logical operators accept numbers and `નકામો`, return `1` or `0`,
 and short-circuit when the result is already known. Strings cannot be used as
 logical operands.
 
@@ -40,7 +41,7 @@ Example (`examples/hello.gj`):
 
 ```text
 આવો
-રાખો ગણતરી = 3;
+ગણતરી = 3;
 ગણતરી = ગણતરી + 2;
 છાપો ગણતરી;
 છાપો 1 + 2 * (3 + 4);
@@ -48,9 +49,9 @@ Example (`examples/hello.gj`):
 છાપો 5 >= 5;
 જો (ગણતરી > 3) {
     છાપો "શરત સાચી છે";
-} અથવા જો (2 == 3) {
+} નહિતર જો (2 == 3) {
     છાપો "આ શાખા ચાલશે નહીં";
-} અથવા {
+} નહિતર {
     છાપો નકામો;
 }
 કાર્ય ઉમેરો(પહેલું, બીજું) {
@@ -75,26 +76,26 @@ English explicitly. Messages supplied by the program remain exactly as written.
 Diagnostic messages and printed strings support `\"`, `\\`, `\n`, `\r`, and
 `\t` escapes.
 
-Variables can contain numbers, strings, or `નકામો`. Declare a name once with
-`રાખો`; later assignments update it. Assigning to an undeclared name or
-declaring the same name twice is an error. Variables declared in a conditional
-block remain available for the rest of the program.
+Variables can contain numbers, strings, or `નકામો`. Assigning to a name for the
+first time creates it; later assignments update it. Reading a name before its
+first assignment is an error. Variables first assigned in a conditional block
+remain available for the rest of the program.
 
 `જ્યાં સુધી` checks its condition before each iteration and repeats the block
 while the condition is true:
 
 ```text
-રાખો ગણતરી = 0;
+ગણતરી = 0;
 જ્યાં સુધી (ગણતરી < 3) {
     ગણતરી = ગણતરી + 1;
     છાપો ગણતરી;
 }
 ```
 
-Declare a function before calling it. Parameters and variables declared inside a
-function are local to that call; functions can read and update global variables
-when they have not declared a local variable with the same name. Functions can
-call themselves or other previously declared functions. A function returns
+Declare a function before calling it. Parameters and newly assigned variables
+are local to that call. Assignments to existing names, including globals,
+update those variables. Functions can call themselves or other previously
+declared functions. A function returns
 `નકામો` if it reaches the end or uses `પરત;` without a value:
 
 ```text
