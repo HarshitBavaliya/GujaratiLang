@@ -12,6 +12,7 @@ The initial interpreter supports:
 - UTF-8 source files and the Gujarati `છાપો` (print) keyword
 - Numeric literals, parentheses, unary minus, and `+`, `-`, `*`, `/`
 - Numeric comparisons: `==`, `!=`, `<`, `<=`, `>`, and `>=`
+- Logical operators: `અને` (AND), `કે` (OR), and `નહીં` (NOT)
 - Variables declared with `રાખો` and reassigned with `=`
 - Gujarati or English-letter variable names, with digits and underscores
   allowed after the first character
@@ -27,6 +28,10 @@ The initial interpreter supports:
 
 Comparisons have lower precedence than arithmetic. They require numeric
 operands and produce `1` for true or `0` for false.
+Logical precedence from strongest to weakest is `નહીં`, comparisons, `અને`,
+then `કે`. Logical operators accept numbers and `નકામો`, return `1` or `0`,
+and short-circuit when the result is already known. Strings cannot be used as
+logical operands.
 
 Example (`examples/hello.gj`):
 

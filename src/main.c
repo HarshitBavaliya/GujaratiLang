@@ -15,6 +15,9 @@ typedef enum {
     TOKEN_IF,
     TOKEN_ELSE,
     TOKEN_ELSE_IF,
+    TOKEN_AND,
+    TOKEN_OR,
+    TOKEN_NOT,
     TOKEN_NULL,
     TOKEN_ERROR,
     TOKEN_FATAL_ERROR,
@@ -89,6 +92,7 @@ typedef enum {
     MESSAGE_VARIABLE_ALREADY_DECLARED,
     MESSAGE_UNDEFINED_VARIABLE,
     MESSAGE_OUT_OF_MEMORY_FOR_VARIABLE,
+    MESSAGE_LOGICAL_OPERANDS_REQUIRED,
     MESSAGE_EXPECTED_PROGRAM_START,
     MESSAGE_EXPECTED_PROGRAM_END,
     MESSAGE_EXPECTED_END_OF_FILE,
@@ -156,6 +160,7 @@ static const char *localized_message(Language language, MessageId message)
         "variable is already declared",
         "undefined variable",
         "out of memory while storing variable",
+        "logical operators require a number or 'નકામો'",
         "expected 'આવો' at the start of the program",
         "expected 'આવજો' at the end of the program",
         "expected end of file after 'આવજો'",
@@ -193,6 +198,7 @@ static const char *localized_message(Language language, MessageId message)
         "ચલ પહેલેથી જાહેર કરેલું છે",
         "અવ્યાખ્યાયિત ચલ",
         "ચલ સંગ્રહવા માટે પૂરતી મેમરી મળી નહીં",
+        "તાર્કિક ઓપરેટર માટે સંખ્યા અથવા 'નકામો' જરૂરી છે",
         "પ્રોગ્રામની શરૂઆતમાં 'આવો' અપેક્ષિત છે",
         "પ્રોગ્રામના અંતે 'આવજો' અપેક્ષિત છે",
         "'આવજો' પછી ફાઇલનો અંત અપેક્ષિત છે",
@@ -318,6 +324,9 @@ static Token scan_token(Parser *parser)
     static const char if_keyword[] = "જો";
     static const char else_if_keyword[] = "અથવા જો";
     static const char else_keyword[] = "અથવા";
+    static const char and_keyword[] = "અને";
+    static const char or_keyword[] = "કે";
+    static const char not_keyword[] = "નહીં";
     static const char null_keyword[] = "નકામો";
     static const char fatal_error_keyword[] = "ઘાતક ભૂલ";
     static const char error_keyword[] = "ભૂલ";
@@ -380,6 +389,30 @@ static Token scan_token(Parser *parser)
             advance_char(parser);
         }
         token.kind = TOKEN_IF;
+        return token;
+    }
+    if (keyword_matches(parser, and_keyword)) {
+        size_t index;
+        for (index = 0; index < sizeof(and_keyword) - 1; index++) {
+            advance_char(parser);
+        }
+        token.kind = TOKEN_AND;
+        return token;
+    }
+    if (keyword_matches(parser, or_keyword)) {
+        size_t index;
+        for (index = 0; index < sizeof(or_keyword) - 1; index++) {
+            advance_char(parser);
+        }
+        token.kind = TOKEN_OR;
+        return token;
+    }
+    if (keyword_matches(parser, not_keyword)) {
+        size_t index;
+        for (index = 0; index < sizeof(not_keyword) - 1; index++) {
+            advance_char(parser);
+        }
+        token.kind = TOKEN_NOT;
         return token;
     }
     if (keyword_matches(parser, else_keyword)) {
@@ -626,6 +659,7 @@ static int assign_variable(Parser *parser, Token name, Value value)
 
 static Value parse_expression(Parser *parser, int execute);
 static Value parse_additive(Parser *parser, int execute);
+static int value_is_truthy(Value value);
 
 static Value parse_primary(Parser *parser, int execute)
 {
@@ -760,7 +794,7 @@ static Value parse_additive(Parser *parser, int execute)
     return value;
 }
 
-static Value parse_expression(Parser *parser, int execute)
+static Value parse_comparison(Parser *parser, int execute)
 {
     Value value = parse_additive(parser, execute);
 
@@ -811,6 +845,85 @@ static Value parse_expression(Parser *parser, int execute)
             break;
         }
         value = number_value(comparison ? 1.0 : 0.0);
+    }
+    return value;
+}
+
+static int check_logical_operand(Parser *parser, Token operation, Value value,
+                                 int execute)
+{
+    if (execute && value.kind == VALUE_STRING) {
+        report_runtime_error(parser, operation,
+                             MESSAGE_LOGICAL_OPERANDS_REQUIRED, 1);
+        return 0;
+    }
+    return 1;
+}
+
+static Value parse_not(Parser *parser, int execute)
+{
+    if (parser->current.kind == TOKEN_NOT) {
+        Token operation = parser->current;
+        Value value;
+        advance_token(parser);
+        value = parse_not(parser, execute);
+        if (parser->failed ||
+            !check_logical_operand(parser, operation, value, execute)) {
+            return number_value(0.0);
+        }
+        return number_value(value_is_truthy(value) ? 0.0 : 1.0);
+    }
+    return parse_comparison(parser, execute);
+}
+
+static Value parse_and(Parser *parser, int execute)
+{
+    Value value = parse_not(parser, execute);
+
+    while (!parser->failed && parser->current.kind == TOKEN_AND) {
+        Token operation = parser->current;
+        int left_truthy;
+        Value right;
+
+        if (!check_logical_operand(parser, operation, value, execute)) {
+            return number_value(0.0);
+        }
+        left_truthy = value_is_truthy(value);
+        advance_token(parser);
+        right = parse_not(parser, execute && left_truthy);
+        if (parser->failed ||
+            !check_logical_operand(parser, operation, right,
+                                   execute && left_truthy)) {
+            return number_value(0.0);
+        }
+        value = number_value(left_truthy && value_is_truthy(right) ?
+                             1.0 : 0.0);
+    }
+    return value;
+}
+
+static Value parse_expression(Parser *parser, int execute)
+{
+    Value value = parse_and(parser, execute);
+
+    while (!parser->failed && parser->current.kind == TOKEN_OR) {
+        Token operation = parser->current;
+        int left_truthy;
+        Value right;
+
+        if (!check_logical_operand(parser, operation, value, execute)) {
+            return number_value(0.0);
+        }
+        left_truthy = value_is_truthy(value);
+        advance_token(parser);
+        right = parse_and(parser, execute && !left_truthy);
+        if (parser->failed ||
+            !check_logical_operand(parser, operation, right,
+                                   execute && !left_truthy)) {
+            return number_value(0.0);
+        }
+        value = number_value(left_truthy || value_is_truthy(right) ?
+                             1.0 : 0.0);
     }
     return value;
 }

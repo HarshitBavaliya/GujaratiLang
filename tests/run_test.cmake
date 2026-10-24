@@ -23,6 +23,36 @@ elseif(TEST_CASE STREQUAL "conditionals")
     set(expected_stdout "second\nelse\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "logical_operators")
+    set(source [=[આવો
+છાપો 1 અને 2 > 1;
+છાપો 1 કે 0 અને 0;
+છાપો નહીં 1 == 1;
+છાપો નહીં 0 == 1;
+જો (2 > 1 અને નહીં 0) { છાપો "and and not"; }
+જો (0 કે 3 == 3) { છાપો "or"; }
+આવજો
+]=])
+    set(expected_stdout "1\n1\n0\n1\nand and not\nor\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "logical_short_circuit")
+    set(source [=[આવો
+છાપો 1 કે 1 / 0 == 0;
+છાપો 0 અને 1 / 0 == 0;
+આવજો
+]=])
+    set(expected_stdout "1\n0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "logical_type_error")
+    set(source [=[આવો
+છાપો "text" અને 1;
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "logical operators require a number or 'નકામો'")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "strings_and_null")
     set(source [=[આવો
 છાપો નકામો;

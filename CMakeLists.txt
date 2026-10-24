@@ -16,6 +16,9 @@ if(BUILD_TESTING)
     foreach(test_case IN ITEMS
             arithmetic_and_comparisons
             conditionals
+            logical_operators
+            logical_short_circuit
+            logical_type_error
             strings_and_null
             variables
             variable_in_skipped_branch
