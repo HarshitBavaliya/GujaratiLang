@@ -173,6 +173,59 @@ elseif(TEST_CASE STREQUAL "string_ordering_type_error")
     set(expected_stdout "")
     set(expected_stderr "comparisons require numbers")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "string_length_ascii")
+    set(source [=[આવો
+છાપો લંબાઈ("");
+છાપો લંબાઈ("Gujarati");
+આવજો
+]=])
+    set(expected_stdout "0\n8\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "string_length_gujarati")
+    set(source [=[આવો
+છાપો લંબાઈ("હર્ષ");
+નામ = વાંચો("Name? ");
+છાપો લંબાઈ(નામ);
+આવજો
+]=])
+    set(input_text "હર્ષ\n")
+    set(expected_stdout "4\nName? 4\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "string_length_escapes")
+    set(source [=[આવો
+છાપો લંબાઈ("a\n");
+છાપો લંબાઈ("ગુ" + "જ");
+આવજો
+]=])
+    set(expected_stdout "2\n3\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "string_length_wrong_argument_count")
+    set(source [=[આવો
+છાપો લંબાઈ();
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "string_length_type_error")
+    set(source [=[આવો
+છાપો લંબાઈ(1);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a string argument for 'લંબાઈ'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_string_length")
+    set(source [=[આવો
+કાર્ય લંબાઈ(text) { પરત 0; }
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "variables")
     set(source [=[આવો
 ગણતરી = 3;
@@ -471,6 +524,14 @@ elseif(TEST_CASE STREQUAL "repl_input")
     set(expected_stdout "GujaratiLang> Name? GujaratiLang> Hello, હર્ષ\nGujaratiLang> ")
     set(expected_stderr "")
     set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "repl_string_length")
+    set(source "")
+    set(program_arguments --repl)
+    set(input_text [=[લંબાઈ("હર્ષ")
+]=])
+    set(expected_stdout "GujaratiLang> 4\nGujaratiLang> ")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "warnings_english")
     set(source [=[આવો
 ચેતવણી "user warning";
@@ -524,6 +585,70 @@ elseif(TEST_CASE STREQUAL "invalid_language")
     set(expected_stderr "usage:")
     set(expect_failure TRUE)
     set(language_args --language fr)
+elseif(TEST_CASE STREQUAL "romanized_keywords")
+    set(source [=[aavo
+karya double(value) { parat value * 2; }
+count = 0;
+jya_sudhi (count < 2 ane nahi 0) {
+    count = count + 1;
+}
+jo (count == 2 athva 0) {
+    chhapo double(count);
+} nahitar_jo (count == 3) {
+    chhapo 99;
+} nahitar {
+    chhapo nakamo;
+}
+chetavani "romanized warning";
+aavjo
+]=])
+    set(expected_stdout "4\n")
+    set(expected_stderr "warning: romanized warning")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "romanized_keyword_identifier_boundary")
+    set(source [=[aavo
+aavo_count = 3;
+chhapo aavo_count;
+aavjo
+]=])
+    set(expected_stdout "3\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "romanized_builtins")
+    set(source [=[aavo
+name = vancho("Name? ");
+chhapo "Hello, " + name;
+chhapo lambai(name);
+aavjo
+]=])
+    set(input_text "Harsh\n")
+    set(expected_stdout "Name? Hello, Harsh\n5\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "reserved_romanized_builtin")
+    set(source [=[aavo
+karya lambai(text) { parat 0; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "romanized_error")
+    set(source [=[aavo
+bhul "stop here";
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "error: stop here")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "romanized_fatal_error")
+    set(source [=[aavo
+ghatak_bhul "stop here";
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "fatal error: stop here")
+    set(expect_failure TRUE)
 else()
     message(FATAL_ERROR "Unknown interpreter test case: ${TEST_CASE}")
 endif()

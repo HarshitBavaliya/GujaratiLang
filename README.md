@@ -22,6 +22,9 @@ The initial interpreter supports:
   expressions or statements, and returning values with `પરત expression;`
 - `વાંચો("prompt")` to display a prompt and read one line of text from standard
   input; the returned value is a string
+- `લંબાઈ(text)` to return the number of Unicode code points in a string
+- Romanized Gujarati spellings for all Gujarati keywords and built-ins, so
+  source code can be typed with an English keyboard
 - Gujarati or English-letter variable names, with digits and underscores
   allowed after the first character
 - `જો`, `નહિતર જો`, and `નહિતર` conditional blocks with braces
@@ -54,6 +57,23 @@ program check text values:
 છાપો "નમસ્તે, " + નામ;
 જો (નામ == "હર્ષ") { છાપો "ફરીથી સ્વાગત છે!"; }
 ```
+
+Use `લંબાઈ(text)` to count Unicode code points in text rather than its UTF-8
+byte length. Combining marks count as separate code points.
+
+```text
+છાપો લંબાઈ("Gujarati");
+છાપો લંબાઈ("હર્ષ");
+```
+
+Gujarati keywords remain supported. Their ASCII romanized aliases are also
+available in lowercase, with underscores for multi-word keywords:
+`aavo`/`aavjo` (program start/end), `chhapo` (print), `jo` (if), `jya_sudhi`
+(while), `nahitar_jo`/`nahitar` (else-if/else), `ane`/`athva`/`nahi` (and/or/not),
+`nakamo` (null), `bhul`/`ghatak_bhul`/`chetavani` (error/fatal error/warning),
+and `karya`/`parat` (function/return). Built-ins can be typed as `vancho` and
+`lambai` as well as `વાંચો` and `લંબાઈ`. For example, see
+[`examples/romanized.gj`](examples/romanized.gj).
 
 Example (`examples/hello.gj`):
 

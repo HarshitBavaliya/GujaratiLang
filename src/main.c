@@ -109,6 +109,7 @@ typedef enum {
     MESSAGE_OUT_OF_MEMORY_FOR_FUNCTION,
     MESSAGE_OUT_OF_MEMORY_FOR_ARGUMENTS,
     MESSAGE_EXPECTED_INPUT_PROMPT,
+    MESSAGE_EXPECTED_LENGTH_STRING,
     MESSAGE_COULD_NOT_READ_INPUT,
     MESSAGE_OUT_OF_MEMORY_FOR_INPUT,
     MESSAGE_OUT_OF_MEMORY_FOR_STRING,
@@ -223,6 +224,7 @@ static const char *localized_message(Language language, MessageId message)
         "out of memory while storing function",
         "out of memory while storing function arguments",
         "expected a string prompt for 'વાંચો'",
+        "expected a string argument for 'લંબાઈ'",
         "could not read a line from standard input",
         "out of memory while storing input",
         "out of memory while creating string",
@@ -278,6 +280,7 @@ static const char *localized_message(Language language, MessageId message)
         "ફંક્શન સંગ્રહવા માટે પૂરતી મેમરી મળી નહીં",
         "ફંક્શનની દલીલો સંગ્રહવા માટે પૂરતી મેમરી મળી નહીં",
         "'વાંચો' માટે લખાણરૂપ સંદેશ અપેક્ષિત છે",
+        "'લંબાઈ' માટે લખાણરૂપ દલીલ અપેક્ષિત છે",
         "માનક ઇનપુટમાંથી લીટી વાંચી શકાયી નહીં",
         "ઇનપુટ સંગ્રહવા માટે પૂરતી મેમરી મળી નહીં",
         "સ્ટ્રિંગ બનાવવા માટે પૂરતી મેમરી મળી નહીં",
@@ -403,24 +406,46 @@ static Token make_token(TokenKind kind, size_t line, size_t column)
 
 static Token scan_token(Parser *parser)
 {
-    static const char start_keyword[] = "આવો";
-    static const char end_keyword[] = "આવજો";
-    static const char print_keyword[] = "છાપો";
-    static const char if_keyword[] = "જો";
-    static const char while_keyword[] = "જ્યાં સુધી";
-    static const char else_if_keyword[] = "નહિતર જો";
-    static const char else_keyword[] = "નહિતર";
-    static const char and_keyword[] = "અને";
-    static const char or_keyword[] = "અથવા";
-    static const char not_keyword[] = "નહીં";
-    static const char null_keyword[] = "નકામો";
-    static const char fatal_error_keyword[] = "ઘાતક ભૂલ";
-    static const char error_keyword[] = "ભૂલ";
-    static const char warning_keyword[] = "ચેતવણી";
-    static const char function_keyword[] = "કાર્ય";
-    static const char return_keyword[] = "પરત";
+    static const struct {
+        const char *text;
+        TokenKind kind;
+    } keywords[] = {
+        {"નહિતર જો", TOKEN_ELSE_IF},
+        {"ઘાતક ભૂલ", TOKEN_FATAL_ERROR},
+        {"નહિતર", TOKEN_ELSE},
+        {"અથવા", TOKEN_OR},
+        {"ચેતવણી", TOKEN_WARNING},
+        {"કાર્ય", TOKEN_FUNCTION},
+        {"આવજો", TOKEN_END},
+        {"જ્યાં સુધી", TOKEN_WHILE},
+        {"છાપો", TOKEN_PRINT},
+        {"આવો", TOKEN_START},
+        {"નહીં", TOKEN_NOT},
+        {"નકામો", TOKEN_NULL},
+        {"ભૂલ", TOKEN_ERROR},
+        {"પરત", TOKEN_RETURN},
+        {"જો", TOKEN_IF},
+        {"અને", TOKEN_AND},
+        {"nahitar_jo", TOKEN_ELSE_IF},
+        {"ghatak_bhul", TOKEN_FATAL_ERROR},
+        {"jya_sudhi", TOKEN_WHILE},
+        {"chetavani", TOKEN_WARNING},
+        {"aavjo", TOKEN_END},
+        {"chhapo", TOKEN_PRINT},
+        {"nahitar", TOKEN_ELSE},
+        {"athva", TOKEN_OR},
+        {"nakamo", TOKEN_NULL},
+        {"karya", TOKEN_FUNCTION},
+        {"parat", TOKEN_RETURN},
+        {"aavo", TOKEN_START},
+        {"ane", TOKEN_AND},
+        {"nahi", TOKEN_NOT},
+        {"bhul", TOKEN_ERROR},
+        {"jo", TOKEN_IF}
+    };
     Token token;
     size_t start;
+    size_t keyword_index;
     char character;
 
     skip_whitespace_and_comments(parser);
@@ -431,132 +456,19 @@ static Token scan_token(Parser *parser)
         return token;
     }
 
-    if (keyword_matches(parser, else_if_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(else_if_keyword) - 1; index++) {
-            advance_char(parser);
+    for (keyword_index = 0;
+         keyword_index < sizeof(keywords) / sizeof(keywords[0]);
+         keyword_index++) {
+        size_t length;
+        if (!keyword_matches(parser, keywords[keyword_index].text)) {
+            continue;
         }
-        token.kind = TOKEN_ELSE_IF;
-        return token;
-    }
-    if (keyword_matches(parser, fatal_error_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(fatal_error_keyword) - 1; index++) {
+        length = strlen(keywords[keyword_index].text);
+        while (length > 0) {
             advance_char(parser);
+            length--;
         }
-        token.kind = TOKEN_FATAL_ERROR;
-        return token;
-    }
-    if (keyword_matches(parser, start_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(start_keyword) - 1; index++) {
-            advance_char(parser);
-        }
-        token.kind = TOKEN_START;
-        return token;
-    }
-    if (keyword_matches(parser, end_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(end_keyword) - 1; index++) {
-            advance_char(parser);
-        }
-        token.kind = TOKEN_END;
-        return token;
-    }
-    if (keyword_matches(parser, print_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(print_keyword) - 1; index++) {
-            advance_char(parser);
-        }
-        token.kind = TOKEN_PRINT;
-        return token;
-    }
-    if (keyword_matches(parser, if_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(if_keyword) - 1; index++) {
-            advance_char(parser);
-        }
-        token.kind = TOKEN_IF;
-        return token;
-    }
-    if (keyword_matches(parser, while_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(while_keyword) - 1; index++) {
-            advance_char(parser);
-        }
-        token.kind = TOKEN_WHILE;
-        return token;
-    }
-    if (keyword_matches(parser, and_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(and_keyword) - 1; index++) {
-            advance_char(parser);
-        }
-        token.kind = TOKEN_AND;
-        return token;
-    }
-    if (keyword_matches(parser, or_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(or_keyword) - 1; index++) {
-            advance_char(parser);
-        }
-        token.kind = TOKEN_OR;
-        return token;
-    }
-    if (keyword_matches(parser, not_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(not_keyword) - 1; index++) {
-            advance_char(parser);
-        }
-        token.kind = TOKEN_NOT;
-        return token;
-    }
-    if (keyword_matches(parser, else_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(else_keyword) - 1; index++) {
-            advance_char(parser);
-        }
-        token.kind = TOKEN_ELSE;
-        return token;
-    }
-    if (keyword_matches(parser, null_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(null_keyword) - 1; index++) {
-            advance_char(parser);
-        }
-        token.kind = TOKEN_NULL;
-        return token;
-    }
-    if (keyword_matches(parser, error_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(error_keyword) - 1; index++) {
-            advance_char(parser);
-        }
-        token.kind = TOKEN_ERROR;
-        return token;
-    }
-    if (keyword_matches(parser, warning_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(warning_keyword) - 1; index++) {
-            advance_char(parser);
-        }
-        token.kind = TOKEN_WARNING;
-        return token;
-    }
-    if (keyword_matches(parser, function_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(function_keyword) - 1; index++) {
-            advance_char(parser);
-        }
-        token.kind = TOKEN_FUNCTION;
-        return token;
-    }
-    if (keyword_matches(parser, return_keyword)) {
-        size_t index;
-        for (index = 0; index < sizeof(return_keyword) - 1; index++) {
-            advance_char(parser);
-        }
-        token.kind = TOKEN_RETURN;
+        token.kind = keywords[keyword_index].kind;
         return token;
     }
     if (is_identifier_start(character)) {
@@ -801,6 +713,14 @@ static int token_matches(Parser *parser, Token token, const char *text)
            memcmp(parser->source + token.string_offset, text, length) == 0;
 }
 
+static int is_builtin_function_name(Parser *parser, Token name)
+{
+    return token_matches(parser, name, "વાંચો") ||
+           token_matches(parser, name, "vancho") ||
+           token_matches(parser, name, "લંબાઈ") ||
+           token_matches(parser, name, "lambai");
+}
+
 static int store_input_string(Parser *parser, Token name, char *input)
 {
     StringStorage *storage = parser->string_storage;
@@ -936,6 +856,19 @@ static int string_values_equal(Parser *parser, Value left, Value right)
         }
     }
     return 1;
+}
+
+static size_t string_codepoint_length(Parser *parser, Value value)
+{
+    size_t index = 0;
+    size_t count = 0;
+    while (index < value.string_length) {
+        int character = next_string_byte(parser, value, &index);
+        if (((unsigned char)character & 0xC0) != 0x80) {
+            count++;
+        }
+    }
+    return count;
 }
 
 static int concatenate_strings(Parser *parser, Token operation,
@@ -1148,7 +1081,8 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
     if (!parser->failed) {
         advance_token(parser);
         if (execute) {
-            if (token_matches(parser, name, "વાંચો")) {
+            if (token_matches(parser, name, "વાંચો") ||
+                token_matches(parser, name, "vancho")) {
                 if (argument_count != 1) {
                     report_error(parser, name.line, name.column,
                                  MESSAGE_WRONG_ARGUMENT_COUNT);
@@ -1157,6 +1091,18 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                                  MESSAGE_EXPECTED_INPUT_PROMPT);
                 } else {
                     read_input_line(parser, name, arguments[0], &result);
+                }
+            } else if (token_matches(parser, name, "લંબાઈ") ||
+                       token_matches(parser, name, "lambai")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_LENGTH_STRING);
+                } else {
+                    result = number_value((double)string_codepoint_length(
+                        parser, arguments[0]));
                 }
             } else {
                 Function *function = find_function(parser, name);
@@ -1788,7 +1734,7 @@ static int parse_function_declaration(Parser *parser, int execute)
         return 0;
     }
     name = parser->current;
-    if (token_matches(parser, name, "વાંચો")) {
+    if (is_builtin_function_name(parser, name)) {
         report_error(parser, name.line, name.column,
                      MESSAGE_RESERVED_FUNCTION_NAME);
         return 0;

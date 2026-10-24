@@ -35,6 +35,12 @@ if(BUILD_TESTING)
             string_equality_input
             string_equality_type_error
             string_ordering_type_error
+            string_length_ascii
+            string_length_gujarati
+            string_length_escapes
+            string_length_wrong_argument_count
+            string_length_type_error
+            reserved_string_length
             variables
             variable_in_skipped_branch
             variable_skipped_not_created
@@ -63,12 +69,19 @@ if(BUILD_TESTING)
             repl_error_recovery
             repl_runtime_error_recovery
             repl_input
+            repl_string_length
             warnings_english
             warnings_gujarati
             errors
             fatal_errors
             invalid_condition
-            invalid_language)
+            invalid_language
+            romanized_keywords
+            romanized_keyword_identifier_boundary
+            romanized_builtins
+            reserved_romanized_builtin
+            romanized_error
+            romanized_fatal_error)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

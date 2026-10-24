@@ -1,0 +1,12 @@
+aavo
+karya double(value) { parat value * 2; }
+count = 0;
+jya_sudhi (count < 2 ane nahi 0) {
+    count = count + 1;
+}
+jo (count == 2 athva 0) {
+    chhapo double(count);
+} nahitar {
+    chhapo nakamo;
+}
+aavjo
