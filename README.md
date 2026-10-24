@@ -12,6 +12,9 @@ The initial interpreter supports:
 - UTF-8 source files and the Gujarati `છાપો` (print) keyword
 - Numeric literals, parentheses, unary minus, and `+`, `-`, `*`, `/`
 - Numeric comparisons: `==`, `!=`, `<`, `<=`, `>`, and `>=`
+- Variables declared with `રાખો` and reassigned with `=`
+- Gujarati or English-letter variable names, with digits and underscores
+  allowed after the first character
 - `જો`, `અથવા જો`, and `અથવા` conditional blocks with braces
 - The `નકામો` null value; conditions accept numbers (`0` is false, nonzero is
   true) and null (false); strings are not valid conditions. Comparison results
@@ -29,10 +32,13 @@ Example (`examples/hello.gj`):
 
 ```text
 આવો
+રાખો ગણતરી = 3;
+ગણતરી = ગણતરી + 2;
+છાપો ગણતરી;
 છાપો 1 + 2 * (3 + 4);
 છાપો -8 / 2;
 છાપો 5 >= 5;
-જો (5 > 3) {
+જો (ગણતરી > 3) {
     છાપો "શરત સાચી છે";
 } અથવા જો (2 == 3) {
     છાપો "આ શાખા ચાલશે નહીં";
@@ -56,6 +62,11 @@ English explicitly. Messages supplied by the program remain exactly as written.
 
 Diagnostic messages and printed strings support `\"`, `\\`, `\n`, `\r`, and
 `\t` escapes.
+
+Variables can contain numbers, strings, or `નકામો`. Declare a name once with
+`રાખો`; later assignments update it. Assigning to an undeclared name or
+declaring the same name twice is an error. Variables declared in a conditional
+block remain available for the rest of the program.
 
 ## Build and run
 

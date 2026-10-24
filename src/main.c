@@ -19,12 +19,15 @@ typedef enum {
     TOKEN_ERROR,
     TOKEN_FATAL_ERROR,
     TOKEN_WARNING,
+    TOKEN_DECLARE_VARIABLE,
+    TOKEN_IDENTIFIER,
     TOKEN_NUMBER,
     TOKEN_STRING,
     TOKEN_PLUS,
     TOKEN_MINUS,
     TOKEN_STAR,
     TOKEN_SLASH,
+    TOKEN_EQUAL,
     TOKEN_EQUAL_EQUAL,
     TOKEN_BANG_EQUAL,
     TOKEN_LESS,
@@ -81,6 +84,11 @@ typedef enum {
     MESSAGE_EXPECTED_EXPRESSION_SEMICOLON,
     MESSAGE_WRITE_OUTPUT,
     MESSAGE_COMPARISON_NUMBERS_REQUIRED,
+    MESSAGE_EXPECTED_VARIABLE_NAME,
+    MESSAGE_EXPECTED_ASSIGNMENT,
+    MESSAGE_VARIABLE_ALREADY_DECLARED,
+    MESSAGE_UNDEFINED_VARIABLE,
+    MESSAGE_OUT_OF_MEMORY_FOR_VARIABLE,
     MESSAGE_EXPECTED_PROGRAM_START,
     MESSAGE_EXPECTED_PROGRAM_END,
     MESSAGE_EXPECTED_END_OF_FILE,
@@ -100,12 +108,21 @@ typedef struct {
 } Value;
 
 typedef struct {
+    size_t name_offset;
+    size_t name_length;
+    Value value;
+} Variable;
+
+typedef struct {
     const char *source;
     size_t offset;
     size_t line;
     size_t column;
     const char *filename;
     Language language;
+    Variable *variables;
+    size_t variable_count;
+    size_t variable_capacity;
     Token current;
     int failed;
 } Parser;
@@ -130,10 +147,15 @@ static const char *localized_message(Language language, MessageId message)
         "expected a quoted message",
         "expected ';' after diagnostic",
         "could not write diagnostic",
-        "expected 'છાપો', 'જો', or a diagnostic statement",
+        "expected 'રાખો', a variable assignment, 'છાપો', 'જો', or a diagnostic statement",
         "expected ';' after expression",
         "could not write output",
         "comparisons require numbers",
+        "expected a variable name after 'રાખો'",
+        "expected '=' after variable name",
+        "variable is already declared",
+        "undefined variable",
+        "out of memory while storing variable",
         "expected 'આવો' at the start of the program",
         "expected 'આવજો' at the end of the program",
         "expected end of file after 'આવજો'",
@@ -162,10 +184,15 @@ static const char *localized_message(Language language, MessageId message)
         "અવતરણ ચિહ્નોમાં સંદેશ અપેક્ષિત છે",
         "ડાયગ્નોસ્ટિક પછી ';' અપેક્ષિત છે",
         "ડાયગ્નોસ્ટિક લખી શકાયું નહીં",
-        "'છાપો', 'જો', અથવા ડાયગ્નોસ્ટિક સ્ટેટમેન્ટ અપેક્ષિત છે",
+        "'રાખો', ચલ સોંપણી, 'છાપો', 'જો', અથવા ડાયગ્નોસ્ટિક સ્ટેટમેન્ટ અપેક્ષિત છે",
         "અભિવ્યક્તિ પછી ';' અપેક્ષિત છે",
         "આઉટપુટ લખી શકાયું નહીં",
         "તુલના માટે સંખ્યાઓ જરૂરી છે",
+        "'રાખો' પછી ચલનું નામ અપેક્ષિત છે",
+        "ચલના નામ પછી '=' અપેક્ષિત છે",
+        "ચલ પહેલેથી જાહેર કરેલું છે",
+        "અવ્યાખ્યાયિત ચલ",
+        "ચલ સંગ્રહવા માટે પૂરતી મેમરી મળી નહીં",
         "પ્રોગ્રામની શરૂઆતમાં 'આવો' અપેક્ષિત છે",
         "પ્રોગ્રામના અંતે 'આવજો' અપેક્ષિત છે",
         "'આવજો' પછી ફાઇલનો અંત અપેક્ષિત છે",
@@ -232,6 +259,28 @@ static char advance_char(Parser *parser)
     return character;
 }
 
+static int is_identifier_start(char character)
+{
+    unsigned char byte = (unsigned char)character;
+    return (byte >= 'a' && byte <= 'z') ||
+           (byte >= 'A' && byte <= 'Z') ||
+           byte == '_' || byte >= 0x80;
+}
+
+static int is_identifier_continue(char character)
+{
+    unsigned char byte = (unsigned char)character;
+    return is_identifier_start(character) ||
+           (byte >= '0' && byte <= '9');
+}
+
+static int keyword_matches(const Parser *parser, const char *keyword)
+{
+    size_t length = strlen(keyword);
+    return strncmp(parser->source + parser->offset, keyword, length) == 0 &&
+           !is_identifier_continue(parser->source[parser->offset + length]);
+}
+
 static void skip_whitespace_and_comments(Parser *parser)
 {
     for (;;) {
@@ -273,6 +322,7 @@ static Token scan_token(Parser *parser)
     static const char fatal_error_keyword[] = "ઘાતક ભૂલ";
     static const char error_keyword[] = "ભૂલ";
     static const char warning_keyword[] = "ચેતવણી";
+    static const char declare_variable_keyword[] = "રાખો";
     Token token;
     size_t start;
     char character;
@@ -284,8 +334,7 @@ static Token scan_token(Parser *parser)
         return token;
     }
 
-    if (strncmp(parser->source + parser->offset, else_if_keyword,
-                sizeof(else_if_keyword) - 1) == 0) {
+    if (keyword_matches(parser, else_if_keyword)) {
         size_t index;
         for (index = 0; index < sizeof(else_if_keyword) - 1; index++) {
             advance_char(parser);
@@ -293,8 +342,7 @@ static Token scan_token(Parser *parser)
         token.kind = TOKEN_ELSE_IF;
         return token;
     }
-    if (strncmp(parser->source + parser->offset, fatal_error_keyword,
-                sizeof(fatal_error_keyword) - 1) == 0) {
+    if (keyword_matches(parser, fatal_error_keyword)) {
         size_t index;
         for (index = 0; index < sizeof(fatal_error_keyword) - 1; index++) {
             advance_char(parser);
@@ -302,8 +350,7 @@ static Token scan_token(Parser *parser)
         token.kind = TOKEN_FATAL_ERROR;
         return token;
     }
-    if (strncmp(parser->source + parser->offset, start_keyword,
-                sizeof(start_keyword) - 1) == 0) {
+    if (keyword_matches(parser, start_keyword)) {
         size_t index;
         for (index = 0; index < sizeof(start_keyword) - 1; index++) {
             advance_char(parser);
@@ -311,8 +358,7 @@ static Token scan_token(Parser *parser)
         token.kind = TOKEN_START;
         return token;
     }
-    if (strncmp(parser->source + parser->offset, end_keyword,
-                sizeof(end_keyword) - 1) == 0) {
+    if (keyword_matches(parser, end_keyword)) {
         size_t index;
         for (index = 0; index < sizeof(end_keyword) - 1; index++) {
             advance_char(parser);
@@ -320,8 +366,7 @@ static Token scan_token(Parser *parser)
         token.kind = TOKEN_END;
         return token;
     }
-    if (strncmp(parser->source + parser->offset, print_keyword,
-                sizeof(print_keyword) - 1) == 0) {
+    if (keyword_matches(parser, print_keyword)) {
         size_t index;
         for (index = 0; index < sizeof(print_keyword) - 1; index++) {
             advance_char(parser);
@@ -329,8 +374,7 @@ static Token scan_token(Parser *parser)
         token.kind = TOKEN_PRINT;
         return token;
     }
-    if (strncmp(parser->source + parser->offset, if_keyword,
-                sizeof(if_keyword) - 1) == 0) {
+    if (keyword_matches(parser, if_keyword)) {
         size_t index;
         for (index = 0; index < sizeof(if_keyword) - 1; index++) {
             advance_char(parser);
@@ -338,8 +382,7 @@ static Token scan_token(Parser *parser)
         token.kind = TOKEN_IF;
         return token;
     }
-    if (strncmp(parser->source + parser->offset, else_keyword,
-                sizeof(else_keyword) - 1) == 0) {
+    if (keyword_matches(parser, else_keyword)) {
         size_t index;
         for (index = 0; index < sizeof(else_keyword) - 1; index++) {
             advance_char(parser);
@@ -347,8 +390,7 @@ static Token scan_token(Parser *parser)
         token.kind = TOKEN_ELSE;
         return token;
     }
-    if (strncmp(parser->source + parser->offset, null_keyword,
-                sizeof(null_keyword) - 1) == 0) {
+    if (keyword_matches(parser, null_keyword)) {
         size_t index;
         for (index = 0; index < sizeof(null_keyword) - 1; index++) {
             advance_char(parser);
@@ -356,8 +398,7 @@ static Token scan_token(Parser *parser)
         token.kind = TOKEN_NULL;
         return token;
     }
-    if (strncmp(parser->source + parser->offset, error_keyword,
-                sizeof(error_keyword) - 1) == 0) {
+    if (keyword_matches(parser, error_keyword)) {
         size_t index;
         for (index = 0; index < sizeof(error_keyword) - 1; index++) {
             advance_char(parser);
@@ -365,13 +406,30 @@ static Token scan_token(Parser *parser)
         token.kind = TOKEN_ERROR;
         return token;
     }
-    if (strncmp(parser->source + parser->offset, warning_keyword,
-                sizeof(warning_keyword) - 1) == 0) {
+    if (keyword_matches(parser, warning_keyword)) {
         size_t index;
         for (index = 0; index < sizeof(warning_keyword) - 1; index++) {
             advance_char(parser);
         }
         token.kind = TOKEN_WARNING;
+        return token;
+    }
+    if (keyword_matches(parser, declare_variable_keyword)) {
+        size_t index;
+        for (index = 0; index < sizeof(declare_variable_keyword) - 1; index++) {
+            advance_char(parser);
+        }
+        token.kind = TOKEN_DECLARE_VARIABLE;
+        return token;
+    }
+    if (is_identifier_start(character)) {
+        size_t identifier_start = parser->offset;
+        while (is_identifier_continue(peek(parser))) {
+            advance_char(parser);
+        }
+        token.kind = TOKEN_IDENTIFIER;
+        token.string_offset = identifier_start;
+        token.string_length = parser->offset - identifier_start;
         return token;
     }
     if (character == '"') {
@@ -439,9 +497,7 @@ static Token scan_token(Parser *parser)
             advance_char(parser);
             token.kind = TOKEN_EQUAL_EQUAL;
         } else {
-            report_error(parser, token.line, token.column,
-                         MESSAGE_UNEXPECTED_CHARACTER);
-            token.kind = TOKEN_INVALID;
+            token.kind = TOKEN_EQUAL;
         }
         break;
     case '!':
@@ -501,6 +557,73 @@ static Value number_value(double number)
     return value;
 }
 
+static Variable *find_variable(Parser *parser, Token name)
+{
+    size_t index;
+    for (index = 0; index < parser->variable_count; index++) {
+        Variable *variable = &parser->variables[index];
+        if (variable->name_length == name.string_length &&
+            memcmp(parser->source + variable->name_offset,
+                   parser->source + name.string_offset,
+                   name.string_length) == 0) {
+            return variable;
+        }
+    }
+    return NULL;
+}
+
+static int declare_variable(Parser *parser, Token name, Value value)
+{
+    Variable *variables;
+    size_t capacity;
+
+    if (find_variable(parser, name) != NULL) {
+        report_error(parser, name.line, name.column,
+                     MESSAGE_VARIABLE_ALREADY_DECLARED);
+        return 0;
+    }
+    if (parser->variable_count == parser->variable_capacity) {
+        if (parser->variable_capacity == 0) {
+            capacity = 8;
+        } else {
+            if (parser->variable_capacity >
+                (size_t)-1 / 2 / sizeof(*parser->variables)) {
+                report_error(parser, name.line, name.column,
+                             MESSAGE_OUT_OF_MEMORY_FOR_VARIABLE);
+                return 0;
+            }
+            capacity = parser->variable_capacity * 2;
+        }
+        variables = (Variable *)realloc(parser->variables,
+                                        capacity * sizeof(*variables));
+        if (variables == NULL) {
+            report_error(parser, name.line, name.column,
+                         MESSAGE_OUT_OF_MEMORY_FOR_VARIABLE);
+            return 0;
+        }
+        parser->variables = variables;
+        parser->variable_capacity = capacity;
+    }
+
+    parser->variables[parser->variable_count].name_offset = name.string_offset;
+    parser->variables[parser->variable_count].name_length = name.string_length;
+    parser->variables[parser->variable_count].value = value;
+    parser->variable_count++;
+    return 1;
+}
+
+static int assign_variable(Parser *parser, Token name, Value value)
+{
+    Variable *variable = find_variable(parser, name);
+    if (variable == NULL) {
+        report_error(parser, name.line, name.column,
+                     MESSAGE_UNDEFINED_VARIABLE);
+        return 0;
+    }
+    variable->value = value;
+    return 1;
+}
+
 static Value parse_expression(Parser *parser, int execute);
 static Value parse_additive(Parser *parser, int execute);
 
@@ -527,6 +650,18 @@ static Value parse_primary(Parser *parser, int execute)
         value.string_length = token.string_length;
         advance_token(parser);
         return value;
+    }
+    if (token.kind == TOKEN_IDENTIFIER) {
+        Variable *variable = find_variable(parser, token);
+        advance_token(parser);
+        if (variable == NULL) {
+            if (execute) {
+                report_error(parser, token.line, token.column,
+                             MESSAGE_UNDEFINED_VARIABLE);
+            }
+            return number_value(0.0);
+        }
+        return variable->value;
     }
     if (token.kind == TOKEN_LEFT_PAREN) {
         advance_token(parser);
@@ -848,6 +983,52 @@ static int parse_diagnostic(Parser *parser, Token keyword, int execute)
     return 1;
 }
 
+static int parse_variable_statement(Parser *parser, Token statement,
+                                   int execute, int declaration)
+{
+    Token name;
+    Value value;
+
+    if (declaration) {
+        advance_token(parser);
+        if (parser->current.kind != TOKEN_IDENTIFIER) {
+            report_error(parser, parser->current.line, parser->current.column,
+                         MESSAGE_EXPECTED_VARIABLE_NAME);
+            return 0;
+        }
+        name = parser->current;
+    } else {
+        name = statement;
+    }
+    advance_token(parser);
+    if (parser->current.kind != TOKEN_EQUAL) {
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_ASSIGNMENT);
+        return 0;
+    }
+    advance_token(parser);
+    value = parse_expression(parser, execute);
+    if (parser->failed) {
+        return 0;
+    }
+    if (parser->current.kind != TOKEN_SEMICOLON) {
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_EXPRESSION_SEMICOLON);
+        return 0;
+    }
+    if (execute) {
+        if (declaration) {
+            if (!declare_variable(parser, name, value)) {
+                return 0;
+            }
+        } else if (!assign_variable(parser, name, value)) {
+            return 0;
+        }
+    }
+    advance_token(parser);
+    return !parser->failed;
+}
+
 static int parse_statement(Parser *parser, int execute)
 {
     Token statement = parser->current;
@@ -861,6 +1042,12 @@ static int parse_statement(Parser *parser, int execute)
         statement.kind == TOKEN_FATAL_ERROR ||
         statement.kind == TOKEN_WARNING) {
         return parse_diagnostic(parser, statement, execute);
+    }
+    if (statement.kind == TOKEN_DECLARE_VARIABLE) {
+        return parse_variable_statement(parser, statement, execute, 1);
+    }
+    if (statement.kind == TOKEN_IDENTIFIER) {
+        return parse_variable_statement(parser, statement, execute, 0);
     }
     if (statement.kind != TOKEN_PRINT) {
         report_error(parser, statement.line, statement.column,
@@ -896,6 +1083,9 @@ static int interpret(const char *source, const char *filename, Language language
     parser.column = 1;
     parser.filename = filename;
     parser.language = language;
+    parser.variables = NULL;
+    parser.variable_count = 0;
+    parser.variable_capacity = 0;
     parser.failed = 0;
     parser.current = make_token(TOKEN_EOF, 1, 1);
     advance_token(&parser);
@@ -924,6 +1114,7 @@ static int interpret(const char *source, const char *filename, Language language
                          MESSAGE_EXPECTED_END_OF_FILE);
         }
     }
+    free(parser.variables);
     return parser.failed ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 

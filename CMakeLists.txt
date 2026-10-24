@@ -13,7 +13,21 @@ else()
 endif()
 
 if(BUILD_TESTING)
-    foreach(test_case IN ITEMS arithmetic_and_comparisons conditionals strings_and_null warnings_english warnings_gujarati errors fatal_errors invalid_condition invalid_language)
+    foreach(test_case IN ITEMS
+            arithmetic_and_comparisons
+            conditionals
+            strings_and_null
+            variables
+            variable_in_skipped_branch
+            duplicate_variable
+            undefined_variable
+            undefined_variable_gujarati
+            warnings_english
+            warnings_gujarati
+            errors
+            fatal_errors
+            invalid_condition
+            invalid_language)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

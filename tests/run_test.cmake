@@ -32,6 +32,62 @@ elseif(TEST_CASE STREQUAL "strings_and_null")
     set(expected_stdout "નકામો\nline\nnext\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "variables")
+    set(source [=[આવો
+રાખો ગણતરી = 3;
+ગણતરી = ગણતરી + 2;
+રાખો count = ગણતરી * 2;
+રાખો item_2 = count + 1;
+રાખો છાપોવસ્તુ = item_2 + 1;
+છાપો ગણતરી;
+છાપો count;
+છાપો છાપોવસ્તુ;
+રાખો સંદેશ = "Gujarati \nstring";
+છાપો સંદેશ;
+રાખો નકામું = નકામો;
+છાપો નકામું;
+જો (ગણતરી == 5) { છાપો "variable condition"; }
+આવજો
+]=])
+    set(expected_stdout "5\n10\n12\nGujarati \nstring\nનકામો\nvariable condition\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "variable_in_skipped_branch")
+    set(source [=[આવો
+જો (0) { રાખો ખોટું = 1; }
+રાખો સાચું = 2;
+છાપો સાચું;
+આવજો
+]=])
+    set(expected_stdout "2\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "duplicate_variable")
+    set(source [=[આવો
+રાખો કિંમત = 1;
+રાખો કિંમત = 2;
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "variable is already declared")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "undefined_variable")
+    set(source [=[આવો
+અજ્ઞાત = 1;
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "undefined variable")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "undefined_variable_gujarati")
+    set(source [=[આવો
+છાપો અજ્ઞાત;
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "અવ્યાખ્યાયિત ચલ")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
 elseif(TEST_CASE STREQUAL "warnings_english")
     set(source [=[આવો
 ચેતવણી "user warning";
