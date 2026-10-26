@@ -3,7 +3,7 @@
 Syntax highlighting for GujaratiLang source files in Visual Studio Code.
 Highlights Gujarati and romanized keywords, comments, strings, numbers,
 operators, and function calls in `.gj` files. Includes starter snippets for
-Gujarati and romanized source.
+Gujarati and romanized source, plus brace-aware indentation and folding.
 
 ## Install from the Visual Studio Marketplace
 

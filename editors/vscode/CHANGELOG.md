@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Add brace-aware indentation and folding for code blocks.
+
 ## 0.1.2
 
 - Add Gujarati and romanized starter snippets for programs, functions,

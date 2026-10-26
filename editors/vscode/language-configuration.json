@@ -18,5 +18,15 @@
     ["[", "]"],
     ["(", ")"],
     ["\"", "\""]
-  ]
+  ],
+  "indentationRules": {
+    "increaseIndentPattern": "^.*\\{\\s*(?://.*)?$",
+    "decreaseIndentPattern": "^\\s*\\}"
+  },
+  "folding": {
+    "markers": {
+      "start": "^\\s*.*\\{\\s*(?://.*)?$",
+      "end": "^\\s*\\}"
+    }
+  }
 }
