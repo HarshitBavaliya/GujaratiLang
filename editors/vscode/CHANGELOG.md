@@ -1,0 +1,8 @@
+# Changelog
+
+## 0.1.0
+
+- Add GujaratiLang language support for `.gj` files.
+- Highlight Gujarati and romanized keywords, built-ins, comments, strings,
+  numbers, operators, punctuation, and function calls.
+- Configure comments, bracket matching, and automatic quote pairing.

@@ -5,8 +5,8 @@ the general approach used by languages such as PHP: programs are parsed and run
 by an interpreter rather than translated into C source.
 
 New to GujaratiLang? Start with the [beginner tutorial](docs/tutorial.md). If
-you use Visual Studio Code, install the local syntax-highlighting extension
-from [`editors/vscode`](editors/vscode/README.md).
+you use Visual Studio Code, install the
+[GujaratiLang syntax-highlighting extension](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati).
 
 ## Current features
 

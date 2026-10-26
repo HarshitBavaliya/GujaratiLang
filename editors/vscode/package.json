@@ -7,6 +7,22 @@
   "engines": {
     "vscode": "^1.75.0"
   },
+  "license": "MIT",
+  "homepage": "https://github.com/HarshitBavaliya/GujaratiLang/tree/main/editors/vscode",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HarshitBavaliya/GujaratiLang.git",
+    "directory": "editors/vscode"
+  },
+  "bugs": {
+    "url": "https://github.com/HarshitBavaliya/GujaratiLang/issues"
+  },
+  "keywords": [
+    "gujarati",
+    "gujaratilang",
+    "syntax-highlighting",
+    "textmate"
+  ],
   "categories": [
     "Programming Languages"
   ],
