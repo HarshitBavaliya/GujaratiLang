@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+
+- Add the GujaratiLang website favicon as the extension icon.
+
 ## 0.1.0
 
 - Add GujaratiLang language support for `.gj` files.

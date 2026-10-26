@@ -12,13 +12,12 @@ Open any `.gj` file; VS Code will select GujaratiLang as its language mode.
 
 ## Install a local build
 
-To try the extension before it is available in the Marketplace, package it
-from this directory with `npx @vscode/vsce package --no-dependencies`, then
-open the generated `.vsix` file with VS Code or install it from the command
-line:
+To try the extension locally, package it from this directory with
+`npx @vscode/vsce package --no-dependencies`, then open the generated `.vsix`
+file with VS Code or install it from the command line:
 
 ```powershell
-code --install-extension .\gujarati-0.1.0.vsix
+code --install-extension .\gujarati-0.1.1.vsix
 ```
 
 To develop the extension, open this folder in VS Code and press F5 to launch
