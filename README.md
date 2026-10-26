@@ -163,7 +163,8 @@ relative to the importing file. Imported code executes once and shares the
 same global variables and functions; circular imports are reported as errors.
 See [`examples/modules.gj`](examples/modules.gj),
 [`examples/collections.gj`](examples/collections.gj), and the
-[`examples/inventory.gj`](examples/inventory.gj) sample combining modules,
+[`examples/inventory.gj`](examples/inventory.gj) and
+[`examples/stock.gj`](examples/stock.gj) samples combining modules,
 functions, lists, and input.
 
 Example (`examples/hello.gj`):
@@ -388,7 +389,7 @@ GitHub Actions builds and runs the tests on Windows, Ubuntu, and both Intel and
 Apple Silicon macOS runners for pushes and pull requests. Tagged releases
 publish prebuilt packages for all four supported platform targets.
 The regression suite also runs the shipped Fibonacci, temperature-converter,
-and inventory examples and checks their output.
+inventory, and stock examples and checks their output.
 
 ## Project website
 

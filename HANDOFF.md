@@ -58,7 +58,7 @@ Recent completed work includes:
 - `tests/examples/inventory.stdin` and `tests/examples/inventory.stdout`: automated
   test assertions for the inventory example.
 - `README.md` & `docs/tutorial.md`: cross-referenced `inventory.gj` example.
-- The test suite has 91 passing cases (100% pass rate), including negative and boundary tests for module imports and list indexing.
+- The test suite has 92 passing cases (100% pass rate), including negative and boundary tests and 4 shipped examples.
 
 ## Build and test
 
@@ -73,8 +73,8 @@ ctest --test-dir build --build-config Release --output-on-failure
 ```
 
 On Linux/macOS, run the built interpreter as `./build/gujarati
-./examples/hello.gj`. The test suite has 86 passing cases after the
-inventory example test was added.
+./examples/hello.gj. The test suite has 92 passing cases after all
+examples and boundary tests were added.
 
 ## Suggested next work
 

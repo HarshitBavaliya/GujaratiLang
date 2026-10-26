@@ -9,6 +9,7 @@ execute_process(
     RESULT_VARIABLE result
     OUTPUT_VARIABLE actual_output
     ERROR_VARIABLE actual_error
+    ENCODING UTF-8
 )
 
 if(NOT result EQUAL 0)
