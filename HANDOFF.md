@@ -58,7 +58,7 @@ Recent completed work includes:
 - `tests/examples/inventory.stdin` and `tests/examples/inventory.stdout`: automated
   test assertions for the inventory example.
 - `README.md` & `docs/tutorial.md`: cross-referenced `inventory.gj` example.
-- The test suite has 86 passing cases (100% pass rate).
+- The test suite has 91 passing cases (100% pass rate), including negative and boundary tests for module imports and list indexing.
 
 ## Build and test
 

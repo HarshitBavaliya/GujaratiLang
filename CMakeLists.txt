@@ -95,6 +95,11 @@ if(BUILD_TESTING)
             nested_relative_module_import
             circular_module_import
             missing_module_import
+            import_expected_path
+            import_empty_path
+            import_missing_semicolon
+            empty_list_index_error
+            empty_list_assignment_error
             source_context_undefined_variable
             repl_source_reallocation
             nested_list_index_assignment

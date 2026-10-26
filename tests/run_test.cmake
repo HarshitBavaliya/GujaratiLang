@@ -786,6 +786,48 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "could not open file")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "import_expected_path")
+    set(source [=[aavo
+import 123;
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a quoted module path after 'import'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "import_empty_path")
+    set(source [=[aavo
+import "";
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a quoted module path after 'import'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "import_missing_semicolon")
+    set(source [=[aavo
+import "helpers.gj"
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected ';' after module import")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "empty_list_index_error")
+    set(source [=[aavo
+items = [];
+chhapo items[0];
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "list index is out of range")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "empty_list_assignment_error")
+    set(source [=[aavo
+items = [];
+items[0] = 1;
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "list index is out of range")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "source_context_undefined_variable")
     set(source [=[aavo
 chhapo missing;
