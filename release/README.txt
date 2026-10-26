@@ -3,6 +3,7 @@ GujaratiLang portable releases
 
 This package includes the GujaratiLang interpreter and sample programs. No
 compiler, CMake, or Git installation is needed to run it.
+The LICENSE file contains the project's MIT license.
 
 Run the included sample
 -----------------------
@@ -63,6 +64,9 @@ https://github.com/HarshitBavaliya/GujaratiLang
 
 For your security, download releases only from the official project page:
 https://github.com/HarshitBavaliya/GujaratiLang/releases
+
+Start with the beginner tutorial:
+https://github.com/HarshitBavaliya/GujaratiLang/blob/main/docs/tutorial.md
 
 The release includes checksums.txt with SHA-256 checksums for all platform
 packages.

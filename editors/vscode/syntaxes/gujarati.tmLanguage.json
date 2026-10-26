@@ -1,0 +1,105 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "GujaratiLang",
+  "scopeName": "source.gujarati",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#builtins"
+    },
+    {
+      "include": "#function-calls"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#punctuation"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.gujarati",
+          "begin": "//",
+          "end": "$"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.gujarati",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.gujarati",
+          "match": "\\\\(?:[\"\\\\nrt])"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.gujarati",
+          "match": "(?<![\\p{L}\\p{M}\\p{N}_])(?:નહિતર જો|ઘાતક ભૂલ|નહિતર|જ્યાં સુધી|છાપો|આવો|આવજો|નહીં|નકામો|ભૂલ|પરત|જો|અને|અથવા|ચેતવણી|કાર્ય|દરેક|માં|આયાત|nahitar_jo|ghatak_bhul|jya_sudhi|chetavani|chhapo|aavjo|nahitar|athva|nakamo|kary|parat|aavo|ane|nahi|bhul|jo|darek|ma|aayat|import)(?![\\p{L}\\p{M}\\p{N}_])"
+        }
+      ]
+    },
+    "builtins": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.gujarati",
+          "match": "(?<![\\p{L}\\p{M}\\p{N}_])(?:લંબાઈ|વાંચો|lambai|vancho)(?![\\p{L}\\p{M}\\p{N}_])(?=\\s*\\()"
+        }
+      ]
+    },
+    "function-calls": {
+      "patterns": [
+        {
+          "name": "entity.name.function.gujarati",
+          "match": "(?<![\\p{L}\\p{M}\\p{N}_])[_\\p{L}][_\\p{L}\\p{M}\\p{N}]*(?=\\s*\\()"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.gujarati",
+          "match": "(?<![\\p{L}\\p{M}\\p{N}_])(?:[0-9]+(?:\\.(?!\\.)[0-9]*)?|\\.[0-9]+)(?:[eE][+-]?[0-9]+)?(?![\\p{L}\\p{M}\\p{N}_])"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.gujarati",
+          "match": "==|!=|<=|>=|[+*/<>=-]"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.separator.gujarati",
+          "match": "[;,]"
+        },
+        {
+          "name": "punctuation.section.gujarati",
+          "match": "[{}()\\[\\].]"
+        }
+      ]
+    }
+  }
+}

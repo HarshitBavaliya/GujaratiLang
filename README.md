@@ -4,6 +4,10 @@ GujaratiLang is a small programming language runtime implemented in C, following
 the general approach used by languages such as PHP: programs are parsed and run
 by an interpreter rather than translated into C source.
 
+New to GujaratiLang? Start with the [beginner tutorial](docs/tutorial.md). If
+you use Visual Studio Code, install the local syntax-highlighting extension
+from [`editors/vscode`](editors/vscode/README.md).
+
 ## Current features
 
 The initial interpreter supports:
@@ -381,6 +385,8 @@ ctest --test-dir build --output-on-failure
 GitHub Actions builds and runs the tests on Windows, Ubuntu, and both Intel and
 Apple Silicon macOS runners for pushes and pull requests. Tagged releases
 publish prebuilt packages for all four supported platform targets.
+The regression suite also runs the shipped Fibonacci and temperature-converter
+examples and checks their output.
 
 ## Project website
 
@@ -390,15 +396,11 @@ using FTPS or SFTP; avoid unencrypted FTP when transferring hosting credentials.
 The VS Code FTPS profile in `.vscode/sftp.json` is local-only and excluded from
 Git. It leaves the password unset so the SFTP extension can prompt for it.
 
-## Roadmap
+## Project status
 
-1. **Core language:** expressions, values, variables, conditionals, loops, and
-   functions.
-2. **Runtime:** useful standard-library operations.
-3. **Language quality:** error recovery, documentation, and packaging.
-
-The early syntax and keyword vocabulary are intentionally small; we can refine
-them as the language takes shape.
+GujaratiLang includes a C interpreter, regression tests, a beginner tutorial,
+sample programs, and portable releases for Windows, Linux, and macOS. Future
+work will be guided by user feedback and the project's issue tracker.
 
 ## Contributing
 

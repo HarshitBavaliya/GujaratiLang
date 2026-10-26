@@ -53,6 +53,7 @@ jobs:
           Copy-Item examples\*.gj package\examples\
           Copy-Item release\README.txt package\README.txt
           Copy-Item release\install.ps1 package\install.ps1
+          Copy-Item LICENSE package\LICENSE
           Compress-Archive -Path package\* -DestinationPath dist\gujaratilang-${{ matrix.platform }}.zip -Force
 
       - name: Stage Unix package
@@ -63,6 +64,7 @@ jobs:
           cp build/gujarati package/gujarati
           cp examples/*.gj package/examples/
           cp release/README.txt package/README.txt
+          cp LICENSE package/LICENSE
           tar -czf "dist/gujaratilang-${{ matrix.platform }}.tar.gz" -C package .
 
       - name: Verify Windows package
@@ -72,6 +74,9 @@ jobs:
           Expand-Archive dist\gujaratilang-windows-x64.zip -DestinationPath package-test
           if (-not (Test-Path package-test\install.ps1)) {
             throw "The Windows package is missing install.ps1."
+          }
+          if (-not (Test-Path package-test\LICENSE)) {
+            throw "The Windows package is missing LICENSE."
           }
           $process = Start-Process -FilePath package-test\gujarati.exe `
             -ArgumentList package-test\examples\hello.gj `
@@ -89,6 +94,7 @@ jobs:
         run: |
           mkdir package-test
           tar -xzf "dist/gujaratilang-${{ matrix.platform }}.tar.gz" -C package-test
+          test -f package-test/LICENSE
           chmod +x package-test/gujarati
           ./package-test/gujarati ./package-test/examples/hello.gj
 

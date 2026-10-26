@@ -1,0 +1,8 @@
+aavo
+// Print the first ten Fibonacci numbers.
+pair = [0, 1];
+darek (index ma 0..10) {
+    chhapo pair[0];
+    pair = [pair[1], pair[0] + pair[1]];
+}
+aavjo

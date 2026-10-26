@@ -1,0 +1,10 @@
+aavo
+kary celsius_to_fahrenheit(celsius) {
+    parat celsius * 9 / 5 + 32;
+}
+
+// Change these values to convert other temperatures.
+darek (celsius ma [0, 20, 37, 100]) {
+    chhapo celsius_to_fahrenheit(celsius);
+}
+aavjo
