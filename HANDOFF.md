@@ -24,7 +24,7 @@ can change.
   platform before publishing v0.6.0.
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
-  published as `HarshitBavaliya.gujarati`, currently v0.1.3.
+  published as `HarshitBavaliya.gujarati`, currently v0.1.4.
 - Install the extension with:
 
   ```powershell
@@ -33,8 +33,7 @@ can change.
 
 - The extension has a 128x128 icon derived from `website/favicon.svg`, Gujarati
   and romanized syntax highlighting (updated for v0.7.0 built-ins), starter snippets,
-  and brace-aware indentation and code block folding. Version 0.1.4 is prepared and
-  tested locally.
+  and brace-aware indentation and code block folding. Version 0.1.4 is published on the Visual Studio Marketplace.
 - CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter
   and has dedicated extension validation.
 
