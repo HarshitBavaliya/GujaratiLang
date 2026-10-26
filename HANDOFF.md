@@ -17,11 +17,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v0.6.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v0.6.0).
+- Latest interpreter release: [GujaratiLang v0.7.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v0.7.0).
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v0.6.0.
+  platform before publishing v0.7.0.
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v0.1.4.
