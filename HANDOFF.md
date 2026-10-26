@@ -33,7 +33,8 @@ can change.
 
 - The extension has a 128x128 icon derived from `website/favicon.svg`, Gujarati
   and romanized syntax highlighting (updated for v0.7.0 built-ins), starter snippets,
-  and brace-aware indentation and code block folding.
+  and brace-aware indentation and code block folding. Version 0.1.4 is prepared and
+  tested locally.
 - CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter
   and has dedicated extension validation.
 
@@ -49,6 +50,9 @@ Recent completed work includes:
   - `પ્રકાર(value)` / `prakar(value)`: returns value runtime type (`"number"`, `"string"`, `"list"`, or `"null"`).
 - Extended VS Code grammar [`editors/vscode/syntaxes/gujarati.tmLanguage.json`](editors/vscode/syntaxes/gujarati.tmLanguage.json)
   with keyword and function highlighting for the new built-ins.
+- Prepared VS Code extension v0.1.4 in [`editors/vscode/package.json`](editors/vscode/package.json),
+  updated [`editors/vscode/CHANGELOG.md`](editors/vscode/CHANGELOG.md), and verified packaging locally.
+- Bumped project version to `0.7.0` in [`CMakeLists.txt`](CMakeLists.txt).
 - Added 6 regression tests covering valid and error cases for the new built-ins in
   [`tests/run_test.cmake`](tests/run_test.cmake) and registered them in [`CMakeLists.txt`](CMakeLists.txt).
 - Multi-feature runnable examples:

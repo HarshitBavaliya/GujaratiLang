@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4
+
+- Add syntax highlighting for sankhya, lakhan, prakar, and native
+  Gujarati built-in functions સંખ્યા, લખાણ, પ્રકાર.
+
 ## 0.1.3
 
 - Add brace-aware indentation and folding for code blocks.
