@@ -112,13 +112,18 @@ if(BUILD_TESTING)
         )
     endforeach()
 
-    foreach(example IN ITEMS fibonacci temperature_converter)
+    foreach(example IN ITEMS fibonacci temperature_converter inventory)
+        set(input_file_arg)
+        if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/examples/${example}.stdin")
+            set(input_file_arg "-DINPUT_FILE=${CMAKE_CURRENT_SOURCE_DIR}/tests/examples/${example}.stdin")
+        endif()
         add_test(
             NAME example_${example}
             COMMAND "${CMAKE_COMMAND}"
                 "-DPROGRAM=$<TARGET_FILE:gujarati>"
                 "-DSOURCE_FILE=${CMAKE_CURRENT_SOURCE_DIR}/examples/${example}.gj"
                 "-DEXPECTED_OUTPUT_FILE=${CMAKE_CURRENT_SOURCE_DIR}/tests/examples/${example}.stdout"
+                ${input_file_arg}
                 -P "${CMAKE_CURRENT_SOURCE_DIR}/tests/run_example.cmake"
         )
     endforeach()

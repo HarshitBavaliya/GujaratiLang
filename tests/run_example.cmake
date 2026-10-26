@@ -1,5 +1,11 @@
+set(input_args)
+if(DEFINED INPUT_FILE AND EXISTS "${INPUT_FILE}")
+    set(input_args INPUT_FILE "${INPUT_FILE}")
+endif()
+
 execute_process(
     COMMAND "${PROGRAM}" "${SOURCE_FILE}"
+    ${input_args}
     RESULT_VARIABLE result
     OUTPUT_VARIABLE actual_output
     ERROR_VARIABLE actual_error

@@ -16,12 +16,25 @@ Type a snippet prefix such as `gj-program`, `gj-function`, `gj-if`,
 ## Install a local build
 
 To try the extension locally, package it from this directory with
-`npx @vscode/vsce package --no-dependencies`, then open the generated `.vsix`
+`npx @vscode/vsce package --no-git-tag-version`, then open the generated `.vsix`
 file with VS Code or install it from the command line:
 
 ```powershell
-code --install-extension .\gujarati-0.1.1.vsix
+code --install-extension .\gujarati-0.1.3.vsix
 ```
 
 To develop the extension, open this folder in VS Code and press F5 to launch
 an Extension Development Host.
+
+## Extension release workflow
+
+1. Increment `"version"` in [`package.json`](package.json).
+2. Add a new release section with changes in [`CHANGELOG.md`](CHANGELOG.md).
+3. Package and verify locally:
+   ```powershell
+   npx @vscode/vsce package --no-git-tag-version
+   ```
+4. Publish to Visual Studio Marketplace:
+   ```powershell
+   npx @vscode/vsce publish
+   ```

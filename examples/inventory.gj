@@ -1,0 +1,21 @@
+aavo
+import "inventory_helpers.gj";
+
+items = ["pen", "notebook", "eraser"];
+stock = [25, 10, 50];
+
+query = vancho("Enter item name: ");
+qty = find_quantity(query, items, stock);
+
+jo (qty >= 0) {
+    chhapo "Available stock:";
+    chhapo qty;
+} nahitar {
+    chhapo "Item not found in inventory.";
+}
+
+chhapo "Full inventory:";
+darek (index ma 0..lambai(items)) {
+    show_item(items[index], stock[index]);
+}
+aavjo

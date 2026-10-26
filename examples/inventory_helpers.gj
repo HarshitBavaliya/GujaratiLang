@@ -1,0 +1,15 @@
+aavo
+kary show_item(name, quantity) {
+    chhapo "Item: " + name;
+    chhapo quantity;
+}
+
+kary find_quantity(target, names, quantities) {
+    darek (index ma 0..lambai(names)) {
+        jo (names[index] == target) {
+            parat quantities[index];
+        }
+    }
+    parat -1;
+}
+aavjo

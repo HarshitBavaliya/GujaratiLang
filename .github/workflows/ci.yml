@@ -29,3 +29,36 @@ jobs:
 
       - name: Test
         run: ctest --test-dir build --build-config Release --output-on-failure
+
+  validate-extension:
+    name: Validate VS Code extension
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate extension files
+        working-directory: editors/vscode
+        run: |
+          node -e '
+            const fs = require("fs");
+            const files = [
+              "package.json",
+              "language-configuration.json",
+              "snippets/gujarati.code-snippets",
+              "syntaxes/gujarati.tmLanguage.json"
+            ];
+            for (const f of files) {
+              JSON.parse(fs.readFileSync(f, "utf8"));
+              console.log("Valid JSON:", f);
+            }
+          '
+
+      - name: Package extension
+        working-directory: editors/vscode
+        run: npx --yes @vscode/vsce package --no-git-tag-version

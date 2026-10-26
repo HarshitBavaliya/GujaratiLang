@@ -159,7 +159,8 @@ available until you exit. Use Ctrl+Z then Enter in PowerShell, or Ctrl+D on
 Linux/macOS, to exit.
 
 The [`examples`](../examples) folder also contains complete programs,
-including a [Fibonacci sequence](../examples/fibonacci.gj) and a
-[temperature converter](../examples/temperature_converter.gj). The full
+including a [Fibonacci sequence](../examples/fibonacci.gj), a
+[temperature converter](../examples/temperature_converter.gj), and an
+[inventory manager](../examples/inventory.gj). The full
 [language guide](../README.md) lists all keywords, diagnostics, and runtime
 details.

@@ -5,3 +5,4 @@
 *.pdb
 .vscode/sftp.json
 /website/
+*.vsix

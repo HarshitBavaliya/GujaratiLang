@@ -161,8 +161,10 @@ Import another `.gj` file with `આયાત "helpers.gj";` (`aayat` or `import`
 Import paths are
 relative to the importing file. Imported code executes once and shares the
 same global variables and functions; circular imports are reported as errors.
-See [`examples/modules.gj`](examples/modules.gj) and
-[`examples/collections.gj`](examples/collections.gj).
+See [`examples/modules.gj`](examples/modules.gj),
+[`examples/collections.gj`](examples/collections.gj), and the
+[`examples/inventory.gj`](examples/inventory.gj) sample combining modules,
+functions, lists, and input.
 
 Example (`examples/hello.gj`):
 
@@ -385,8 +387,8 @@ ctest --test-dir build --output-on-failure
 GitHub Actions builds and runs the tests on Windows, Ubuntu, and both Intel and
 Apple Silicon macOS runners for pushes and pull requests. Tagged releases
 publish prebuilt packages for all four supported platform targets.
-The regression suite also runs the shipped Fibonacci and temperature-converter
-examples and checks their output.
+The regression suite also runs the shipped Fibonacci, temperature-converter,
+and inventory examples and checks their output.
 
 ## Project website
 
