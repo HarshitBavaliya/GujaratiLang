@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2
+
+- Add Gujarati and romanized starter snippets for programs, functions,
+  conditionals, while loops, and for loops.
+
 ## 0.1.1
 
 - Add the GujaratiLang website favicon as the extension icon.

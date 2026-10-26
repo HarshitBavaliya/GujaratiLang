@@ -1,0 +1,92 @@
+{
+  "GujaratiLang program": {
+    "prefix": ["gj-program", "aavo"],
+    "body": [
+      "આવો",
+      "\t$0",
+      "આવજો"
+    ],
+    "description": "Start and end a GujaratiLang program"
+  },
+  "GujaratiLang function": {
+    "prefix": ["gj-function", "કાર્ય"],
+    "body": [
+      "કાર્ય ${1:name}(${2:parameters}) {",
+      "\tપરત ${3:value};",
+      "}"
+    ],
+    "description": "Declare a GujaratiLang function"
+  },
+  "GujaratiLang conditional": {
+    "prefix": ["gj-if", "જો"],
+    "body": [
+      "જો (${1:condition}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Add a GujaratiLang if block"
+  },
+  "GujaratiLang while loop": {
+    "prefix": ["gj-while", "જ્યાં સુધી"],
+    "body": [
+      "જ્યાં સુધી (${1:condition}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Add a GujaratiLang while loop"
+  },
+  "GujaratiLang for loop": {
+    "prefix": ["gj-for", "દરેક"],
+    "body": [
+      "દરેક (${1:item} માં ${2:items}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Iterate over a GujaratiLang list"
+  },
+  "GujaratiLang program (romanized)": {
+    "prefix": ["gj-program-en", "aavo-en"],
+    "body": [
+      "aavo",
+      "\t$0",
+      "aavjo"
+    ],
+    "description": "Start and end a GujaratiLang program with romanized keywords"
+  },
+  "GujaratiLang function (romanized)": {
+    "prefix": ["gj-function-en", "kary"],
+    "body": [
+      "kary ${1:name}(${2:parameters}) {",
+      "\tparat ${3:value};",
+      "}"
+    ],
+    "description": "Declare a function with romanized keywords"
+  },
+  "GujaratiLang conditional (romanized)": {
+    "prefix": ["gj-if-en", "jo"],
+    "body": [
+      "jo (${1:condition}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Add an if block with romanized keywords"
+  },
+  "GujaratiLang while loop (romanized)": {
+    "prefix": ["gj-while-en", "jya_sudhi"],
+    "body": [
+      "jya_sudhi (${1:condition}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Add a while loop with romanized keywords"
+  },
+  "GujaratiLang for loop (romanized)": {
+    "prefix": ["gj-for-en", "darek"],
+    "body": [
+      "darek (${1:item} ma ${2:items}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Iterate over a list with romanized keywords"
+  }
+}

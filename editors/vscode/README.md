@@ -2,13 +2,16 @@
 
 Syntax highlighting for GujaratiLang source files in Visual Studio Code.
 Highlights Gujarati and romanized keywords, comments, strings, numbers,
-operators, and function calls in `.gj` files.
+operators, and function calls in `.gj` files. Includes starter snippets for
+Gujarati and romanized source.
 
 ## Install from the Visual Studio Marketplace
 
 Search for **GujaratiLang** in the Extensions view, or install it from the
 [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati).
 Open any `.gj` file; VS Code will select GujaratiLang as its language mode.
+Type a snippet prefix such as `gj-program`, `gj-function`, `gj-if`,
+`gj-while`, or `gj-for`, then select the matching completion.
 
 ## Install a local build
 
