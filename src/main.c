@@ -147,6 +147,8 @@ typedef enum {
     MESSAGE_EXPECTED_IMPORT_PATH,
     MESSAGE_EXPECTED_IMPORT_SEMICOLON,
     MESSAGE_CIRCULAR_IMPORT,
+    MESSAGE_EXPECTED_SANKHYA_STRING,
+    MESSAGE_COULD_NOT_PARSE_NUMBER,
     MESSAGE_USAGE
 } MessageId;
 
@@ -360,6 +362,8 @@ static const char *localized_message(Language language, MessageId message)
         "expected a quoted module path after 'import'",
         "expected ';' after module import",
         "circular module import detected",
+        "expected a string argument for 'સંખ્યા' or 'sankhya'",
+        "could not parse string as a number",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -431,6 +435,8 @@ static const char *localized_message(Language language, MessageId message)
         "'આયાત' પછી અવતરણ ચિહ્નોમાં મોડ્યુલનો માર્ગ અપેક્ષિત છે",
         "મોડ્યુલ આયાત પછી ';' અપેક્ષિત છે",
         "ચક્રીય મોડ્યુલ આયાત મળી",
+        "'સંખ્યા' માટે લખાણ દલીલ અપેક્ષિત છે",
+        "લખાણને સંખ્યામાં રૂપાંતરિત કરી શકાયું નહીં",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -894,7 +900,13 @@ static int is_builtin_function_name(Parser *parser, Token name)
     return token_matches(parser, name, "વાંચો") ||
            token_matches(parser, name, "vancho") ||
            token_matches(parser, name, "લંબાઈ") ||
-           token_matches(parser, name, "lambai");
+           token_matches(parser, name, "lambai") ||
+           token_matches(parser, name, "સંખ્યા") ||
+           token_matches(parser, name, "sankhya") ||
+           token_matches(parser, name, "લખાણ") ||
+           token_matches(parser, name, "lakhan") ||
+           token_matches(parser, name, "પ્રકાર") ||
+           token_matches(parser, name, "prakar");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -1217,6 +1229,136 @@ static Value call_function(Parser *parser, Function function,
     return result;
 }
 
+typedef struct {
+    char *data;
+    size_t length;
+    size_t capacity;
+    int failed;
+} StringBuffer;
+
+static void sb_init(StringBuffer *sb)
+{
+    sb->capacity = 64;
+    sb->length = 0;
+    sb->failed = 0;
+    sb->data = (char *)malloc(sb->capacity);
+    if (sb->data == NULL) {
+        sb->failed = 1;
+    } else {
+        sb->data[0] = '\0';
+    }
+}
+
+static void sb_append(StringBuffer *sb, const char *str, size_t len)
+{
+    if (sb->failed || len == 0) {
+        return;
+    }
+    if (sb->length + len + 1 > sb->capacity) {
+        size_t new_cap = sb->capacity * 2;
+        char *new_data;
+        if (new_cap < sb->length + len + 1) {
+            new_cap = sb->length + len + 16;
+        }
+        new_data = (char *)realloc(sb->data, new_cap);
+        if (new_data == NULL) {
+            sb->failed = 1;
+            return;
+        }
+        sb->data = new_data;
+        sb->capacity = new_cap;
+    }
+    memcpy(sb->data + sb->length, str, len);
+    sb->length += len;
+    sb->data[sb->length] = '\0';
+}
+
+static void format_value_to_buffer(Parser *parser, Value value,
+                                   StringBuffer *sb, List **ancestors,
+                                   size_t depth)
+{
+    if (sb->failed) {
+        return;
+    }
+    if (value.kind == VALUE_STRING) {
+        if (value.owned_string != NULL) {
+            sb_append(sb, value.owned_string, value.string_length);
+        } else {
+            size_t len = decoded_string_length(parser, value);
+            char *temp = (char *)malloc(len + 1);
+            if (temp == NULL) {
+                sb->failed = 1;
+                return;
+            }
+            copy_value_string(parser, value, temp);
+            sb_append(sb, temp, len);
+            free(temp);
+        }
+        return;
+    }
+    if (value.kind == VALUE_LIST) {
+        size_t index;
+        if (depth >= 256) {
+            sb_append(sb, "[...]", 5);
+            return;
+        }
+        for (index = 0; index < depth; index++) {
+            if (ancestors[index] == value.list) {
+                sb_append(sb, "<cycle>", 7);
+                return;
+            }
+        }
+        ancestors[depth] = value.list;
+        sb_append(sb, "[", 1);
+        for (index = 0; index < value.list->count; index++) {
+            if (index > 0) {
+                sb_append(sb, ", ", 2);
+            }
+            format_value_to_buffer(parser, value.list->items[index], sb,
+                                   ancestors, depth + 1);
+        }
+        sb_append(sb, "]", 1);
+        return;
+    }
+    if (value.kind == VALUE_NULL) {
+        sb_append(sb, "\xE0\xAA\xA8\xE0\xAA\x95\xE0\xAA\xBE\xE0\xAA\xAE\xE0\xAB\x8B", 15);
+        return;
+    }
+    {
+        char num_buf[64];
+        snprintf(num_buf, sizeof(num_buf), "%.15g", value.number);
+        sb_append(sb, num_buf, strlen(num_buf));
+    }
+}
+
+static int format_value_as_string(Parser *parser, Token name, Value value,
+                                  Value *result)
+{
+    List *ancestors[256];
+    StringBuffer sb;
+    sb_init(&sb);
+    if (sb.failed) {
+        report_error(parser, name.line, name.column,
+                     MESSAGE_OUT_OF_MEMORY_FOR_STRING);
+        return 0;
+    }
+    format_value_to_buffer(parser, value, &sb, ancestors, 0);
+    if (sb.failed) {
+        free(sb.data);
+        report_error(parser, name.line, name.column,
+                     MESSAGE_OUT_OF_MEMORY_FOR_STRING);
+        return 0;
+    }
+    if (!store_owned_string(parser, name, sb.data)) {
+        return 0;
+    }
+    *result = number_value(0.0);
+    result->kind = VALUE_STRING;
+    result->string_length = sb.length;
+    result->owned_string = sb.data;
+    return 1;
+}
+
 static Value parse_function_call(Parser *parser, Token name, int execute)
 {
     Value *arguments = NULL;
@@ -1296,6 +1438,90 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 } else {
                     report_error(parser, name.line, name.column,
                                  MESSAGE_EXPECTED_LENGTH_STRING);
+                }
+            } else if (token_matches(parser, name, "સંખ્યા") ||
+                       token_matches(parser, name, "sankhya")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_SANKHYA_STRING);
+                } else {
+                    size_t length = decoded_string_length(parser, arguments[0]);
+                    char *buffer = (char *)malloc(length + 1);
+                    if (buffer == NULL) {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        char *ptr;
+                        char *endptr;
+                        double num;
+                        copy_value_string(parser, arguments[0], buffer);
+                        buffer[length] = '\0';
+                        ptr = buffer;
+                        while (*ptr == ' ' || *ptr == '\t' ||
+                               *ptr == '\r' || *ptr == '\n') {
+                            ptr++;
+                        }
+                        if (*ptr == '\0') {
+                            free(buffer);
+                            report_error(parser, name.line, name.column,
+                                         MESSAGE_COULD_NOT_PARSE_NUMBER);
+                        } else {
+                            errno = 0;
+                            num = strtod(ptr, &endptr);
+                            while (*endptr == ' ' || *endptr == '\t' ||
+                                   *endptr == '\r' || *endptr == '\n') {
+                                endptr++;
+                            }
+                            if (endptr == ptr || *endptr != '\0' || errno == ERANGE) {
+                                free(buffer);
+                                report_error(parser, name.line, name.column,
+                                             MESSAGE_COULD_NOT_PARSE_NUMBER);
+                            } else {
+                                free(buffer);
+                                result = number_value(num);
+                            }
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "લખાણ") ||
+                       token_matches(parser, name, "lakhan")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    format_value_as_string(parser, name, arguments[0], &result);
+                }
+            } else if (token_matches(parser, name, "પ્રકાર") ||
+                       token_matches(parser, name, "prakar")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    const char *type_name = "null";
+                    if (arguments[0].kind == VALUE_NUMBER) {
+                        type_name = "number";
+                    } else if (arguments[0].kind == VALUE_STRING) {
+                        type_name = "string";
+                    } else if (arguments[0].kind == VALUE_LIST) {
+                        type_name = "list";
+                    }
+                    size_t len = strlen(type_name);
+                    char *str = (char *)malloc(len + 1);
+                    if (str == NULL) {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        memcpy(str, type_name, len + 1);
+                        if (store_owned_string(parser, name, str)) {
+                            result = number_value(0.0);
+                            result.kind = VALUE_STRING;
+                            result.string_length = len;
+                            result.owned_string = str;
+                        }
+                    }
                 }
             } else {
                 Function *function = find_function(parser, name);

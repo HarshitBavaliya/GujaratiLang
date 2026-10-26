@@ -32,33 +32,31 @@ can change.
   ```
 
 - The extension has a 128x128 icon derived from `website/favicon.svg`, Gujarati
-  and romanized syntax highlighting, starter snippets, and brace-aware indentation
-  and code block folding.
+  and romanized syntax highlighting (updated for v0.7.0 built-ins), starter snippets,
+  and brace-aware indentation and code block folding.
 - CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter
   and has dedicated extension validation.
 
 ## Latest repository changes
 
-Latest commit on origin: `bc46ddc` — **Improve VS Code indentation and code folding**.
+Latest commit on origin: `302a97c` — **Add native Gujarati stock example with automated assertions**.
 
 Recent completed work includes:
 
-- `editors/vscode/`: Marketplace extension published as v0.1.3 with brace-aware
-  indentation and code block folding.
-- `editors/vscode/README.md`: documented local package installation and
-  repeatable extension release process (`vsce package` / `vsce publish`).
-- `.github/workflows/ci.yml`: added `validate-extension` job to validate extension
-  JSON schemas and package integrity with `@vscode/vsce package`.
-- `.gitignore`: added `*.vsix` to root ignores.
-- `examples/inventory.gj` and `examples/inventory_helpers.gj`: multi-feature runnable
-  example combining user input (`vancho`), functions (`kary`), lists and loops
-  (`darek`), and modular code (`import`).
-- `tests/run_example.cmake` & `CMakeLists.txt`: added optional `INPUT_FILE` support
-  for example regression tests; registered `example_inventory`.
-- `tests/examples/inventory.stdin` and `tests/examples/inventory.stdout`: automated
-  test assertions for the inventory example.
-- `README.md` & `docs/tutorial.md`: cross-referenced `inventory.gj` example.
-- The test suite has 92 passing cases (100% pass rate), including negative and boundary tests and 4 shipped examples.
+- Added standard library built-ins to the C interpreter:
+  - `સંખ્યા(text)` / `sankhya(text)`: converts numeric strings to numbers.
+  - `લખાણ(value)` / `lakhan(value)`: converts numbers, null, strings, and lists to strings.
+  - `પ્રકાર(value)` / `prakar(value)`: returns value runtime type (`"number"`, `"string"`, `"list"`, or `"null"`).
+- Extended VS Code grammar [`editors/vscode/syntaxes/gujarati.tmLanguage.json`](editors/vscode/syntaxes/gujarati.tmLanguage.json)
+  with keyword and function highlighting for the new built-ins.
+- Added 6 regression tests covering valid and error cases for the new built-ins in
+  [`tests/run_test.cmake`](tests/run_test.cmake) and registered them in [`CMakeLists.txt`](CMakeLists.txt).
+- Multi-feature runnable examples:
+  - [`examples/inventory.gj`](examples/inventory.gj) / [`examples/inventory_helpers.gj`](examples/inventory_helpers.gj) (romanized).
+  - [`examples/stock.gj`](examples/stock.gj) / [`examples/stock_helpers.gj`](examples/stock_helpers.gj) (native Gujarati script).
+- Extended [`tests/run_example.cmake`](tests/run_example.cmake) with `ENCODING UTF-8` and stdin file support.
+- Documented new built-ins and examples in [`README.md`](README.md) and [`docs/tutorial.md`](docs/tutorial.md).
+- The test suite has **98 passing cases (100% pass rate)**.
 
 ## Build and test
 
@@ -73,22 +71,21 @@ ctest --test-dir build --build-config Release --output-on-failure
 ```
 
 On Linux/macOS, run the built interpreter as `./build/gujarati
-./examples/hello.gj. The test suite has 92 passing cases after all
-examples and boundary tests were added.
+./examples/hello.gj`. The test suite has 98 passing cases after the
+new built-in tests were added.
 
 ## Suggested next work
 
-1. Review `git status` and commit the extension CI validation, inventory example,
-   docs, and handoff updates.
-2. Push the commits to `origin/main` and verify that the newly added
-   `validate-extension` CI job and all 86 CTest test cases pass across Windows,
-   Ubuntu, macOS Intel, and macOS Apple Silicon.
-3. Add negative / error-handling tests for edge cases (e.g., circular module imports
-   across nested directories or missing module error diagnostics).
-4. Expand standard library built-ins (e.g. type introspection, string splitting/joining,
-   or numeric conversion utilities).
-5. Add a Gujarati-script version of the multi-feature example program (`દાખલો` /
-   `સ્ટોક`) alongside the romanized `inventory.gj`.
+1. Commit and push the new standard library built-ins (`sankhya`, `lakhan`, `prakar`),
+   syntax highlighting updates, tests, and documentation.
+2. Verify all CI jobs pass across Windows, Ubuntu, macOS Intel, and macOS arm64
+   on GitHub Actions.
+3. Update `editors/vscode/package.json` to version `0.1.4`, update
+   `editors/vscode/CHANGELOG.md`, and publish `v0.1.4` to the Visual Studio Marketplace.
+4. Prepare and tag GujaratiLang runtime release `v0.7.0` (updating `project(gujaratilang VERSION 0.7.0)`
+   in `CMakeLists.txt`).
+5. Add an interactive example script utilizing `sankhya(vancho("..."))` to calculate
+   totals or averages from user terminal input.
 
 ## Important workspace notes
 

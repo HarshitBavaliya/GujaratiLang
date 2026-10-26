@@ -633,6 +633,64 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_sankhya")
+    set(source [=[aavo
+chhapo sankhya("42") + 8;
+chhapo sankhya("  -12.5  ") * 2;
+chhapo સંખ્યા("100");
+aavjo
+]=])
+    set(expected_stdout "50\n-25\n100\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_sankhya_error")
+    set(source [=[aavo
+chhapo sankhya("not_a_number");
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "could not parse string as a number")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_sankhya_type_error")
+    set(source [=[aavo
+chhapo sankhya(123);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a string argument for 'સંખ્યા' or 'sankhya'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_lakhan")
+    set(source [=[aavo
+chhapo "Val: " + lakhan(42);
+chhapo "Pi: " + lakhan(3.14);
+chhapo "Null: " + lakhan(nakamo);
+chhapo "List: " + lakhan([1, "two", 3]);
+chhapo "ગુજરાતી: " + લખાણ(99);
+aavjo
+]=])
+    set(expected_stdout "Val: 42\nPi: 3.14\nNull: નકામો\nList: [1, two, 3]\nગુજરાતી: 99\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_prakar")
+    set(source [=[aavo
+chhapo prakar(42);
+chhapo prakar("hello");
+chhapo prakar([1, 2]);
+chhapo prakar(nakamo);
+chhapo પ્રકાર(100);
+aavjo
+]=])
+    set(expected_stdout "number\nstring\nlist\nnull\nnumber\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "reserved_sankhya_lakhan_prakar")
+    set(source [=[aavo
+kary lakhan(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

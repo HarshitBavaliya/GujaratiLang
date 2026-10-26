@@ -80,6 +80,12 @@ if(BUILD_TESTING)
             romanized_keyword_identifier_boundary
             romanized_builtins
             reserved_romanized_builtin
+            builtin_sankhya
+            builtin_sankhya_error
+            builtin_sankhya_type_error
+            builtin_lakhan
+            builtin_prakar
+            reserved_sankhya_lakhan_prakar
             romanized_error
             romanized_fatal_error
             lists_and_indexing

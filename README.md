@@ -34,6 +34,9 @@ The initial interpreter supports:
   input; the returned value is a string
 - `લંબાઈ(value)` to return the number of Unicode code points in a string or
   the number of items in a list
+- `સંખ્યા(text)` to parse a numeric string into a number
+- `લખાણ(value)` to convert a number, null, or list into its string representation
+- `પ્રકાર(value)` to inspect the runtime type of a value (`"number"`, `"string"`, `"list"`, or `"null"`)
 - Romanized Gujarati spellings for all keywords and built-ins, so programs can
   be written using an English keyboard
 - Gujarati or English-letter variable names, with digits and underscores
@@ -110,6 +113,9 @@ can be used in the same program. Multi-word spellings use underscores.
 | `ઘાતક ભૂલ` | `ghatak_bhul` | Fatal error |
 | `વાંચો(...)` | `vancho(...)` | Read input |
 | `લંબાઈ(...)` | `lambai(...)` | Get string or list length |
+| `સંખ્યા(...)` | `sankhya(...)` | Convert string to number |
+| `લખાણ(...)` | `lakhan(...)` | Convert value to string |
+| `પ્રકાર(...)` | `prakar(...)` | Inspect runtime type |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

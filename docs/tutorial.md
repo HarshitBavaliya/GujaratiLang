@@ -137,8 +137,14 @@ scores = [10, 20, [30, 40]];
 chhapo scores[1];
 scores[0] = 15;
 chhapo lambai(scores);
+chhapo prakar(scores);
+chhapo "Score: " + lakhan(scores[0]);
 aavjo
 ```
+
+Built-in functions also include `sankhya(text)` / `સંખ્યા(...)` to parse numbers from
+input strings, `lakhan(value)` / `લખાણ(...)` to convert values to strings, and
+`prakar(value)` / `પ્રકાર(...)` to check runtime types.
 
 Use `import "helpers.gj";` to load another `.gj` file. The path is relative to
 the file containing the import; imported functions and variables share the

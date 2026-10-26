@@ -61,7 +61,7 @@
       "patterns": [
         {
           "name": "support.function.builtin.gujarati",
-          "match": "(?<![\\p{L}\\p{M}\\p{N}_])(?:લંબાઈ|વાંચો|lambai|vancho)(?![\\p{L}\\p{M}\\p{N}_])(?=\\s*\\()"
+          "match": "(?<![\\p{L}\\p{M}\\p{N}_])(?:લંબાઈ|વાંચો|સંખ્યા|લખાણ|પ્રકાર|lambai|vancho|sankhya|lakhan|prakar)(?![\\p{L}\\p{M}\\p{N}_])(?=\\s*\\()"
         }
       ]
     },
