@@ -39,7 +39,7 @@ can change.
 
 ## Latest repository changes
 
-Latest commit on origin: `7af14ba` — **Add built-ins for list, string, and math operations with examples and VS Code v0.1.7 extension**.
+Latest commit on origin: `6e3b37a` — **Bump interpreter project version to 0.8.0**.
 
 Recent completed work includes:
 
@@ -87,6 +87,7 @@ Recent completed work includes:
     for `gj-round` (`ગોળ`), `gj-floor` (`નીચે`), `gj-ceil` (`ઉપર`), `gj-repeat` (`પુનરાવર્તન`), and `gj-listslice` (`ટુકડો`).
 - Updated project landing page [`website/index.html`](website/index.html) with v0.8.0 downloads, VS Code extension v0.1.4 showcase, and new built-ins features.
 - Expanded test suite to **156 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
+- Published [GujaratiLang v0.8.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v0.8.0) with automated GitHub Actions cross-platform release builds and comprehensive release notes.
 
 ## Build and test
 
@@ -105,16 +106,16 @@ On Linux/macOS, run the built interpreter as `./build/gujarati
 
 ## Suggested next work
 
-1. **Math Rounding & Clamping built-ins (`પૂર્ણાંક` / `purnank` or `ગોળ` / `gol`, `નજીક` / `najik`)**:
-   Implement `gol(number)` (round), `niche(number)` (floor), and `upari(number)` (ceil) for numeric processing.
-2. **String Repeat built-in (`પુનરાવર્તન` / `punravartan`)**:
-   Implement string repetition `punravartan(string, count)` returning repeated string.
-3. **List Slice built-in (`યાદી_કાપો` / `yadi_kapo` or `ટુકડો` / `tukdo`)**:
-   Implement non-destructive sub-list slicing `tukdo(list, start[, length])` returning a new list.
-4. **VS Code extension v0.1.9 preparation**:
-   Update `package.json` to `0.1.9`, add grammar and snippets for new math and list built-ins, and update changelog.
-5. **Data Formatting & Rounding Runnable Example (`examples/report_generator.gj`)**:
-   Create a runnable financial/summary table generator combining `tukdo`, `punravartan`, `gol`, and formatted string columns with automated CTest assertions.
+1. **List Index / Find built-in (`સ્થાન` / `sthan`)**:
+   Implement `sthan(list, item)` returning the 0-based integer index of the first occurrence in `list`, or `-1.0` if not found.
+2. **List Element Insertion built-in (`મૂકો` / `muko`)**:
+   Implement `muko(list, index, item)` inserting an element at a given position in-place and returning the list.
+3. **String Padding built-ins (`ડાબે_ભરો` / `dabe_bharo` and `જમણે_ભરો` / `jamne_bharo`)**:
+   Implement left and right string padding up to target length using optional fill character (default space), ideal for columnar table alignment.
+4. **Value Clamping built-in (`સીમા` / `sima`)**:
+   Implement `sima(value, min, max)` to restrict numeric values within given lower and upper bounds.
+5. **VS Code Extension v0.2.0 & Data Aligner Runnable Example**:
+   Update grammar and snippets for v0.2.0, bump `package.json` to 0.2.0, and create a runnable formatted invoice/table generator example backed by automated CTest assertions.
 
 ## Important workspace notes
 
