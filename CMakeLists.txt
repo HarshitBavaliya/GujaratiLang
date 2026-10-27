@@ -7,6 +7,9 @@ project(gujaratilang VERSION 0.7.0 LANGUAGES C)
 include(CTest)
 
 add_executable(gujarati src/main.c)
+if(UNIX)
+    target_link_libraries(gujarati PRIVATE m)
+endif()
 target_compile_features(gujarati PRIVATE c_std_99)
 
 if(MSVC)
@@ -102,6 +105,24 @@ if(BUILD_TESTING)
             builtin_math_utils
             builtin_math_utils_error
             reserved_math_utils
+            builtin_ultavo
+            builtin_ultavo_error
+            reserved_ultavo
+            builtin_bhag
+            builtin_bhag_error
+            reserved_bhag
+            builtin_jodo
+            builtin_jodo_error
+            reserved_jodo
+            builtin_saf
+            builtin_saf_error
+            reserved_saf
+            builtin_ghat_mul
+            builtin_ghat_mul_error
+            reserved_ghat_mul
+            builtin_gothvo
+            builtin_gothvo_error
+            reserved_gothvo
             romanized_error
             romanized_fatal_error
             lists_and_indexing
@@ -139,7 +160,7 @@ if(BUILD_TESTING)
         )
     endforeach()
 
-    foreach(example IN ITEMS fibonacci temperature_converter inventory stock calculator string_utils)
+    foreach(example IN ITEMS fibonacci temperature_converter inventory stock calculator string_utils csv_parser math_suite)
         set(input_file_arg)
         if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/examples/${example}.stdin")
             set(input_file_arg "-DINPUT_FILE=${CMAKE_CURRENT_SOURCE_DIR}/tests/examples/${example}.stdin")

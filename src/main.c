@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -158,6 +159,12 @@ typedef enum {
     MESSAGE_KADHO_EMPTY_LIST,
     MESSAGE_EXPECTED_STRING_FOR_CASE,
     MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT,
+    MESSAGE_EXPECTED_LIST_FOR_ULTAVO,
+    MESSAGE_EXPECTED_STRING_FOR_BHAG,
+    MESSAGE_EXPECTED_LIST_AND_STRING_FOR_JODO,
+    MESSAGE_EXPECTED_STRING_FOR_SAF,
+    MESSAGE_NEGATIVE_SQUARE_ROOT,
+    MESSAGE_EXPECTED_LIST_FOR_GOTHVO,
     MESSAGE_USAGE
 } MessageId;
 
@@ -384,6 +391,12 @@ static const char *localized_message(Language language, MessageId message)
         "cannot remove item from an empty list",
         "expected a string argument for case conversion",
         "expected number arguments for math function",
+        "expected a list argument for 'ઉલટાવો' or 'ultavo'",
+        "expected string arguments for 'ભાગ' or 'bhag'",
+        "expected list and string separator arguments for 'જોડો' or 'jodo'",
+        "expected a string argument for 'સાફ' or 'saf'",
+        "cannot calculate square root of a negative number",
+        "expected a list argument for 'ગોઠવો' or 'gothvo'",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -466,6 +479,12 @@ static const char *localized_message(Language language, MessageId message)
         "ખાલી યાદીમાંથી ઘટક કાઢી શકાતો નથી",
         "કેસ રૂપાંતરણ માટે લખાણ દલીલ અપેક્ષિત છે",
         "ગણિત ફંક્શન માટે સંખ્યા દલીલો જરૂરી છે",
+        "'ઉલટાવો' માટે યાદી દલીલ અપેક્ષિત છે",
+        "'ભાગ' માટે લખાણરૂપ દલીલો અપેક્ષિત છે",
+        "'જોડો' માટે યાદી અને વિભાજક લખાણ જરૂરી છે",
+        "'સાફ' માટે લખાણ દલીલ અપેક્ષિત છે",
+        "ઋણ સંખ્યાનું વર્ગમૂળ કાઢી શકાતું નથી",
+        "'ગોઠવો' માટે યાદી દલીલ અપેક્ષિત છે",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -953,7 +972,21 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "ન્યૂનતમ") ||
            token_matches(parser, name, "nyunatam") ||
            token_matches(parser, name, "ધન_મૂલ્ય") ||
-           token_matches(parser, name, "dhan_mulya");
+           token_matches(parser, name, "dhan_mulya") ||
+           token_matches(parser, name, "ઉલટાવો") ||
+           token_matches(parser, name, "ultavo") ||
+           token_matches(parser, name, "ભાગ") ||
+           token_matches(parser, name, "bhag") ||
+           token_matches(parser, name, "જોડો") ||
+           token_matches(parser, name, "jodo") ||
+           token_matches(parser, name, "સાફ") ||
+           token_matches(parser, name, "saf") ||
+           token_matches(parser, name, "ઘાત") ||
+           token_matches(parser, name, "ghat") ||
+           token_matches(parser, name, "મૂળ") ||
+           token_matches(parser, name, "mul") ||
+           token_matches(parser, name, "ગોઠવો") ||
+           token_matches(parser, name, "gothvo");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -1432,6 +1465,36 @@ static int format_value_as_string(Parser *parser, Token name, Value value,
     return 1;
 }
 
+static int compare_sort_values(Parser *parser, Value a, Value b)
+{
+    if (a.kind != b.kind) {
+        return a.kind < b.kind ? -1 : 1;
+    }
+    if (a.kind == VALUE_NUMBER) {
+        if (a.number < b.number) return -1;
+        if (a.number > b.number) return 1;
+        return 0;
+    }
+    if (a.kind == VALUE_STRING) {
+        size_t a_len = decoded_string_length(parser, a);
+        size_t b_len = decoded_string_length(parser, b);
+        size_t min_len = a_len < b_len ? a_len : b_len;
+        size_t a_idx = 0;
+        size_t b_idx = 0;
+        size_t i;
+        for (i = 0; i < min_len; i++) {
+            unsigned char cb_a = (unsigned char)next_string_byte(parser, a, &a_idx);
+            unsigned char cb_b = (unsigned char)next_string_byte(parser, b, &b_idx);
+            if (cb_a < cb_b) return -1;
+            if (cb_a > cb_b) return 1;
+        }
+        if (a_len < b_len) return -1;
+        if (a_len > b_len) return 1;
+        return 0;
+    }
+    return 0;
+}
+
 static Value parse_function_call(Parser *parser, Token name, int execute)
 {
     Value *arguments = NULL;
@@ -1907,6 +1970,339 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 } else {
                     double val = arguments[0].number;
                     result = number_value(val < 0.0 ? -val : val);
+                }
+            } else if (token_matches(parser, name, "ઉલટાવો") ||
+                       token_matches(parser, name, "ultavo")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_LIST_FOR_ULTAVO);
+                } else {
+                    if (arguments[0].list->count > 1) {
+                        size_t left = 0;
+                        size_t right = arguments[0].list->count - 1;
+                        while (left < right) {
+                            Value temp = arguments[0].list->items[left];
+                            arguments[0].list->items[left] = arguments[0].list->items[right];
+                            arguments[0].list->items[right] = temp;
+                            left++;
+                            right--;
+                        }
+                    }
+                    result = arguments[0];
+                }
+            } else if (token_matches(parser, name, "ભાગ") ||
+                       token_matches(parser, name, "bhag")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING ||
+                           arguments[1].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_BHAG);
+                } else {
+                    List *list = create_list(parser, name);
+                    if (list != NULL) {
+                        size_t src_len = decoded_string_length(parser, arguments[0]);
+                        size_t delim_len = decoded_string_length(parser, arguments[1]);
+                        char *src_buf = (char *)malloc(src_len + 1);
+                        char *delim_buf = (char *)malloc(delim_len + 1);
+                        if (src_buf == NULL || delim_buf == NULL) {
+                            free(src_buf);
+                            free(delim_buf);
+                            report_error(parser, name.line, name.column,
+                                         MESSAGE_OUT_OF_MEMORY);
+                        } else {
+                            copy_value_string(parser, arguments[0], src_buf);
+                            src_buf[src_len] = '\0';
+                            copy_value_string(parser, arguments[1], delim_buf);
+                            delim_buf[delim_len] = '\0';
+
+                            if (delim_len == 0) {
+                                size_t total_cp = utf8_total_codepoints(src_buf, src_len);
+                                size_t cp;
+                                int ok = 1;
+                                for (cp = 0; cp < total_cp; cp++) {
+                                    size_t b_start = utf8_codepoint_to_byte_offset(src_buf, src_len, cp);
+                                    size_t b_end = utf8_codepoint_to_byte_offset(src_buf, src_len, cp + 1);
+                                    size_t piece_len = b_end - b_start;
+                                    char *piece = (char *)malloc(piece_len + 1);
+                                    if (piece == NULL) {
+                                        report_error(parser, name.line, name.column,
+                                                     MESSAGE_OUT_OF_MEMORY);
+                                        ok = 0;
+                                        break;
+                                    }
+                                    memcpy(piece, src_buf + b_start, piece_len);
+                                    piece[piece_len] = '\0';
+                                    if (!store_owned_string(parser, name, piece)) {
+                                        ok = 0;
+                                        break;
+                                    }
+                                    Value piece_val = number_value(0.0);
+                                    piece_val.kind = VALUE_STRING;
+                                    piece_val.string_length = piece_len;
+                                    piece_val.owned_string = piece;
+                                    if (!append_list_item(parser, list, piece_val, name)) {
+                                        ok = 0;
+                                        break;
+                                    }
+                                }
+                                free(src_buf);
+                                free(delim_buf);
+                                if (ok) {
+                                    result = number_value(0.0);
+                                    result.kind = VALUE_LIST;
+                                    result.list = list;
+                                }
+                            } else {
+                                size_t cur = 0;
+                                int ok = 1;
+                                while (cur <= src_len) {
+                                    size_t match_pos = (size_t)-1;
+                                    size_t scan;
+                                    for (scan = cur; scan + delim_len <= src_len; scan++) {
+                                        if (memcmp(src_buf + scan, delim_buf, delim_len) == 0) {
+                                            match_pos = scan;
+                                            break;
+                                        }
+                                    }
+                                    if (match_pos != (size_t)-1) {
+                                        size_t part_len = match_pos - cur;
+                                        char *part = (char *)malloc(part_len + 1);
+                                        if (part == NULL) {
+                                            report_error(parser, name.line, name.column,
+                                                         MESSAGE_OUT_OF_MEMORY);
+                                            ok = 0;
+                                            break;
+                                        }
+                                        memcpy(part, src_buf + cur, part_len);
+                                        part[part_len] = '\0';
+                                        if (!store_owned_string(parser, name, part)) {
+                                            ok = 0;
+                                            break;
+                                        }
+                                        Value item = number_value(0.0);
+                                        item.kind = VALUE_STRING;
+                                        item.string_length = part_len;
+                                        item.owned_string = part;
+                                        if (!append_list_item(parser, list, item, name)) {
+                                            ok = 0;
+                                            break;
+                                        }
+                                        cur = match_pos + delim_len;
+                                    } else {
+                                        size_t part_len = src_len - cur;
+                                        char *part = (char *)malloc(part_len + 1);
+                                        if (part == NULL) {
+                                            report_error(parser, name.line, name.column,
+                                                         MESSAGE_OUT_OF_MEMORY);
+                                            ok = 0;
+                                            break;
+                                        }
+                                        memcpy(part, src_buf + cur, part_len);
+                                        part[part_len] = '\0';
+                                        if (!store_owned_string(parser, name, part)) {
+                                            ok = 0;
+                                            break;
+                                        }
+                                        Value item = number_value(0.0);
+                                        item.kind = VALUE_STRING;
+                                        item.string_length = part_len;
+                                        item.owned_string = part;
+                                        if (!append_list_item(parser, list, item, name)) {
+                                            ok = 0;
+                                            break;
+                                        }
+                                        break;
+                                    }
+                                }
+                                free(src_buf);
+                                free(delim_buf);
+                                if (ok) {
+                                    result = number_value(0.0);
+                                    result.kind = VALUE_LIST;
+                                    result.list = list;
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "જોડો") ||
+                       token_matches(parser, name, "jodo")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST ||
+                           arguments[1].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_LIST_AND_STRING_FOR_JODO);
+                } else {
+                    size_t sep_len = decoded_string_length(parser, arguments[1]);
+                    char *sep_buf = (char *)malloc(sep_len + 1);
+                    if (sep_buf == NULL) {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        List *ancestors[256];
+                        StringBuffer sb;
+                        size_t i;
+                        copy_value_string(parser, arguments[1], sep_buf);
+                        sep_buf[sep_len] = '\0';
+                        sb_init(&sb);
+                        if (sb.failed) {
+                            free(sep_buf);
+                            report_error(parser, name.line, name.column,
+                                         MESSAGE_OUT_OF_MEMORY_FOR_STRING);
+                        } else {
+                            for (i = 0; i < arguments[0].list->count; i++) {
+                                if (i > 0 && sep_len > 0) {
+                                    sb_append(&sb, sep_buf, sep_len);
+                                }
+                                format_value_to_buffer(parser,
+                                                       arguments[0].list->items[i],
+                                                       &sb, ancestors, 0);
+                            }
+                            free(sep_buf);
+                            if (sb.failed) {
+                                free(sb.data);
+                                report_error(parser, name.line, name.column,
+                                             MESSAGE_OUT_OF_MEMORY_FOR_STRING);
+                            } else {
+                                if (store_owned_string(parser, name, sb.data)) {
+                                    result = number_value(0.0);
+                                    result.kind = VALUE_STRING;
+                                    result.string_length = sb.length;
+                                    result.owned_string = sb.data;
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "સાફ") ||
+                       token_matches(parser, name, "saf")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_SAF);
+                } else {
+                    size_t length = decoded_string_length(parser, arguments[0]);
+                    char *buffer = (char *)malloc(length + 1);
+                    if (buffer == NULL) {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        size_t start = 0;
+                        size_t end;
+                        size_t trimmed_len;
+                        char *trimmed;
+
+                        copy_value_string(parser, arguments[0], buffer);
+                        buffer[length] = '\0';
+
+                        while (start < length &&
+                               (buffer[start] == ' ' || buffer[start] == '\t' ||
+                                buffer[start] == '\r' || buffer[start] == '\n')) {
+                            start++;
+                        }
+                        if (start == length) {
+                            free(buffer);
+                            trimmed = (char *)malloc(1);
+                            if (trimmed == NULL) {
+                                report_error(parser, name.line, name.column,
+                                             MESSAGE_OUT_OF_MEMORY);
+                            } else {
+                                trimmed[0] = '\0';
+                                if (store_owned_string(parser, name, trimmed)) {
+                                    result = number_value(0.0);
+                                    result.kind = VALUE_STRING;
+                                    result.string_length = 0;
+                                    result.owned_string = trimmed;
+                                }
+                            }
+                        } else {
+                            end = length;
+                            while (end > start &&
+                                   (buffer[end - 1] == ' ' || buffer[end - 1] == '\t' ||
+                                    buffer[end - 1] == '\r' || buffer[end - 1] == '\n')) {
+                                end--;
+                            }
+                            trimmed_len = end - start;
+                            trimmed = (char *)malloc(trimmed_len + 1);
+                            if (trimmed == NULL) {
+                                free(buffer);
+                                report_error(parser, name.line, name.column,
+                                             MESSAGE_OUT_OF_MEMORY);
+                            } else {
+                                memcpy(trimmed, buffer + start, trimmed_len);
+                                trimmed[trimmed_len] = '\0';
+                                free(buffer);
+                                if (store_owned_string(parser, name, trimmed)) {
+                                    result = number_value(0.0);
+                                    result.kind = VALUE_STRING;
+                                    result.string_length = trimmed_len;
+                                    result.owned_string = trimmed;
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "ઘાત") ||
+                       token_matches(parser, name, "ghat")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER ||
+                           arguments[1].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else if (arguments[0].number == 0.0 && arguments[1].number < 0.0) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_DIVISION_BY_ZERO);
+                } else {
+                    result = number_value(pow(arguments[0].number, arguments[1].number));
+                }
+            } else if (token_matches(parser, name, "મૂળ") ||
+                       token_matches(parser, name, "mul")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else if (arguments[0].number < 0.0) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_NEGATIVE_SQUARE_ROOT);
+                } else {
+                    result = number_value(sqrt(arguments[0].number));
+                }
+            } else if (token_matches(parser, name, "ગોઠવો") ||
+                       token_matches(parser, name, "gothvo")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_LIST_FOR_GOTHVO);
+                } else {
+                    List *list = arguments[0].list;
+                    if (list->count > 1) {
+                        size_t i;
+                        for (i = 1; i < list->count; i++) {
+                            Value key = list->items[i];
+                            size_t j = i;
+                            while (j > 0 && compare_sort_values(parser, list->items[j - 1], key) > 0) {
+                                list->items[j] = list->items[j - 1];
+                                j--;
+                            }
+                            list->items[j] = key;
+                        }
+                    }
+                    result = arguments[0];
                 }
             } else {
                 Function *function = find_function(parser, name);

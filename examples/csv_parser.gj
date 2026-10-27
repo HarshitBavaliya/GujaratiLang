@@ -1,0 +1,35 @@
+aavo
+kary parse_record(line) {
+    fields = bhag(line, ",");
+    item = fields[0];
+    qty = sankhya(fields[1]);
+    price = sankhya(fields[2]);
+    total = qty * price;
+    parat [item, lakhan(qty), lakhan(price), lakhan(total)];
+}
+
+row1 = vancho("Enter row 1 (name,qty,price): ");
+row2 = vancho("Enter row 2 (name,qty,price): ");
+row3 = vancho("Enter row 3 (name,qty,price): ");
+
+rec1 = parse_record(row1);
+rec2 = parse_record(row2);
+rec3 = parse_record(row3);
+
+table = [rec1, rec2, rec3];
+
+grand_total = 0;
+darek (row ma table) {
+    row_total = sankhya(row[3]);
+    grand_total = grand_total + row_total;
+    formatted_row = jodo(row, " | ");
+    chhapo "Record: " + formatted_row;
+}
+
+chhapo "Grand Total: " + lakhan(grand_total);
+
+headers = ["Item", "Quantity", "Price", "Total"];
+chhapo "Header: " + jodo(headers, " | ");
+reversed_table = ultavo(table);
+chhapo "First Reversed: " + jodo(reversed_table[0], " | ");
+aavjo

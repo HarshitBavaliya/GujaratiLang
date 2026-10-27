@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.7
+
+- Add syntax highlighting and starter snippets for math and list built-ins:
+  `saf` (`સાફ`), `ghat` (`ઘાત`), `mul` (`મૂળ`), and `gothvo` (`ગોઠવો`).
+
+## 0.1.6
+
+- Add syntax highlighting and starter snippets for list and string manipulation built-ins:
+  `ultavo` (`ઉલટાવો`), `bhag` (`ભાગ`), and `jodo` (`જોડો`).
+
 ## 0.1.5
 
 - Add syntax highlighting and starter snippets for list, string, and math built-ins:

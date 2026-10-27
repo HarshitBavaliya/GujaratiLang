@@ -1,0 +1,8 @@
+Enter side a: Enter side b: Enter numbers (comma-separated): Side a: 3
+Side b: 4
+Hypotenuse: 5
+Original: 16, -25, 4, 9, -2
+Sorted ascending: -25, -2, 4, 9, 16
+Sorted descending: 16, 9, 4, -2, -25
+Minimum: -25
+Maximum: 16

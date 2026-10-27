@@ -1,6 +1,9 @@
 {
   "GujaratiLang program": {
-    "prefix": ["gj-program", "aavo"],
+    "prefix": [
+      "gj-program",
+      "aavo"
+    ],
     "body": [
       "આવો",
       "\t$0",
@@ -9,7 +12,10 @@
     "description": "Start and end a GujaratiLang program"
   },
   "GujaratiLang function": {
-    "prefix": ["gj-function", "કાર્ય"],
+    "prefix": [
+      "gj-function",
+      "કાર્ય"
+    ],
     "body": [
       "કાર્ય ${1:name}(${2:parameters}) {",
       "\tપરત ${3:value};",
@@ -18,7 +24,10 @@
     "description": "Declare a GujaratiLang function"
   },
   "GujaratiLang conditional": {
-    "prefix": ["gj-if", "જો"],
+    "prefix": [
+      "gj-if",
+      "જો"
+    ],
     "body": [
       "જો (${1:condition}) {",
       "\t$0",
@@ -27,7 +36,10 @@
     "description": "Add a GujaratiLang if block"
   },
   "GujaratiLang while loop": {
-    "prefix": ["gj-while", "જ્યાં સુધી"],
+    "prefix": [
+      "gj-while",
+      "જ્યાં સુધી"
+    ],
     "body": [
       "જ્યાં સુધી (${1:condition}) {",
       "\t$0",
@@ -36,7 +48,10 @@
     "description": "Add a GujaratiLang while loop"
   },
   "GujaratiLang for loop": {
-    "prefix": ["gj-for", "દરેક"],
+    "prefix": [
+      "gj-for",
+      "દરેક"
+    ],
     "body": [
       "દરેક (${1:item} માં ${2:items}) {",
       "\t$0",
@@ -45,7 +60,10 @@
     "description": "Iterate over a GujaratiLang list"
   },
   "GujaratiLang program (romanized)": {
-    "prefix": ["gj-program-en", "aavo-en"],
+    "prefix": [
+      "gj-program-en",
+      "aavo-en"
+    ],
     "body": [
       "aavo",
       "\t$0",
@@ -54,7 +72,10 @@
     "description": "Start and end a GujaratiLang program with romanized keywords"
   },
   "GujaratiLang function (romanized)": {
-    "prefix": ["gj-function-en", "kary"],
+    "prefix": [
+      "gj-function-en",
+      "kary"
+    ],
     "body": [
       "kary ${1:name}(${2:parameters}) {",
       "\tparat ${3:value};",
@@ -63,7 +84,10 @@
     "description": "Declare a function with romanized keywords"
   },
   "GujaratiLang conditional (romanized)": {
-    "prefix": ["gj-if-en", "jo"],
+    "prefix": [
+      "gj-if-en",
+      "jo"
+    ],
     "body": [
       "jo (${1:condition}) {",
       "\t$0",
@@ -72,7 +96,10 @@
     "description": "Add an if block with romanized keywords"
   },
   "GujaratiLang while loop (romanized)": {
-    "prefix": ["gj-while-en", "jya_sudhi"],
+    "prefix": [
+      "gj-while-en",
+      "jya_sudhi"
+    ],
     "body": [
       "jya_sudhi (${1:condition}) {",
       "\t$0",
@@ -81,7 +108,10 @@
     "description": "Add a while loop with romanized keywords"
   },
   "GujaratiLang for loop (romanized)": {
-    "prefix": ["gj-for-en", "darek"],
+    "prefix": [
+      "gj-for-en",
+      "darek"
+    ],
     "body": [
       "darek (${1:item} ma ${2:items}) {",
       "\t$0",
@@ -90,171 +120,383 @@
     "description": "Iterate over a list with romanized keywords"
   },
   "GujaratiLang parse number": {
-    "prefix": ["gj-parse-number", "સંખ્યા"],
+    "prefix": [
+      "gj-parse-number",
+      "સંખ્યા"
+    ],
     "body": [
       "સંખ્યા(${1:text})"
     ],
     "description": "Parse a string into a number"
   },
   "GujaratiLang parse number (romanized)": {
-    "prefix": ["gj-parse-number-en", "sankhya"],
+    "prefix": [
+      "gj-parse-number-en",
+      "sankhya"
+    ],
     "body": [
       "sankhya(${1:text})"
     ],
     "description": "Parse a string into a number with romanized built-in"
   },
   "GujaratiLang to string": {
-    "prefix": ["gj-to-string", "લખાણ"],
+    "prefix": [
+      "gj-to-string",
+      "લખાણ"
+    ],
     "body": [
       "લખાણ(${1:value})"
     ],
     "description": "Convert value to string"
   },
   "GujaratiLang to string (romanized)": {
-    "prefix": ["gj-to-string-en", "lakhan"],
+    "prefix": [
+      "gj-to-string-en",
+      "lakhan"
+    ],
     "body": [
       "lakhan(${1:value})"
     ],
     "description": "Convert value to string with romanized built-in"
   },
   "GujaratiLang type check": {
-    "prefix": ["gj-type-check", "પ્રકાર"],
+    "prefix": [
+      "gj-type-check",
+      "પ્રકાર"
+    ],
     "body": [
       "પ્રકાર(${1:value})"
     ],
     "description": "Inspect the type of a value ('number', 'string', 'list', 'null')"
   },
   "GujaratiLang type check (romanized)": {
-    "prefix": ["gj-type-check-en", "prakar"],
+    "prefix": [
+      "gj-type-check-en",
+      "prakar"
+    ],
     "body": [
       "prakar(${1:value})"
     ],
     "description": "Inspect the type of a value with romanized built-in"
   },
   "GujaratiLang list append": {
-    "prefix": ["gj-append", "ઉમેરો"],
+    "prefix": [
+      "gj-append",
+      "ઉમેરો"
+    ],
     "body": [
       "ઉમેરો(${1:list}, ${2:item});"
     ],
     "description": "Append an item to a list"
   },
   "GujaratiLang list append (romanized)": {
-    "prefix": ["gj-append-en", "umero"],
+    "prefix": [
+      "gj-append-en",
+      "umero"
+    ],
     "body": [
       "umero(${1:list}, ${2:item});"
     ],
     "description": "Append an item to a list with romanized built-in"
   },
   "GujaratiLang string slice": {
-    "prefix": ["gj-slice", "કાપો"],
+    "prefix": [
+      "gj-slice",
+      "કાપો"
+    ],
     "body": [
       "કાપો(${1:string}, ${2:start}, ${3:length})"
     ],
     "description": "Slice characters from a string"
   },
   "GujaratiLang string slice (romanized)": {
-    "prefix": ["gj-slice-en", "kapo"],
+    "prefix": [
+      "gj-slice-en",
+      "kapo"
+    ],
     "body": [
       "kapo(${1:string}, ${2:start}, ${3:length})"
     ],
     "description": "Slice characters from a string with romanized built-in"
   },
   "GujaratiLang string search": {
-    "prefix": ["gj-search", "શોધો"],
+    "prefix": [
+      "gj-search",
+      "શોધો"
+    ],
     "body": [
       "શોધો(${1:string}, ${2:query})"
     ],
     "description": "Find substring position in a string"
   },
   "GujaratiLang string search (romanized)": {
-    "prefix": ["gj-search-en", "shodho"],
+    "prefix": [
+      "gj-search-en",
+      "shodho"
+    ],
     "body": [
       "shodho(${1:string}, ${2:query})"
     ],
     "description": "Find substring position in a string with romanized built-in"
   },
   "GujaratiLang list pop": {
-    "prefix": ["gj-pop", "કાઢો"],
+    "prefix": [
+      "gj-pop",
+      "કાઢો"
+    ],
     "body": [
       "કાઢો(${1:list})"
     ],
     "description": "Remove and return an item from a list"
   },
   "GujaratiLang list pop (romanized)": {
-    "prefix": ["gj-pop-en", "kadho"],
+    "prefix": [
+      "gj-pop-en",
+      "kadho"
+    ],
     "body": [
       "kadho(${1:list})"
     ],
     "description": "Remove and return an item from a list with romanized built-in"
   },
   "GujaratiLang uppercase": {
-    "prefix": ["gj-uppercase", "પહેલી_એબીસીડી"],
+    "prefix": [
+      "gj-uppercase",
+      "પહેલી_એબીસીડી"
+    ],
     "body": [
       "પહેલી_એબીસીડી(${1:string})"
     ],
     "description": "Convert string to uppercase"
   },
   "GujaratiLang uppercase (romanized)": {
-    "prefix": ["gj-uppercase-en", "peli_abcd"],
+    "prefix": [
+      "gj-uppercase-en",
+      "peli_abcd"
+    ],
     "body": [
       "peli_abcd(${1:string})"
     ],
     "description": "Convert string to uppercase with romanized built-in"
   },
   "GujaratiLang lowercase": {
-    "prefix": ["gj-lowercase", "બીજી_એબીસીડી"],
+    "prefix": [
+      "gj-lowercase",
+      "બીજી_એબીસીડી"
+    ],
     "body": [
       "બીજી_એબીસીડી(${1:string})"
     ],
     "description": "Convert string to lowercase"
   },
   "GujaratiLang lowercase (romanized)": {
-    "prefix": ["gj-lowercase-en", "biji_abcd"],
+    "prefix": [
+      "gj-lowercase-en",
+      "biji_abcd"
+    ],
     "body": [
       "biji_abcd(${1:string})"
     ],
     "description": "Convert string to lowercase with romanized built-in"
   },
   "GujaratiLang maximum": {
-    "prefix": ["gj-max", "મહત્તમ"],
+    "prefix": [
+      "gj-max",
+      "મહત્તમ"
+    ],
     "body": [
       "મહત્તમ(${1:a}, ${2:b})"
     ],
     "description": "Get the maximum of two numbers"
   },
   "GujaratiLang maximum (romanized)": {
-    "prefix": ["gj-max-en", "mahatam"],
+    "prefix": [
+      "gj-max-en",
+      "mahatam"
+    ],
     "body": [
       "mahatam(${1:a}, ${2:b})"
     ],
     "description": "Get the maximum of two numbers with romanized built-in"
   },
   "GujaratiLang minimum": {
-    "prefix": ["gj-min", "ન્યૂનતમ"],
+    "prefix": [
+      "gj-min",
+      "ન્યૂનતમ"
+    ],
     "body": [
       "ન્યૂનતમ(${1:a}, ${2:b})"
     ],
     "description": "Get the minimum of two numbers"
   },
   "GujaratiLang minimum (romanized)": {
-    "prefix": ["gj-min-en", "nyunatam"],
+    "prefix": [
+      "gj-min-en",
+      "nyunatam"
+    ],
     "body": [
       "nyunatam(${1:a}, ${2:b})"
     ],
     "description": "Get the minimum of two numbers with romanized built-in"
   },
   "GujaratiLang absolute value": {
-    "prefix": ["gj-abs", "ધન_મૂલ્ય"],
+    "prefix": [
+      "gj-abs",
+      "ધન_મૂલ્ય"
+    ],
     "body": [
       "ધન_મૂલ્ય(${1:number})"
     ],
     "description": "Get the absolute value of a number"
   },
   "GujaratiLang absolute value (romanized)": {
-    "prefix": ["gj-abs-en", "dhan_mulya"],
+    "prefix": [
+      "gj-abs-en",
+      "dhan_mulya"
+    ],
     "body": [
       "dhan_mulya(${1:number})"
     ],
     "description": "Get the absolute value of a number with romanized built-in"
+  },
+  "GujaratiLang reverse list": {
+    "prefix": [
+      "gj-reverse",
+      "ઉલટાવો"
+    ],
+    "body": [
+      "ઉલટાવો(${1:list})"
+    ],
+    "description": "Reverse list in place"
+  },
+  "GujaratiLang reverse list (romanized)": {
+    "prefix": [
+      "gj-reverse-en",
+      "ultavo"
+    ],
+    "body": [
+      "ultavo(${1:list})"
+    ],
+    "description": "Reverse list in place with romanized built-in"
+  },
+  "GujaratiLang split string": {
+    "prefix": [
+      "gj-split",
+      "ભાગ"
+    ],
+    "body": [
+      "ભાગ(${1:string}, ${2:delimiter})"
+    ],
+    "description": "Split string into a list by delimiter"
+  },
+  "GujaratiLang split string (romanized)": {
+    "prefix": [
+      "gj-split-en",
+      "bhag"
+    ],
+    "body": [
+      "bhag(${1:string}, ${2:delimiter})"
+    ],
+    "description": "Split string into a list by delimiter with romanized built-in"
+  },
+  "GujaratiLang join list": {
+    "prefix": [
+      "gj-join",
+      "જોડો"
+    ],
+    "body": [
+      "જોડો(${1:list}, ${2:separator})"
+    ],
+    "description": "Join list elements into a string using separator"
+  },
+  "GujaratiLang join list (romanized)": {
+    "prefix": [
+      "gj-join-en",
+      "jodo"
+    ],
+    "body": [
+      "jodo(${1:list}, ${2:separator})"
+    ],
+    "description": "Join list elements into a string using separator with romanized built-in"
+  },
+  "GujaratiLang trim string": {
+    "prefix": [
+      "gj-trim",
+      "સાફ"
+    ],
+    "body": [
+      "સાફ(${1:string})"
+    ],
+    "description": "Trim whitespace from string ends"
+  },
+  "GujaratiLang trim string (romanized)": {
+    "prefix": [
+      "gj-trim-en",
+      "saf"
+    ],
+    "body": [
+      "saf(${1:string})"
+    ],
+    "description": "Trim whitespace from string ends with romanized built-in"
+  },
+  "GujaratiLang power": {
+    "prefix": [
+      "gj-power",
+      "ઘાત"
+    ],
+    "body": [
+      "ઘાત(${1:base}, ${2:exponent})"
+    ],
+    "description": "Calculate base raised to exponent"
+  },
+  "GujaratiLang power (romanized)": {
+    "prefix": [
+      "gj-power-en",
+      "ghat"
+    ],
+    "body": [
+      "ghat(${1:base}, ${2:exponent})"
+    ],
+    "description": "Calculate base raised to exponent with romanized built-in"
+  },
+  "GujaratiLang square root": {
+    "prefix": [
+      "gj-sqrt",
+      "મૂળ"
+    ],
+    "body": [
+      "મૂળ(${1:number})"
+    ],
+    "description": "Calculate square root of number"
+  },
+  "GujaratiLang square root (romanized)": {
+    "prefix": [
+      "gj-sqrt-en",
+      "mul"
+    ],
+    "body": [
+      "mul(${1:number})"
+    ],
+    "description": "Calculate square root of number with romanized built-in"
+  },
+  "GujaratiLang sort list": {
+    "prefix": [
+      "gj-sort",
+      "ગોઠવો"
+    ],
+    "body": [
+      "ગોઠવો(${1:list})"
+    ],
+    "description": "Sort list items in-place"
+  },
+  "GujaratiLang sort list (romanized)": {
+    "prefix": [
+      "gj-sort-en",
+      "gothvo"
+    ],
+    "body": [
+      "gothvo(${1:list})"
+    ],
+    "description": "Sort list items in-place with romanized built-in"
   }
 }

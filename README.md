@@ -133,6 +133,13 @@ can be used in the same program. Multi-word spellings use underscores.
 | `મહત્તમ(...)` | `mahatam(...)` | Return maximum value |
 | `ન્યૂનતમ(...)` | `nyunatam(...)` | Return minimum value |
 | `ધન_મૂલ્ય(...)` | `dhan_mulya(...)` | Return absolute value |
+| `ઉલટાવો(...)` | `ultavo(...)` | Reverse list in-place |
+| `ભાગ(...)` | `bhag(...)` | Split string into list by delimiter |
+| `જોડો(...)` | `jodo(...)` | Join list into string using separator |
+| `સાફ(...)` | `saf(...)` | Trim leading/trailing whitespace |
+| `ઘાત(...)` | `ghat(...)` | Return base raised to exponent |
+| `મૂળ(...)` | `mul(...)` | Return square root |
+| `ગોઠવો(...)` | `gothvo(...)` | Sort list items in-place |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

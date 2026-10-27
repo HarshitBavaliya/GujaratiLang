@@ -149,7 +149,7 @@ to append items dynamically to lists, `kapo(string, start[, length])` / `કા�
 to slice strings using Unicode codepoints, and `shodho(string, target[, start])` / `શોધો(...)`
 to search for substrings, `kadho(list[, index])` / `કાઢો(...)` to pop elements,
 `peli_abcd(str)` / `પહેલી_એબીસીડી(...)` and `biji_abcd(str)` / `બીજી_એબીસીડી(...)` for uppercase and lowercase conversion,
-and math helpers `mahatam` / `મહત્તમ`, `nyunatam` / `ન્યૂનતમ`, and `dhan_mulya` / `ધન_મૂલ્ય`.
+math helpers `mahatam` / `મહત્તમ`, `nyunatam` / `ન્યૂનતમ`, `dhan_mulya` / `ધન_મૂલ્ય`, power `ghat` / `ઘાત`, square root `mul` / `મૂળ`, list reverse `ultavo(list)` / `ઉલટાવો(...)`, string split `bhag(string, delimiter)` / `ભાગ(...)`, list join `jodo(list, separator)` / `જોડો(...)`, whitespace trim `saf(string)` / `સાફ(...)`, and in-place list sorting `gothvo(list)` / `ગોઠવો(...)`.
 
 Use `import "helpers.gj";` to load another `.gj` file. The path is relative to
 the file containing the import; imported functions and variables share the

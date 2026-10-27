@@ -1,0 +1,37 @@
+aavo
+kary hypotenuse(a, b) {
+    parat mul(ghat(a, 2) + ghat(b, 2));
+}
+
+raw_a = vancho("Enter side a: ");
+raw_b = vancho("Enter side b: ");
+raw_list = vancho("Enter numbers (comma-separated): ");
+
+a = sankhya(saf(raw_a));
+b = sankhya(saf(raw_b));
+hyp = hypotenuse(a, b);
+
+chhapo "Side a: " + lakhan(a);
+chhapo "Side b: " + lakhan(b);
+chhapo "Hypotenuse: " + lakhan(hyp);
+
+tokens = bhag(raw_list, ",");
+values = [];
+darek (tok ma tokens) {
+    clean_tok = saf(tok);
+    jo (lambai(clean_tok) > 0) {
+        umero(values, sankhya(clean_tok));
+    }
+}
+
+chhapo "Original: " + jodo(values, ", ");
+gothvo(values);
+chhapo "Sorted ascending: " + jodo(values, ", ");
+ultavo(values);
+chhapo "Sorted descending: " + jodo(values, ", ");
+
+min_val = values[lambai(values) - 1];
+max_val = values[0];
+chhapo "Minimum: " + lakhan(min_val);
+chhapo "Maximum: " + lakhan(max_val);
+aavjo

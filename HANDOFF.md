@@ -24,7 +24,7 @@ can change.
   platform before publishing v0.7.0.
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
-  published as `HarshitBavaliya.gujarati`, currently v0.1.4 (v0.1.5 prepared locally).
+  published as `HarshitBavaliya.gujarati`, currently v0.1.4 (v0.1.7 prepared locally).
 - Install the extension with:
 
   ```powershell
@@ -44,6 +44,13 @@ Latest commit on origin: `2238111` — **Add standard library built-ins, runnabl
 Recent completed work includes:
 
 - Added standard library built-ins to the C interpreter:
+  - `સાફ(string)` / `saf(string)`: trims leading and trailing ASCII whitespace.
+  - `ઘાત(base, exponent)` / `ghat(base, exponent)`: calculates exponentiation.
+  - `મૂળ(number)` / `mul(number)`: calculates square root with domain error checking.
+  - `ગોઠવો(list)` / `gothvo(list)`: sorts list items in-place in ascending order.
+  - `ઉલટાવો(list)` / `ultavo(list)`: reverses list elements in-place and evaluates to the list.
+  - `ભાગ(string, delimiter)` / `bhag(string, delimiter)`: splits a string by a delimiter into a list of strings.
+  - `જોડો(list, separator)` / `jodo(list, separator)`: joins list elements into a single formatted string with separator.
   - `સંખ્યા(text)` / `sankhya(text)`: converts numeric strings to numbers.
   - `લખાણ(value)` / `lakhan(value)`: converts numbers, null, strings, and lists to strings.
   - `પ્રકાર(value)` / `prakar(value)`: returns value runtime type (`"number"`, `"string"`, `"list"`, or `"null"`).
@@ -56,17 +63,19 @@ Recent completed work includes:
   - `મહત્તમ(a, b)` / `mahatam(a, b)`: returns the maximum of two numbers.
   - `ન્યૂનતમ(a, b)` / `nyunatam(a, b)`: returns the minimum of two numbers.
   - `ધન_મૂલ્ય(number)` / `dhan_mulya(number)`: returns the absolute value of a number.
-- Created interactive runnable calculator and text utility examples:
+- Created interactive runnable examples:
   - [`examples/calculator.gj`](examples/calculator.gj) combining `vancho`, `sankhya`, and `lakhan`.
   - [`examples/string_utils.gj`](examples/string_utils.gj) combining `vancho`, `shodho`, `kapo`, `peli_abcd`, `biji_abcd`, `umero`, and `kadho`.
+  - [`examples/csv_parser.gj`](examples/csv_parser.gj) combining `vancho`, `bhag`, `jodo`, `sankhya`, `lakhan`, and `ultavo`.
+  - [`examples/math_suite.gj`](examples/math_suite.gj) combining `vancho`, `ghat`, `mul`, `sankhya`, `lakhan`, `saf`, `gothvo`, and `ultavo`.
   - Automated stdin/stdout regression tests in [`tests/examples/`](tests/examples/) registered under CTest.
-- Prepared VS Code extension v0.1.5 in [`editors/vscode/package.json`](editors/vscode/package.json) and [`editors/vscode/CHANGELOG.md`](editors/vscode/CHANGELOG.md):
+- Prepared VS Code extension v0.1.7 in [`editors/vscode/package.json`](editors/vscode/package.json) and [`editors/vscode/CHANGELOG.md`](editors/vscode/CHANGELOG.md):
   - Updated syntax highlighting grammar [`editors/vscode/syntaxes/gujarati.tmLanguage.json`](editors/vscode/syntaxes/gujarati.tmLanguage.json)
-    with keyword and built-in rules for all new functions.
+    with rules for `saf`, `ghat`, `mul`, and `gothvo` (both Gujarati script and romanized).
   - Added starter snippets in [`editors/vscode/snippets/gujarati.code-snippets`](editors/vscode/snippets/gujarati.code-snippets)
-    for `gj-parse-number`, `gj-to-string`, `gj-type-check`, `gj-append`, `gj-pop`, `gj-slice`, `gj-search`, `gj-uppercase`, `gj-lowercase`, `gj-max`, `gj-min`, and `gj-abs`.
+    for `gj-trim` (`સાફ`), `gj-power` (`ઘાત`), `gj-sqrt` (`મૂળ`), and `gj-sort` (`ગોઠવો`).
 - Updated project landing page [`website/index.html`](website/index.html) with v0.7.0 downloads, VS Code extension v0.1.4 showcase, and new built-ins features.
-- Expanded test suite to **116 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
+- Expanded test suite to **136 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
 
 ## Build and test
 
@@ -81,20 +90,20 @@ ctest --test-dir build --build-config Release --output-on-failure
 ```
 
 On Linux/macOS, run the built interpreter as `./build/gujarati
-./examples/string_utils.gj`. The test suite has 116 passing cases (100% pass rate).
+./examples/string_utils.gj`. The test suite has 136 passing cases (100% pass rate).
 
 ## Suggested next work
 
-1. **List reverse built-in (`ઉલટાવો` / `ultavo`)**:
-   Implement `ઉલટાવો` / `ultavo(list)` in `src/main.c` to reverse list items in-place and return the list.
-2. **String split built-in (`ભાગ` / `bhag`)**:
-   Implement `ભાગ` / `bhag(string, delimiter)` in `src/main.c` to split a string into a list of substrings.
-3. **List join built-in (`જોડો` / `jodo`)**:
-   Implement `જોડો` / `jodo(list, separator)` in `src/main.c` to concatenate a list of elements into a single formatted string.
-4. **VS Code extension v0.1.6 preparation**:
-   Update `editors/vscode/package.json` to `v0.1.6`, document additions in `editors/vscode/CHANGELOG.md`, and update snippets and syntax highlighting for `ultavo`, `bhag`, and `jodo`.
-5. **CSV parser runnable example (`examples/csv_parser.gj`)**:
-   Create a runnable example combining `bhag`, `jodo`, `sankhya`, and `lakhan` to parse and process comma-separated values, backed by automated CTest assertions.
+1. **String Replacement built-in (`બદલો` / `badlo`)**:
+   Implement `બદલો(string, target, replacement)` / `badlo(string, target, replacement)` in `src/main.c` to replace occurrences of a substring.
+2. **String Prefix / Suffix Check built-ins (`શરૂઆત_સાથે` / `sharuat_sathe`, `અંત_સાથે` / `ant_sathe`)**:
+   Implement string `startsWith` and `endsWith` checking returning boolean (1.0 or 0.0).
+3. **List Search / Contains built-in (`સમાવે_છે` / `samave_chhe`)**:
+   Implement membership testing `samave_chhe(list, item)` returning 1.0 if item is in the list and 0.0 otherwise.
+4. **VS Code extension v0.1.8 preparation**:
+   Bump to `0.1.8`, add syntax highlighting and snippets for `badlo`, `sharuat_sathe`, `ant_sathe`, and `samave_chhe`.
+5. **Text Transformation & Search Runnable Example (`examples/text_filter.gj`)**:
+   Create a runnable example demonstrating `sharuat_sathe`, `ant_sathe`, `badlo`, and `samave_chhe` with automated CTest assertions.
 
 ## Important workspace notes
 

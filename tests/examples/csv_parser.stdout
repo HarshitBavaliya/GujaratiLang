@@ -1,0 +1,6 @@
+Enter row 1 (name,qty,price): Enter row 2 (name,qty,price): Enter row 3 (name,qty,price): Record: Apple | 10 | 2.5 | 25
+Record: Banana | 5 | 1.2 | 6
+Record: Mango | 8 | 3 | 24
+Grand Total: 55
+Header: Item | Quantity | Price | Total
+First Reversed: Mango | 8 | 3 | 24
