@@ -39,7 +39,7 @@ can change.
 
 ## Latest repository changes
 
-Latest commit on origin: `2238111` — **Add standard library built-ins, runnable examples, and VS Code v0.1.5 extension**.
+Latest commit on origin: `2029d30` — **Add built-ins for list, string, and math operations with examples and VS Code v0.1.7 extension**.
 
 Recent completed work includes:
 
