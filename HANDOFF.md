@@ -17,11 +17,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v0.7.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v0.7.0).
+- Latest interpreter release: [GujaratiLang v0.8.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v0.8.0).
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v0.7.0.
+  platform before publishing v0.8.0.
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v0.1.4 (v0.1.9 prepared locally).
@@ -32,7 +32,7 @@ can change.
   ```
 
 - The extension has a 128x128 icon derived from `website/favicon.svg`, Gujarati
-  and romanized syntax highlighting (updated for all v0.7.0+ built-ins), starter snippets,
+  and romanized syntax highlighting (updated for all v0.8.0+ built-ins), starter snippets,
   and brace-aware indentation and code block folding. Version 0.1.4 is published on the Visual Studio Marketplace.
 - CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter
   and has dedicated extension validation.
@@ -85,7 +85,7 @@ Recent completed work includes:
     with rules for `gol`, `niche`, `upar`, `punravartan`, and `tukdo`.
   - Added starter snippets in [`editors/vscode/snippets/gujarati.code-snippets`](editors/vscode/snippets/gujarati.code-snippets)
     for `gj-round` (`ગોળ`), `gj-floor` (`નીચે`), `gj-ceil` (`ઉપર`), `gj-repeat` (`પુનરાવર્તન`), and `gj-listslice` (`ટુકડો`).
-- Updated project landing page [`website/index.html`](website/index.html) with v0.7.0 downloads, VS Code extension v0.1.4 showcase, and new built-ins features.
+- Updated project landing page [`website/index.html`](website/index.html) with v0.8.0 downloads, VS Code extension v0.1.4 showcase, and new built-ins features.
 - Expanded test suite to **156 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
 
 ## Build and test
