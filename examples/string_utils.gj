@@ -1,0 +1,37 @@
+aavo
+kary format_summary(title, length, pos) {
+    parat title + " (length: " + lakhan(length) + ", match at: " + lakhan(pos) + ")";
+}
+
+text = vancho("Enter source text: ");
+query = vancho("Enter query to search: ");
+
+total_len = lambai(text);
+match_idx = shodho(text, query);
+
+upper = peli_abcd(text);
+lower = biji_abcd(text);
+
+chhapo "Original: " + text;
+chhapo "Uppercase: " + upper;
+chhapo "Lowercase: " + lower;
+
+jo (match_idx >= 0) {
+    prefix = kapo(text, 0, match_idx);
+    matched = kapo(text, match_idx, lambai(query));
+    chhapo "Found prefix: " + prefix;
+    chhapo "Matched text: " + matched;
+} nahitar {
+    chhapo "Query not found";
+}
+
+history = [];
+umero(history, "first");
+umero(history, "second");
+last_action = kadho(history);
+chhapo "Popped history item: " + last_action;
+chhapo "Remaining history count: " + lakhan(lambai(history));
+
+summary = format_summary("Analysis", total_len, match_idx);
+chhapo summary;
+aavjo

@@ -1,0 +1,33 @@
+aavo
+kary add(x, y) {
+    parat x + y;
+}
+
+kary multiply(x, y) {
+    parat x * y;
+}
+
+kary power(base, exp) {
+    total = 1;
+    darek (step ma 0..exp) {
+        total = total * base;
+    }
+    parat total;
+}
+
+first_input = vancho("Enter first number: ");
+second_input = vancho("Enter second number: ");
+
+a = sankhya(first_input);
+b = sankhya(second_input);
+
+sum = add(a, b);
+product = multiply(a, b);
+pow = power(a, b);
+
+chhapo "First number: " + lakhan(a);
+chhapo "Second number: " + lakhan(b);
+chhapo "Sum: " + lakhan(sum);
+chhapo "Product: " + lakhan(product);
+chhapo "Power: " + lakhan(pow);
+aavjo

@@ -37,6 +37,14 @@ The initial interpreter supports:
 - `સંખ્યા(text)` to parse a numeric string into a number
 - `લખાણ(value)` to convert a number, null, or list into its string representation
 - `પ્રકાર(value)` to inspect the runtime type of a value (`"number"`, `"string"`, `"list"`, or `"null"`)
+- `ઉમેરો(list, item)` to append an item to a list and return the updated list
+- `કાપો(string, start[, length])` to extract a substring using Unicode code-point offsets
+- `શોધો(string, target[, start])` to find the 0-based code-point index of a substring (or `-1` if not found)
+- `કાઢો(list[, index])` to remove and return an item from a list (last item by default)
+- `પહેલી_એબીસીડી(text)` to convert a string to uppercase
+- `બીજી_એબીસીડી(text)` to convert a string to lowercase
+- `મહત્તમ(a, b)` and `ન્યૂનતમ(a, b)` to return the maximum and minimum of two numbers
+- `ધન_મૂલ્ય(number)` to return the absolute value of a number
 - Romanized Gujarati spellings for all keywords and built-ins, so programs can
   be written using an English keyboard
 - Gujarati or English-letter variable names, with digits and underscores
@@ -116,6 +124,15 @@ can be used in the same program. Multi-word spellings use underscores.
 | `સંખ્યા(...)` | `sankhya(...)` | Convert string to number |
 | `લખાણ(...)` | `lakhan(...)` | Convert value to string |
 | `પ્રકાર(...)` | `prakar(...)` | Inspect runtime type |
+| `ઉમેરો(...)` | `umero(...)` | Append item to list |
+| `કાપો(...)` | `kapo(...)` | Slice string |
+| `શોધો(...)` | `shodho(...)` | Find substring index |
+| `કાઢો(...)` | `kadho(...)` | Remove/pop item from list |
+| `પહેલી_એબીસીડી(...)` | `peli_abcd(...)` | Convert string to uppercase |
+| `બીજી_એબીસીડી(...)` | `biji_abcd(...)` | Convert string to lowercase |
+| `મહત્તમ(...)` | `mahatam(...)` | Return maximum value |
+| `ન્યૂનતમ(...)` | `nyunatam(...)` | Return minimum value |
+| `ધન_મૂલ્ય(...)` | `dhan_mulya(...)` | Return absolute value |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:
@@ -170,7 +187,9 @@ same global variables and functions; circular imports are reported as errors.
 See [`examples/modules.gj`](examples/modules.gj),
 [`examples/collections.gj`](examples/collections.gj), and the
 [`examples/inventory.gj`](examples/inventory.gj) and
-[`examples/stock.gj`](examples/stock.gj) samples combining modules,
+[`examples/stock.gj`](examples/stock.gj), and
+[`examples/calculator.gj`](examples/calculator.gj), and
+[`examples/string_utils.gj`](examples/string_utils.gj) samples combining modules,
 functions, lists, and input.
 
 Example (`examples/hello.gj`):
@@ -190,10 +209,10 @@ Example (`examples/hello.gj`):
 } નહિતર {
     છાપો નકામો;
 }
-કાર્ય ઉમેરો(પહેલું, બીજું) {
+કાર્ય સરવાળો(પહેલું, બીજું) {
     પરત પહેલું + બીજું;
 }
-છાપો ઉમેરો(2, 3);
+છાપો સરવાળો(2, 3);
 ચેતવણી "This is a warning; the program will continue";
 આવજો
 ```

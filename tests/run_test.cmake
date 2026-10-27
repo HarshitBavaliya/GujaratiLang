@@ -308,8 +308,8 @@ elseif(TEST_CASE STREQUAL "function_calls")
 elseif(TEST_CASE STREQUAL "nested_function_calls")
     set(source [=[આવો
 કાર્ય બમણું(કિંમત) { પરત કિંમત * 2; }
-કાર્ય ઉમેરો(પહેલું, બીજું) { પરત પહેલું + બીજું; }
-છાપો ઉમેરો(બમણું(3), બમણું(4));
+કાર્ય સરવાળો(પહેલું, બીજું) { પરત પહેલું + બીજું; }
+છાપો સરવાળો(બમણું(3), બમણું(4));
 આવજો
 ]=])
     set(expected_stdout "14\n")
@@ -686,6 +686,175 @@ aavjo
 elseif(TEST_CASE STREQUAL "reserved_sankhya_lakhan_prakar")
     set(source [=[aavo
 kary lakhan(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_umero")
+    set(source [=[aavo
+nums = [1, 2];
+umero(nums, 3);
+chhapo nums;
+ઉમેરો(nums, 4);
+chhapo nums;
+words = [];
+umero(words, "apple");
+umero(words, "banana");
+chhapo words;
+nested = [[1]];
+umero(nested, [2, 3]);
+chhapo nested;
+aavjo
+]=])
+    set(expected_stdout "[1, 2, 3]\n[1, 2, 3, 4]\n[apple, banana]\n[[1], [2, 3]]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_umero_error")
+    set(source [=[aavo
+umero(42, 10);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a list first argument for 'ઉમેરો' or 'umero'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_kapo")
+    set(source [=[aavo
+chhapo kapo("hello world", 0, 5);
+chhapo kapo("hello world", 6);
+chhapo kapo("hello world", 3, 4);
+chhapo કાપો("ગુજરાતી", 0, 3);
+chhapo kapo("hello", 10, 2);
+chhapo kapo("hello", 2, 100);
+aavjo
+]=])
+    set(expected_stdout "hello\nworld\nlo w\nગુજ\n\nllo\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_kapo_error")
+    set(source [=[aavo
+chhapo kapo(123, 0, 1);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a string first argument for 'કાપો' or 'kapo'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_shodho")
+    set(source [=[aavo
+chhapo shodho("hello world", "world");
+chhapo shodho("hello world", "o");
+chhapo shodho("hello world", "o", 5);
+chhapo shodho("hello world", "xyz");
+chhapo shodho("hello", "");
+chhapo શોધો("ગુજરાતી", "રા");
+chhapo shodho("ગુજરાતી", "નથી");
+aavjo
+]=])
+    set(expected_stdout "6\n4\n7\n-1\n0\n3\n-1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_shodho_error")
+    set(source [=[aavo
+chhapo shodho("hello", 42);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected string arguments for 'શોધો' or 'shodho'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_umero_kapo_shodho")
+    set(source [=[aavo
+kary umero(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_kadho")
+    set(source [=[aavo
+items = [10, 20, 30];
+last = kadho(items);
+chhapo last;
+chhapo items;
+first = kadho(items, 0);
+chhapo first;
+chhapo items;
+rem = કાઢો(items);
+chhapo rem;
+chhapo items;
+aavjo
+]=])
+    set(expected_stdout "30\n[10, 20]\n10\n[20]\n20\n[]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_kadho_error")
+    set(source [=[aavo
+kadho([]);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "cannot remove item from an empty list")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_kadho")
+    set(source [=[aavo
+kary kadho(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_case_conversion")
+    set(source [=[aavo
+chhapo peli_abcd("hello world 123");
+chhapo biji_abcd("HELLO WORLD 123");
+chhapo પહેલી_એબીસીડી("mixed CASE!");
+chhapo બીજી_એબીસીડી("mixed CASE!");
+chhapo peli_abcd("ગુજરાતી");
+aavjo
+]=])
+    set(expected_stdout "HELLO WORLD 123\nhello world 123\nMIXED CASE!\nmixed case!\nગુજરાતી\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_case_conversion_error")
+    set(source [=[aavo
+chhapo peli_abcd(123);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a string argument for case conversion")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_case_conversion")
+    set(source [=[aavo
+kary peli_abcd(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_math_utils")
+    set(source [=[aavo
+chhapo mahatam(10, 25);
+chhapo nyunatam(10, 25);
+chhapo dhan_mulya(-42.5);
+chhapo dhan_mulya(17);
+chhapo મહત્તમ(100, 50);
+chhapo ન્યૂનતમ(100, 50);
+chhapo ધન_મૂલ્ય(-99);
+aavjo
+]=])
+    set(expected_stdout "25\n10\n42.5\n17\n100\n50\n99\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_math_utils_error")
+    set(source [=[aavo
+chhapo mahatam("10", 20);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected number arguments for math function")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_math_utils")
+    set(source [=[aavo
+kary mahatam(x, y) { parat x; }
 aavjo
 ]=])
     set(expected_stdout "")

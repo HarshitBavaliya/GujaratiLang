@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.5
+
+- Add syntax highlighting and starter snippets for list, string, and math built-ins:
+  `kadho` (`કાઢો`), `peli_abcd` (`પહેલી_એબીસીડી`), `biji_abcd` (`બીજી_એબીસીડી`),
+  `mahatam` (`મહત્તમ`), `nyunatam` (`ન્યૂનતમ`), and `dhan_mulya` (`ધન_મૂલ્ય`).
+
 ## 0.1.4
 
 - Add syntax highlighting for sankhya, lakhan, prakar, and native

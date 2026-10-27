@@ -1,7 +1,7 @@
 # GujaratiLang project handoff
 
 Use this file to resume work on GujaratiLang in a later session or with another
-coding assistant. It summarizes the project state as of 2026-10-26. Recheck the
+coding assistant. It summarizes the project state as of 2026-10-27. Recheck the
 repository and Marketplace before acting because versions and workflow status
 can change.
 
@@ -24,7 +24,7 @@ can change.
   platform before publishing v0.7.0.
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
-  published as `HarshitBavaliya.gujarati`, currently v0.1.4.
+  published as `HarshitBavaliya.gujarati`, currently v0.1.4 (v0.1.5 prepared locally).
 - Install the extension with:
 
   ```powershell
@@ -32,14 +32,14 @@ can change.
   ```
 
 - The extension has a 128x128 icon derived from `website/favicon.svg`, Gujarati
-  and romanized syntax highlighting (updated for v0.7.0 built-ins), starter snippets,
+  and romanized syntax highlighting (updated for all v0.7.0+ built-ins), starter snippets,
   and brace-aware indentation and code block folding. Version 0.1.4 is published on the Visual Studio Marketplace.
 - CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter
   and has dedicated extension validation.
 
 ## Latest repository changes
 
-Latest commit on origin: `302a97c` — **Add native Gujarati stock example with automated assertions**.
+Latest commit on origin: `1c5f128` — **Release GujaratiLang v0.7.0 and VS Code extension v0.1.4**.
 
 Recent completed work includes:
 
@@ -47,19 +47,26 @@ Recent completed work includes:
   - `સંખ્યા(text)` / `sankhya(text)`: converts numeric strings to numbers.
   - `લખાણ(value)` / `lakhan(value)`: converts numbers, null, strings, and lists to strings.
   - `પ્રકાર(value)` / `prakar(value)`: returns value runtime type (`"number"`, `"string"`, `"list"`, or `"null"`).
-- Extended VS Code grammar [`editors/vscode/syntaxes/gujarati.tmLanguage.json`](editors/vscode/syntaxes/gujarati.tmLanguage.json)
-  with keyword and function highlighting for the new built-ins.
-- Prepared VS Code extension v0.1.4 in [`editors/vscode/package.json`](editors/vscode/package.json),
-  updated [`editors/vscode/CHANGELOG.md`](editors/vscode/CHANGELOG.md), and verified packaging locally.
-- Bumped project version to `0.7.0` in [`CMakeLists.txt`](CMakeLists.txt).
-- Added 6 regression tests covering valid and error cases for the new built-ins in
-  [`tests/run_test.cmake`](tests/run_test.cmake) and registered them in [`CMakeLists.txt`](CMakeLists.txt).
-- Multi-feature runnable examples:
-  - [`examples/inventory.gj`](examples/inventory.gj) / [`examples/inventory_helpers.gj`](examples/inventory_helpers.gj) (romanized).
-  - [`examples/stock.gj`](examples/stock.gj) / [`examples/stock_helpers.gj`](examples/stock_helpers.gj) (native Gujarati script).
-- Extended [`tests/run_example.cmake`](tests/run_example.cmake) with `ENCODING UTF-8` and stdin file support.
-- Documented new built-ins and examples in [`README.md`](README.md) and [`docs/tutorial.md`](docs/tutorial.md).
-- The test suite has **98 passing cases (100% pass rate)**.
+  - `ઉમેરો(list, item)` / `umero(list, item)`: appends an item to a list dynamically in-place and returns the list.
+  - `કાઢો(list[, index])` / `kadho(list[, index])`: removes and returns an element from a list (last element by default).
+  - `કાપો(string, start[, length])` / `kapo(string, start[, length])`: slices strings using Unicode codepoints.
+  - `શોધો(string, target[, start])` / `shodho(string, target[, start])`: searches for substring codepoint position (`-1` if not found).
+  - `પહેલી_એબીસીડી(text)` / `peli_abcd(text)`: converts string to uppercase.
+  - `બીજી_એબીસીડી(text)` / `biji_abcd(text)`: converts string to lowercase.
+  - `મહત્તમ(a, b)` / `mahatam(a, b)`: returns the maximum of two numbers.
+  - `ન્યૂનતમ(a, b)` / `nyunatam(a, b)`: returns the minimum of two numbers.
+  - `ધન_મૂલ્ય(number)` / `dhan_mulya(number)`: returns the absolute value of a number.
+- Created interactive runnable calculator and text utility examples:
+  - [`examples/calculator.gj`](examples/calculator.gj) combining `vancho`, `sankhya`, and `lakhan`.
+  - [`examples/string_utils.gj`](examples/string_utils.gj) combining `vancho`, `shodho`, `kapo`, `peli_abcd`, `biji_abcd`, `umero`, and `kadho`.
+  - Automated stdin/stdout regression tests in [`tests/examples/`](tests/examples/) registered under CTest.
+- Prepared VS Code extension v0.1.5 in [`editors/vscode/package.json`](editors/vscode/package.json) and [`editors/vscode/CHANGELOG.md`](editors/vscode/CHANGELOG.md):
+  - Updated syntax highlighting grammar [`editors/vscode/syntaxes/gujarati.tmLanguage.json`](editors/vscode/syntaxes/gujarati.tmLanguage.json)
+    with keyword and built-in rules for all new functions.
+  - Added starter snippets in [`editors/vscode/snippets/gujarati.code-snippets`](editors/vscode/snippets/gujarati.code-snippets)
+    for `gj-parse-number`, `gj-to-string`, `gj-type-check`, `gj-append`, `gj-pop`, `gj-slice`, `gj-search`, `gj-uppercase`, `gj-lowercase`, `gj-max`, `gj-min`, and `gj-abs`.
+- Updated project landing page [`website/index.html`](website/index.html) with v0.7.0 downloads, VS Code extension v0.1.4 showcase, and new built-ins features.
+- Expanded test suite to **116 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
 
 ## Build and test
 
@@ -70,25 +77,24 @@ Studio Build Tools with the Desktop development with C++ workload.
 cmake -S . -B build -DBUILD_TESTING=ON
 cmake --build build --config Release
 ctest --test-dir build --build-config Release --output-on-failure
-.\build\gujarati.exe .\examples\hello.gj
+.\build\gujarati.exe .\examples\string_utils.gj
 ```
 
 On Linux/macOS, run the built interpreter as `./build/gujarati
-./examples/hello.gj`. The test suite has 98 passing cases after the
-new built-in tests were added.
+./examples/string_utils.gj`. The test suite has 116 passing cases (100% pass rate).
 
 ## Suggested next work
 
-1. Commit and push the new standard library built-ins (`sankhya`, `lakhan`, `prakar`),
-   syntax highlighting updates, tests, and documentation.
-2. Verify all CI jobs pass across Windows, Ubuntu, macOS Intel, and macOS arm64
-   on GitHub Actions.
-3. Update `editors/vscode/package.json` to version `0.1.4`, update
-   `editors/vscode/CHANGELOG.md`, and publish `v0.1.4` to the Visual Studio Marketplace.
-4. Prepare and tag GujaratiLang runtime release `v0.7.0` (updating `project(gujaratilang VERSION 0.7.0)`
-   in `CMakeLists.txt`).
-5. Add an interactive example script utilizing `sankhya(vancho("..."))` to calculate
-   totals or averages from user terminal input.
+1. **List reverse built-in (`ઉલટાવો` / `ultavo`)**:
+   Implement `ઉલટાવો` / `ultavo(list)` in `src/main.c` to reverse list items in-place and return the list.
+2. **String split built-in (`ભાગ` / `bhag`)**:
+   Implement `ભાગ` / `bhag(string, delimiter)` in `src/main.c` to split a string into a list of substrings.
+3. **List join built-in (`જોડો` / `jodo`)**:
+   Implement `જોડો` / `jodo(list, separator)` in `src/main.c` to concatenate a list of elements into a single formatted string.
+4. **VS Code extension v0.1.6 preparation**:
+   Update `editors/vscode/package.json` to `v0.1.6`, document additions in `editors/vscode/CHANGELOG.md`, and update snippets and syntax highlighting for `ultavo`, `bhag`, and `jodo`.
+5. **CSV parser runnable example (`examples/csv_parser.gj`)**:
+   Create a runnable example combining `bhag`, `jodo`, `sankhya`, and `lakhan` to parse and process comma-separated values, backed by automated CTest assertions.
 
 ## Important workspace notes
 

@@ -86,6 +86,22 @@ if(BUILD_TESTING)
             builtin_lakhan
             builtin_prakar
             reserved_sankhya_lakhan_prakar
+            builtin_umero
+            builtin_umero_error
+            builtin_kapo
+            builtin_kapo_error
+            builtin_shodho
+            builtin_shodho_error
+            reserved_umero_kapo_shodho
+            builtin_kadho
+            builtin_kadho_error
+            reserved_kadho
+            builtin_case_conversion
+            builtin_case_conversion_error
+            reserved_case_conversion
+            builtin_math_utils
+            builtin_math_utils_error
+            reserved_math_utils
             romanized_error
             romanized_fatal_error
             lists_and_indexing
@@ -123,7 +139,7 @@ if(BUILD_TESTING)
         )
     endforeach()
 
-    foreach(example IN ITEMS fibonacci temperature_converter inventory stock)
+    foreach(example IN ITEMS fibonacci temperature_converter inventory stock calculator string_utils)
         set(input_file_arg)
         if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/examples/${example}.stdin")
             set(input_file_arg "-DINPUT_FILE=${CMAKE_CURRENT_SOURCE_DIR}/tests/examples/${example}.stdin")

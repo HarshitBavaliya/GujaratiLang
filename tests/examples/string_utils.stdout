@@ -1,0 +1,8 @@
+Enter source text: Enter query to search: Original: Hello World
+Uppercase: HELLO WORLD
+Lowercase: hello world
+Found prefix: Hello 
+Matched text: World
+Popped history item: second
+Remaining history count: 1
+Analysis (length: 11, match at: 6)
