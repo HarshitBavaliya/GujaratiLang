@@ -39,7 +39,7 @@ can change.
 
 ## Latest repository changes
 
-Latest commit on origin: `1c5f128` — **Release GujaratiLang v0.7.0 and VS Code extension v0.1.4**.
+Latest commit on origin: `2238111` — **Add standard library built-ins, runnable examples, and VS Code v0.1.5 extension**.
 
 Recent completed work includes:
 
