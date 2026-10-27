@@ -498,5 +498,185 @@
       "gothvo(${1:list})"
     ],
     "description": "Sort list items in-place with romanized built-in"
+  },
+  "GujaratiLang replace string": {
+    "prefix": [
+      "gj-replace",
+      "બદલો"
+    ],
+    "body": [
+      "બદલો(${1:string}, ${2:target}, ${3:replacement})"
+    ],
+    "description": "Replace occurrences of substring in string"
+  },
+  "GujaratiLang replace string (romanized)": {
+    "prefix": [
+      "gj-replace-en",
+      "badlo"
+    ],
+    "body": [
+      "badlo(${1:string}, ${2:target}, ${3:replacement})"
+    ],
+    "description": "Replace occurrences of substring with romanized built-in"
+  },
+  "GujaratiLang starts with": {
+    "prefix": [
+      "gj-startswith",
+      "શરૂઆત_સાથે"
+    ],
+    "body": [
+      "શરૂઆત_સાથે(${1:string}, ${2:prefix})"
+    ],
+    "description": "Check if string starts with prefix"
+  },
+  "GujaratiLang starts with (romanized)": {
+    "prefix": [
+      "gj-startswith-en",
+      "sharuat_sathe"
+    ],
+    "body": [
+      "sharuat_sathe(${1:string}, ${2:prefix})"
+    ],
+    "description": "Check if string starts with prefix with romanized built-in"
+  },
+  "GujaratiLang ends with": {
+    "prefix": [
+      "gj-endswith",
+      "અંત_સાથે"
+    ],
+    "body": [
+      "અંત_સાથે(${1:string}, ${2:suffix})"
+    ],
+    "description": "Check if string ends with suffix"
+  },
+  "GujaratiLang ends with (romanized)": {
+    "prefix": [
+      "gj-endswith-en",
+      "ant_sathe"
+    ],
+    "body": [
+      "ant_sathe(${1:string}, ${2:suffix})"
+    ],
+    "description": "Check if string ends with suffix with romanized built-in"
+  },
+  "GujaratiLang list contains": {
+    "prefix": [
+      "gj-contains",
+      "સમાવે_છે"
+    ],
+    "body": [
+      "સમાવે_છે(${1:list}, ${2:item})"
+    ],
+    "description": "Check if list contains an item"
+  },
+  "GujaratiLang list contains (romanized)": {
+    "prefix": [
+      "gj-contains-en",
+      "samave_chhe"
+    ],
+    "body": [
+      "samave_chhe(${1:list}, ${2:item})"
+    ],
+    "description": "Check if list contains an item with romanized built-in"
+  },
+  "GujaratiLang round number": {
+    "prefix": [
+      "gj-round",
+      "ગોળ"
+    ],
+    "body": [
+      "ગોળ(${1:number})"
+    ],
+    "description": "Round number to nearest whole number"
+  },
+  "GujaratiLang round number (romanized)": {
+    "prefix": [
+      "gj-round-en",
+      "gol"
+    ],
+    "body": [
+      "gol(${1:number})"
+    ],
+    "description": "Round number to nearest whole number with romanized built-in"
+  },
+  "GujaratiLang floor number": {
+    "prefix": [
+      "gj-floor",
+      "નીચે"
+    ],
+    "body": [
+      "નીચે(${1:number})"
+    ],
+    "description": "Floor number towards negative infinity"
+  },
+  "GujaratiLang floor number (romanized)": {
+    "prefix": [
+      "gj-floor-en",
+      "niche"
+    ],
+    "body": [
+      "niche(${1:number})"
+    ],
+    "description": "Floor number towards negative infinity with romanized built-in"
+  },
+  "GujaratiLang ceil number": {
+    "prefix": [
+      "gj-ceil",
+      "ઉપર"
+    ],
+    "body": [
+      "ઉપર(${1:number})"
+    ],
+    "description": "Ceil number towards positive infinity"
+  },
+  "GujaratiLang ceil number (romanized)": {
+    "prefix": [
+      "gj-ceil-en",
+      "upar"
+    ],
+    "body": [
+      "upar(${1:number})"
+    ],
+    "description": "Ceil number towards positive infinity with romanized built-in"
+  },
+  "GujaratiLang repeat string": {
+    "prefix": [
+      "gj-repeat",
+      "પુનરાવર્તન"
+    ],
+    "body": [
+      "પુનરાવર્તન(${1:string}, ${2:count})"
+    ],
+    "description": "Repeat string given number of times"
+  },
+  "GujaratiLang repeat string (romanized)": {
+    "prefix": [
+      "gj-repeat-en",
+      "punravartan"
+    ],
+    "body": [
+      "punravartan(${1:string}, ${2:count})"
+    ],
+    "description": "Repeat string given number of times with romanized built-in"
+  },
+  "GujaratiLang slice list": {
+    "prefix": [
+      "gj-listslice",
+      "ટુકડો"
+    ],
+    "body": [
+      "ટુકડો(${1:list}, ${2:start}, ${3:length})"
+    ],
+    "description": "Get sub-list slice"
+  },
+  "GujaratiLang slice list (romanized)": {
+    "prefix": [
+      "gj-listslice-en",
+      "tukdo"
+    ],
+    "body": [
+      "tukdo(${1:list}, ${2:start}, ${3:length})"
+    ],
+    "description": "Get sub-list slice with romanized built-in"
   }
 }

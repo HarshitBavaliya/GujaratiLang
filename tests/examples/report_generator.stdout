@@ -1,0 +1,8 @@
+Enter report title: Enter divider char: Enter items (name:amount, ...): ==============================
+  Sales Summary
+==============================
+Top Items:
+ * Widget A -> $12
+ * Widget B -> $46
+All Items: Widget A -> $12 | Widget B -> $46 | Widget C -> $89 | Widget D -> $5
+==============================

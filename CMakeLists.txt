@@ -123,6 +123,24 @@ if(BUILD_TESTING)
             builtin_gothvo
             builtin_gothvo_error
             reserved_gothvo
+            builtin_badlo
+            builtin_badlo_error
+            reserved_badlo
+            builtin_prefix_suffix
+            builtin_prefix_suffix_error
+            reserved_prefix_suffix
+            builtin_samave_chhe
+            builtin_samave_chhe_error
+            reserved_samave_chhe
+            builtin_round_trunc
+            builtin_round_trunc_error
+            reserved_round_trunc
+            builtin_punravartan
+            builtin_punravartan_error
+            reserved_punravartan
+            builtin_tukdo
+            builtin_tukdo_error
+            reserved_tukdo
             romanized_error
             romanized_fatal_error
             lists_and_indexing
@@ -160,7 +178,7 @@ if(BUILD_TESTING)
         )
     endforeach()
 
-    foreach(example IN ITEMS fibonacci temperature_converter inventory stock calculator string_utils csv_parser math_suite)
+    foreach(example IN ITEMS fibonacci temperature_converter inventory stock calculator string_utils csv_parser math_suite text_filter report_generator)
         set(input_file_arg)
         if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/examples/${example}.stdin")
             set(input_file_arg "-DINPUT_FILE=${CMAKE_CURRENT_SOURCE_DIR}/tests/examples/${example}.stdin")

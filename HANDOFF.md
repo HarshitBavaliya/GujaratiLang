@@ -24,7 +24,7 @@ can change.
   platform before publishing v0.7.0.
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
-  published as `HarshitBavaliya.gujarati`, currently v0.1.4 (v0.1.7 prepared locally).
+  published as `HarshitBavaliya.gujarati`, currently v0.1.4 (v0.1.9 prepared locally).
 - Install the extension with:
 
   ```powershell
@@ -39,11 +39,20 @@ can change.
 
 ## Latest repository changes
 
-Latest commit on origin: `2029d30` — **Add built-ins for list, string, and math operations with examples and VS Code v0.1.7 extension**.
+Latest commit on origin: `7af14ba` — **Add built-ins for list, string, and math operations with examples and VS Code v0.1.7 extension**.
 
 Recent completed work includes:
 
 - Added standard library built-ins to the C interpreter:
+  - `ગોળ(number)` / `gol(number)`: rounds number to nearest integer.
+  - `નીચે(number)` / `niche(number)`: floors number.
+  - `ઉપર(number)` / `upar(number)`: ceils number.
+  - `પુનરાવર્તન(string, count)` / `punravartan(string, count)`: repeats a string count times.
+  - `ટુકડો(list, start[, length])` / `tukdo(list, start[, length])`: slices a sub-list.
+  - `બદલો(string, target, replacement)` / `badlo(string, target, replacement)`: replaces occurrences of a substring.
+  - `શરૂઆત_સાથે(string, prefix)` / `sharuat_sathe(string, prefix)`: returns 1.0 if string starts with prefix, 0.0 otherwise.
+  - `અંત_સાથે(string, suffix)` / `ant_sathe(string, suffix)`: returns 1.0 if string ends with suffix, 0.0 otherwise.
+  - `સમાવે_છે(list, item)` / `samave_chhe(list, item)`: returns 1.0 if item is in list, 0.0 otherwise.
   - `સાફ(string)` / `saf(string)`: trims leading and trailing ASCII whitespace.
   - `ઘાત(base, exponent)` / `ghat(base, exponent)`: calculates exponentiation.
   - `મૂળ(number)` / `mul(number)`: calculates square root with domain error checking.
@@ -68,14 +77,16 @@ Recent completed work includes:
   - [`examples/string_utils.gj`](examples/string_utils.gj) combining `vancho`, `shodho`, `kapo`, `peli_abcd`, `biji_abcd`, `umero`, and `kadho`.
   - [`examples/csv_parser.gj`](examples/csv_parser.gj) combining `vancho`, `bhag`, `jodo`, `sankhya`, `lakhan`, and `ultavo`.
   - [`examples/math_suite.gj`](examples/math_suite.gj) combining `vancho`, `ghat`, `mul`, `sankhya`, `lakhan`, `saf`, `gothvo`, and `ultavo`.
+  - [`examples/text_filter.gj`](examples/text_filter.gj) combining `vancho`, `sharuat_sathe`, `ant_sathe`, `badlo`, `samave_chhe`, `bhag`, `saf`, `umero`, and `jodo`.
+  - [`examples/report_generator.gj`](examples/report_generator.gj) combining `vancho`, `punravartan`, `gol`, `tukdo`, `bhag`, `saf`, `umero`, and `jodo`.
   - Automated stdin/stdout regression tests in [`tests/examples/`](tests/examples/) registered under CTest.
-- Prepared VS Code extension v0.1.7 in [`editors/vscode/package.json`](editors/vscode/package.json) and [`editors/vscode/CHANGELOG.md`](editors/vscode/CHANGELOG.md):
+- Prepared VS Code extension v0.1.9 in [`editors/vscode/package.json`](editors/vscode/package.json) and [`editors/vscode/CHANGELOG.md`](editors/vscode/CHANGELOG.md):
   - Updated syntax highlighting grammar [`editors/vscode/syntaxes/gujarati.tmLanguage.json`](editors/vscode/syntaxes/gujarati.tmLanguage.json)
-    with rules for `saf`, `ghat`, `mul`, and `gothvo` (both Gujarati script and romanized).
+    with rules for `gol`, `niche`, `upar`, `punravartan`, and `tukdo`.
   - Added starter snippets in [`editors/vscode/snippets/gujarati.code-snippets`](editors/vscode/snippets/gujarati.code-snippets)
-    for `gj-trim` (`સાફ`), `gj-power` (`ઘાત`), `gj-sqrt` (`મૂળ`), and `gj-sort` (`ગોઠવો`).
+    for `gj-round` (`ગોળ`), `gj-floor` (`નીચે`), `gj-ceil` (`ઉપર`), `gj-repeat` (`પુનરાવર્તન`), and `gj-listslice` (`ટુકડો`).
 - Updated project landing page [`website/index.html`](website/index.html) with v0.7.0 downloads, VS Code extension v0.1.4 showcase, and new built-ins features.
-- Expanded test suite to **136 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
+- Expanded test suite to **156 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
 
 ## Build and test
 
@@ -90,20 +101,20 @@ ctest --test-dir build --build-config Release --output-on-failure
 ```
 
 On Linux/macOS, run the built interpreter as `./build/gujarati
-./examples/string_utils.gj`. The test suite has 136 passing cases (100% pass rate).
+./examples/string_utils.gj`. The test suite has 156 passing cases (100% pass rate).
 
 ## Suggested next work
 
-1. **String Replacement built-in (`બદલો` / `badlo`)**:
-   Implement `બદલો(string, target, replacement)` / `badlo(string, target, replacement)` in `src/main.c` to replace occurrences of a substring.
-2. **String Prefix / Suffix Check built-ins (`શરૂઆત_સાથે` / `sharuat_sathe`, `અંત_સાથે` / `ant_sathe`)**:
-   Implement string `startsWith` and `endsWith` checking returning boolean (1.0 or 0.0).
-3. **List Search / Contains built-in (`સમાવે_છે` / `samave_chhe`)**:
-   Implement membership testing `samave_chhe(list, item)` returning 1.0 if item is in the list and 0.0 otherwise.
-4. **VS Code extension v0.1.8 preparation**:
-   Bump to `0.1.8`, add syntax highlighting and snippets for `badlo`, `sharuat_sathe`, `ant_sathe`, and `samave_chhe`.
-5. **Text Transformation & Search Runnable Example (`examples/text_filter.gj`)**:
-   Create a runnable example demonstrating `sharuat_sathe`, `ant_sathe`, `badlo`, and `samave_chhe` with automated CTest assertions.
+1. **Math Rounding & Clamping built-ins (`પૂર્ણાંક` / `purnank` or `ગોળ` / `gol`, `નજીક` / `najik`)**:
+   Implement `gol(number)` (round), `niche(number)` (floor), and `upari(number)` (ceil) for numeric processing.
+2. **String Repeat built-in (`પુનરાવર્તન` / `punravartan`)**:
+   Implement string repetition `punravartan(string, count)` returning repeated string.
+3. **List Slice built-in (`યાદી_કાપો` / `yadi_kapo` or `ટુકડો` / `tukdo`)**:
+   Implement non-destructive sub-list slicing `tukdo(list, start[, length])` returning a new list.
+4. **VS Code extension v0.1.9 preparation**:
+   Update `package.json` to `0.1.9`, add grammar and snippets for new math and list built-ins, and update changelog.
+5. **Data Formatting & Rounding Runnable Example (`examples/report_generator.gj`)**:
+   Create a runnable financial/summary table generator combining `tukdo`, `punravartan`, `gol`, and formatted string columns with automated CTest assertions.
 
 ## Important workspace notes
 

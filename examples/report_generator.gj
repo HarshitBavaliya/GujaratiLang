@@ -1,0 +1,33 @@
+aavo
+title = vancho("Enter report title: ");
+sep_char = vancho("Enter divider char: ");
+raw_data = vancho("Enter items (name:amount, ...): ");
+
+divider = punravartan(sep_char, 30);
+chhapo divider;
+chhapo "  " + title;
+chhapo divider;
+
+records = bhag(raw_data, ",");
+parsed = [];
+
+darek (rec ma records) {
+    clean_rec = saf(rec);
+    parts = bhag(clean_rec, ":");
+    jo (lambai(parts) == 2) {
+        name = saf(parts[0]);
+        amt = sankhya(saf(parts[1]));
+        rounded_amt = gol(amt);
+        umero(parsed, name + " -> $" + lakhan(rounded_amt));
+    }
+}
+
+top_items = tukdo(parsed, 0, 2);
+chhapo "Top Items:";
+darek (item ma top_items) {
+    chhapo " * " + item;
+}
+
+chhapo "All Items: " + jodo(parsed, " | ");
+chhapo divider;
+aavjo

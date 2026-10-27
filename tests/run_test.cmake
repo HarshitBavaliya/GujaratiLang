@@ -1029,6 +1029,169 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_badlo")
+    set(source [=[aavo
+chhapo badlo("hello world", "world", "gujaratilang");
+chhapo badlo("banana", "a", "o");
+chhapo બદલો("નમસ્તે ભારત", "ભારત", "ગુજરાત");
+aavjo
+]=])
+    set(expected_stdout "hello gujaratilang\nbonono\nનમસ્તે ગુજરાત\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_badlo_error")
+    set(source [=[aavo
+chhapo badlo(123, "a", "b");
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected string arguments for 'બદલો' or 'badlo'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_badlo")
+    set(source [=[aavo
+kary badlo(x, y, z) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_prefix_suffix")
+    set(source [=[aavo
+chhapo sharuat_sathe("gujaratilang", "guj");
+chhapo ant_sathe("gujaratilang", "lang");
+chhapo શરૂઆત_સાથે("નમસ્તે", "નમ");
+chhapo અંત_સાથે("નમસ્તે", "સ્તે");
+aavjo
+]=])
+    set(expected_stdout "1\n1\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_prefix_suffix_error")
+    set(source [=[aavo
+chhapo sharuat_sathe("abc", 123);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected string arguments for prefix/suffix check")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_prefix_suffix")
+    set(source [=[aavo
+kary sharuat_sathe(x, y) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_samave_chhe")
+    set(source [=[aavo
+items = ["apple", "banana", 42];
+chhapo samave_chhe(items, "banana");
+chhapo samave_chhe(items, "orange");
+chhapo samave_chhe(items, 42);
+chhapo સમાવે_છે(["સફરજન", "ચીકુ"], "ચીકુ");
+aavjo
+]=])
+    set(expected_stdout "1\n0\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_samave_chhe_error")
+    set(source [=[aavo
+chhapo samave_chhe("not a list", 10);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a list first argument for 'સમાવે_છે' or 'samave_chhe'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_samave_chhe")
+    set(source [=[aavo
+kary samave_chhe(x, y) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_round_trunc")
+    set(source [=[aavo
+chhapo gol(4.6);
+chhapo niche(4.9);
+chhapo upar(4.1);
+chhapo ગોળ(7.5);
+chhapo નીચે(7.9);
+chhapo ઉપર(7.1);
+aavjo
+]=])
+    set(expected_stdout "5\n4\n5\n8\n7\n8\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_round_trunc_error")
+    set(source [=[aavo
+chhapo gol("invalid");
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected number arguments for math function")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_round_trunc")
+    set(source [=[aavo
+kary gol(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_punravartan")
+    set(source [=[aavo
+chhapo punravartan("=", 5);
+chhapo punravartan("abc", 2);
+chhapo પુનરાવર્તન("જય", 2);
+aavjo
+]=])
+    set(expected_stdout "=====\nabcabc\nજયજય\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_punravartan_error")
+    set(source [=[aavo
+chhapo punravartan("abc", -2);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "repetition count for 'પુનરાવર્તન' or 'punravartan' must be a non-negative whole number")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_punravartan")
+    set(source [=[aavo
+kary punravartan(x, y) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_tukdo")
+    set(source [=[aavo
+items = [10, 20, 30, 40, 50];
+chhapo tukdo(items, 1, 3);
+chhapo tukdo(items, 3);
+chhapo ટુકડો(["a", "b", "c"], 0, 2);
+aavjo
+]=])
+    set(expected_stdout "[20, 30, 40]\n[40, 50]\n[a, b]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_tukdo_error")
+    set(source [=[aavo
+chhapo tukdo("not a list", 0);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a list first argument for 'ટુકડો' or 'tukdo'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_tukdo")
+    set(source [=[aavo
+kary tukdo(x, y) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

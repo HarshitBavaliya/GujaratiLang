@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.9
+
+- Add syntax highlighting and starter snippets for math rounding, string repeat, and list slicing built-ins:
+  `gol` (`ગોળ`), `niche` (`નીચે`), `upar` (`ઉપર`), `punravartan` (`પુનરાવર્તન`), and `tukdo` (`ટુકડો`).
+
+## 0.1.8
+
+- Add syntax highlighting and starter snippets for string transformation and list membership built-ins:
+  `badlo` (`બદલો`), `sharuat_sathe` (`શરૂઆત_સાથે`), `ant_sathe` (`અંત_સાથે`), and `samave_chhe` (`સમાવે_છે`).
+
 ## 0.1.7
 
 - Add syntax highlighting and starter snippets for math and list built-ins:

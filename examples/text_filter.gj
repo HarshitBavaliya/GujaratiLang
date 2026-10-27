@@ -1,0 +1,38 @@
+aavo
+target_tag = vancho("Enter category to filter: ");
+raw_entries = vancho("Enter items (item:category, ...): ");
+note_line = vancho("Enter note: ");
+
+is_comment = sharuat_sathe(note_line, "//");
+jo (is_comment) {
+    clean_note = saf(badlo(note_line, "//", ""));
+    chhapo "Note: " + clean_note;
+}
+
+entries = bhag(raw_entries, ",");
+matched_items = [];
+
+darek (entry ma entries) {
+    clean_entry = saf(entry);
+    pair = bhag(clean_entry, ":");
+    jo (lambai(pair) == 2) {
+        name = saf(pair[0]);
+        tag = saf(pair[1]);
+        jo (tag == target_tag) {
+            umero(matched_items, name);
+        }
+    }
+}
+
+has_apple = samave_chhe(matched_items, "apple");
+jo (has_apple) {
+    chhapo "Status: Apple is included";
+}
+
+has_txt = ant_sathe("report.txt", ".txt");
+jo (has_txt) {
+    chhapo "File format: Text Report";
+}
+
+chhapo "Matched items (" + target_tag + "): " + jodo(matched_items, " | ");
+aavjo

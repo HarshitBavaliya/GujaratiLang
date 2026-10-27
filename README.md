@@ -140,6 +140,15 @@ can be used in the same program. Multi-word spellings use underscores.
 | `ઘાત(...)` | `ghat(...)` | Return base raised to exponent |
 | `મૂળ(...)` | `mul(...)` | Return square root |
 | `ગોઠવો(...)` | `gothvo(...)` | Sort list items in-place |
+| `બદલો(...)` | `badlo(...)` | Replace occurrences of substring |
+| `શરૂઆત_સાથે(...)` | `sharuat_sathe(...)` | Test if string starts with prefix |
+| `અંત_સાથે(...)` | `ant_sathe(...)` | Test if string ends with suffix |
+| `સમાવે_છે(...)` | `samave_chhe(...)` | Test if list contains item |
+| `ગોળ(...)` | `gol(...)` | Round number to nearest whole number |
+| `નીચે(...)` | `niche(...)` | Floor number |
+| `ઉપર(...)` | `upar(...)` | Ceil number |
+| `પુનરાવર્તન(...)` | `punravartan(...)` | Repeat string count times |
+| `ટુકડો(...)` | `tukdo(...)` | Extract sub-list slice |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:
