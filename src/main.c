@@ -193,6 +193,7 @@ typedef enum {
     MESSAGE_EXPECTED_STRING_FOR_AKSHAR_KOD,
     MESSAGE_EXPECTED_AKSHAR_KOD_INTEGER,
     MESSAGE_AKSHAR_KOD_INDEX_OUT_OF_RANGE,
+    MESSAGE_INVALID_UNICODE_CODEPOINT,
     MESSAGE_USAGE
 } MessageId;
 
@@ -451,6 +452,7 @@ static const char *localized_message(Language language, MessageId message)
         "expected a string first argument for 'અક્ષર_કોડ' or 'akshar_kod'",
         "index for 'અક્ષર_કોડ' or 'akshar_kod' must be a non-negative whole number",
         "index for 'અક્ષર_કોડ' or 'akshar_kod' is out of range",
+        "invalid Unicode code point for 'કોડ_થી_અક્ષર' or 'kod_thi_akshar'",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -563,6 +565,7 @@ static const char *localized_message(Language language, MessageId message)
         "'અક્ષર_કોડ' માટે પ્રથમ દલીલ લખાણ હોવી જોઈએ",
         "'અક્ષર_કોડ' માટે અનુક્રમ શૂન્ય અથવા ધન પૂર્ણાંક હોવો જોઈએ",
         "'અક્ષર_કોડ' માટે અનુક્રમ લખાણની મર્યાદા બહાર છે",
+        "'કોડ_થી_અક્ષર' માટે અમાન્ય યુનિકોડ કોડ પોઈન્ટ",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1137,7 +1140,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "લઘુગણક") ||
            token_matches(parser, name, "laghuganak") ||
            token_matches(parser, name, "અક્ષર_કોડ") ||
-           token_matches(parser, name, "akshar_kod");
+           token_matches(parser, name, "akshar_kod") ||
+           token_matches(parser, name, "કોડ_થી_અક્ષર") ||
+           token_matches(parser, name, "kod_thi_akshar");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -1324,6 +1329,28 @@ static unsigned int utf8_decode_codepoint(const char *bytes, size_t len)
     return b0;
 }
 
+static size_t utf8_encode_codepoint(unsigned int cp, char *out_bytes)
+{
+    if (cp <= 0x7F) {
+        out_bytes[0] = (char)cp;
+        return 1;
+    } else if (cp <= 0x7FF) {
+        out_bytes[0] = (char)(0xC0 | ((cp >> 6) & 0x1F));
+        out_bytes[1] = (char)(0x80 | (cp & 0x3F));
+        return 2;
+    } else if (cp <= 0xFFFF) {
+        out_bytes[0] = (char)(0xE0 | ((cp >> 12) & 0x0F));
+        out_bytes[1] = (char)(0x80 | ((cp >> 6) & 0x3F));
+        out_bytes[2] = (char)(0x80 | (cp & 0x3F));
+        return 3;
+    } else {
+        out_bytes[0] = (char)(0xF0 | ((cp >> 18) & 0x07));
+        out_bytes[1] = (char)(0x80 | ((cp >> 12) & 0x3F));
+        out_bytes[2] = (char)(0x80 | ((cp >> 6) & 0x3F));
+        out_bytes[3] = (char)(0x80 | (cp & 0x3F));
+        return 4;
+    }
+}
 static size_t utf8_codepoint_to_byte_offset(const char *str, size_t str_len, size_t target_cp)
 {
     size_t cp = 0;
@@ -1967,6 +1994,36 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.kind = VALUE_STRING;
                             result.string_length = len;
                             result.owned_string = str;
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "કોડ_થી_અક્ષર") ||
+                       token_matches(parser, name, "kod_thi_akshar")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else {
+                    double num = arguments[0].number;
+                    if (num < 0.0 || num > 0x10FFFF || num != floor(num) || (num >= 0xD800 && num <= 0xDFFF)) {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_INVALID_UNICODE_CODEPOINT);
+                    } else {
+                        char *str = (char *)malloc(5);
+                        if (str == NULL) {
+                            report_error(parser, name.line, name.column, MESSAGE_OUT_OF_MEMORY);
+                        } else {
+                            size_t byte_len = utf8_encode_codepoint((unsigned int)num, str);
+                            str[byte_len] = '\0';
+                            if (!store_owned_string(parser, name, str)) {
+                                free(str);
+                            } else {
+                                result.kind = VALUE_STRING;
+                                result.string_length = byte_len;
+                                result.owned_string = str;
+                            }
                         }
                     }
                 }

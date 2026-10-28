@@ -162,6 +162,7 @@ can be used in the same program. Multi-word spellings use underscores.
 | `ચિહ્ન(...)` | `chihna(...)` | Return sign of number (1 for positive, -1 for negative, 0 for zero) |
 | `લઘુગણક(...)` | `laghuganak(...)` | Return logarithm (natural log ln(n) or log base(n)) |
 | `અક્ષર_કોડ(...)` | `akshar_kod(...)` | Return Unicode codepoint of character at index |
+| `કોડ_થી_અક્ષર(...)` | `kod_thi_akshar(...)` | Convert Unicode code point to single-character string |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

@@ -1652,6 +1652,51 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_kod_thi_akshar")
+    set(source [=[aavo
+chhapo kod_thi_akshar(65);
+chhapo kod_thi_akshar(66);
+chhapo કોડ_થી_અક્ષર(2711);
+chhapo કોડ_થી_અક્ષર(2753);
+chhapo akshar_kod(kod_thi_akshar(888));
+aavjo
+]=])
+    set(expected_stdout "A\nB\nગ\nુ\n888\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_kod_thi_akshar_error")
+    set(source [=[aavo
+kod_thi_akshar();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_kod_thi_akshar_invalid")
+    set(source [=[aavo
+kod_thi_akshar(-5);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "invalid Unicode code point for 'કોડ_થી_અક્ષર' or 'kod_thi_akshar'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_kod_thi_akshar_gujarati_error")
+    set(source [=[આવો
+કોડ_થી_અક્ષર(9999999);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'કોડ_થી_અક્ષર' માટે અમાન્ય યુનિકોડ કોડ પોઈન્ટ")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_kod_thi_akshar")
+    set(source [=[aavo
+kary kod_thi_akshar(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

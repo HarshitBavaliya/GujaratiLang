@@ -938,5 +938,25 @@
       "akshar_kod(${1:string}, ${2:index})"
     ],
     "description": "Return Unicode code point of character at index with romanized built-in"
+  },
+  "GujaratiLang code to character": {
+    "prefix": [
+      "gj-fromcode",
+      "કોડ_થી_અક્ષર"
+    ],
+    "body": [
+      "કોડ_થી_અક્ષર(${1:codepoint})"
+    ],
+    "description": "Convert Unicode code point to single-character string"
+  },
+  "GujaratiLang code to character (romanized)": {
+    "prefix": [
+      "gj-fromcode-en",
+      "kod_thi_akshar"
+    ],
+    "body": [
+      "kod_thi_akshar(${1:codepoint})"
+    ],
+    "description": "Convert Unicode code point to single-character string with romanized built-in"
   }
 }
