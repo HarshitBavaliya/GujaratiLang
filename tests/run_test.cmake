@@ -1697,6 +1697,50 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_yadi_bharo")
+    set(source [=[aavo
+chhapo yadi_bharo(3, 0);
+chhapo yadi_bharo(4, "ha");
+chhapo yadi_bharo(0, 10);
+chhapo યાદી_ભરો(2, [1, 2]);
+aavjo
+]=])
+    set(expected_stdout "[0, 0, 0]\n[ha, ha, ha, ha]\n[]\n[[1, 2], [1, 2]]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_yadi_bharo_error")
+    set(source [=[aavo
+yadi_bharo(5);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_yadi_bharo_count_error")
+    set(source [=[aavo
+yadi_bharo(-2, 0);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "count for 'યાદી_ભરો' or 'yadi_bharo' must be a non-negative whole number")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_yadi_bharo_gujarati_error")
+    set(source [=[આવો
+યાદી_ભરો(1.5, 0);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'યાદી_ભરો' માટે ગણતરી શૂન્ય અથવા ધન પૂર્ણાંક હોવી જોઈએ")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_yadi_bharo")
+    set(source [=[aavo
+kary yadi_bharo(x, y) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

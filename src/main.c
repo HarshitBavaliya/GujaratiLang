@@ -194,6 +194,7 @@ typedef enum {
     MESSAGE_EXPECTED_AKSHAR_KOD_INTEGER,
     MESSAGE_AKSHAR_KOD_INDEX_OUT_OF_RANGE,
     MESSAGE_INVALID_UNICODE_CODEPOINT,
+    MESSAGE_EXPECTED_YADI_BHARO_COUNT_INTEGER,
     MESSAGE_USAGE
 } MessageId;
 
@@ -453,6 +454,7 @@ static const char *localized_message(Language language, MessageId message)
         "index for 'અક્ષર_કોડ' or 'akshar_kod' must be a non-negative whole number",
         "index for 'અક્ષર_કોડ' or 'akshar_kod' is out of range",
         "invalid Unicode code point for 'કોડ_થી_અક્ષર' or 'kod_thi_akshar'",
+        "count for 'યાદી_ભરો' or 'yadi_bharo' must be a non-negative whole number",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -566,6 +568,7 @@ static const char *localized_message(Language language, MessageId message)
         "'અક્ષર_કોડ' માટે અનુક્રમ શૂન્ય અથવા ધન પૂર્ણાંક હોવો જોઈએ",
         "'અક્ષર_કોડ' માટે અનુક્રમ લખાણની મર્યાદા બહાર છે",
         "'કોડ_થી_અક્ષર' માટે અમાન્ય યુનિકોડ કોડ પોઈન્ટ",
+        "'યાદી_ભરો' માટે ગણતરી શૂન્ય અથવા ધન પૂર્ણાંક હોવી જોઈએ",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1142,7 +1145,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "અક્ષર_કોડ") ||
            token_matches(parser, name, "akshar_kod") ||
            token_matches(parser, name, "કોડ_થી_અક્ષર") ||
-           token_matches(parser, name, "kod_thi_akshar");
+           token_matches(parser, name, "kod_thi_akshar") ||
+           token_matches(parser, name, "યાદી_ભરો") ||
+           token_matches(parser, name, "yadi_bharo");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -1994,6 +1999,34 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.kind = VALUE_STRING;
                             result.string_length = len;
                             result.owned_string = str;
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "યાદી_ભરો") ||
+                       token_matches(parser, name, "yadi_bharo")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER ||
+                           arguments[0].number < 0.0 ||
+                           arguments[0].number >= (double)(size_t)-1 ||
+                           arguments[0].number != (double)(size_t)arguments[0].number) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_YADI_BHARO_COUNT_INTEGER);
+                } else {
+                    size_t count = (size_t)arguments[0].number;
+                    List *list = create_list(parser, name);
+                    if (list != NULL) {
+                        int ok = 1;
+                        for (size_t i = 0; i < count; i++) {
+                            if (!append_list_item(parser, list, arguments[1], name)) {
+                                ok = 0;
+                                break;
+                            }
+                        }
+                        if (ok) {
+                            result.kind = VALUE_LIST;
+                            result.list = list;
                         }
                     }
                 }

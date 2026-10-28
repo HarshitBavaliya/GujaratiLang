@@ -958,5 +958,25 @@
       "kod_thi_akshar(${1:codepoint})"
     ],
     "description": "Convert Unicode code point to single-character string with romanized built-in"
+  },
+  "GujaratiLang fill list": {
+    "prefix": [
+      "gj-fill",
+      "યાદી_ભરો"
+    ],
+    "body": [
+      "યાદી_ભરો(${1:count}, ${2:value})"
+    ],
+    "description": "Create a new list filled with count copies of value"
+  },
+  "GujaratiLang fill list (romanized)": {
+    "prefix": [
+      "gj-fill-en",
+      "yadi_bharo"
+    ],
+    "body": [
+      "yadi_bharo(${1:count}, ${2:value})"
+    ],
+    "description": "Create a new list filled with count copies of value with romanized built-in"
   }
 }

@@ -163,6 +163,7 @@ can be used in the same program. Multi-word spellings use underscores.
 | `લઘુગણક(...)` | `laghuganak(...)` | Return logarithm (natural log ln(n) or log base(n)) |
 | `અક્ષર_કોડ(...)` | `akshar_kod(...)` | Return Unicode codepoint of character at index |
 | `કોડ_થી_અક્ષર(...)` | `kod_thi_akshar(...)` | Convert Unicode code point to single-character string |
+| `યાદી_ભરો(...)` | `yadi_bharo(...)` | Create a new list filled with count copies of value |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

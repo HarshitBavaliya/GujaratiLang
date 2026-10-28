@@ -193,6 +193,11 @@ if(BUILD_TESTING)
             builtin_kod_thi_akshar_invalid
             builtin_kod_thi_akshar_gujarati_error
             reserved_kod_thi_akshar
+            builtin_yadi_bharo
+            builtin_yadi_bharo_error
+            builtin_yadi_bharo_count_error
+            builtin_yadi_bharo_gujarati_error
+            reserved_yadi_bharo
             romanized_error
             romanized_fatal_error
             lists_and_indexing
