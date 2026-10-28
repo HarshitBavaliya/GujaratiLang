@@ -1492,6 +1492,33 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_e")
+    set(source [=[aavo
+val1 = e();
+chhapo gol(val1 * 100);
+val2 = ઈ();
+chhapo gol(val2 * 100);
+aavjo
+]=])
+    set(expected_stdout "272\n272\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_e_error")
+    set(source [=[aavo
+e(1);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_e")
+    set(source [=[aavo
+kary e() { parat 0; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

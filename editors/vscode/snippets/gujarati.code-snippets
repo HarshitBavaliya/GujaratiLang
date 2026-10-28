@@ -858,5 +858,25 @@
       "pi()"
     ],
     "description": "Mathematical constant pi (~3.14159) with romanized built-in"
+  },
+  "GujaratiLang e constant": {
+    "prefix": [
+      "gj-e",
+      "ઈ"
+    ],
+    "body": [
+      "ઈ()"
+    ],
+    "description": "Mathematical constant e (~2.71828)"
+  },
+  "GujaratiLang e constant (romanized)": {
+    "prefix": [
+      "gj-e-en",
+      "e"
+    ],
+    "body": [
+      "e()"
+    ],
+    "description": "Mathematical constant e (~2.71828) with romanized built-in"
   }
 }

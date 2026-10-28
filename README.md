@@ -158,6 +158,7 @@ can be used in the same program. Multi-word spellings use underscores.
 | `બીજ(...)` | `beej(...)` | Set pseudo-random number generator seed for deterministic output |
 | `વિસ્તારો(...)` | `vistaro(...)` | Append all items from another list in-place |
 | `પાઈ()` | `pi()` | Mathematical constant pi (~3.14159) |
+| `ઈ()` | `e()` | Mathematical constant e (~2.71828) |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

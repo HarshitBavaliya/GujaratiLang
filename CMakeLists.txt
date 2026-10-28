@@ -170,6 +170,9 @@ if(BUILD_TESTING)
             builtin_pi
             builtin_pi_error
             reserved_pi
+            builtin_e
+            builtin_e_error
+            reserved_e
             romanized_error
             romanized_fatal_error
             lists_and_indexing

@@ -6,6 +6,7 @@
 #include <time.h>
 
 #define GUJARATI_PI 3.14159265358979323846
+#define GUJARATI_E  2.71828182845904523536
 
 #ifdef _WIN32
 #include <windows.h>
@@ -1113,7 +1114,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "વિસ્તારો") ||
            token_matches(parser, name, "vistaro") ||
            token_matches(parser, name, "પાઈ") ||
-           token_matches(parser, name, "pi");
+           token_matches(parser, name, "pi") ||
+           token_matches(parser, name, "ઈ") ||
+           token_matches(parser, name, "e");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -1929,6 +1932,14 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.owned_string = str;
                         }
                     }
+                }
+            } else if (token_matches(parser, name, "ઈ") ||
+                       token_matches(parser, name, "e")) {
+                if (argument_count != 0) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = number_value(GUJARATI_E);
                 }
             } else if (token_matches(parser, name, "પાઈ") ||
                        token_matches(parser, name, "pi")) {
