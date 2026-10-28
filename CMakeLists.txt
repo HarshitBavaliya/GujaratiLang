@@ -150,6 +150,9 @@ if(BUILD_TESTING)
             builtin_padding
             builtin_padding_error
             reserved_padding
+            builtin_sima
+            builtin_sima_error
+            reserved_sima
             romanized_error
             romanized_fatal_error
             lists_and_indexing

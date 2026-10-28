@@ -180,6 +180,7 @@ typedef enum {
     MESSAGE_EXPECTED_STRING_FOR_PADDING,
     MESSAGE_EXPECTED_PADDING_WIDTH_INTEGER,
     MESSAGE_EXPECTED_PAD_STRING,
+    MESSAGE_SIMA_MIN_GREATER_THAN_MAX,
     MESSAGE_USAGE
 } MessageId;
 
@@ -429,6 +430,7 @@ static const char *localized_message(Language language, MessageId message)
         "expected a string first argument for padding",
         "width for padding must be a non-negative whole number",
         "pad character for padding must be a string",
+        "minimum bound cannot be greater than maximum bound for 'સીમા' or 'sima'",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -532,6 +534,7 @@ static const char *localized_message(Language language, MessageId message)
         "પેડિંગ માટે પ્રથમ દલીલ લખાણ હોવી જોઈએ",
         "પેડિંગ માટે પહોળાઈ શૂન્ય અથવા ધન પૂર્ણાંક હોવી જોઈએ",
         "પેડિંગ માટે પેડ કેરેક્ટર લખાણ હોવું જોઈએ",
+        "'સીમા' માટે ન્યૂનતમ સીમા મહત્તમ સીમા કરતાં મોટી ન હોઈ શકે",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1059,7 +1062,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "ડાબે_ભરો") ||
            token_matches(parser, name, "dabe_bharo") ||
            token_matches(parser, name, "જમણે_ભરો") ||
-           token_matches(parser, name, "jamne_bharo");
+           token_matches(parser, name, "jamne_bharo") ||
+           token_matches(parser, name, "સીમા") ||
+           token_matches(parser, name, "sima");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -2187,6 +2192,31 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 } else {
                     double val = arguments[0].number;
                     result = number_value(val < 0.0 ? -val : val);
+                }
+            } else if (token_matches(parser, name, "સીમા") ||
+                       token_matches(parser, name, "sima")) {
+                if (argument_count != 3) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER ||
+                           arguments[1].kind != VALUE_NUMBER ||
+                           arguments[2].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else if (arguments[1].number > arguments[2].number) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_SIMA_MIN_GREATER_THAN_MAX);
+                } else {
+                    double val = arguments[0].number;
+                    double min_b = arguments[1].number;
+                    double max_b = arguments[2].number;
+                    if (val < min_b) {
+                        result = number_value(min_b);
+                    } else if (val > max_b) {
+                        result = number_value(max_b);
+                    } else {
+                        result = number_value(val);
+                    }
                 }
             } else if (token_matches(parser, name, "ઉલટાવો") ||
                        token_matches(parser, name, "ultavo")) {

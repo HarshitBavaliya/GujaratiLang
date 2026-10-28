@@ -1289,6 +1289,37 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_sima")
+    set(source [=[aavo
+chhapo sima(25, 10, 50);
+chhapo sima(5, 10, 50);
+chhapo sima(75, 10, 50);
+chhapo sima(-20, -10, 10);
+chhapo sima(15, -10, 10);
+chhapo સીમા(5, 0, 10);
+chhapo સીમા(-5, 0, 10);
+chhapo સીમા(15, 0, 10);
+aavjo
+]=])
+    set(expected_stdout "25\n10\n50\n-10\n10\n5\n0\n10\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_sima_error")
+    set(source [=[aavo
+chhapo sima(10, 50, 20);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "minimum bound cannot be greater than maximum bound for 'સીમા' or 'sima'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_sima")
+    set(source [=[aavo
+kary sima(x, y, z) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

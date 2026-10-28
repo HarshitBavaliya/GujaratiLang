@@ -153,6 +153,7 @@ can be used in the same program. Multi-word spellings use underscores.
 | `મૂકો(...)` | `muko(...)` | Insert item into list at index in-place |
 | `ડાબે_ભરો(...)` | `dabe_bharo(...)` | Pad string on left to target width |
 | `જમણે_ભરો(...)` | `jamne_bharo(...)` | Pad string on right to target width |
+| `સીમા(...)` | `sima(...)` | Clamp number between minimum and maximum bounds |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:
