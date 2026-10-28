@@ -1320,6 +1320,57 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_yadachhik")
+    set(source [=[aavo
+f1 = yadachhik();
+chhapo f1 >= 0.0 ane f1 < 1.0;
+f2 = યાદચ્છિક();
+chhapo f2 >= 0.0 અને f2 < 1.0;
+d1 = yadachhik(1, 6);
+chhapo d1 >= 1 ane d1 <= 6;
+d2 = યાદચ્છિક(10, 20);
+chhapo d2 >= 10 અને d2 <= 20;
+chhapo yadachhik(42, 42);
+d3 = yadachhik(-10, -5);
+chhapo d3 >= -10 ane d3 <= -5;
+aavjo
+]=])
+    set(expected_stdout "1\n1\n1\n1\n42\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_yadachhik_error")
+    set(source [=[aavo
+chhapo yadachhik(1);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_yadachhik_bounds_error")
+    set(source [=[aavo
+chhapo yadachhik(10, 2);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "minimum bound cannot be greater than maximum bound for 'યાદચ્છિક' or 'yadachhik'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_yadachhik_gujarati_error")
+    set(source [=[આવો
+છાપો યાદચ્છિક(10, 2);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'યાદચ્છિક' માટે ન્યૂનતમ સીમા મહત્તમ સીમા કરતાં મોટી ન હોઈ શકે")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_yadachhik")
+    set(source [=[aavo
+kary yadachhik() { parat 0; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

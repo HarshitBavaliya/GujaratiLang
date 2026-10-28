@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -181,6 +182,8 @@ typedef enum {
     MESSAGE_EXPECTED_PADDING_WIDTH_INTEGER,
     MESSAGE_EXPECTED_PAD_STRING,
     MESSAGE_SIMA_MIN_GREATER_THAN_MAX,
+    MESSAGE_YADACHHIK_MIN_GREATER_THAN_MAX,
+    MESSAGE_EXPECTED_INTEGER_YADACHHIK,
     MESSAGE_USAGE
 } MessageId;
 
@@ -431,6 +434,8 @@ static const char *localized_message(Language language, MessageId message)
         "width for padding must be a non-negative whole number",
         "pad character for padding must be a string",
         "minimum bound cannot be greater than maximum bound for 'સીમા' or 'sima'",
+        "minimum bound cannot be greater than maximum bound for 'યાદચ્છિક' or 'yadachhik'",
+        "range bounds for 'યાદચ્છિક' or 'yadachhik' must be whole numbers",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -535,6 +540,8 @@ static const char *localized_message(Language language, MessageId message)
         "પેડિંગ માટે પહોળાઈ શૂન્ય અથવા ધન પૂર્ણાંક હોવી જોઈએ",
         "પેડિંગ માટે પેડ કેરેક્ટર લખાણ હોવું જોઈએ",
         "'સીમા' માટે ન્યૂનતમ સીમા મહત્તમ સીમા કરતાં મોટી ન હોઈ શકે",
+        "'યાદચ્છિક' માટે ન્યૂનતમ સીમા મહત્તમ સીમા કરતાં મોટી ન હોઈ શકે",
+        "'યાદચ્છિક' માટે સીમાઓ પૂર્ણાંક સંખ્યા હોવી જોઈએ",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -861,6 +868,35 @@ static void advance_token(Parser *parser)
     }
 }
 
+static unsigned long long prng_state = 0;
+static int prng_initialized = 0;
+
+static void set_prng_seed(unsigned long long seed)
+{
+    if (seed == 0) {
+        seed = 0x853c49e6748fea9bULL;
+    }
+    prng_state = seed;
+    prng_initialized = 1;
+}
+
+static void ensure_prng_initialized(void)
+{
+    if (!prng_initialized) {
+        unsigned long long t = (unsigned long long)time(NULL);
+        set_prng_seed((t ^ 0x5a17e29b9ULL) + 0xda942042e4dd58b5ULL);
+    }
+}
+
+static double next_random_double(void)
+{
+    ensure_prng_initialized();
+    prng_state ^= prng_state << 13;
+    prng_state ^= prng_state >> 7;
+    prng_state ^= prng_state << 17;
+    return (double)(prng_state >> 11) * (1.0 / 9007199254740992.0);
+}
+
 static Value number_value(double number)
 {
     Value value;
@@ -1064,7 +1100,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "જમણે_ભરો") ||
            token_matches(parser, name, "jamne_bharo") ||
            token_matches(parser, name, "સીમા") ||
-           token_matches(parser, name, "sima");
+           token_matches(parser, name, "sima") ||
+           token_matches(parser, name, "યાદચ્છિક") ||
+           token_matches(parser, name, "yadachhik");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -2216,6 +2254,37 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                         result = number_value(max_b);
                     } else {
                         result = number_value(val);
+                    }
+                }
+            } else if (token_matches(parser, name, "યાદચ્છિક") ||
+                       token_matches(parser, name, "yadachhik")) {
+                if (argument_count != 0 && argument_count != 2) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (argument_count == 0) {
+                    result = number_value(next_random_double());
+                } else {
+                    if (arguments[0].kind != VALUE_NUMBER ||
+                        arguments[1].kind != VALUE_NUMBER) {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                    } else if (arguments[0].number != floor(arguments[0].number) ||
+                               arguments[1].number != floor(arguments[1].number)) {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_EXPECTED_INTEGER_YADACHHIK);
+                    } else if (arguments[0].number > arguments[1].number) {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_YADACHHIK_MIN_GREATER_THAN_MAX);
+                    } else {
+                        long long min_val = (long long)arguments[0].number;
+                        long long max_val = (long long)arguments[1].number;
+                        unsigned long long range = (unsigned long long)(max_val - min_val) + 1ULL;
+                        double r = next_random_double();
+                        long long offset = (long long)(r * (double)range);
+                        if (offset >= (long long)range) {
+                            offset = (long long)range - 1;
+                        }
+                        result = number_value((double)(min_val + offset));
                     }
                 }
             } else if (token_matches(parser, name, "ઉલટાવો") ||

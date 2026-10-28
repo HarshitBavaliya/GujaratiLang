@@ -778,5 +778,25 @@
       "sima(${1:value}, ${2:min}, ${3:max})"
     ],
     "description": "Clamp number between minimum and maximum bounds with romanized built-in"
+  },
+  "GujaratiLang random number": {
+    "prefix": [
+      "gj-random",
+      "યાદચ્છિક"
+    ],
+    "body": [
+      "યાદચ્છિક(${1:})"
+    ],
+    "description": "Generate random float [0.0, 1.0) or random integer in [min, max]"
+  },
+  "GujaratiLang random number (romanized)": {
+    "prefix": [
+      "gj-random-en",
+      "yadachhik"
+    ],
+    "body": [
+      "yadachhik(${1:})"
+    ],
+    "description": "Generate random float [0.0, 1.0) or random integer in [min, max] with romanized built-in"
   }
 }

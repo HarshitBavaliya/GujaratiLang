@@ -153,6 +153,11 @@ if(BUILD_TESTING)
             builtin_sima
             builtin_sima_error
             reserved_sima
+            builtin_yadachhik
+            builtin_yadachhik_error
+            builtin_yadachhik_bounds_error
+            builtin_yadachhik_gujarati_error
+            reserved_yadachhik
             romanized_error
             romanized_fatal_error
             lists_and_indexing

@@ -154,6 +154,7 @@ can be used in the same program. Multi-word spellings use underscores.
 | `ડાબે_ભરો(...)` | `dabe_bharo(...)` | Pad string on left to target width |
 | `જમણે_ભરો(...)` | `jamne_bharo(...)` | Pad string on right to target width |
 | `સીમા(...)` | `sima(...)` | Clamp number between minimum and maximum bounds |
+| `યાદચ્છિક(...)` | `yadachhik(...)` | Generate random float in [0.0, 1.0) or random integer in [min, max] |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:
