@@ -214,6 +214,8 @@ typedef enum {
     MESSAGE_EXPECTED_STRING_ASSERTION_MESSAGE,
     MESSAGE_ASSERTION_FAILED,
     MESSAGE_EXPECTED_STRING_FOR_SAMAVE_LAKHAN,
+    MESSAGE_EXPECTED_STRING_FOR_FILE_PATH,
+    MESSAGE_EXPECTED_STRING_FOR_FILE_CONTENT,
     MESSAGE_USAGE
 } MessageId;
 
@@ -493,6 +495,8 @@ static const char *localized_message(Language language, MessageId message)
         "assertion failure message must be a string",
         "assertion failed",
         "expected string arguments for 'સમાવે_લખાણ' or 'samave_lakhan'",
+        "expected a string file path",
+        "expected string content for file operation",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -626,6 +630,8 @@ static const char *localized_message(Language language, MessageId message)
         "ચકાસણી નિષ્ફળતા સંદેશ લખાણ હોવો જોઈએ",
         "ચકાસણી નિષ્ફળ ગઈ",
         "'સમાવે_લખાણ' માટે લખાણ દલીલો અપેક્ષિત છે",
+        "ફાઇલ પાથ માટે લખાણ હોવું જરૂરી છે",
+        "ફાઇલ સામગ્રી માટે લખાણ હોવું જરૂરી છે",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1238,7 +1244,21 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "ચકાસો") ||
            token_matches(parser, name, "chakaso") ||
            token_matches(parser, name, "સમાવે_લખાણ") ||
-           token_matches(parser, name, "samave_lakhan");
+           token_matches(parser, name, "samave_lakhan") ||
+           token_matches(parser, name, "ફાઇલ_વાંચો") ||
+           token_matches(parser, name, "file_vancho") ||
+           token_matches(parser, name, "ફાઇલ_લખો") ||
+           token_matches(parser, name, "file_lakho") ||
+           token_matches(parser, name, "ફાઇલ_ઉમેરો") ||
+           token_matches(parser, name, "file_umero") ||
+           token_matches(parser, name, "ફાઇલ_છે") ||
+           token_matches(parser, name, "file_chhe") ||
+           token_matches(parser, name, "ફાઇલ_કાઢો") ||
+           token_matches(parser, name, "file_kadho") ||
+           token_matches(parser, name, "ફાઇલ_હટાવો") ||
+           token_matches(parser, name, "file_hatao") ||
+           token_matches(parser, name, "ફાઇલ_કદ") ||
+           token_matches(parser, name, "file_kad");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -1339,6 +1359,18 @@ static size_t copy_value_string(Parser *parser, Value value, char *output)
         output[length++] = character;
     }
     return length;
+}
+
+static char *value_to_c_string(Parser *parser, Value value)
+{
+    size_t len = decoded_string_length(parser, value);
+    char *buf = (char *)malloc(len + 1);
+    if (buf == NULL) {
+        return NULL;
+    }
+    copy_value_string(parser, value, buf);
+    buf[len] = '\0';
+    return buf;
 }
 
 static int next_string_byte(Parser *parser, Value value, size_t *index)
@@ -2135,6 +2167,243 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result = number_value(found ? 1.0 : 0.0);
                         }
                     }
+                }
+            } else if (token_matches(parser, name, "ફાઇલ_વાંચો") ||
+                       token_matches(parser, name, "file_vancho")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_FILE_PATH);
+                } else if (execute) {
+                    char *path_buf = value_to_c_string(parser, arguments[0]);
+                    if (path_buf == NULL) {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        FILE *f = fopen(path_buf, "rb");
+                        free(path_buf);
+                        if (f == NULL) {
+                            result = null_value();
+                        } else {
+                            if (fseek(f, 0, SEEK_END) != 0) {
+                                fclose(f);
+                                result = null_value();
+                            } else {
+                                long fsize = ftell(f);
+                                if (fsize < 0 || fseek(f, 0, SEEK_SET) != 0) {
+                                    fclose(f);
+                                    result = null_value();
+                                } else if (fsize == 0) {
+                                    fclose(f);
+                                    char *empty_str = (char *)malloc(1);
+                                    if (empty_str == NULL) {
+                                        report_error(parser, name.line, name.column,
+                                                     MESSAGE_OUT_OF_MEMORY);
+                                    } else {
+                                        empty_str[0] = '\0';
+                                        if (!store_owned_string(parser, name, empty_str)) {
+                                            result = number_value(0.0);
+                                        } else {
+                                            result.kind = VALUE_STRING;
+                                            result.string_offset = 0;
+                                            result.string_length = 0;
+                                            result.owned_string = empty_str;
+                                        }
+                                    }
+                                } else {
+                                    char *content_buf = (char *)malloc((size_t)fsize + 1);
+                                    if (content_buf == NULL) {
+                                        fclose(f);
+                                        report_error(parser, name.line, name.column,
+                                                     MESSAGE_OUT_OF_MEMORY);
+                                    } else {
+                                        size_t read_bytes = fread(content_buf, 1, (size_t)fsize, f);
+                                        fclose(f);
+                                        content_buf[read_bytes] = '\0';
+                                        if (!store_owned_string(parser, name, content_buf)) {
+                                            result = number_value(0.0);
+                                        } else {
+                                            result.kind = VALUE_STRING;
+                                            result.string_offset = 0;
+                                            result.string_length = read_bytes;
+                                            result.owned_string = content_buf;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    result = null_value();
+                }
+            } else if (token_matches(parser, name, "ફાઇલ_લખો") ||
+                       token_matches(parser, name, "file_lakho")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_FILE_PATH);
+                } else if (arguments[1].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_FILE_CONTENT);
+                } else if (execute) {
+                    char *path_buf = value_to_c_string(parser, arguments[0]);
+                    size_t c_len = decoded_string_length(parser, arguments[1]);
+                    char *c_buf = (char *)malloc(c_len + 1);
+                    if (path_buf == NULL || c_buf == NULL) {
+                        free(path_buf);
+                        free(c_buf);
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        copy_value_string(parser, arguments[1], c_buf);
+                        c_buf[c_len] = '\0';
+                        FILE *f = fopen(path_buf, "wb");
+                        free(path_buf);
+                        if (f == NULL) {
+                            free(c_buf);
+                            result = number_value(0.0);
+                        } else {
+                            size_t written = 0;
+                            if (c_len > 0) {
+                                written = fwrite(c_buf, 1, c_len, f);
+                            }
+                            fclose(f);
+                            free(c_buf);
+                            result = number_value(written == c_len ? 1.0 : 0.0);
+                        }
+                    }
+                } else {
+                    result = number_value(0.0);
+                }
+            } else if (token_matches(parser, name, "ફાઇલ_ઉમેરો") ||
+                       token_matches(parser, name, "file_umero")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_FILE_PATH);
+                } else if (arguments[1].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_FILE_CONTENT);
+                } else if (execute) {
+                    char *path_buf = value_to_c_string(parser, arguments[0]);
+                    size_t c_len = decoded_string_length(parser, arguments[1]);
+                    char *c_buf = (char *)malloc(c_len + 1);
+                    if (path_buf == NULL || c_buf == NULL) {
+                        free(path_buf);
+                        free(c_buf);
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        copy_value_string(parser, arguments[1], c_buf);
+                        c_buf[c_len] = '\0';
+                        FILE *f = fopen(path_buf, "ab");
+                        free(path_buf);
+                        if (f == NULL) {
+                            free(c_buf);
+                            result = number_value(0.0);
+                        } else {
+                            size_t written = 0;
+                            if (c_len > 0) {
+                                written = fwrite(c_buf, 1, c_len, f);
+                            }
+                            fclose(f);
+                            free(c_buf);
+                            result = number_value(written == c_len ? 1.0 : 0.0);
+                        }
+                    }
+                } else {
+                    result = number_value(0.0);
+                }
+            } else if (token_matches(parser, name, "ફાઇલ_છે") ||
+                       token_matches(parser, name, "file_chhe")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_FILE_PATH);
+                } else if (execute) {
+                    char *path_buf = value_to_c_string(parser, arguments[0]);
+                    if (path_buf == NULL) {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        FILE *f = fopen(path_buf, "rb");
+                        free(path_buf);
+                        if (f != NULL) {
+                            fclose(f);
+                            result = number_value(1.0);
+                        } else {
+                            result = number_value(0.0);
+                        }
+                    }
+                } else {
+                    result = number_value(0.0);
+                }
+            } else if (token_matches(parser, name, "ફાઇલ_કાઢો") ||
+                       token_matches(parser, name, "file_kadho") ||
+                       token_matches(parser, name, "ફાઇલ_હટાવો") ||
+                       token_matches(parser, name, "file_hatao")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_FILE_PATH);
+                } else if (execute) {
+                    char *path_buf = value_to_c_string(parser, arguments[0]);
+                    if (path_buf == NULL) {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        int rc = remove(path_buf);
+                        free(path_buf);
+                        result = number_value(rc == 0 ? 1.0 : 0.0);
+                    }
+                } else {
+                    result = number_value(0.0);
+                }
+            } else if (token_matches(parser, name, "ફાઇલ_કદ") ||
+                       token_matches(parser, name, "file_kad")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_FILE_PATH);
+                } else if (execute) {
+                    char *path_buf = value_to_c_string(parser, arguments[0]);
+                    if (path_buf == NULL) {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        FILE *f = fopen(path_buf, "rb");
+                        free(path_buf);
+                        if (f == NULL) {
+                            result = null_value();
+                        } else {
+                            if (fseek(f, 0, SEEK_END) != 0) {
+                                fclose(f);
+                                result = null_value();
+                            } else {
+                                long fsize = ftell(f);
+                                fclose(f);
+                                if (fsize < 0) {
+                                    result = null_value();
+                                } else {
+                                    result = number_value((double)fsize);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    result = null_value();
                 }
             } else if (token_matches(parser, name, "ચકાસો") ||
                        token_matches(parser, name, "chakaso")) {

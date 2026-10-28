@@ -264,6 +264,13 @@ if(BUILD_TESTING)
             builtin_samave_lakhan_type_error
             builtin_samave_lakhan_gujarati_error
             reserved_samave_lakhan
+            builtin_file_io
+            builtin_file_io_gujarati
+            builtin_file_io_error_args
+            builtin_file_io_error_path_type
+            builtin_file_io_error_content_type
+            builtin_file_io_gujarati_error
+            reserved_file_io
             romanized_error
             romanized_fatal_error
             lists_and_indexing

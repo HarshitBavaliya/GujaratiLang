@@ -2331,6 +2331,85 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_file_io")
+    set(source [=[aavo
+path = "file_io_test_tmp.txt";
+file_kadho(path);
+chhapo file_chhe(path);
+chhapo file_lakho(path, "Hello Gujarat!");
+chhapo file_chhe(path);
+chhapo file_kad(path);
+chhapo file_vancho(path);
+chhapo file_umero(path, " and India!");
+chhapo file_kad(path);
+chhapo file_vancho(path);
+chhapo file_kadho(path);
+chhapo file_chhe(path);
+chhapo prakar(file_vancho(path));
+chhapo prakar(file_kad(path));
+aavjo
+]=])
+    set(expected_stdout "0\n1\n1\n14\nHello Gujarat!\n1\n26\nHello Gujarat! and India!\n1\n0\nnull\nnull\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_file_io_gujarati")
+    set(source [=[આવો
+પાથ = "file_io_gu_tmp.txt";
+ફાઇલ_હટાવો(પાથ);
+છાપો ફાઇલ_છે(પાથ);
+છાપો ફાઇલ_લખો(પાથ, "ગુજરાતી");
+છાપો ફાઇલ_છે(પાથ);
+છાપો ફાઇલ_વાંચો(પાથ);
+છાપો ફાઇલ_કદ(પાથ);
+છાપો ફાઇલ_હટાવો(પાથ);
+છાપો ફાઇલ_છે(પાથ);
+આવજો
+]=])
+    set(expected_stdout "0\n1\n1\nગુજરાતી\n21\n1\n0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "builtin_file_io_error_args")
+    set(source [=[aavo
+file_vancho();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_file_io_error_path_type")
+    set(source [=[aavo
+file_vancho(123);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a string file path")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_file_io_error_content_type")
+    set(source [=[aavo
+file_lakho("file.txt", 123);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected string content for file operation")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_file_io_gujarati_error")
+    set(source [=[આવો
+ફાઇલ_વાંચો(123);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "ફાઇલ પાથ માટે લખાણ હોવું જરૂરી છે")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_file_io")
+    set(source [=[aavo
+kary file_vancho(p) { parat p; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

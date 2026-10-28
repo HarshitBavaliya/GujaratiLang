@@ -1218,5 +1218,125 @@
       "samave_lakhan(${1:haystack}, ${2:needle})"
     ],
     "description": "Check if string contains substring with romanized built-in"
+  },
+  "GujaratiLang file read": {
+    "prefix": [
+      "gj-file-read",
+      "ફાઇલ_વાંચો"
+    ],
+    "body": [
+      "ફાઇલ_વાંચો(${1:\"path.txt\"})"
+    ],
+    "description": "Read file contents as string"
+  },
+  "GujaratiLang file read (romanized)": {
+    "prefix": [
+      "gj-file-read-en",
+      "file_vancho"
+    ],
+    "body": [
+      "file_vancho(${1:\"path.txt\"})"
+    ],
+    "description": "Read file contents as string with romanized built-in"
+  },
+  "GujaratiLang file write": {
+    "prefix": [
+      "gj-file-write",
+      "ફાઇલ_લખો"
+    ],
+    "body": [
+      "ફાઇલ_લખો(${1:\"path.txt\"}, ${2:\"content\"})"
+    ],
+    "description": "Write text content to file"
+  },
+  "GujaratiLang file write (romanized)": {
+    "prefix": [
+      "gj-file-write-en",
+      "file_lakho"
+    ],
+    "body": [
+      "file_lakho(${1:\"path.txt\"}, ${2:\"content\"})"
+    ],
+    "description": "Write text content to file with romanized built-in"
+  },
+  "GujaratiLang file append": {
+    "prefix": [
+      "gj-file-append",
+      "ફાઇલ_ઉમેરો"
+    ],
+    "body": [
+      "ફાઇલ_ઉમેરો(${1:\"path.txt\"}, ${2:\"content\"})"
+    ],
+    "description": "Append text content to file"
+  },
+  "GujaratiLang file append (romanized)": {
+    "prefix": [
+      "gj-file-append-en",
+      "file_umero"
+    ],
+    "body": [
+      "file_umero(${1:\"path.txt\"}, ${2:\"content\"})"
+    ],
+    "description": "Append text content to file with romanized built-in"
+  },
+  "GujaratiLang file exists": {
+    "prefix": [
+      "gj-file-exists",
+      "ફાઇલ_છે"
+    ],
+    "body": [
+      "ફાઇલ_છે(${1:\"path.txt\"})"
+    ],
+    "description": "Check if file exists on disk"
+  },
+  "GujaratiLang file exists (romanized)": {
+    "prefix": [
+      "gj-file-exists-en",
+      "file_chhe"
+    ],
+    "body": [
+      "file_chhe(${1:\"path.txt\"})"
+    ],
+    "description": "Check if file exists on disk with romanized built-in"
+  },
+  "GujaratiLang file delete": {
+    "prefix": [
+      "gj-file-delete",
+      "ફાઇલ_કાઢો"
+    ],
+    "body": [
+      "ફાઇલ_કાઢો(${1:\"path.txt\"})"
+    ],
+    "description": "Delete file from disk"
+  },
+  "GujaratiLang file delete (romanized)": {
+    "prefix": [
+      "gj-file-delete-en",
+      "file_kadho"
+    ],
+    "body": [
+      "file_kadho(${1:\"path.txt\"})"
+    ],
+    "description": "Delete file from disk with romanized built-in"
+  },
+  "GujaratiLang file size": {
+    "prefix": [
+      "gj-file-size",
+      "ફાઇલ_કદ"
+    ],
+    "body": [
+      "ફાઇલ_કદ(${1:\"path.txt\"})"
+    ],
+    "description": "Get file size in bytes"
+  },
+  "GujaratiLang file size (romanized)": {
+    "prefix": [
+      "gj-file-size-en",
+      "file_kad"
+    ],
+    "body": [
+      "file_kad(${1:\"path.txt\"})"
+    ],
+    "description": "Get file size in bytes with romanized built-in"
   }
 }

@@ -176,6 +176,12 @@ can be used in the same program. Multi-word spellings use underscores.
 | `બહાર(...)` | `bahar(...)` | Terminate program immediately with exit code (default 0) |
 | `ચકાસો(...)` | `chakaso(...)` | Assert condition is truthy with optional error message |
 | `સમાવે_લખાણ(...)` | `samave_lakhan(...)` | Check if string contains substring |
+| `ફાઇલ_વાંચો(...)` | `file_vancho(...)` | Read file contents into a string (or null if missing) |
+| `ફાઇલ_લખો(...)` | `file_lakho(...)` | Write text content to file (overwrites existing file) |
+| `ફાઇલ_ઉમેરો(...)` | `file_umero(...)` | Append text content to file |
+| `ફાઇલ_છે(...)` | `file_chhe(...)` | Check if file exists on disk (1.0 or 0.0) |
+| `ફાઇલ_કાઢો(...)` / `ફાઇલ_હટાવો(...)` | `file_kadho(...)` / `file_hatao(...)` | Delete file from disk (1.0 on success, 0.0 on failure) |
+| `ફાઇલ_કદ(...)` | `file_kad(...)` | Get file size in bytes (or null if missing) |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:
