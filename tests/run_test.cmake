@@ -3017,7 +3017,7 @@ zipped = zip_yadi(names, scores);
 chhapo zipped;
 aavjo
 ]=])
-    set(expected_stdout "[1, 2, 3, 4, 5]\n[[\"a\", 10], [\"b\", 20]]\n")
+    set(expected_stdout "[1, 2, 3, 4, 5]\n[[a, 10], [b, 20]]\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_pattern_and_replace")

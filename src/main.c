@@ -1136,6 +1136,26 @@ static Token scan_token(Parser *parser)
     case '}': token.kind = TOKEN_RIGHT_BRACE; break;
     case ';': token.kind = TOKEN_SEMICOLON; break;
     case ':': token.kind = TOKEN_COLON; break;
+    case '&':
+        if (peek(parser) == '&') {
+            advance_char(parser);
+            token.kind = TOKEN_AND;
+        } else {
+            report_error(parser, token.line, token.column,
+                         MESSAGE_UNEXPECTED_CHARACTER);
+            token.kind = TOKEN_INVALID;
+        }
+        break;
+    case '|':
+        if (peek(parser) == '|') {
+            advance_char(parser);
+            token.kind = TOKEN_OR;
+        } else {
+            report_error(parser, token.line, token.column,
+                         MESSAGE_UNEXPECTED_CHARACTER);
+            token.kind = TOKEN_INVALID;
+        }
+        break;
     default:
         report_error(parser, token.line, token.column,
                      MESSAGE_UNEXPECTED_CHARACTER);
