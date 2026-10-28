@@ -245,6 +245,17 @@ typedef struct {
     size_t capacity;
 } List;
 
+struct Value {
+    ValueKind kind;
+    double number;
+    size_t string_offset;
+    size_t string_length;
+    char *owned_string;
+    const char *string_source;
+    List *list;
+    Dict *dict;
+};
+
 typedef struct {
     char *key;
     size_t key_length;
@@ -255,17 +266,6 @@ struct Dict {
     DictEntry *entries;
     size_t count;
     size_t capacity;
-};
-
-struct Value {
-    ValueKind kind;
-    double number;
-    size_t string_offset;
-    size_t string_length;
-    char *owned_string;
-    const char *string_source;
-    List *list;
-    Dict *dict;
 };
 
 typedef struct {
@@ -1967,7 +1967,6 @@ static void format_value_to_buffer(Parser *parser, Value value,
         return;
     }
     if (value.kind == VALUE_DICT) {
-        size_t index;
         if (depth >= 256) {
             sb_append(sb, "{...}", 5);
             return;
@@ -5191,7 +5190,6 @@ static int write_value_recursive(Parser *parser, Value value,
         return fputc(']', stdout) != EOF;
     }
     if (value.kind == VALUE_DICT) {
-        size_t index;
         if (depth >= 256) {
             return 0;
         }
