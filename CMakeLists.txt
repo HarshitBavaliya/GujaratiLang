@@ -158,6 +158,10 @@ if(BUILD_TESTING)
             builtin_yadachhik_bounds_error
             builtin_yadachhik_gujarati_error
             reserved_yadachhik
+            builtin_beej
+            builtin_beej_error
+            builtin_beej_type_error
+            reserved_beej
             romanized_error
             romanized_fatal_error
             lists_and_indexing

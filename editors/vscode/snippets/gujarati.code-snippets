@@ -798,5 +798,25 @@
       "yadachhik(${1:})"
     ],
     "description": "Generate random float [0.0, 1.0) or random integer in [min, max] with romanized built-in"
+  },
+  "GujaratiLang seed PRNG": {
+    "prefix": [
+      "gj-seed",
+      "બીજ"
+    ],
+    "body": [
+      "બીજ(${1:seed});"
+    ],
+    "description": "Set pseudo-random number generator seed"
+  },
+  "GujaratiLang seed PRNG (romanized)": {
+    "prefix": [
+      "gj-seed-en",
+      "beej"
+    ],
+    "body": [
+      "beej(${1:seed});"
+    ],
+    "description": "Set pseudo-random number generator seed with romanized built-in"
   }
 }

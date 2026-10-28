@@ -1371,6 +1371,47 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_beej")
+    set(source [=[aavo
+beej(12345);
+r1 = yadachhik();
+beej(12345);
+r2 = yadachhik();
+chhapo r1 == r2;
+બીજ(999);
+g1 = યાદચ્છિક(1, 100);
+બીજ(999);
+g2 = યાદચ્છિક(1, 100);
+chhapo g1 == g2;
+aavjo
+]=])
+    set(expected_stdout "1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_beej_error")
+    set(source [=[aavo
+beej();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_beej_type_error")
+    set(source [=[aavo
+beej("invalid");
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected number arguments for math function")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_beej")
+    set(source [=[aavo
+kary beej(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";
