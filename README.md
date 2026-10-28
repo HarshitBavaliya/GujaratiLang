@@ -232,7 +232,9 @@ See [`examples/modules.gj`](examples/modules.gj),
 [`examples/inventory.gj`](examples/inventory.gj) and
 [`examples/stock.gj`](examples/stock.gj), and
 [`examples/calculator.gj`](examples/calculator.gj), and
-[`examples/string_utils.gj`](examples/string_utils.gj), and [`examples/invoice_generator.gj`](examples/invoice_generator.gj) samples combining modules,
+[`examples/string_utils.gj`](examples/string_utils.gj),
+[`examples/invoice_generator.gj`](examples/invoice_generator.gj), and
+[`examples/random_game.gj`](examples/random_game.gj) samples combining modules,
 functions, lists, and input.
 
 Example (`examples/hello.gj`):

@@ -1,0 +1,44 @@
+aavo
+beej(12345);
+
+chhapo "=== રમત સિમ્યુલેટર (Game Simulator) ===";
+
+rolls = [];
+darek (i ma 0..5) {
+    die = yadachhik(1, 6);
+    umero(rolls, die);
+}
+
+chhapo "પાસા પરિણામ (Dice Rolls): " + lakhan(rolls);
+
+total = sarvalo_yadi(rolls);
+min_roll = yadi_nyunatam(rolls);
+max_roll = yadi_mahatam(rolls);
+four_count = ganatari(rolls, 4);
+
+chhapo "સરવાળો (Total): " + lakhan(total);
+chhapo "ઓછામાં ઓછો રોલ (Minimum): " + lakhan(min_roll);
+chhapo "વધારેમાં વધારે રોલ (Maximum): " + lakhan(max_roll);
+chhapo "ચાર આવ્યાની સંખ્યા (Fours rolled): " + lakhan(four_count);
+
+target = yadachhik(1, 100);
+guess_str = vancho("અંદાજ દાખલ કરો (Enter guess 1-100): ");
+guess = sankhya(guess_str);
+chhapo "ખેલાડીનો અંદાજ (Player guess): " + lakhan(guess);
+
+jo (guess == target) {
+    chhapo "અદ્ભુત! સાચો અંદાજ! (Jackpot!)";
+} nahitar_jo (guess < target) {
+    chhapo "અંદાજ ઓછો છે (Too low)";
+} nahitar {
+    chhapo "અંદાજ વધારે છે (Too high)";
+}
+
+chhapo "લક્ષ્ય સંખ્યા (Target was): " + lakhan(target);
+
+chakaso(total == 13, "total should equal 13");
+chakaso(min_roll == 1, "min should equal 1");
+chakaso(max_roll == 4, "max should equal 4");
+
+chhapo "રમત સફળતાપૂર્વક સમાપ્ત થઈ (Game ended successfully)";
+aavjo

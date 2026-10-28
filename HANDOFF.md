@@ -107,6 +107,7 @@ Recent completed work includes:
   - [`examples/text_filter.gj`](examples/text_filter.gj) combining `vancho`, `sharuat_sathe`, `ant_sathe`, `badlo`, `samave_chhe`, `bhag`, `saf`, `umero`, and `jodo`.
   - [`examples/report_generator.gj`](examples/report_generator.gj) combining `vancho`, `punravartan`, `gol`, `tukdo`, `bhag`, `saf`, `umero`, and `jodo`.
   - [`examples/invoice_generator.gj`](examples/invoice_generator.gj) combining `vancho`, `sima`, `sthan`, `muko`, `dabe_bharo`, `jamne_bharo`, `punravartan`, and `gol`.
+  - [`examples/random_game.gj`](examples/random_game.gj) simulating dice rolls and number guessing with `beej`, `yadachhik`, `sarvalo_yadi`, `yadi_nyunatam`, `yadi_mahatam`, `ganatari`, `sankhya`, and `chakaso`.
   - Automated stdin/stdout regression tests in [`tests/examples/`](tests/examples/) registered under CTest.
 - Prepared VS Code extension v0.2.0 in [`editors/vscode/package.json`](editors/vscode/package.json) and [`editors/vscode/CHANGELOG.md`](editors/vscode/CHANGELOG.md):
   - Updated syntax highlighting grammar [`editors/vscode/syntaxes/gujarati.tmLanguage.json`](editors/vscode/syntaxes/gujarati.tmLanguage.json)
