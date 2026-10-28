@@ -2469,7 +2469,7 @@ elseif(TEST_CASE STREQUAL "builtin_dict_gujarati")
 elseif(TEST_CASE STREQUAL "builtin_dict_for_iteration")
     set(source [=[aavo
 scores = {"Alice": 95, "Bob": 80};
-darek (k in scores) {
+darek (k ma scores) {
     chhapo k;
     chhapo scores[k];
 }
@@ -2506,7 +2506,7 @@ aavjo
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "loop_control_for")
     set(source [=[aavo
-darek (x in 1..6) {
+darek (x ma 1..6) {
     jo (x == 2) {
         aagal;
     }
@@ -2664,7 +2664,7 @@ prayatna {
 chhapo 2;
 aavjo
 ]=])
-    set(expected_stdout "")
+    set(expected_stdout "1\n")
     set(expected_stderr "expected 'પકડો' or 'pakdo' block after 'પ્રયત્ન' or 'prayatna'")
     set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
@@ -2975,6 +2975,7 @@ if(expect_failure)
         message(FATAL_ERROR "${TEST_CASE}: expected failure, got exit code 0")
     endif()
 elseif(NOT actual_status STREQUAL "0")
+    file(READ "${actual_stderr_path}" actual_stderr)
     message(FATAL_ERROR "${TEST_CASE}: expected success, got ${actual_status}\n${actual_stderr}")
 endif()
 
