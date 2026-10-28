@@ -1895,6 +1895,65 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_ganatari")
+    set(source [=[aavo
+sub = [2];
+chhapo ganatari([1, 2, 2, 3, 2, 4], 2);
+chhapo ganatari(["a", "b", "a", "c"], "a");
+chhapo ganatari([1, sub, sub], sub);
+chhapo ganatari("banana", "an");
+chhapo ganatari("banana", "na");
+chhapo ganatari("aaaa", "aa");
+chhapo ganatari("hello", "xyz");
+chhapo ganatari("hello", "");
+chhapo ગણતરી(["સફરજન", "કેળા", "કેળા"], "કેળા");
+chhapo ganatari_vastu([5, 5, 5], 5);
+aavjo
+]=])
+    set(expected_stdout "3\n2\n2\n2\n2\n2\n0\n0\n2\n3\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_ganatari_error")
+    set(source [=[aavo
+ganatari();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_ganatari_type_error")
+    set(source [=[aavo
+ganatari(123, "a");
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a list or string first argument for 'ગણતરી' or 'ganatari'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_ganatari_string_type_error")
+    set(source [=[aavo
+ganatari("abc", 1);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a string second argument when counting in a string")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_ganatari_gujarati_error")
+    set(source [=[આવો
+ગણતરી(123, "a");
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'ગણતરી' માટે પ્રથમ દલીલ યાદી અથવા લખાણ હોવી જોઈએ")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_ganatari")
+    set(source [=[aavo
+kary ganatari(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

@@ -1038,5 +1038,25 @@
       "yadi_mahatam(${1:list})"
     ],
     "description": "Find maximum number in list with romanized built-in"
+  },
+  "GujaratiLang count": {
+    "prefix": [
+      "gj-count",
+      "ગણતરી"
+    ],
+    "body": [
+      "ગણતરી(${1:sequence}, ${2:item})"
+    ],
+    "description": "Count occurrences of an item in a list or substring in a string"
+  },
+  "GujaratiLang count (romanized)": {
+    "prefix": [
+      "gj-count-en",
+      "ganatari"
+    ],
+    "body": [
+      "ganatari(${1:sequence}, ${2:item})"
+    ],
+    "description": "Count occurrences in list or string with romanized built-in"
   }
 }

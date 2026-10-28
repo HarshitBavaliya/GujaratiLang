@@ -216,6 +216,12 @@ if(BUILD_TESTING)
             builtin_yadi_mahatam_type_error
             builtin_yadi_mahatam_gujarati_error
             reserved_yadi_mahatam
+            builtin_ganatari
+            builtin_ganatari_error
+            builtin_ganatari_type_error
+            builtin_ganatari_string_type_error
+            builtin_ganatari_gujarati_error
+            reserved_ganatari
             romanized_error
             romanized_fatal_error
             lists_and_indexing

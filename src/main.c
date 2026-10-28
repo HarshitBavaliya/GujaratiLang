@@ -203,6 +203,8 @@ typedef enum {
     MESSAGE_EXPECTED_LIST_FOR_YADI_MAHATAM,
     MESSAGE_EMPTY_LIST_FOR_YADI_MAHATAM,
     MESSAGE_EXPECTED_NUMERIC_LIST_FOR_YADI_MAHATAM,
+    MESSAGE_EXPECTED_LIST_OR_STRING_FOR_GANATARI,
+    MESSAGE_EXPECTED_STRING_SECOND_FOR_GANATARI,
     MESSAGE_USAGE
 } MessageId;
 
@@ -471,6 +473,8 @@ static const char *localized_message(Language language, MessageId message)
         "expected a list argument for 'યાદી_મહત્તમ' or 'yadi_mahatam'",
         "cannot find maximum of an empty list",
         "all list items must be numbers for 'યાદી_મહત્તમ' or 'yadi_mahatam'",
+        "expected a list or string first argument for 'ગણતરી' or 'ganatari'",
+        "expected a string second argument when counting in a string",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -593,6 +597,8 @@ static const char *localized_message(Language language, MessageId message)
         "'યાદી_મહત્તમ' માટે યાદી દલીલ અપેક્ષિત છે",
         "ખાલી યાદીમાંથી મહત્તમ શોધી શકાતું નથી",
         "'યાદી_મહત્તમ' માટે તમામ ઘટકો સંખ્યા હોવા જોઈએ",
+        "'ગણતરી' માટે પ્રથમ દલીલ યાદી અથવા લખાણ હોવી જોઈએ",
+        "લખાણમાં ગણતરી કરતી વખતે બીજી દલીલ લખાણ હોવી જોઈએ",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1177,7 +1183,11 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "યાદી_ન્યૂનતમ") ||
            token_matches(parser, name, "yadi_nyunatam") ||
            token_matches(parser, name, "યાદી_મહત્તમ") ||
-           token_matches(parser, name, "yadi_mahatam");
+           token_matches(parser, name, "yadi_mahatam") ||
+           token_matches(parser, name, "ગણતરી") ||
+           token_matches(parser, name, "ganatari") ||
+           token_matches(parser, name, "ગણતરી_વસ્તુ") ||
+           token_matches(parser, name, "ganatari_vastu");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -2029,6 +2039,68 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.kind = VALUE_STRING;
                             result.string_length = len;
                             result.owned_string = str;
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "ગણતરી") ||
+                       token_matches(parser, name, "ganatari") ||
+                       token_matches(parser, name, "ગણતરી_વસ્તુ") ||
+                       token_matches(parser, name, "ganatari_vastu")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST &&
+                           arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_LIST_OR_STRING_FOR_GANATARI);
+                } else if (arguments[0].kind == VALUE_STRING &&
+                           arguments[1].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_SECOND_FOR_GANATARI);
+                } else if (arguments[0].kind == VALUE_LIST) {
+                    List *list = arguments[0].list;
+                    double count = 0.0;
+                    size_t i;
+                    for (i = 0; i < list->count; i++) {
+                        if (values_are_equal(parser, list->items[i], arguments[1])) {
+                            count += 1.0;
+                        }
+                    }
+                    result = number_value(count);
+                } else {
+                    size_t h_len = decoded_string_length(parser, arguments[0]);
+                    size_t n_len = decoded_string_length(parser, arguments[1]);
+                    if (n_len == 0) {
+                        result = number_value(0.0);
+                    } else {
+                        char *h_buf = (char *)malloc(h_len + 1);
+                        char *n_buf = (char *)malloc(n_len + 1);
+                        if (h_buf == NULL || n_buf == NULL) {
+                            free(h_buf);
+                            free(n_buf);
+                            report_error(parser, name.line, name.column,
+                                         MESSAGE_OUT_OF_MEMORY);
+                        } else {
+                            size_t pos = 0;
+                            double count = 0.0;
+                            copy_value_string(parser, arguments[0], h_buf);
+                            h_buf[h_len] = '\0';
+                            copy_value_string(parser, arguments[1], n_buf);
+                            n_buf[n_len] = '\0';
+                            if (h_len >= n_len) {
+                                size_t max_pos = h_len - n_len;
+                                while (pos <= max_pos) {
+                                    if (memcmp(h_buf + pos, n_buf, n_len) == 0) {
+                                        count += 1.0;
+                                        pos += n_len;
+                                    } else {
+                                        pos++;
+                                    }
+                                }
+                            }
+                            free(h_buf);
+                            free(n_buf);
+                            result = number_value(count);
                         }
                     }
                 }

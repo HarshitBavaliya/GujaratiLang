@@ -67,6 +67,7 @@ Recent completed work includes:
   - `સરવાળો_યાદી(list)` / `sarvalo_yadi(list)`: sums all numeric elements in a list (0 for empty list).
   - `યાદી_ન્યૂનતમ(list)` / `yadi_nyunatam(list)`: finds the minimum number in a list.
   - `યાદી_મહત્તમ(list)` / `yadi_mahatam(list)`: finds the maximum number in a list.
+  - `ગણતરી(seq, item)` / `ganatari(seq, item)` (alias `ગણતરી_વસ્તુ` / `ganatari_vastu`): counts item occurrences in a list or substring occurrences in a string.
   - `બદલો(string, target, replacement)` / `badlo(string, target, replacement)`: replaces occurrences of a substring.
   - `શરૂઆત_સાથે(string, prefix)` / `sharuat_sathe(string, prefix)`: returns 1.0 if string starts with prefix, 0.0 otherwise.
   - `અંત_સાથે(string, suffix)` / `ant_sathe(string, suffix)`: returns 1.0 if string ends with suffix, 0.0 otherwise.
