@@ -199,6 +199,48 @@ can be used in the same program. Multi-word spellings use underscores.
 | `સેકન્ડ([timestamp])` | `second([timestamp])` | Extract second (0-59) |
 | `શાંત(...)` / `રાહ_જુઓ(...)` | `shant(...)` / `raah_juo(...)` | Pause execution for milliseconds |
 | `ફેંકો(...)` | `phenko(...)` | Throw an error message |
+| `અચળ` | `achala` or `const` | Declare immutable constant variable |
+| `જેસન_વાંચો(...)` | `json_vancho(...)` | Parse JSON string into native dictionary, list, number, string |
+| `જેસન_લખો(...)` | `json_lakho(...)` | Serialize value to standard JSON string |
+| `દલીલો()` / `દલીલ_યાદી()` | `daleelo()` / `arg_yadi()` | Get command-line arguments passed to script |
+| `દ્વિ_સંખ્યા(...)` | `dvi_sankhya(...)` | Convert integer to binary string representation |
+| `દ્વિ_થી_સંખ્યા(...)` | `dvi_thi_sankhya(...)` | Convert binary string to integer number |
+| `હેક્સ_લખાણ(...)` | `hex_lakhan(...)` | Convert integer to hex string representation |
+| `હેક્સ_થી_સંખ્યા(...)` | `hex_thi_sankhya(...)` | Convert hex string to integer number |
+| `ફોલ્ડર_છે(...)` | `folder_chhe(...)` | Check if directory exists on disk |
+| `ફોલ્ડર_બનાવો(...)` | `folder_banao(...)` | Create directory on disk |
+| `ફોલ્ડર_સૂચિ(...)` | `folder_suchi(...)` | List directory contents as list of strings |
+| `કમાન્ડ_ચલાવો(...)` / `સિસ્ટમ(...)` | `command_chalao(...)` / `system_kary(...)` | Run system shell command and return exit code |
+| `નકશો_યાદી(...)` | `naksho_yadi(...)` | Map function over list elements and return new list |
+| `ગાળો_યાદી(...)` | `gaalo_yadi(...)` | Filter list elements based on predicate function |
+| `સમેટો_યાદી(...)` | `sameto_yadi(...)` | Reduce list elements using accumulator function |
+| `શોધો_યાદી(...)` | `shodho_yadi(...)` | Find first list element matching predicate |
+| `શોધો_સૂચક_યાદી(...)` | `shodho_suchak_yadi(...)` | Find 0-based index of first element matching predicate |
+| `ચપટી_યાદી(...)` | `chapti_yadi(...)` | Flatten nested sublists into single flat list |
+| `ઝીપ_યાદી(...)` | `zip_yadi(...)` | Zip two lists element-by-element into list of pairs |
+| `પેટર્ન_શોધો(...)` | `pattern_shodho(...)` | Wildcard pattern matching (`*` and `?`) |
+| `લખાણ_બદલો_દરેક(...)` | `lakhan_badlo_darek(...)` | Replace all occurrences of substring |
+| `બેઝ૬૪_કોડ(...)` | `base64_kod(...)` | Encode string to Base64 |
+| `બેઝ૬૪_ડીકોડ(...)` | `base64_decode(...)` | Decode Base64 string |
+| `શીર્ષક_લખાણ(...)` | `shirshak_lakhan(...)` | Convert string to Title Case |
+| `પ્રથમ_મોટી(...)` | `pratham_moti(...)` | Capitalize only the first letter of string |
+| `સ્વરૂપ(...)` | `swaroop(...)` | Format string template with `{}` placeholders |
+| `લખાણ_અંતર(...)` | `lakhan_antar(...)` | Compute Levenshtein edit distance between two strings |
+| `શા૨૫૬_હેશ(...)` | `sha256_hash(...)` | Compute 64-character lowercase SHA-256 hex digest |
+| `સાઇન(...)` | `sine(...)` | Sine trigonometric function (radians) |
+| `કોસાઇન(...)` | `cosine(...)` | Cosine trigonometric function (radians) |
+| `ટેન્જન્ટ(...)` | `tangent(...)` | Tangent trigonometric function (radians) |
+| `આર્કસાઇન(...)` | `arcsin(...)` | Inverse sine (arcsin) in radians |
+| `આર્કકોસ(...)` | `arccos(...)` | Inverse cosine (arccos) in radians |
+| `આર્કટેન(...)` | `arctan(...)` | Inverse tangent (arctan) in radians |
+| `ગુરુ_તમ(...)` | `guru_tam(...)` | Greatest Common Divisor (GCD) of two integers |
+| `લઘુ_તમ(...)` | `laghu_tam(...)` | Least Common Multiple (LCM) of two integers |
+| `અંશ_થી_રેડિયન(...)` | `ansha_thi_radian(...)` | Convert degrees to radians |
+| `રેડિયન_થી_અંશ(...)` | `radian_thi_ansha(...)` | Convert radians to degrees |
+| `મેટ્રિક્સ_સરવાળો(...)` | `matrix_sarvalo(...)` | Component-wise addition of two 2D numeric matrices |
+| `મેટ્રિક્સ_ગુણાકાર(...)` | `matrix_gunakar(...)` | Standard matrix multiplication of two 2D matrices |
+| `ભાષા_આવૃત્તિ()` | `bhasha_avrutti()` | Get current interpreter version (`"1.0.0"`) |
+| `પ્લેટફોર્મ_નામ()` | `platform_nam()` | Get operating system platform (`"windows"`, `"linux"`, `"macos"`) |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

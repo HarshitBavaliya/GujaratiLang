@@ -1530,5 +1530,75 @@
       "phenko(\"${1:error message}\");"
     ],
     "description": "Throw custom error message with romanized built-in"
+  },
+  "GujaratiLang constant variable": {
+    "prefix": [
+      "gj-const",
+      "અચળ"
+    ],
+    "body": [
+      "અચળ ${1:NAME} = ${2:value};"
+    ],
+    "description": "Declare an immutable constant"
+  },
+  "GujaratiLang constant variable (romanized)": {
+    "prefix": [
+      "gj-const-en",
+      "achala"
+    ],
+    "body": [
+      "achala ${1:NAME} = ${2:value};"
+    ],
+    "description": "Declare an immutable constant (romanized)"
+  },
+  "GujaratiLang JSON parse": {
+    "prefix": [
+      "gj-json-parse",
+      "json_vancho"
+    ],
+    "body": [
+      "json_vancho(${1:json_string})"
+    ],
+    "description": "Parse JSON string to native dictionary or list"
+  },
+  "GujaratiLang JSON stringify": {
+    "prefix": [
+      "gj-json-stringify",
+      "json_lakho"
+    ],
+    "body": [
+      "json_lakho(${1:value})"
+    ],
+    "description": "Serialize value to JSON string"
+  },
+  "GujaratiLang SHA-256 hash": {
+    "prefix": [
+      "gj-sha256",
+      "sha256_hash"
+    ],
+    "body": [
+      "sha256_hash(${1:string})"
+    ],
+    "description": "Calculate SHA-256 cryptographic hex digest"
+  },
+  "GujaratiLang list map": {
+    "prefix": [
+      "gj-map",
+      "naksho_yadi"
+    ],
+    "body": [
+      "naksho_yadi(${1:list}, \"${2:fn_name}\")"
+    ],
+    "description": "Map function over list elements"
+  },
+  "GujaratiLang list filter": {
+    "prefix": [
+      "gj-filter",
+      "gaalo_yadi"
+    ],
+    "body": [
+      "gaalo_yadi(${1:list}, \"${2:predicate_fn}\")"
+    ],
+    "description": "Filter list elements with predicate"
   }
 }

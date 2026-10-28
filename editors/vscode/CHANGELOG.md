@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.0.0
+
+- Major 30-Point Milestone Release for GujaratiLang:
+  - JSON serialization & parsing: `json_lakho` (`જેસન_લખો`), `json_vancho` (`જેસન_વાંચો`)
+  - Command-line arguments: `daleelo` (`દલીલો`), `arg_yadi` (`દલીલ_યાદી`)
+  - Radix integer & string conversions: `dvi_sankhya` (`દ્વિ_સંખ્યા`), `dvi_thi_sankhya` (`દ્વિ_થી_સંખ્યા`), `hex_lakhan` (`હેક્સ_લખાણ`), `hex_thi_sankhya` (`હેક્સ_થી_સંખ્યા`)
+  - Directory & folder utilities: `folder_chhe` (`ફોલ્ડર_છે`), `folder_banao` (`ફોલ્ડર_બનાવો`), `folder_suchi` (`ફોલ્ડર_સૂચિ`)
+  - System shell command execution: `command_chalao` (`કમાન્ડ_ચલાવો`), `system_kary` (`સિસ્ટમ`)
+  - Functional list operations: `naksho_yadi` (`નકશો_યાદી` - map), `gaalo_yadi` (`ગાળો_યાદી` - filter), `sameto_yadi` (`સમેટો_યાદી` - reduce), `shodho_yadi` (`શોધો_યાદી` - find), `shodho_suchak_yadi` (`શોધો_સૂચક_યાદી`)
+  - List manipulation: `chapti_yadi` (`ચપટી_યાદી` - flatten), `zip_yadi` (`ઝીપ_યાદી`)
+  - Wildcard pattern matching & global replace: `pattern_shodho` (`પેટર્ન_શોધો`), `lakhan_badlo_darek` (`લખાણ_બદલો_દરેક`)
+  - Base64 encoding and decoding: `base64_kod` (`બેઝ૬૪_કોડ`), `base64_decode` (`બેઝ૬૪_ડીકોડ`)
+  - String case utilities: `shirshak_lakhan` (`શીર્ષક_લખાણ`), `pratham_moti` (`પ્રથમ_મોટી`)
+  - String template formatting: `swaroop` (`સ્વરૂપ`)
+  - Levenshtein edit distance: `lakhan_antar` (`લખાણ_અંતર`)
+  - SHA-256 cryptographic hashing: `sha256_hash` (`શા૨૫૬_હેશ`)
+  - Trigonometry: `sine` (`સાઇન`), `cosine` (`કોસાઇન`), `tangent` (`ટેન્જન્ટ`), `arcsin` (`આર્કસાઇન`), `arccos` (`આર્કકોસ`), `arctan` (`આર્કટેન`)
+  - Number theory & angle conversions: `guru_tam` (`ગુરુ_તમ`), `laghu_tam` (`લઘુ_તમ`), `ansha_thi_radian` (`અંશ_થી_રેડિયન`), `radian_thi_ansha` (`રેડિયન_થી_અંશ`)
+  - Matrix 2D math: `matrix_sarvalo` (`મેટ્રિક્સ_સરવાળો`), `matrix_gunakar` (`મેટ્રિક્સ_ગુણાકાર`)
+  - Syntax extensions: Ternary conditional `? :`, compound assignments `+=`, `-=`, `*=`, `/=`, `%=`, modulo operator `%`, and constant variable declarations with `achala` (`અચળ`) / `const`
+  - System metadata: `bhasha_avrutti` (`ભાષા_આવૃત્તિ`), `platform_nam` (`પ્લેટફોર્મ_નામ`)
+
 ## 0.4.0
 
 - Add syntax highlighting and starter snippets for major language additions:

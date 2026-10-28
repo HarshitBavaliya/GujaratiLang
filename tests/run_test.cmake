@@ -2942,6 +2942,256 @@ aavjo
     set(expected_stdout "[<cycle>]\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_json")
+    set(source [=[aavo
+data = {"name": "test", "val": 42};
+json_str = json_lakho(data);
+chhapo json_str;
+parsed = json_vancho(json_str);
+chhapo parsed["name"];
+chhapo parsed["val"];
+aavjo
+]=])
+    set(expected_stdout "{\"name\": \"test\", \"val\": 42}\ntest\n42\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_radix")
+    set(source [=[aavo
+b = dvi_sankhya(10);
+chhapo b;
+chhapo dvi_thi_sankhya(b);
+h = hex_lakhan(255);
+chhapo h;
+chhapo hex_thi_sankhya(h);
+aavjo
+]=])
+    set(expected_stdout "1010\n10\nff\n255\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_folder")
+    set(source [=[aavo
+chhapo folder_banao("test_dir");
+chhapo folder_chhe("test_dir");
+files = folder_suchi("test_dir");
+chhapo lambai(files);
+aavjo
+]=])
+    set(expected_stdout "1\n1\n0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_functional_list")
+    set(source [=[aavo
+kary double_it(n) {
+    parat n * 2;
+}
+kary is_even(n) {
+    parat (n % 2 == 0);
+}
+kary add_two(a, b) {
+    parat a + b;
+}
+nums = [1, 2, 3, 4];
+doubled = naksho_yadi(nums, "double_it");
+chhapo doubled;
+evens = gaalo_yadi(nums, "is_even");
+chhapo evens;
+sum = sameto_yadi(nums, "add_two", 0);
+chhapo sum;
+first_even = shodho_yadi(nums, "is_even");
+chhapo first_even;
+first_even_idx = shodho_suchak_yadi(nums, "is_even");
+chhapo first_even_idx;
+aavjo
+]=])
+    set(expected_stdout "[2, 4, 6, 8]\n[2, 4]\n10\n2\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_list_flatten_zip")
+    set(source [=[aavo
+nested = [[1, 2], [3, 4], 5];
+flat = chapti_yadi(nested);
+chhapo flat;
+names = ["a", "b"];
+scores = [10, 20];
+zipped = zip_yadi(names, scores);
+chhapo zipped;
+aavjo
+]=])
+    set(expected_stdout "[1, 2, 3, 4, 5]\n[[\"a\", 10], [\"b\", 20]]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_pattern_and_replace")
+    set(source [=[aavo
+chhapo pattern_shodho("hello world", "h*ld");
+chhapo pattern_shodho("apple", "b*");
+txt = "foo bar foo baz foo";
+rep = lakhan_badlo_darek(txt, "foo", "qux");
+chhapo rep;
+aavjo
+]=])
+    set(expected_stdout "1\n0\nqux bar qux baz qux\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_base64")
+    set(source [=[aavo
+enc = base64_kod("GujaratiLang");
+chhapo enc;
+dec = base64_decode(enc);
+chhapo dec;
+aavjo
+]=])
+    set(expected_stdout "R3VqYXJhdGlMYW5n\nGujaratiLang\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_string_case")
+    set(source [=[aavo
+chhapo shirshak_lakhan("hello world of gujarati");
+chhapo pratham_moti("developer");
+aavjo
+]=])
+    set(expected_stdout "Hello World Of Gujarati\nDeveloper\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_swaroop")
+    set(source [=[aavo
+msg = swaroop("Namaste, {}! You scored {} points.", "Harshit", 100);
+chhapo msg;
+aavjo
+]=])
+    set(expected_stdout "Namaste, Harshit! You scored 100 points.\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_distance")
+    set(source [=[aavo
+dist = lakhan_antar("kitten", "sitting");
+chhapo dist;
+chhapo lakhan_antar("same", "same");
+aavjo
+]=])
+    set(expected_stdout "3\n0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_sha256")
+    set(source [=[aavo
+h1 = sha256_hash("");
+chhapo h1;
+h2 = sha256_hash("hello");
+chhapo h2;
+aavjo
+]=])
+    set(expected_stdout "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_trigonometry")
+    set(source [=[aavo
+s0 = sine(0);
+c0 = cosine(0);
+t0 = tangent(0);
+chhapo s0;
+chhapo c0;
+chhapo t0;
+chhapo arcsin(0);
+chhapo arccos(1);
+chhapo arctan(0);
+aavjo
+]=])
+    set(expected_stdout "0\n1\n0\n0\n0\n0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_gcd_lcm")
+    set(source [=[aavo
+chhapo guru_tam(48, 18);
+chhapo laghu_tam(4, 6);
+aavjo
+]=])
+    set(expected_stdout "6\n12\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_angle_conversions")
+    set(source [=[aavo
+r = ansha_thi_radian(180);
+chhapo gol(r);
+d = radian_thi_ansha(pi());
+chhapo gol(d);
+aavjo
+]=])
+    set(expected_stdout "3\n180\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_matrix")
+    set(source [=[aavo
+m1 = [[1, 2], [3, 4]];
+m2 = [[5, 6], [7, 8]];
+sum_m = matrix_sarvalo(m1, m2);
+chhapo sum_m;
+prod_m = matrix_gunakar(m1, [[2, 0], [1, 2]]);
+chhapo prod_m;
+aavjo
+]=])
+    set(expected_stdout "[[6, 8], [10, 12]]\n[[4, 4], [10, 8]]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "ternary_operator")
+    set(source [=[aavo
+x = 10;
+res = x > 5 ? "high" : "low";
+chhapo res;
+res2 = x < 5 ? 100 : (x == 10 ? 200 : 300);
+chhapo res2;
+aavjo
+]=])
+    set(expected_stdout "high\n200\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "compound_assignment")
+    set(source [=[aavo
+x = 10;
+x += 5;
+chhapo x;
+x -= 3;
+chhapo x;
+x *= 2;
+chhapo x;
+x /= 4;
+chhapo x;
+x %= 5;
+chhapo x;
+str = "Hello";
+str += " World";
+chhapo str;
+aavjo
+]=])
+    set(expected_stdout "15\n12\n24\n6\n1\nHello World\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "constant_variables")
+    set(source [=[aavo
+achala MAX_LIMIT = 500;
+chhapo MAX_LIMIT;
+aavjo
+]=])
+    set(expected_stdout "500\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "constant_reassign_error")
+    set(source [=[aavo
+achala FIXED = 42;
+FIXED = 100;
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "cannot reassign constant variable")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_version_platform")
+    set(source [=[aavo
+chhapo bhasha_avrutti();
+p = platform_nam();
+chhapo (p == "windows" || p == "linux" || p == "macos");
+aavjo
+]=])
+    set(expected_stdout "1.0.0\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
 else()
     message(FATAL_ERROR "Unknown interpreter test case: ${TEST_CASE}")
 endif()

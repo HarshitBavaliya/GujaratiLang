@@ -4,14 +4,19 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
+#include <stdint.h>
 
 #define GUJARATI_PI 3.14159265358979323846
 #define GUJARATI_E  2.71828182845904523536
 
 #ifdef _WIN32
 #include <windows.h>
+#include <direct.h>
 #else
 #include <unistd.h>
+#include <dirent.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #endif
 
 typedef enum {
@@ -59,6 +64,14 @@ typedef enum {
     TOKEN_RIGHT_BRACE,
     TOKEN_SEMICOLON,
     TOKEN_COLON,
+    TOKEN_QUESTION,
+    TOKEN_PERCENT,
+    TOKEN_PLUS_EQUAL,
+    TOKEN_MINUS_EQUAL,
+    TOKEN_STAR_EQUAL,
+    TOKEN_SLASH_EQUAL,
+    TOKEN_PERCENT_EQUAL,
+    TOKEN_CONST,
     TOKEN_BREAK,
     TOKEN_CONTINUE,
     TOKEN_TRY,
@@ -233,6 +246,24 @@ typedef enum {
     MESSAGE_EXPECTED_STRING_FOR_TARIKH,
     MESSAGE_EXPECTED_TIMESTAMP_NUMBER,
     MESSAGE_EXPECTED_SLEEP_MILLISECONDS,
+    MESSAGE_EXPECTED_COLON_IN_TERNARY,
+    MESSAGE_CANNOT_REASSIGN_CONSTANT,
+    MESSAGE_VARIABLE_ALREADY_DECLARED,
+    MESSAGE_EXPECTED_JSON_STRING,
+    MESSAGE_INVALID_JSON,
+    MESSAGE_EXPECTED_RADIX_INTEGER,
+    MESSAGE_EXPECTED_RADIX_STRING,
+    MESSAGE_EXPECTED_FUNCTION_FOR_MAP,
+    MESSAGE_EXPECTED_FUNCTION_FOR_FILTER,
+    MESSAGE_EXPECTED_FUNCTION_FOR_REDUCE,
+    MESSAGE_EXPECTED_FUNCTION_FOR_FIND,
+    MESSAGE_EXPECTED_LIST_FOR_FLATTEN,
+    MESSAGE_EXPECTED_LISTS_FOR_ZIP,
+    MESSAGE_EXPECTED_BASE64_STRING,
+    MESSAGE_INVALID_BASE64,
+    MESSAGE_EXPECTED_STRING_FOR_PATTERN,
+    MESSAGE_EXPECTED_STRING_FOR_DISTANCE,
+    MESSAGE_EXPECTED_MATRIX_LISTS,
     MESSAGE_USAGE
 } MessageId;
 
@@ -284,6 +315,7 @@ typedef struct {
     char *name;
     size_t name_length;
     Value value;
+    int is_constant;
 } Variable;
 
 typedef struct Environment {
@@ -548,6 +580,24 @@ static const char *localized_message(Language language, MessageId message)
         "format for 'તારીખ' or 'tarikh' must be a string",
         "timestamp must be a number",
         "sleep duration must be a non-negative number of milliseconds",
+        "expected ':' in ternary operator",
+        "cannot reassign constant variable",
+        "variable with this name is already declared",
+        "expected a JSON string",
+        "invalid JSON format",
+        "expected an integer for radix conversion",
+        "expected a string for radix conversion",
+        "expected a function name for 'નકશો_યાદી' or 'naksho_yadi'",
+        "expected a function name for 'ગાળો_યાદી' or 'gaalo_yadi'",
+        "expected a function name for 'સમેટો_યાદી' or 'sameto_yadi'",
+        "expected a function name for 'શોધો_યાદી' or 'shodho_yadi'",
+        "expected a list for flattening",
+        "expected two lists for 'ઝીપ_યાદી' or 'zip_yadi'",
+        "expected a string for base64 operation",
+        "invalid base64 content",
+        "expected string pattern and text",
+        "expected string arguments for distance calculation",
+        "expected 2D numeric matrices of compatible dimensions",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -694,6 +744,24 @@ static const char *localized_message(Language language, MessageId message)
         "'તારીખ' માટે ફોર્મેટ લખાણ હોવું જોઈએ",
         "સમયમુદ્રા સંખ્યા હોવી જોઈએ",
         "વિરામ સમય મિલિસેકન્ડ્સમાં અનૃણ સંખ્યા હોવી જોઈએ",
+        "ત્રિપદી શરતમાં ':' અપેક્ષિત છે",
+        "અચળ ચલને ફરીથી બદલી શકાતો નથી",
+        "આ નામવાળો ચલ પહેલેથી ઘોષિત થયેલ છે",
+        "જેસન લખાણ અપેક્ષિત છે",
+        "અમાન્ય જેસન રચના",
+        "સંખ્યા રૂપાંતરણ માટે પૂર્ણાંક અપેક્ષિત છે",
+        "રૂપાંતરણ માટે લખાણ અપેક્ષિત છે",
+        "'નકશો_યાદી' માટે કાર્ય અપેક્ષિત છે",
+        "'ગાળો_યાદી' માટે કાર્ય અપેક્ષિત છે",
+        "'સમેટો_યાદી' માટે કાર્ય અપેક્ષિત છે",
+        "'શોધો_યાદી' માટે કાર્ય અપેક્ષિત છે",
+        "ચપટી યાદી માટે યાદી અપેક્ષિત છે",
+        "'ઝીપ_યાદી' માટે બે યાદીઓ અપેક્ષિત છે",
+        "બેઝ૬૪ માટે લખાણ અપેક્ષિત છે",
+        "અમાન્ય બેઝ૬૪ સામગ્રી",
+        "પેટર્ન શોધ માટે લખાણ અપેક્ષિત છે",
+        "અંતર ગણતરી માટે લખાણ દલીલો અપેક્ષિત છે",
+        "સુસંગત પરિમાણવાળા મેટ્રિક્સ અપેક્ષિત છે",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -870,7 +938,10 @@ static Token scan_token(Parser *parser)
         {"પ્રયત્ન", TOKEN_TRY},
         {"prayatna", TOKEN_TRY},
         {"પકડો", TOKEN_CATCH},
-        {"pakdo", TOKEN_CATCH}
+        {"pakdo", TOKEN_CATCH},
+        {"અચળ", TOKEN_CONST},
+        {"achala", TOKEN_CONST},
+        {"const", TOKEN_CONST}
     };
     Token token;
     size_t start;
@@ -969,10 +1040,49 @@ static Token scan_token(Parser *parser)
 
     advance_char(parser);
     switch (character) {
-    case '+': token.kind = TOKEN_PLUS; break;
-    case '-': token.kind = TOKEN_MINUS; break;
-    case '*': token.kind = TOKEN_STAR; break;
-    case '/': token.kind = TOKEN_SLASH; break;
+    case '+':
+        if (peek(parser) == '=') {
+            advance_char(parser);
+            token.kind = TOKEN_PLUS_EQUAL;
+        } else {
+            token.kind = TOKEN_PLUS;
+        }
+        break;
+    case '-':
+        if (peek(parser) == '=') {
+            advance_char(parser);
+            token.kind = TOKEN_MINUS_EQUAL;
+        } else {
+            token.kind = TOKEN_MINUS;
+        }
+        break;
+    case '*':
+        if (peek(parser) == '=') {
+            advance_char(parser);
+            token.kind = TOKEN_STAR_EQUAL;
+        } else {
+            token.kind = TOKEN_STAR;
+        }
+        break;
+    case '/':
+        if (peek(parser) == '=') {
+            advance_char(parser);
+            token.kind = TOKEN_SLASH_EQUAL;
+        } else {
+            token.kind = TOKEN_SLASH;
+        }
+        break;
+    case '%':
+        if (peek(parser) == '=') {
+            advance_char(parser);
+            token.kind = TOKEN_PERCENT_EQUAL;
+        } else {
+            token.kind = TOKEN_PERCENT;
+        }
+        break;
+    case '?':
+        token.kind = TOKEN_QUESTION;
+        break;
     case '=':
         if (peek(parser) == '=') {
             advance_char(parser);
@@ -1103,7 +1213,7 @@ static Variable *find_variable(Parser *parser, Token name)
     return NULL;
 }
 
-static int declare_variable(Parser *parser, Token name, Value value)
+static int declare_variable_ex(Parser *parser, Token name, Value value, int is_constant)
 {
     Environment *environment = parser->environment;
     Variable *variables;
@@ -1145,8 +1255,14 @@ static int declare_variable(Parser *parser, Token name, Value value)
     environment->variables[environment->variable_count].name_length =
         name.string_length;
     environment->variables[environment->variable_count].value = value;
+    environment->variables[environment->variable_count].is_constant = is_constant;
     environment->variable_count++;
     return 1;
+}
+
+static int declare_variable(Parser *parser, Token name, Value value)
+{
+    return declare_variable_ex(parser, name, value, 0);
 }
 
 static int assign_variable(Parser *parser, Token name, Value value)
@@ -1155,6 +1271,11 @@ static int assign_variable(Parser *parser, Token name, Value value)
     if (variable == NULL) {
         report_error(parser, name.line, name.column,
                      MESSAGE_UNDEFINED_VARIABLE);
+        return 0;
+    }
+    if (variable->is_constant) {
+        report_error(parser, name.line, name.column,
+                     MESSAGE_CANNOT_REASSIGN_CONSTANT);
         return 0;
     }
     variable->value = value;
@@ -1187,6 +1308,19 @@ static Function *find_function(Parser *parser, Token name)
             memcmp(function->name,
                    parser->source + name.string_offset,
                    name.string_length) == 0) {
+            return function;
+        }
+    }
+    return NULL;
+}
+
+static Function *find_function_by_name(Parser *parser, const char *name, size_t length)
+{
+    size_t index;
+    for (index = 0; index < parser->function_table->count; index++) {
+        Function *function = &parser->function_table->items[index];
+        if (function->name_length == length &&
+            memcmp(function->name, name, length) == 0) {
             return function;
         }
     }
@@ -1378,7 +1512,93 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "રાહ_જુઓ") ||
            token_matches(parser, name, "raah_juo") ||
            token_matches(parser, name, "ફેંકો") ||
-           token_matches(parser, name, "phenko");
+           token_matches(parser, name, "phenko") ||
+           token_matches(parser, name, "જેસન_વાંચો") ||
+           token_matches(parser, name, "json_vancho") ||
+           token_matches(parser, name, "જેસન_લખો") ||
+           token_matches(parser, name, "json_lakho") ||
+           token_matches(parser, name, "દલીલો") ||
+           token_matches(parser, name, "daleelo") ||
+           token_matches(parser, name, "દલીલ_યાદી") ||
+           token_matches(parser, name, "arg_yadi") ||
+           token_matches(parser, name, "દ્વિ_સંખ્યા") ||
+           token_matches(parser, name, "dvi_sankhya") ||
+           token_matches(parser, name, "દ્વિ_થી_સંખ્યા") ||
+           token_matches(parser, name, "dvi_thi_sankhya") ||
+           token_matches(parser, name, "હેક્સ_લખાણ") ||
+           token_matches(parser, name, "hex_lakhan") ||
+           token_matches(parser, name, "હેક્સ_થી_સંખ્યા") ||
+           token_matches(parser, name, "hex_thi_sankhya") ||
+           token_matches(parser, name, "ફોલ્ડર_છે") ||
+           token_matches(parser, name, "folder_chhe") ||
+           token_matches(parser, name, "ફોલ્ડર_બનાવો") ||
+           token_matches(parser, name, "folder_banao") ||
+           token_matches(parser, name, "ફોલ્ડર_સૂચિ") ||
+           token_matches(parser, name, "folder_suchi") ||
+           token_matches(parser, name, "કમાન્ડ_ચલાવો") ||
+           token_matches(parser, name, "command_chalao") ||
+           token_matches(parser, name, "સિસ્ટમ") ||
+           token_matches(parser, name, "system_kary") ||
+           token_matches(parser, name, "નકશો_યાદી") ||
+           token_matches(parser, name, "naksho_yadi") ||
+           token_matches(parser, name, "ગાળો_યાદી") ||
+           token_matches(parser, name, "gaalo_yadi") ||
+           token_matches(parser, name, "સમેટો_યાદી") ||
+           token_matches(parser, name, "sameto_yadi") ||
+           token_matches(parser, name, "શોધો_યાદી") ||
+           token_matches(parser, name, "shodho_yadi") ||
+           token_matches(parser, name, "શોધો_સૂચક_યાદી") ||
+           token_matches(parser, name, "shodho_suchak_yadi") ||
+           token_matches(parser, name, "ચપટી_યાદી") ||
+           token_matches(parser, name, "chapti_yadi") ||
+           token_matches(parser, name, "ઝીપ_યાદી") ||
+           token_matches(parser, name, "zip_yadi") ||
+           token_matches(parser, name, "પેટર્ન_શોધો") ||
+           token_matches(parser, name, "pattern_shodho") ||
+           token_matches(parser, name, "લખાણ_બદલો_દરેક") ||
+           token_matches(parser, name, "lakhan_badlo_darek") ||
+           token_matches(parser, name, "બેઝ૬૪_કોડ") ||
+           token_matches(parser, name, "base64_kod") ||
+           token_matches(parser, name, "બેઝ૬૪_ડીકોડ") ||
+           token_matches(parser, name, "base64_decode") ||
+           token_matches(parser, name, "શીર્ષક_લખાણ") ||
+           token_matches(parser, name, "shirshak_lakhan") ||
+           token_matches(parser, name, "પ્રથમ_મોટી") ||
+           token_matches(parser, name, "pratham_moti") ||
+           token_matches(parser, name, "સ્વરૂપ") ||
+           token_matches(parser, name, "swaroop") ||
+           token_matches(parser, name, "લખાણ_અંતર") ||
+           token_matches(parser, name, "lakhan_antar") ||
+           token_matches(parser, name, "શા૨૫૬_હેશ") ||
+           token_matches(parser, name, "sha256_hash") ||
+           token_matches(parser, name, "સાઇન") ||
+           token_matches(parser, name, "sine") ||
+           token_matches(parser, name, "કોસાઇન") ||
+           token_matches(parser, name, "cosine") ||
+           token_matches(parser, name, "ટેન્જન્ટ") ||
+           token_matches(parser, name, "tangent") ||
+           token_matches(parser, name, "આર્કસાઇન") ||
+           token_matches(parser, name, "arcsin") ||
+           token_matches(parser, name, "આર્કકોસ") ||
+           token_matches(parser, name, "arccos") ||
+           token_matches(parser, name, "આર્કટેન") ||
+           token_matches(parser, name, "arctan") ||
+           token_matches(parser, name, "ગુરુ_તમ") ||
+           token_matches(parser, name, "guru_tam") ||
+           token_matches(parser, name, "લઘુ_તમ") ||
+           token_matches(parser, name, "laghu_tam") ||
+           token_matches(parser, name, "અંશ_થી_રેડિયન") ||
+           token_matches(parser, name, "ansha_thi_radian") ||
+           token_matches(parser, name, "રેડિયન_થી_અંશ") ||
+           token_matches(parser, name, "radian_thi_ansha") ||
+           token_matches(parser, name, "મેટ્રિક્સ_સરવાળો") ||
+           token_matches(parser, name, "matrix_sarvalo") ||
+           token_matches(parser, name, "મેટ્રિક્સ_ગુણાકાર") ||
+           token_matches(parser, name, "matrix_gunakar") ||
+           token_matches(parser, name, "ભાષા_આવૃત્તિ") ||
+           token_matches(parser, name, "bhasha_avrutti") ||
+           token_matches(parser, name, "પ્લેટફોર્મ_નામ") ||
+           token_matches(parser, name, "platform_nam");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -2199,6 +2419,779 @@ static Value pad_string_value(Parser *parser, Token name, Value str_val,
         result.owned_string = out_buf;
     }
     return result;
+}
+
+static int g_script_argc = 0;
+static char **g_script_argv = NULL;
+
+static Value make_owned_string_value(Parser *parser, Token name, char *data, size_t length)
+{
+    Value result = number_value(0.0);
+    if (!store_owned_string(parser, name, data)) {
+        return null_value();
+    }
+    result.kind = VALUE_STRING;
+    result.string_length = length;
+    result.owned_string = data;
+    return result;
+}
+
+/* --- SHA-256 Implementation --- */
+typedef struct {
+    uint8_t data[64];
+    uint32_t datalen;
+    unsigned long long bitlen;
+    uint32_t state[8];
+} SHA256Context;
+
+#define SHA256_ROTR(a,b) (((a) >> (b)) | ((a) << (32-(b))))
+#define SHA256_CH(x,y,z) (((x) & (y)) ^ (~(x) & (z)))
+#define SHA256_MAJ(x,y,z) (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
+#define SHA256_EP0(x) (SHA256_ROTR(x,2) ^ SHA256_ROTR(x,13) ^ SHA256_ROTR(x,22))
+#define SHA256_EP1(x) (SHA256_ROTR(x,6) ^ SHA256_ROTR(x,11) ^ SHA256_ROTR(x,25))
+#define SHA256_SIG0(x) (SHA256_ROTR(x,7) ^ SHA256_ROTR(x,18) ^ ((x) >> 3))
+#define SHA256_SIG1(x) (SHA256_ROTR(x,17) ^ SHA256_ROTR(x,19) ^ ((x) >> 10))
+
+static const uint32_t sha256_k[64] = {
+    0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+};
+
+static void sha256_transform(SHA256Context *ctx, const uint8_t data[])
+{
+    uint32_t a, b, c, d, e, f, g, h, i, j, t1, t2, m[64];
+    for (i = 0, j = 0; i < 16; ++i, j += 4)
+        m[i] = ((uint32_t)data[j] << 24) | ((uint32_t)data[j + 1] << 16) | ((uint32_t)data[j + 2] << 8) | ((uint32_t)data[j + 3]);
+    for (; i < 64; ++i)
+        m[i] = SHA256_SIG1(m[i - 2]) + m[i - 7] + SHA256_SIG0(m[i - 15]) + m[i - 16];
+    a = ctx->state[0]; b = ctx->state[1]; c = ctx->state[2]; d = ctx->state[3];
+    e = ctx->state[4]; f = ctx->state[5]; g = ctx->state[6]; h = ctx->state[7];
+    for (i = 0; i < 64; ++i) {
+        t1 = h + SHA256_EP1(e) + SHA256_CH(e, f, g) + sha256_k[i] + m[i];
+        t2 = SHA256_EP0(a) + SHA256_MAJ(a, b, c);
+        h = g; g = f; f = e; e = d + t1;
+        d = c; c = b; b = a; a = t1 + t2;
+    }
+    ctx->state[0] += a; ctx->state[1] += b; ctx->state[2] += c; ctx->state[3] += d;
+    ctx->state[4] += e; ctx->state[5] += f; ctx->state[6] += g; ctx->state[7] += h;
+}
+
+static void sha256_init(SHA256Context *ctx)
+{
+    ctx->datalen = 0;
+    ctx->bitlen = 0;
+    ctx->state[0] = 0x6a09e667;
+    ctx->state[1] = 0xbb67ae85;
+    ctx->state[2] = 0x3c6ef372;
+    ctx->state[3] = 0xa54ff53a;
+    ctx->state[4] = 0x510e527f;
+    ctx->state[5] = 0x9b05688c;
+    ctx->state[6] = 0x1f83d9ab;
+    ctx->state[7] = 0x5be0cd19;
+}
+
+static void sha256_update(SHA256Context *ctx, const uint8_t data[], size_t len)
+{
+    size_t i;
+    for (i = 0; i < len; ++i) {
+        ctx->data[ctx->datalen] = data[i];
+        ctx->datalen++;
+        if (ctx->datalen == 64) {
+            sha256_transform(ctx, ctx->data);
+            ctx->bitlen += 512;
+            ctx->datalen = 0;
+        }
+    }
+}
+
+static void sha256_final(SHA256Context *ctx, uint8_t hash[])
+{
+    uint32_t i = ctx->datalen;
+    if (ctx->datalen < 56) {
+        ctx->data[i++] = 0x80;
+        while (i < 56) ctx->data[i++] = 0x00;
+    } else {
+        ctx->data[i++] = 0x80;
+        while (i < 64) ctx->data[i++] = 0x00;
+        sha256_transform(ctx, ctx->data);
+        memset(ctx->data, 0, 56);
+    }
+    ctx->bitlen += (unsigned long long)ctx->datalen * 8;
+    ctx->data[63] = (uint8_t)(ctx->bitlen);
+    ctx->data[62] = (uint8_t)(ctx->bitlen >> 8);
+    ctx->data[61] = (uint8_t)(ctx->bitlen >> 16);
+    ctx->data[60] = (uint8_t)(ctx->bitlen >> 24);
+    ctx->data[59] = (uint8_t)(ctx->bitlen >> 32);
+    ctx->data[58] = (uint8_t)(ctx->bitlen >> 40);
+    ctx->data[57] = (uint8_t)(ctx->bitlen >> 48);
+    ctx->data[56] = (uint8_t)(ctx->bitlen >> 56);
+    sha256_transform(ctx, ctx->data);
+    for (i = 0; i < 4; ++i) {
+        hash[i]      = (uint8_t)((ctx->state[0] >> (24 - i * 8)) & 0x000000ff);
+        hash[i + 4]  = (uint8_t)((ctx->state[1] >> (24 - i * 8)) & 0x000000ff);
+        hash[i + 8]  = (uint8_t)((ctx->state[2] >> (24 - i * 8)) & 0x000000ff);
+        hash[i + 12] = (uint8_t)((ctx->state[3] >> (24 - i * 8)) & 0x000000ff);
+        hash[i + 16] = (uint8_t)((ctx->state[4] >> (24 - i * 8)) & 0x000000ff);
+        hash[i + 20] = (uint8_t)((ctx->state[5] >> (24 - i * 8)) & 0x000000ff);
+        hash[i + 24] = (uint8_t)((ctx->state[6] >> (24 - i * 8)) & 0x000000ff);
+        hash[i + 28] = (uint8_t)((ctx->state[7] >> (24 - i * 8)) & 0x000000ff);
+    }
+}
+
+static char *sha256_hash_string(const char *input, size_t len)
+{
+    SHA256Context ctx;
+    uint8_t hash[32];
+    static const char hex_chars[] = "0123456789abcdef";
+    char *output_hex = (char *)malloc(65);
+    size_t i;
+    if (!output_hex) return NULL;
+    sha256_init(&ctx);
+    sha256_update(&ctx, (const uint8_t *)input, len);
+    sha256_final(&ctx, hash);
+    for (i = 0; i < 32; ++i) {
+        output_hex[i * 2]     = hex_chars[(hash[i] >> 4) & 0x0f];
+        output_hex[i * 2 + 1] = hex_chars[hash[i] & 0x0f];
+    }
+    output_hex[64] = '\0';
+    return output_hex;
+}
+
+/* --- Base64 Implementation --- */
+static const char b64_table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+static char *base64_encode_str(const unsigned char *data, size_t input_length, size_t *output_length)
+{
+    size_t out_len = 4 * ((input_length + 2) / 3);
+    char *encoded_data = (char *)malloc(out_len + 1);
+    size_t i, j;
+    if (encoded_data == NULL) return NULL;
+    for (i = 0, j = 0; i < input_length;) {
+        uint32_t octet_a = i < input_length ? data[i++] : 0;
+        uint32_t octet_b = i < input_length ? data[i++] : 0;
+        uint32_t octet_c = i < input_length ? data[i++] : 0;
+        uint32_t triple = (octet_a << 16) + (octet_b << 8) + octet_c;
+        encoded_data[j++] = b64_table[(triple >> 18) & 0x3F];
+        encoded_data[j++] = b64_table[(triple >> 12) & 0x3F];
+        encoded_data[j++] = (i > input_length + 1) ? '=' : b64_table[(triple >> 6) & 0x3F];
+        encoded_data[j++] = (i > input_length) ? '=' : b64_table[triple & 0x3F];
+    }
+    encoded_data[out_len] = '\0';
+    if (output_length) *output_length = out_len;
+    return encoded_data;
+}
+
+static int b64_char_val(char c)
+{
+    if (c >= 'A' && c <= 'Z') return c - 'A';
+    if (c >= 'a' && c <= 'z') return c - 'a' + 26;
+    if (c >= '0' && c <= '9') return c - '0' + 52;
+    if (c == '+') return 62;
+    if (c == '/') return 63;
+    return -1;
+}
+
+static char *base64_decode_str(const char *data, size_t input_length, size_t *output_length)
+{
+    size_t i, j = 0;
+    size_t pad = 0;
+    size_t valid_len = 0;
+    for (i = 0; i < input_length; i++) {
+        if (data[i] == '=') pad++;
+        else if (b64_char_val(data[i]) >= 0) valid_len++;
+    }
+    size_t total_chars = valid_len + pad;
+    if (total_chars == 0 || (total_chars % 4) != 0) return NULL;
+    size_t out_len = (total_chars / 4) * 3 - pad;
+    char *decoded_data = (char *)malloc(out_len + 1);
+    if (!decoded_data) return NULL;
+    for (i = 0; i < input_length;) {
+        int v[4] = {-1, -1, -1, -1};
+        int count = 0;
+        while (i < input_length && count < 4) {
+            char c = data[i++];
+            if (c == '=') { v[count++] = 0; }
+            else {
+                int val = b64_char_val(c);
+                if (val >= 0) v[count++] = val;
+            }
+        }
+        if (count == 4) {
+            uint32_t triple = (v[0] << 18) + (v[1] << 12) + (v[2] << 6) + v[3];
+            if (j < out_len) decoded_data[j++] = (char)((triple >> 16) & 0xFF);
+            if (j < out_len) decoded_data[j++] = (char)((triple >> 8) & 0xFF);
+            if (j < out_len) decoded_data[j++] = (char)(triple & 0xFF);
+        }
+    }
+    decoded_data[out_len] = '\0';
+    if (output_length) *output_length = out_len;
+    return decoded_data;
+}
+
+/* --- Levenshtein Distance --- */
+static size_t calc_levenshtein(const char *s1, size_t len1, const char *s2, size_t len2)
+{
+    size_t *d;
+    size_t i, j;
+    if (len1 == 0) return len2;
+    if (len2 == 0) return len1;
+    d = (size_t *)malloc((len2 + 1) * sizeof(size_t));
+    if (!d) return 0;
+    for (j = 0; j <= len2; j++) d[j] = j;
+    for (i = 1; i <= len1; i++) {
+        size_t prev = d[0];
+        d[0] = i;
+        for (j = 1; j <= len2; j++) {
+            size_t temp = d[j];
+            size_t cost = (s1[i - 1] == s2[j - 1]) ? 0 : 1;
+            size_t min = d[j] + 1;
+            if (d[j - 1] + 1 < min) min = d[j - 1] + 1;
+            if (prev + cost < min) min = prev + cost;
+            d[j] = min;
+            prev = temp;
+        }
+    }
+    size_t result = d[len2];
+    free(d);
+    return result;
+}
+
+/* --- Wildcard Pattern Matcher --- */
+static int wildcard_match(const char *pat, const char *str)
+{
+    while (*pat) {
+        if (*pat == '*') {
+            while (*(pat + 1) == '*') pat++;
+            if (*(pat + 1) == '\0') return 1;
+            while (*str) {
+                if (wildcard_match(pat + 1, str)) return 1;
+                str++;
+            }
+            return wildcard_match(pat + 1, str);
+        } else if (*pat == '?' || *pat == *str) {
+            if (*str == '\0') return 0;
+            pat++;
+            str++;
+        } else {
+            return 0;
+        }
+    }
+    return *str == '\0';
+}
+
+/* --- Global Substring Replacement --- */
+static char *string_replace_all(const char *src, const char *target, const char *replacement)
+{
+    size_t src_len = strlen(src);
+    size_t tgt_len = strlen(target);
+    size_t rep_len = strlen(replacement);
+    StringBuffer sb;
+    sb_init(&sb);
+    if (tgt_len == 0) {
+        sb_append(&sb, src, src_len);
+        return sb.data;
+    }
+    const char *p = src;
+    while (*p) {
+        const char *found = strstr(p, target);
+        if (!found) {
+            sb_append(&sb, p, strlen(p));
+            break;
+        }
+        sb_append(&sb, p, (size_t)(found - p));
+        sb_append(&sb, replacement, rep_len);
+        p = found + tgt_len;
+    }
+    return sb.data;
+}
+
+/* --- Title Case & Capitalize First --- */
+static char *string_to_title_case(const char *src, size_t len)
+{
+    char *out = (char *)malloc(len + 1);
+    if (!out) return NULL;
+    int capitalize_next = 1;
+    for (size_t i = 0; i < len; i++) {
+        unsigned char c = (unsigned char)src[i];
+        if (c == ' ' || c == '\t' || c == '\n' || c == '_' || c == '-') {
+            out[i] = (char)c;
+            capitalize_next = 1;
+        } else if (capitalize_next && c >= 'a' && c <= 'z') {
+            out[i] = (char)(c - 'a' + 'A');
+            capitalize_next = 0;
+        } else if (!capitalize_next && c >= 'A' && c <= 'Z') {
+            out[i] = (char)(c - 'A' + 'a');
+        } else {
+            out[i] = (char)c;
+            capitalize_next = 0;
+        }
+    }
+    out[len] = '\0';
+    return out;
+}
+
+static char *string_capitalize_first(const char *src, size_t len)
+{
+    char *out = (char *)malloc(len + 1);
+    if (!out) return NULL;
+    memcpy(out, src, len);
+    out[len] = '\0';
+    if (len > 0 && out[0] >= 'a' && out[0] <= 'z') {
+        out[0] = (char)(out[0] - 'a' + 'A');
+    }
+    return out;
+}
+
+/* --- Radix Conversions --- */
+static char *int_to_bin_string(long long num)
+{
+    char buf[66];
+    int pos = 0;
+    unsigned long long n;
+    int is_neg = 0;
+    if (num == 0) return copy_string("0");
+    if (num < 0) { is_neg = 1; n = (unsigned long long)(-num); }
+    else n = (unsigned long long)num;
+    while (n > 0) {
+        buf[pos++] = (n & 1) ? '1' : '0';
+        n >>= 1;
+    }
+    if (is_neg) buf[pos++] = '-';
+    buf[pos] = '\0';
+    for (int l = 0, r = pos - 1; l < r; l++, r--) {
+        char tmp = buf[l]; buf[l] = buf[r]; buf[r] = tmp;
+    }
+    return copy_string(buf);
+}
+
+static char *int_to_hex_string(long long num)
+{
+    char buf[32];
+    if (num < 0) {
+        snprintf(buf, sizeof(buf), "-%llx", (unsigned long long)(-num));
+    } else {
+        snprintf(buf, sizeof(buf), "%llx", (unsigned long long)num);
+    }
+    return copy_string(buf);
+}
+
+/* --- Directory / Folder Helpers --- */
+#ifdef _WIN32
+static int platform_folder_exists(const char *path)
+{
+    DWORD attrs = GetFileAttributesA(path);
+    return (attrs != INVALID_FILE_ATTRIBUTES && (attrs & FILE_ATTRIBUTE_DIRECTORY)) ? 1 : 0;
+}
+
+static int platform_folder_create(const char *path)
+{
+    if (CreateDirectoryA(path, NULL)) return 1;
+    return GetLastError() == ERROR_ALREADY_EXISTS ? 1 : 0;
+}
+
+static List *platform_folder_list(Parser *parser, Token name, const char *path)
+{
+    char search_path[MAX_PATH];
+    WIN32_FIND_DATAA fd;
+    HANDLE hFind;
+    List *list = create_list(parser, name);
+    if (!list) return NULL;
+    snprintf(search_path, sizeof(search_path), "%s\\*", path);
+    hFind = FindFirstFileA(search_path, &fd);
+    if (hFind == INVALID_HANDLE_VALUE) return list;
+    do {
+        if (strcmp(fd.cFileName, ".") != 0 && strcmp(fd.cFileName, "..") != 0) {
+            char *fname = copy_string(fd.cFileName);
+            if (fname) {
+                Value val = make_owned_string_value(parser, name, fname, strlen(fname));
+                append_list_item(parser, list, val, name);
+            }
+        }
+    } while (FindNextFileA(hFind, &fd));
+    FindClose(hFind);
+    return list;
+}
+#else
+static int platform_folder_exists(const char *path)
+{
+    struct stat st;
+    if (stat(path, &st) == 0 && S_ISDIR(st.st_mode)) return 1;
+    return 0;
+}
+
+static int platform_folder_create(const char *path)
+{
+    if (mkdir(path, 0777) == 0) return 1;
+    return errno == EEXIST ? 1 : 0;
+}
+
+static List *platform_folder_list(Parser *parser, Token name, const char *path)
+{
+    DIR *dir;
+    struct dirent *ent;
+    List *list = create_list(parser, name);
+    if (!list) return NULL;
+    dir = opendir(path);
+    if (!dir) return list;
+    while ((ent = readdir(dir)) != NULL) {
+        if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0) {
+            char *fname = copy_string(ent->d_name);
+            if (fname) {
+                Value val = make_owned_string_value(parser, name, fname, strlen(fname));
+                append_list_item(parser, list, val, name);
+            }
+        }
+    }
+    closedir(dir);
+    return list;
+}
+#endif
+
+/* --- Matrix Math --- */
+static Value matrix_add(Parser *parser, Token name, Value m1, Value m2)
+{
+    if (m1.kind != VALUE_LIST || m2.kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_EXPECTED_MATRIX_LISTS);
+        return null_value();
+    }
+    size_t rows = m1.list->count;
+    if (rows != m2.list->count || rows == 0) {
+        report_error(parser, name.line, name.column, MESSAGE_EXPECTED_MATRIX_LISTS);
+        return null_value();
+    }
+    List *res = create_list(parser, name);
+    for (size_t r = 0; r < rows; r++) {
+        Value row1 = m1.list->items[r];
+        Value row2 = m2.list->items[r];
+        if (row1.kind != VALUE_LIST || row2.kind != VALUE_LIST || row1.list->count != row2.list->count) {
+            report_error(parser, name.line, name.column, MESSAGE_EXPECTED_MATRIX_LISTS);
+            return null_value();
+        }
+        List *res_row = create_list(parser, name);
+        for (size_t c = 0; c < row1.list->count; c++) {
+            Value v1 = row1.list->items[c];
+            Value v2 = row2.list->items[c];
+            if (v1.kind != VALUE_NUMBER || v2.kind != VALUE_NUMBER) {
+                report_error(parser, name.line, name.column, MESSAGE_EXPECTED_MATRIX_LISTS);
+                return null_value();
+            }
+            append_list_item(parser, res_row, number_value(v1.number + v2.number), name);
+        }
+        Value rv = number_value(0.0);
+        rv.kind = VALUE_LIST;
+        rv.list = res_row;
+        append_list_item(parser, res, rv, name);
+    }
+    Value v = number_value(0.0);
+    v.kind = VALUE_LIST;
+    v.list = res;
+    return v;
+}
+
+static Value matrix_multiply(Parser *parser, Token name, Value m1, Value m2)
+{
+    if (m1.kind != VALUE_LIST || m2.kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_EXPECTED_MATRIX_LISTS);
+        return null_value();
+    }
+    size_t r1 = m1.list->count;
+    size_t r2 = m2.list->count;
+    if (r1 == 0 || r2 == 0) {
+        report_error(parser, name.line, name.column, MESSAGE_EXPECTED_MATRIX_LISTS);
+        return null_value();
+    }
+    if (m1.list->items[0].kind != VALUE_LIST || m2.list->items[0].kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_EXPECTED_MATRIX_LISTS);
+        return null_value();
+    }
+    size_t c1 = m1.list->items[0].list->count;
+    size_t c2 = m2.list->items[0].list->count;
+    if (c1 != r2 || c1 == 0 || c2 == 0) {
+        report_error(parser, name.line, name.column, MESSAGE_EXPECTED_MATRIX_LISTS);
+        return null_value();
+    }
+    List *res = create_list(parser, name);
+    for (size_t i = 0; i < r1; i++) {
+        List *row = create_list(parser, name);
+        for (size_t j = 0; j < c2; j++) {
+            double sum = 0.0;
+            for (size_t k = 0; k < c1; k++) {
+                Value a = m1.list->items[i].list->items[k];
+                Value b = m2.list->items[k].list->items[j];
+                if (a.kind != VALUE_NUMBER || b.kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_MATRIX_LISTS);
+                    return null_value();
+                }
+                sum += a.number * b.number;
+            }
+            append_list_item(parser, row, number_value(sum), name);
+        }
+        Value rv = number_value(0.0);
+        rv.kind = VALUE_LIST;
+        rv.list = row;
+        append_list_item(parser, res, rv, name);
+    }
+    Value v = number_value(0.0);
+    v.kind = VALUE_LIST;
+    v.list = res;
+    return v;
+}
+
+/* --- String Formatting Template --- */
+static char *format_template(Parser *parser, const char *fmt, size_t fmt_len, const Value *args, size_t arg_count, size_t *out_len)
+{
+    StringBuffer sb;
+    sb_init(&sb);
+    size_t auto_idx = 1;
+    size_t i = 0;
+    while (i < fmt_len) {
+        if (fmt[i] == '{') {
+            if (i + 1 < fmt_len && fmt[i + 1] == '{') {
+                sb_append(&sb, "{", 1);
+                i += 2;
+                continue;
+            }
+            size_t close = i + 1;
+            while (close < fmt_len && fmt[close] != '}') close++;
+            if (close < fmt_len) {
+                size_t target_idx = 0;
+                if (close == i + 1) {
+                    target_idx = auto_idx++;
+                } else {
+                    target_idx = (size_t)strtoul(fmt + i + 1, NULL, 10) + 1;
+                }
+                if (target_idx < arg_count) {
+                    List *ancestors[256];
+                    format_value_to_buffer(parser, args[target_idx], &sb, ancestors, 0);
+                }
+                i = close + 1;
+                continue;
+            }
+        }
+        sb_append(&sb, &fmt[i], 1);
+        i++;
+    }
+    *out_len = sb.length;
+    return sb.data;
+}
+
+/* --- JSON Formatting & Parsing --- */
+static void json_format_value(Parser *parser, Value value, StringBuffer *sb, List **ancestors, size_t depth)
+{
+    if (sb->failed) return;
+    if (value.kind == VALUE_NULL) {
+        sb_append(sb, "null", 4);
+    } else if (value.kind == VALUE_NUMBER) {
+        char buf[64];
+        snprintf(buf, sizeof(buf), "%.15g", value.number);
+        sb_append(sb, buf, strlen(buf));
+    } else if (value.kind == VALUE_STRING) {
+        sb_append(sb, "\"", 1);
+        char *str = value_to_c_string(parser, value);
+        if (str) {
+            for (size_t i = 0; str[i] != '\0'; i++) {
+                unsigned char c = (unsigned char)str[i];
+                if (c == '"') sb_append(sb, "\\\"", 2);
+                else if (c == '\\') sb_append(sb, "\\\\", 2);
+                else if (c == '\n') sb_append(sb, "\\n", 2);
+                else if (c == '\r') sb_append(sb, "\\r", 2);
+                else if (c == '\t') sb_append(sb, "\\t", 2);
+                else sb_append(sb, (const char *)&c, 1);
+            }
+            free(str);
+        }
+        sb_append(sb, "\"", 1);
+    } else if (value.kind == VALUE_LIST) {
+        if (depth >= 128) { sb_append(sb, "[]", 2); return; }
+        for (size_t i = 0; i < depth; i++) {
+            if (ancestors[i] == value.list) { sb_append(sb, "[]", 2); return; }
+        }
+        ancestors[depth] = value.list;
+        sb_append(sb, "[", 1);
+        for (size_t i = 0; i < value.list->count; i++) {
+            if (i > 0) sb_append(sb, ", ", 2);
+            json_format_value(parser, value.list->items[i], sb, ancestors, depth + 1);
+        }
+        sb_append(sb, "]", 1);
+    } else if (value.kind == VALUE_DICT) {
+        if (depth >= 128) { sb_append(sb, "{}", 2); return; }
+        sb_append(sb, "{", 1);
+        for (size_t i = 0; i < value.dict->count; i++) {
+            if (i > 0) sb_append(sb, ", ", 2);
+            sb_append(sb, "\"", 1);
+            sb_append(sb, value.dict->entries[i].key, value.dict->entries[i].key_length);
+            sb_append(sb, "\": ", 3);
+            json_format_value(parser, value.dict->entries[i].value, sb, ancestors, depth + 1);
+        }
+        sb_append(sb, "}", 1);
+    }
+}
+
+static void skip_json_whitespace(const char **p)
+{
+    while (**p == ' ' || **p == '\t' || **p == '\n' || **p == '\r') {
+        (*p)++;
+    }
+}
+
+static Value parse_json_value(Parser *parser, Token token, const char **p, int *err)
+{
+    skip_json_whitespace(p);
+    if (**p == '\0') {
+        *err = 1;
+        return null_value();
+    }
+    if (**p == 'n' && strncmp(*p, "null", 4) == 0) {
+        *p += 4;
+        return null_value();
+    }
+    if (**p == 't' && strncmp(*p, "true", 4) == 0) {
+        *p += 4;
+        return number_value(1.0);
+    }
+    if (**p == 'f' && strncmp(*p, "false", 5) == 0) {
+        *p += 5;
+        return number_value(0.0);
+    }
+    if (**p == '"') {
+        (*p)++;
+        StringBuffer sb;
+        sb_init(&sb);
+        while (**p != '\0' && **p != '"') {
+            if (**p == '\\') {
+                (*p)++;
+                if (**p == '"') sb_append(&sb, "\"", 1);
+                else if (**p == '\\') sb_append(&sb, "\\", 1);
+                else if (**p == '/') sb_append(&sb, "/", 1);
+                else if (**p == 'b') sb_append(&sb, "\b", 1);
+                else if (**p == 'f') sb_append(&sb, "\f", 1);
+                else if (**p == 'n') sb_append(&sb, "\n", 1);
+                else if (**p == 'r') sb_append(&sb, "\r", 1);
+                else if (**p == 't') sb_append(&sb, "\t", 1);
+                else if (**p != '\0') sb_append(&sb, *p, 1);
+                if (**p != '\0') (*p)++;
+            } else {
+                sb_append(&sb, *p, 1);
+                (*p)++;
+            }
+        }
+        if (**p == '"') (*p)++;
+        else { *err = 1; sb_free(&sb); return null_value(); }
+        return make_owned_string_value(parser, token, sb.data, sb.length);
+    }
+    if (**p == '[') {
+        (*p)++;
+        List *list = create_list(parser, token);
+        skip_json_whitespace(p);
+        if (**p == ']') {
+            (*p)++;
+            Value v = number_value(0.0);
+            v.kind = VALUE_LIST;
+            v.list = list;
+            return v;
+        }
+        while (**p != '\0') {
+            Value item = parse_json_value(parser, token, p, err);
+            if (*err) return null_value();
+            append_list_item(parser, list, item, token);
+            skip_json_whitespace(p);
+            if (**p == ',') {
+                (*p)++;
+                skip_json_whitespace(p);
+            } else if (**p == ']') {
+                (*p)++;
+                break;
+            } else {
+                *err = 1;
+                return null_value();
+            }
+        }
+        Value v = number_value(0.0);
+        v.kind = VALUE_LIST;
+        v.list = list;
+        return v;
+    }
+    if (**p == '{') {
+        (*p)++;
+        Dict *dict = create_dict(parser, token);
+        skip_json_whitespace(p);
+        if (**p == '}') {
+            (*p)++;
+            Value v = number_value(0.0);
+            v.kind = VALUE_DICT;
+            v.dict = dict;
+            return v;
+        }
+        while (**p != '\0') {
+            skip_json_whitespace(p);
+            if (**p != '"') { *err = 1; return null_value(); }
+            (*p)++;
+            StringBuffer key_sb;
+            sb_init(&key_sb);
+            while (**p != '\0' && **p != '"') {
+                if (**p == '\\') {
+                    (*p)++;
+                    if (**p == '"') sb_append(&key_sb, "\"", 1);
+                    else if (**p == '\\') sb_append(&key_sb, "\\", 1);
+                    else if (**p != '\0') sb_append(&key_sb, *p, 1);
+                    if (**p != '\0') (*p)++;
+                } else {
+                    sb_append(&key_sb, *p, 1);
+                    (*p)++;
+                }
+            }
+            if (**p == '"') (*p)++;
+            else { *err = 1; sb_free(&key_sb); return null_value(); }
+            skip_json_whitespace(p);
+            if (**p != ':') { *err = 1; sb_free(&key_sb); return null_value(); }
+            (*p)++;
+            skip_json_whitespace(p);
+            Value val = parse_json_value(parser, token, p, err);
+            if (*err) { sb_free(&key_sb); return null_value(); }
+            dict_set(parser, dict, key_sb.data, key_sb.length, val, token);
+            sb_free(&key_sb);
+            skip_json_whitespace(p);
+            if (**p == ',') {
+                (*p)++;
+                skip_json_whitespace(p);
+            } else if (**p == '}') {
+                (*p)++;
+                break;
+            } else {
+                *err = 1;
+                return null_value();
+            }
+        }
+        Value v = number_value(0.0);
+        v.kind = VALUE_DICT;
+        v.dict = dict;
+        return v;
+    }
+    if (**p == '-' || (**p >= '0' && **p <= '9')) {
+        char *endptr;
+        double d = strtod(*p, &endptr);
+        if (endptr == *p) { *err = 1; return null_value(); }
+        *p = endptr;
+        return number_value(d);
+    }
+    *err = 1;
+    return null_value();
+}
+
+static Function *resolve_callee_function(Parser *parser, Value func_val)
+{
+    if (func_val.kind != VALUE_STRING) return NULL;
+    char *fn_name = value_to_c_string(parser, func_val);
+    if (!fn_name) return NULL;
+    Function *fn = find_function_by_name(parser, fn_name, strlen(fn_name));
+    free(fn_name);
+    return fn;
 }
 
 static Value parse_function_call(Parser *parser, Token name, int execute)
@@ -4674,6 +5667,580 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                     result = pad_string_value(parser, name, arguments[0],
                                               arguments[1], opt_pad, is_left);
                 }
+            } else if (token_matches(parser, name, "જેસન_વાંચો") || token_matches(parser, name, "json_vancho")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_JSON_STRING);
+                } else {
+                    char *json_text = value_to_c_string(parser, arguments[0]);
+                    if (json_text) {
+                        const char *p = json_text;
+                        int err = 0;
+                        Value v = parse_json_value(parser, name, &p, &err);
+                        skip_json_whitespace(&p);
+                        if (err || *p != '\0') {
+                            report_error(parser, name.line, name.column, MESSAGE_INVALID_JSON);
+                        } else {
+                            result = v;
+                        }
+                        free(json_text);
+                    }
+                }
+            } else if (token_matches(parser, name, "જેસન_લખો") || token_matches(parser, name, "json_lakho")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    StringBuffer sb;
+                    sb_init(&sb);
+                    List *ancestors[256];
+                    json_format_value(parser, arguments[0], &sb, ancestors, 0);
+                    if (!sb.failed && sb.data) {
+                        result = make_owned_string_value(parser, name, sb.data, sb.length);
+                    }
+                }
+            } else if (token_matches(parser, name, "દલીલો") || token_matches(parser, name, "daleelo") ||
+                       token_matches(parser, name, "દલીલ_યાદી") || token_matches(parser, name, "arg_yadi")) {
+                if (argument_count != 0) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    List *list = create_list(parser, name);
+                    for (int i = 0; i < g_script_argc; i++) {
+                        char *arg_copy = copy_string(g_script_argv[i]);
+                        if (arg_copy) {
+                            Value item = make_owned_string_value(parser, name, arg_copy, strlen(arg_copy));
+                            append_list_item(parser, list, item, name);
+                        }
+                    }
+                    result.kind = VALUE_LIST;
+                    result.list = list;
+                }
+            } else if (token_matches(parser, name, "દ્વિ_સંખ્યા") || token_matches(parser, name, "dvi_sankhya")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_RADIX_INTEGER);
+                } else {
+                    char *bin_str = int_to_bin_string((long long)arguments[0].number);
+                    if (bin_str) {
+                        result = make_owned_string_value(parser, name, bin_str, strlen(bin_str));
+                    }
+                }
+            } else if (token_matches(parser, name, "દ્વિ_થી_સંખ્યા") || token_matches(parser, name, "dvi_thi_sankhya")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_RADIX_STRING);
+                } else {
+                    char *str = value_to_c_string(parser, arguments[0]);
+                    if (str) {
+                        long long val = (long long)strtoull(str, NULL, 2);
+                        result = number_value((double)val);
+                        free(str);
+                    }
+                }
+            } else if (token_matches(parser, name, "હેક્સ_લખાણ") || token_matches(parser, name, "hex_lakhan")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_RADIX_INTEGER);
+                } else {
+                    char *hex_str = int_to_hex_string((long long)arguments[0].number);
+                    if (hex_str) {
+                        result = make_owned_string_value(parser, name, hex_str, strlen(hex_str));
+                    }
+                }
+            } else if (token_matches(parser, name, "હેક્સ_થી_સંખ્યા") || token_matches(parser, name, "hex_thi_sankhya")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_RADIX_STRING);
+                } else {
+                    char *str = value_to_c_string(parser, arguments[0]);
+                    if (str) {
+                        long long val = (long long)strtoull(str, NULL, 16);
+                        result = number_value((double)val);
+                        free(str);
+                    }
+                }
+            } else if (token_matches(parser, name, "ફોલ્ડર_છે") || token_matches(parser, name, "folder_chhe")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_STRING_FOR_FILE_PATH);
+                } else {
+                    char *path = value_to_c_string(parser, arguments[0]);
+                    if (path) {
+                        result = number_value(platform_folder_exists(path) ? 1.0 : 0.0);
+                        free(path);
+                    }
+                }
+            } else if (token_matches(parser, name, "ફોલ્ડર_બનાવો") || token_matches(parser, name, "folder_banao")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_STRING_FOR_FILE_PATH);
+                } else {
+                    char *path = value_to_c_string(parser, arguments[0]);
+                    if (path) {
+                        result = number_value(platform_folder_create(path) ? 1.0 : 0.0);
+                        free(path);
+                    }
+                }
+            } else if (token_matches(parser, name, "ફોલ્ડર_સૂચિ") || token_matches(parser, name, "folder_suchi")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_STRING_FOR_FILE_PATH);
+                } else {
+                    char *path = value_to_c_string(parser, arguments[0]);
+                    if (path) {
+                        List *list = platform_folder_list(parser, name, path);
+                        if (list) {
+                            result.kind = VALUE_LIST;
+                            result.list = list;
+                        }
+                        free(path);
+                    }
+                }
+            } else if (token_matches(parser, name, "કમાન્ડ_ચલાવો") || token_matches(parser, name, "command_chalao") ||
+                       token_matches(parser, name, "સિસ્ટમ") || token_matches(parser, name, "system_kary")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LENGTH_STRING);
+                } else {
+                    char *cmd = value_to_c_string(parser, arguments[0]);
+                    if (cmd) {
+                        int code = system(cmd);
+                        result = number_value((double)code);
+                        free(cmd);
+                    }
+                }
+            } else if (token_matches(parser, name, "નકશો_યાદી") || token_matches(parser, name, "naksho_yadi")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
+                } else {
+                    Function *fn = resolve_callee_function(parser, arguments[1]);
+                    if (!fn) {
+                        report_error(parser, name.line, name.column, MESSAGE_EXPECTED_FUNCTION_FOR_MAP);
+                    } else {
+                        List *new_list = create_list(parser, name);
+                        for (size_t i = 0; i < arguments[0].list->count; i++) {
+                            Value arg = arguments[0].list->items[i];
+                            Value mapped = call_function(parser, *fn, &arg);
+                            append_list_item(parser, new_list, mapped, name);
+                        }
+                        result.kind = VALUE_LIST;
+                        result.list = new_list;
+                    }
+                }
+            } else if (token_matches(parser, name, "ગાળો_યાદી") || token_matches(parser, name, "gaalo_yadi")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
+                } else {
+                    Function *fn = resolve_callee_function(parser, arguments[1]);
+                    if (!fn) {
+                        report_error(parser, name.line, name.column, MESSAGE_EXPECTED_FUNCTION_FOR_FILTER);
+                    } else {
+                        List *new_list = create_list(parser, name);
+                        for (size_t i = 0; i < arguments[0].list->count; i++) {
+                            Value arg = arguments[0].list->items[i];
+                            Value cond = call_function(parser, *fn, &arg);
+                            if (value_is_truthy(cond)) {
+                                append_list_item(parser, new_list, arg, name);
+                            }
+                        }
+                        result.kind = VALUE_LIST;
+                        result.list = new_list;
+                    }
+                }
+            } else if (token_matches(parser, name, "સમેટો_યાદી") || token_matches(parser, name, "sameto_yadi")) {
+                if (argument_count != 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
+                } else {
+                    Function *fn = resolve_callee_function(parser, arguments[1]);
+                    if (!fn) {
+                        report_error(parser, name.line, name.column, MESSAGE_EXPECTED_FUNCTION_FOR_REDUCE);
+                    } else {
+                        Value acc = arguments[2];
+                        for (size_t i = 0; i < arguments[0].list->count; i++) {
+                            Value args[2];
+                            args[0] = acc;
+                            args[1] = arguments[0].list->items[i];
+                            acc = call_function(parser, *fn, args);
+                        }
+                        result = acc;
+                    }
+                }
+            } else if (token_matches(parser, name, "શોધો_યાદી") || token_matches(parser, name, "shodho_yadi")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
+                } else {
+                    Function *fn = resolve_callee_function(parser, arguments[1]);
+                    if (!fn) {
+                        report_error(parser, name.line, name.column, MESSAGE_EXPECTED_FUNCTION_FOR_FIND);
+                    } else {
+                        result = null_value();
+                        for (size_t i = 0; i < arguments[0].list->count; i++) {
+                            Value arg = arguments[0].list->items[i];
+                            Value cond = call_function(parser, *fn, &arg);
+                            if (value_is_truthy(cond)) {
+                                result = arg;
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "શોધો_સૂચક_યાદી") || token_matches(parser, name, "shodho_suchak_yadi")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
+                } else {
+                    Function *fn = resolve_callee_function(parser, arguments[1]);
+                    if (!fn) {
+                        report_error(parser, name.line, name.column, MESSAGE_EXPECTED_FUNCTION_FOR_FIND);
+                    } else {
+                        result = number_value(-1.0);
+                        for (size_t i = 0; i < arguments[0].list->count; i++) {
+                            Value arg = arguments[0].list->items[i];
+                            Value cond = call_function(parser, *fn, &arg);
+                            if (value_is_truthy(cond)) {
+                                result = number_value((double)i);
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "ચપટી_યાદી") || token_matches(parser, name, "chapti_yadi")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_FLATTEN);
+                } else {
+                    List *flat = create_list(parser, name);
+                    for (size_t i = 0; i < arguments[0].list->count; i++) {
+                        Value item = arguments[0].list->items[i];
+                        if (item.kind == VALUE_LIST) {
+                            for (size_t j = 0; j < item.list->count; j++) {
+                                append_list_item(parser, flat, item.list->items[j], name);
+                            }
+                        } else {
+                            append_list_item(parser, flat, item, name);
+                        }
+                    }
+                    result.kind = VALUE_LIST;
+                    result.list = flat;
+                }
+            } else if (token_matches(parser, name, "ઝીપ_યાદી") || token_matches(parser, name, "zip_yadi")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST || arguments[1].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LISTS_FOR_ZIP);
+                } else {
+                    size_t len1 = arguments[0].list->count;
+                    size_t len2 = arguments[1].list->count;
+                    size_t min_len = len1 < len2 ? len1 : len2;
+                    List *zipped = create_list(parser, name);
+                    for (size_t i = 0; i < min_len; i++) {
+                        List *pair = create_list(parser, name);
+                        append_list_item(parser, pair, arguments[0].list->items[i], name);
+                        append_list_item(parser, pair, arguments[1].list->items[i], name);
+                        Value pair_val = number_value(0.0);
+                        pair_val.kind = VALUE_LIST;
+                        pair_val.list = pair;
+                        append_list_item(parser, zipped, pair_val, name);
+                    }
+                    result.kind = VALUE_LIST;
+                    result.list = zipped;
+                }
+            } else if (token_matches(parser, name, "પેટર્ન_શોધો") || token_matches(parser, name, "pattern_shodho")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING || arguments[1].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_STRING_FOR_PATTERN);
+                } else {
+                    char *str = value_to_c_string(parser, arguments[0]);
+                    char *pat = value_to_c_string(parser, arguments[1]);
+                    if (str && pat) {
+                        result = number_value(wildcard_match(pat, str) ? 1.0 : 0.0);
+                    }
+                    free(str);
+                    free(pat);
+                }
+            } else if (token_matches(parser, name, "લખાણ_બદલો_દરેક") || token_matches(parser, name, "lakhan_badlo_darek")) {
+                if (argument_count != 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING || arguments[1].kind != VALUE_STRING || arguments[2].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_STRING_FOR_BADLO);
+                } else {
+                    char *src = value_to_c_string(parser, arguments[0]);
+                    char *tgt = value_to_c_string(parser, arguments[1]);
+                    char *rep = value_to_c_string(parser, arguments[2]);
+                    if (src && tgt && rep) {
+                        char *replaced = string_replace_all(src, tgt, rep);
+                        if (replaced) {
+                            result = make_owned_string_value(parser, name, replaced, strlen(replaced));
+                        }
+                    }
+                    free(src);
+                    free(tgt);
+                    free(rep);
+                }
+            } else if (token_matches(parser, name, "બેઝ૬૪_કોડ") || token_matches(parser, name, "base64_kod")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_BASE64_STRING);
+                } else {
+                    char *str = value_to_c_string(parser, arguments[0]);
+                    if (str) {
+                        size_t out_len = 0;
+                        char *encoded = base64_encode_str((const unsigned char *)str, strlen(str), &out_len);
+                        if (encoded) {
+                            result = make_owned_string_value(parser, name, encoded, out_len);
+                        }
+                        free(str);
+                    }
+                }
+            } else if (token_matches(parser, name, "બેઝ૬૪_ડીકોડ") || token_matches(parser, name, "base64_decode")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_BASE64_STRING);
+                } else {
+                    char *str = value_to_c_string(parser, arguments[0]);
+                    if (str) {
+                        size_t out_len = 0;
+                        char *decoded = base64_decode_str(str, strlen(str), &out_len);
+                        if (decoded) {
+                            result = make_owned_string_value(parser, name, decoded, out_len);
+                        } else {
+                            report_error(parser, name.line, name.column, MESSAGE_INVALID_BASE64);
+                        }
+                        free(str);
+                    }
+                }
+            } else if (token_matches(parser, name, "શીર્ષક_લખાણ") || token_matches(parser, name, "shirshak_lakhan")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_STRING_FOR_CASE);
+                } else {
+                    char *str = value_to_c_string(parser, arguments[0]);
+                    if (str) {
+                        char *tc = string_to_title_case(str, strlen(str));
+                        if (tc) {
+                            result = make_owned_string_value(parser, name, tc, strlen(tc));
+                        }
+                        free(str);
+                    }
+                }
+            } else if (token_matches(parser, name, "પ્રથમ_મોટી") || token_matches(parser, name, "pratham_moti")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_STRING_FOR_CASE);
+                } else {
+                    char *str = value_to_c_string(parser, arguments[0]);
+                    if (str) {
+                        char *cf = string_capitalize_first(str, strlen(str));
+                        if (cf) {
+                            result = make_owned_string_value(parser, name, cf, strlen(cf));
+                        }
+                        free(str);
+                    }
+                }
+            } else if (token_matches(parser, name, "સ્વરૂપ") || token_matches(parser, name, "swaroop")) {
+                if (argument_count < 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_STRING_FOR_CASE);
+                } else {
+                    char *fmt = value_to_c_string(parser, arguments[0]);
+                    if (fmt) {
+                        size_t out_len = 0;
+                        char *formatted = format_template(parser, fmt, strlen(fmt), arguments, argument_count, &out_len);
+                        if (formatted) {
+                            result = make_owned_string_value(parser, name, formatted, out_len);
+                        }
+                        free(fmt);
+                    }
+                }
+            } else if (token_matches(parser, name, "લખાણ_અંતર") || token_matches(parser, name, "lakhan_antar")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING || arguments[1].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_STRING_FOR_DISTANCE);
+                } else {
+                    char *s1 = value_to_c_string(parser, arguments[0]);
+                    char *s2 = value_to_c_string(parser, arguments[1]);
+                    if (s1 && s2) {
+                        size_t dist = calc_levenshtein(s1, strlen(s1), s2, strlen(s2));
+                        result = number_value((double)dist);
+                    }
+                    free(s1);
+                    free(s2);
+                }
+            } else if (token_matches(parser, name, "શા૨૫૬_હેશ") || token_matches(parser, name, "sha256_hash")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LENGTH_STRING);
+                } else {
+                    char *str = value_to_c_string(parser, arguments[0]);
+                    if (str) {
+                        char *hex = sha256_hash_string(str, strlen(str));
+                        if (hex) {
+                            result = make_owned_string_value(parser, name, hex, 64);
+                        }
+                        free(str);
+                    }
+                }
+            } else if (token_matches(parser, name, "સાઇન") || token_matches(parser, name, "sine")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else {
+                    result = number_value(sin(arguments[0].number));
+                }
+            } else if (token_matches(parser, name, "કોસાઇન") || token_matches(parser, name, "cosine")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else {
+                    result = number_value(cos(arguments[0].number));
+                }
+            } else if (token_matches(parser, name, "ટેન્જન્ટ") || token_matches(parser, name, "tangent")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else {
+                    result = number_value(tan(arguments[0].number));
+                }
+            } else if (token_matches(parser, name, "આર્કસાઇન") || token_matches(parser, name, "arcsin")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else {
+                    result = number_value(asin(arguments[0].number));
+                }
+            } else if (token_matches(parser, name, "આર્કકોસ") || token_matches(parser, name, "arccos")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else {
+                    result = number_value(acos(arguments[0].number));
+                }
+            } else if (token_matches(parser, name, "આર્કટેન") || token_matches(parser, name, "arctan")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else {
+                    result = number_value(atan(arguments[0].number));
+                }
+            } else if (token_matches(parser, name, "ગુરુ_તમ") || token_matches(parser, name, "guru_tam")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER || arguments[1].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else {
+                    long long x = llabs((long long)arguments[0].number);
+                    long long y = llabs((long long)arguments[1].number);
+                    while (y != 0) {
+                        long long t = y;
+                        y = x % y;
+                        x = t;
+                    }
+                    result = number_value((double)x);
+                }
+            } else if (token_matches(parser, name, "લઘુ_તમ") || token_matches(parser, name, "laghu_tam")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER || arguments[1].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else {
+                    long long x = llabs((long long)arguments[0].number);
+                    long long y = llabs((long long)arguments[1].number);
+                    if (x == 0 || y == 0) {
+                        result = number_value(0.0);
+                    } else {
+                        long long a = x, b = y;
+                        while (b != 0) {
+                            long long t = b;
+                            b = a % b;
+                            a = t;
+                        }
+                        result = number_value((double)((x / a) * y));
+                    }
+                }
+            } else if (token_matches(parser, name, "અંશ_થી_રેડિયન") || token_matches(parser, name, "ansha_thi_radian")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else {
+                    result = number_value(arguments[0].number * (GUJARATI_PI / 180.0));
+                }
+            } else if (token_matches(parser, name, "રેડિયન_થી_અંશ") || token_matches(parser, name, "radian_thi_ansha")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else {
+                    result = number_value(arguments[0].number * (180.0 / GUJARATI_PI));
+                }
+            } else if (token_matches(parser, name, "મેટ્રિક્સ_સરવાળો") || token_matches(parser, name, "matrix_sarvalo")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = matrix_add(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "મેટ્રિક્સ_ગુણાકાર") || token_matches(parser, name, "matrix_gunakar")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = matrix_multiply(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "ભાષા_આવૃત્તિ") || token_matches(parser, name, "bhasha_avrutti")) {
+                if (argument_count != 0) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *ver = copy_string("1.0.0");
+                    if (ver) {
+                        result = make_owned_string_value(parser, name, ver, strlen(ver));
+                    }
+                }
+            } else if (token_matches(parser, name, "પ્લેટફોર્મ_નામ") || token_matches(parser, name, "platform_nam")) {
+                if (argument_count != 0) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+#if defined(_WIN32)
+                    char *pname = copy_string("windows");
+#elif defined(__APPLE__)
+                    char *pname = copy_string("macos");
+#else
+                    char *pname = copy_string("linux");
+#endif
+                    if (pname) {
+                        result = make_owned_string_value(parser, name, pname, strlen(pname));
+                    }
+                }
             } else {
                 Function *function = find_function(parser, name);
                 if (function == NULL) {
@@ -4923,7 +6490,8 @@ static Value parse_term(Parser *parser, int execute)
 
     while (!parser->failed &&
            (parser->current.kind == TOKEN_STAR ||
-            parser->current.kind == TOKEN_SLASH)) {
+            parser->current.kind == TOKEN_SLASH ||
+            parser->current.kind == TOKEN_PERCENT)) {
         Token operation = parser->current;
         Value right;
         advance_token(parser);
@@ -4937,12 +6505,22 @@ static Value parse_term(Parser *parser, int execute)
             value = number_value(0.0);
         } else if (operation.kind == TOKEN_STAR) {
             value.number *= right.number;
-        } else if (right.number == 0.0) {
-            report_runtime_error(parser, operation, MESSAGE_DIVISION_BY_ZERO,
-                                 execute);
-            value = number_value(0.0);
-        } else {
-            value.number /= right.number;
+        } else if (operation.kind == TOKEN_SLASH) {
+            if (right.number == 0.0) {
+                report_runtime_error(parser, operation, MESSAGE_DIVISION_BY_ZERO,
+                                     execute);
+                value = number_value(0.0);
+            } else {
+                value.number /= right.number;
+            }
+        } else if (operation.kind == TOKEN_PERCENT) {
+            if (right.number == 0.0) {
+                report_runtime_error(parser, operation, MESSAGE_DIVISION_BY_ZERO,
+                                     execute);
+                value = number_value(0.0);
+            } else {
+                value.number = fmod(value.number, right.number);
+            }
         }
     }
     return value;
@@ -5100,7 +6678,7 @@ static Value parse_and(Parser *parser, int execute)
     return value;
 }
 
-static Value parse_expression(Parser *parser, int execute)
+static Value parse_logical_or(Parser *parser, int execute)
 {
     Value value = parse_and(parser, execute);
 
@@ -5124,6 +6702,31 @@ static Value parse_expression(Parser *parser, int execute)
                              1.0 : 0.0);
     }
     return value;
+}
+
+static Value parse_expression(Parser *parser, int execute)
+{
+    Value condition = parse_logical_or(parser, execute);
+    if (!parser->failed && parser->current.kind == TOKEN_QUESTION) {
+        advance_token(parser);
+        int cond_truthy = value_is_truthy(condition);
+        Value then_value = parse_expression(parser, execute && cond_truthy);
+        if (parser->failed) {
+            return number_value(0.0);
+        }
+        if (parser->current.kind != TOKEN_COLON) {
+            report_error(parser, parser->current.line, parser->current.column,
+                         MESSAGE_EXPECTED_COLON_IN_TERNARY);
+            return number_value(0.0);
+        }
+        advance_token(parser);
+        Value else_value = parse_expression(parser, execute && !cond_truthy);
+        if (parser->failed) {
+            return number_value(0.0);
+        }
+        return execute ? (cond_truthy ? then_value : else_value) : number_value(0.0);
+    }
+    return condition;
 }
 
 static int write_string(Parser *parser, FILE *output, const char *source,
@@ -5916,11 +7519,31 @@ static int parse_variable_assignment(Parser *parser, Token name, int execute)
         advance_token(parser);
     }
 
-    if (parser->current.kind != TOKEN_EQUAL) {
+    Token assign_op = parser->current;
+    if (assign_op.kind != TOKEN_EQUAL &&
+        assign_op.kind != TOKEN_PLUS_EQUAL &&
+        assign_op.kind != TOKEN_MINUS_EQUAL &&
+        assign_op.kind != TOKEN_STAR_EQUAL &&
+        assign_op.kind != TOKEN_SLASH_EQUAL &&
+        assign_op.kind != TOKEN_PERCENT_EQUAL) {
         report_error(parser, parser->current.line, parser->current.column,
                      MESSAGE_EXPECTED_ASSIGNMENT);
         free(target_key);
         return 0;
+    }
+    Value cur_val = number_value(0.0);
+    if (execute && assign_op.kind != TOKEN_EQUAL) {
+        if (indexed_assignment) {
+            cur_val = indexed_value;
+        } else {
+            Variable *var = find_variable(parser, name);
+            if (var == NULL) {
+                report_error(parser, name.line, name.column, MESSAGE_UNDEFINED_VARIABLE);
+                free(target_key);
+                return 0;
+            }
+            cur_val = var->value;
+        }
     }
     advance_token(parser);
     value = parse_expression(parser, execute);
@@ -5935,6 +7558,74 @@ static int parse_variable_assignment(Parser *parser, Token name, int execute)
         return 0;
     }
     if (execute) {
+        if (assign_op.kind == TOKEN_PLUS_EQUAL) {
+            if (cur_val.kind == VALUE_STRING && value.kind == VALUE_STRING) {
+                char *s1 = value_to_c_string(parser, cur_val);
+                char *s2 = value_to_c_string(parser, value);
+                if (s1 && s2) {
+                    size_t l1 = strlen(s1);
+                    size_t l2 = strlen(s2);
+                    char *cat = (char *)malloc(l1 + l2 + 1);
+                    if (cat) {
+                        memcpy(cat, s1, l1);
+                        memcpy(cat + l1, s2, l2);
+                        cat[l1 + l2] = '\0';
+                        value = make_owned_string_value(parser, assign_op, cat, l1 + l2);
+                    }
+                }
+                free(s1);
+                free(s2);
+            } else if (cur_val.kind == VALUE_NUMBER && value.kind == VALUE_NUMBER) {
+                value = number_value(cur_val.number + value.number);
+            } else {
+                report_runtime_error(parser, assign_op, MESSAGE_ARITHMETIC_NUMBERS_REQUIRED, execute);
+                free(target_key);
+                return 0;
+            }
+        } else if (assign_op.kind == TOKEN_MINUS_EQUAL) {
+            if (cur_val.kind == VALUE_NUMBER && value.kind == VALUE_NUMBER) {
+                value = number_value(cur_val.number - value.number);
+            } else {
+                report_runtime_error(parser, assign_op, MESSAGE_ARITHMETIC_NUMBERS_REQUIRED, execute);
+                free(target_key);
+                return 0;
+            }
+        } else if (assign_op.kind == TOKEN_STAR_EQUAL) {
+            if (cur_val.kind == VALUE_NUMBER && value.kind == VALUE_NUMBER) {
+                value = number_value(cur_val.number * value.number);
+            } else {
+                report_runtime_error(parser, assign_op, MESSAGE_ARITHMETIC_NUMBERS_REQUIRED, execute);
+                free(target_key);
+                return 0;
+            }
+        } else if (assign_op.kind == TOKEN_SLASH_EQUAL) {
+            if (cur_val.kind == VALUE_NUMBER && value.kind == VALUE_NUMBER) {
+                if (value.number == 0.0) {
+                    report_runtime_error(parser, assign_op, MESSAGE_DIVISION_BY_ZERO, execute);
+                    free(target_key);
+                    return 0;
+                }
+                value = number_value(cur_val.number / value.number);
+            } else {
+                report_runtime_error(parser, assign_op, MESSAGE_ARITHMETIC_NUMBERS_REQUIRED, execute);
+                free(target_key);
+                return 0;
+            }
+        } else if (assign_op.kind == TOKEN_PERCENT_EQUAL) {
+            if (cur_val.kind == VALUE_NUMBER && value.kind == VALUE_NUMBER) {
+                if (value.number == 0.0) {
+                    report_runtime_error(parser, assign_op, MESSAGE_DIVISION_BY_ZERO, execute);
+                    free(target_key);
+                    return 0;
+                }
+                value = number_value(fmod(cur_val.number, value.number));
+            } else {
+                report_runtime_error(parser, assign_op, MESSAGE_ARITHMETIC_NUMBERS_REQUIRED, execute);
+                free(target_key);
+                return 0;
+            }
+        }
+
         if (indexed_assignment) {
             if (target_dict != NULL && target_key != NULL) {
                 dict_set(parser, target_dict, target_key, strlen(target_key), value, name);
@@ -5954,6 +7645,53 @@ static int parse_variable_assignment(Parser *parser, Token name, int execute)
     free(target_key);
     advance_token(parser);
     return !parser->failed;
+}
+
+static int parse_const_declaration(Parser *parser, int execute)
+{
+    Token const_token = parser->current;
+    Token name;
+    Value value = null_value();
+    advance_token(parser);
+    if (parser->current.kind != TOKEN_IDENTIFIER) {
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_PARAMETER);
+        return 0;
+    }
+    name = parser->current;
+    advance_token(parser);
+    if (parser->current.kind != TOKEN_EQUAL) {
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_ASSIGNMENT);
+        return 0;
+    }
+    advance_token(parser);
+    value = parse_expression(parser, execute);
+    if (parser->failed) {
+        return 0;
+    }
+    if (parser->current.kind != TOKEN_SEMICOLON) {
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_EXPRESSION_SEMICOLON);
+        return 0;
+    }
+    advance_token(parser);
+    if (execute) {
+        size_t i;
+        Environment *env = parser->environment;
+        for (i = 0; i < env->variable_count; i++) {
+            if (env->variables[i].name_length == name.string_length &&
+                memcmp(env->variables[i].name, parser->source + name.string_offset, name.string_length) == 0) {
+                report_error(parser, const_token.line, const_token.column,
+                             MESSAGE_VARIABLE_ALREADY_DECLARED);
+                return 0;
+            }
+        }
+        if (!declare_variable_ex(parser, name, value, 1)) {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 static int register_function(Parser *parser, Token name, Token *parameters,
@@ -6202,6 +7940,9 @@ static int parse_statement(Parser *parser, int execute)
 
     if (statement.kind == TOKEN_TRY) {
         return parse_try_catch(parser, execute);
+    }
+    if (statement.kind == TOKEN_CONST) {
+        return parse_const_declaration(parser, execute);
     }
     if (statement.kind == TOKEN_BREAK) {
         advance_token(parser);
@@ -7061,26 +8802,38 @@ int main(int argc, char **argv)
     int result;
     int repl = 0;
 
-    if (argc == 2) {
+    if (argc >= 2) {
         if (strcmp(argv[1], "--repl") == 0) {
             repl = 1;
+        } else if (strcmp(argv[1], "--language") == 0) {
+            if (argc >= 3) {
+                if (strcmp(argv[2], "en") == 0) {
+                    language = LANGUAGE_ENGLISH;
+                } else if (strcmp(argv[2], "gu") == 0) {
+                    language = LANGUAGE_GUJARATI;
+                } else {
+                    fprintf(stderr, localized_message(LANGUAGE_ENGLISH, MESSAGE_USAGE),
+                            argv[0]);
+                    return EXIT_FAILURE;
+                }
+            }
+            if (argc >= 4) {
+                if (strcmp(argv[3], "--repl") == 0) {
+                    repl = 1;
+                } else {
+                    filename = argv[3];
+                    g_script_argc = argc - 4;
+                    g_script_argv = argc > 4 ? &argv[4] : NULL;
+                }
+            } else {
+                fprintf(stderr, localized_message(LANGUAGE_ENGLISH, MESSAGE_USAGE),
+                        argv[0]);
+                return EXIT_FAILURE;
+            }
         } else {
             filename = argv[1];
-        }
-    } else if (argc == 4 && strcmp(argv[1], "--language") == 0) {
-        if (strcmp(argv[2], "en") == 0) {
-            language = LANGUAGE_ENGLISH;
-        } else if (strcmp(argv[2], "gu") == 0) {
-            language = LANGUAGE_GUJARATI;
-        } else {
-            fprintf(stderr, localized_message(LANGUAGE_ENGLISH, MESSAGE_USAGE),
-                    argv[0]);
-            return EXIT_FAILURE;
-        }
-        if (strcmp(argv[3], "--repl") == 0) {
-            repl = 1;
-        } else {
-            filename = argv[3];
+            g_script_argc = argc - 2;
+            g_script_argv = argc > 2 ? &argv[2] : NULL;
         }
     } else {
         fprintf(stderr, localized_message(LANGUAGE_ENGLISH, MESSAGE_USAGE),

@@ -53,7 +53,7 @@
       "patterns": [
         {
           "name": "keyword.control.gujarati",
-          "match": "(?<![\\p{L}\\p{M}\\p{N}_])(?:નહિતર જો|ઘાતક ભૂલ|નહિતર|જ્યાં સુધી|છાપો|આવો|આવજો|નહીં|નકામો|ભૂલ|પરત|જો|અને|અથવા|ચેતવણી|કાર્ય|દરેક|માં|આયાત|પ્રયત્ન|પકડો|અટકો|ચાલુ_રાખો|આગળ|nahitar_jo|ghatak_bhul|jya_sudhi|chetavani|chhapo|aavjo|nahitar|athva|nakamo|kary|parat|aavo|ane|nahi|bhul|jo|darek|ma|aayat|import|prayatna|pakdo|atko|chalu_rakho|aagal)(?![\\p{L}\\p{M}\\p{N}_])"
+          "match": "(?<![\\p{L}\\p{M}\\p{N}_])(?:નહિતર જો|ઘાતક ભૂલ|નહિતર|જ્યાં સુધી|છાપો|આવો|આવજો|નહીં|નકામો|ભૂલ|પરત|જો|અને|અથવા|ચેતવણી|કાર્ય|દરેક|માં|આયાત|પ્રયત્ન|પકડો|અટકો|ચાલુ_રાખો|આગળ|અચળ|nahitar_jo|ghatak_bhul|jya_sudhi|chetavani|chhapo|aavjo|nahitar|athva|nakamo|kary|parat|aavo|ane|nahi|bhul|jo|darek|ma|aayat|import|prayatna|pakdo|atko|chalu_rakho|aagal|achala|const)(?![\\p{L}\\p{M}\\p{N}_])"
         }
       ]
     },
@@ -61,7 +61,7 @@
       "patterns": [
         {
           "name": "support.function.builtin.gujarati",
-          "match": "(?<![\\p{L}\\p{M}\\p{N}_])(?:લંબાઈ|વાંચો|સંખ્યા|લખાણ|પ્રકાર|ઉમેરો|કાપો|શોધો|કાઢો|પહેલી_એબીસીડી|બીજી_એબીસીડી|મહત્તમ|ન્યૂનતમ|ધન_મૂલ્ય|ઉલટાવો|ભાગ|જોડો|સાફ|ઘાત|મૂળ|ગોઠવો|બદલો|શરૂઆત_સાથે|અંત_સાથે|સમાવે_છે|ગોળ|નીચે|ઉપર|પુનરાવર્તન|ટુકડો|સ્થાન|મૂકો|ડાબે_ભરો|જમણે_ભરો|સીમા|યાદચ્છિક|બીજ|વિસ્તારો|પાઈ|ઈ|ચિહ્ન|લઘુગણક|અક્ષર_કોડ|કોડ_થી_અક્ષર|યાદી_ભરો|સરવાળો_યાદી|યાદી_ન્યૂનતમ|યાદી_મહત્તમ|ગણતરી|ગણતરી_વસ્તુ|ડાબે_કાપો|ડાબે_સાફ|જમણે_કાપો|જમણે_સાફ|વિભાજન_પંક્તિ|પંક્તિઓ|પંક્તિ_ભાગ|અક્ષરો|પર્યાવરણ|બહાર|ચકાસો|સમાવે_લખાણ|ફાઇલ_વાંચો|ફાઇલ_લખો|ફાઇલ_ઉમેરો|ફાઇલ_છે|ફાઇલ_કાઢો|ફાઇલ_હટાવો|ફાઇલ_કદ|શબ્દકોશ|કોશ|ચાવીઓ|ચાવી|મૂલ્યો|દૂર_કરો|કોશ_દૂર|સમય|તારીખ|વર્ષ|મહિનો|દિવસ|કલાક|મિનિટ|સેકન્ડ|શાંત|રાહ_જુઓ|ફેંકો|lambai|vancho|sankhya|lakhan|prakar|umero|kapo|shodho|kadho|peli_abcd|biji_abcd|mahatam|nyunatam|dhan_mulya|ultavo|bhag|jodo|saf|ghat|mul|gothvo|badlo|sharuat_sathe|ant_sathe|samave_chhe|gol|niche|upar|punravartan|tukdo|sthan|muko|dabe_bharo|jamne_bharo|sima|yadachhik|beej|vistaro|pi|e|chihna|laghuganak|akshar_kod|kod_thi_akshar|yadi_bharo|sarvalo_yadi|yadi_nyunatam|yadi_mahatam|ganatari|ganatari_vastu|dabe_kapo|dabe_saf|jamne_kapo|jamne_saf|vibhaajan_pankti|panktiyo|pankti_bhag|aksharo|paryavaran|bahar|chakaso|samave_lakhan|file_vancho|file_lakho|file_umero|file_chhe|file_kadho|file_hatao|file_kad|shabdakosh|kosh|chavio|chavi|mulyo|dur_karo|kosh_dur|samay|tarikh|varsh|mahino|divas|kalak|minute|second|shant|raah_juo|phenko)(?![\\p{L}\\p{M}\\p{N}_])(?=\\s*\\()"
+          "match": "(?<![\\p{L}\\p{M}\\p{N}_])(?:લંબાઈ|વાંચો|સંખ્યા|લખાણ|પ્રકાર|ઉમેરો|કાપો|શોધો|કાઢો|પહેલી_એબીસીડી|બીજી_એબીસીડી|મહત્તમ|ન્યૂનતમ|ધન_મૂલ્ય|ઉલટાવો|ભાગ|જોડો|સાફ|ઘાત|મૂળ|ગોઠવો|બદલો|શરૂઆત_સાથે|અંત_સાથે|સમાવે_છે|ગોળ|નીચે|ઉપર|પુનરાવર્તન|ટુકડો|સ્થાન|મૂકો|ડાબે_ભરો|જમણે_ભરો|સીમા|યાદચ્છિક|બીજ|વિસ્તારો|પાઈ|ઈ|ચિહ્ન|લઘુગણક|અક્ષર_કોડ|કોડ_થી_અક્ષર|યાદી_ભરો|સરવાળો_યાદી|યાદી_ન્યૂનતમ|યાદી_મહત્તમ|ગણતરી|ગણતરી_વસ્તુ|ડાબે_કાપો|ડાબે_સાફ|જમણે_કાપો|જમણે_સાફ|વિભાજન_પંક્તિ|પંક્તિઓ|પંક્તિ_ભાગ|અક્ષરો|પર્યાવરણ|બહાર|ચકાસો|સમાવે_લખાણ|ફાઇલ_વાંચો|ફાઇલ_લખો|ફાઇલ_ઉમેરો|ફાઇલ_છે|ફાઇલ_કાઢો|ફાઇલ_હટાવો|ફાઇલ_કદ|શબ્દકોશ|કોશ|ચાવીઓ|ચાવી|મૂલ્યો|દૂર_કરો|કોશ_દૂર|સમય|તારીખ|વર્ષ|મહિનો|દિવસ|કલાક|મિનિટ|સેકન્ડ|શાંત|રાહ_જુઓ|ફેંકો|જેસન_વાંચો|જેસન_લખો|દલીલો|દલીલ_યાદી|દ્વિ_સંખ્યા|દ્વિ_થી_સંખ્યા|હેક્સ_લખાણ|હેક્સ_થી_સંખ્યા|ફોલ્ડર_છે|ફોલ્ડર_બનાવો|ફોલ્ડર_સૂચિ|કમાન્ડ_ચલાવો|સિસ્ટમ|નકશો_યાદી|ગાળો_યાદી|સમેટો_યાદી|શોધો_યાદી|શોધો_સૂચક_યાદી|ચપટી_યાદી|ઝીપ_યાદી|પેટર્ન_શોધો|લખાણ_બદલો_દરેક|બેઝ૬૪_કોડ|બેઝ૬૪_ડીકોડ|શીર્ષક_લખાણ|પ્રથમ_મોટી|સ્વરૂપ|લખાણ_અંતર|શા૨૫૬_હેશ|સાઇન|કોસાઇન|ટેન્જન્ટ|આર્કસાઇન|આર્કકોસ|આર્કટેન|ગુરુ_તમ|લઘુ_તમ|અંશ_થી_રેડિયન|રેડિયન_થી_અંશ|મેટ્રિક્સ_સરવાળો|મેટ્રિક્સ_ગુણાકાર|ભાષા_આવૃત્તિ|પ્લેટફોર્મ_નામ|lambai|vancho|sankhya|lakhan|prakar|umero|kapo|shodho|kadho|peli_abcd|biji_abcd|mahatam|nyunatam|dhan_mulya|ultavo|bhag|jodo|saf|ghat|mul|gothvo|badlo|sharuat_sathe|ant_sathe|samave_chhe|gol|niche|upar|punravartan|tukdo|sthan|muko|dabe_bharo|jamne_bharo|sima|yadachhik|beej|vistaro|pi|e|chihna|laghuganak|akshar_kod|kod_thi_akshar|yadi_bharo|sarvalo_yadi|yadi_nyunatam|yadi_mahatam|ganatari|ganatari_vastu|dabe_kapo|dabe_saf|jamne_kapo|jamne_saf|vibhaajan_pankti|panktiyo|pankti_bhag|aksharo|paryavaran|bahar|chakaso|samave_lakhan|file_vancho|file_lakho|file_umero|file_chhe|file_kadho|file_hatao|file_kad|shabdakosh|kosh|chavio|chavi|mulyo|dur_karo|kosh_dur|samay|tarikh|varsh|mahino|divas|kalak|minute|second|shant|raah_juo|phenko|json_vancho|json_lakho|daleelo|arg_yadi|dvi_sankhya|dvi_thi_sankhya|hex_lakhan|hex_thi_sankhya|folder_chhe|folder_banao|folder_suchi|command_chalao|system_kary|naksho_yadi|gaalo_yadi|sameto_yadi|shodho_yadi|shodho_suchak_yadi|chapti_yadi|zip_yadi|pattern_shodho|lakhan_badlo_darek|base64_kod|base64_decode|shirshak_lakhan|pratham_moti|swaroop|lakhan_antar|sha256_hash|sine|cosine|tangent|arcsin|arccos|arctan|guru_tam|laghu_tam|ansha_thi_radian|radian_thi_ansha|matrix_sarvalo|matrix_gunakar|bhasha_avrutti|platform_nam)(?![\\p{L}\\p{M}\\p{N}_])(?=\\s*\\()"
         }
       ]
     },
@@ -85,7 +85,7 @@
       "patterns": [
         {
           "name": "keyword.operator.gujarati",
-          "match": "==|!=|<=|>=|[+*/<>=-]"
+          "match": "\\+=|-=|\\*=|/=|%=|==|!=|<=|>=|[+*/<>=-%?]"
         }
       ]
     },

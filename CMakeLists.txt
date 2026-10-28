@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 0.9.0 LANGUAGES C)
+project(gujaratilang VERSION 1.0.0 LANGUAGES C)
 
 include(CTest)
 
@@ -315,7 +315,27 @@ if(BUILD_TESTING)
             gujarati_for_iteration
             romanized_import_alias
             gujarati_import_alias
-            cyclic_list_printing)
+            cyclic_list_printing
+            builtin_json
+            builtin_radix
+            builtin_folder
+            builtin_functional_list
+            builtin_list_flatten_zip
+            builtin_pattern_and_replace
+            builtin_base64
+            builtin_string_case
+            builtin_swaroop
+            builtin_distance
+            builtin_sha256
+            builtin_trigonometry
+            builtin_gcd_lcm
+            builtin_angle_conversions
+            builtin_matrix
+            ternary_operator
+            compound_assignment
+            constant_variables
+            constant_reassign_error
+            builtin_version_platform)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"
