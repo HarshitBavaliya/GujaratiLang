@@ -17,14 +17,14 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v0.8.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v0.8.0).
+- Latest interpreter release: [GujaratiLang v0.9.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v0.9.0).
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v0.8.0.
+  platform before publishing v0.9.0.
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
-  published as `HarshitBavaliya.gujarati`, currently v0.1.4 (v0.2.0 prepared locally).
+  published as `HarshitBavaliya.gujarati`, currently v0.1.4 (v0.3.0 prepared locally).
 - Install the extension with:
 
   ```powershell
@@ -109,14 +109,14 @@ Recent completed work includes:
   - [`examples/invoice_generator.gj`](examples/invoice_generator.gj) combining `vancho`, `sima`, `sthan`, `muko`, `dabe_bharo`, `jamne_bharo`, `punravartan`, and `gol`.
   - [`examples/random_game.gj`](examples/random_game.gj) simulating dice rolls and number guessing with `beej`, `yadachhik`, `sarvalo_yadi`, `yadi_nyunatam`, `yadi_mahatam`, `ganatari`, `sankhya`, and `chakaso`.
   - Automated stdin/stdout regression tests in [`tests/examples/`](tests/examples/) registered under CTest.
-- Prepared VS Code extension v0.2.0 in [`editors/vscode/package.json`](editors/vscode/package.json) and [`editors/vscode/CHANGELOG.md`](editors/vscode/CHANGELOG.md):
+- Prepared VS Code extension v0.3.0 in [`editors/vscode/package.json`](editors/vscode/package.json) and [`editors/vscode/CHANGELOG.md`](editors/vscode/CHANGELOG.md):
   - Updated syntax highlighting grammar [`editors/vscode/syntaxes/gujarati.tmLanguage.json`](editors/vscode/syntaxes/gujarati.tmLanguage.json)
-    with rules for `sthan` (`સ્થાન`), `muko` (`મૂકો`), `dabe_bharo` (`ડાબે_ભરો`), `jamne_bharo` (`જમણે_ભરો`), and `sima` (`સીમા`).
+    with rules for all new built-ins (`yadachhik`, `beej`, `vistaro`, `pi`, `e`, `chihna`, `laghuganak`, `akshar_kod`, `kod_thi_akshar`, `yadi_bharo`, `sarvalo_yadi`, `yadi_nyunatam`, `yadi_mahatam`, `ganatari`, `dabe_kapo`, `jamne_kapo`, `vibhaajan_pankti`, `aksharo`, `paryavaran`, `bahar`, `chakaso`, `samave_lakhan`).
   - Added starter snippets in [`editors/vscode/snippets/gujarati.code-snippets`](editors/vscode/snippets/gujarati.code-snippets)
-    for `gj-find` (`સ્થાન`), `gj-insert` (`મૂકો`), `gj-padleft` (`ડાબે_ભરો`), `gj-padright` (`જમણે_ભરો`), and `gj-clamp` (`સીમા`).
-- Updated project landing page [`website/index.html`](website/index.html) with v0.8.0 downloads, VS Code extension v0.1.4 showcase, and new built-ins features.
-- Expanded test suite to **232 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
-- Published [GujaratiLang v0.8.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v0.8.0) with automated GitHub Actions cross-platform release builds and comprehensive release notes.
+    for all new built-ins in both Gujarati and romanized forms.
+- Updated project landing page [`website/index.html`](website/index.html) with v0.9.0 downloads, VS Code extension v0.3.0 showcase, and new built-ins features.
+- Expanded test suite to **281 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
+- Project milestone: Complete 30-point release v0.9.0.
 
 ## Build and test
 
