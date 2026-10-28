@@ -341,7 +341,7 @@ if(BUILD_TESTING)
             builtin_uuid
             builtin_url
             builtin_statistics
-            builtin_padding
+            builtin_lakhan_padding
             builtin_bitwise
             builtin_list_sets
             builtin_char_code

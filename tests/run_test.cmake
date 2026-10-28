@@ -3243,7 +3243,7 @@ aavjo
     set(expected_stdout "150\n30\n30\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
-elseif(TEST_CASE STREQUAL "builtin_padding")
+elseif(TEST_CASE STREQUAL "builtin_lakhan_padding")
     set(source [=[aavo
 chhapo lakhan_purn_dabi("42", 5, "0");
 chhapo lakhan_purn_jamni("hi", 5, ".");
