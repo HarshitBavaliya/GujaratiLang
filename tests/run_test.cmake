@@ -2133,6 +2133,52 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_paryavaran")
+    set(source [=[aavo
+jo (lambai(paryavaran("PATH")) > 0) {
+    chhapo "has path";
+}
+chhapo paryavaran("NON_EXISTENT_VAR_xyz_12345");
+chhapo prakar(paryavaran("NON_EXISTENT_VAR_xyz_12345"));
+chhapo prakar(પર્યાવરણ("NON_EXISTENT_VAR_xyz_12345"));
+aavjo
+]=])
+    set(expected_stdout "has path\nનકામો\nnull\nnull\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_paryavaran_error")
+    set(source [=[aavo
+paryavaran();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_paryavaran_type_error")
+    set(source [=[aavo
+paryavaran(123);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a string argument for 'પર્યાવરણ' or 'paryavaran'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_paryavaran_gujarati_error")
+    set(source [=[આવો
+પર્યાવરણ(123);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'પર્યાવરણ' માટે લખાણ દલીલ અપેક્ષિત છે")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_paryavaran")
+    set(source [=[aavo
+kary paryavaran(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

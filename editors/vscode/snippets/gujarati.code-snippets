@@ -1138,5 +1138,25 @@
       "aksharo(${1:string})"
     ],
     "description": "Convert string to list of characters with romanized built-in"
+  },
+  "GujaratiLang environment variable": {
+    "prefix": [
+      "gj-env",
+      "પર્યાવરણ"
+    ],
+    "body": [
+      "પર્યાવરણ(${1:name})"
+    ],
+    "description": "Get system environment variable or null if not found"
+  },
+  "GujaratiLang environment variable (romanized)": {
+    "prefix": [
+      "gj-env-en",
+      "paryavaran"
+    ],
+    "body": [
+      "paryavaran(${1:name})"
+    ],
+    "description": "Get environment variable with romanized built-in"
   }
 }

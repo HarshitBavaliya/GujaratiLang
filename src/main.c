@@ -209,6 +209,7 @@ typedef enum {
     MESSAGE_EXPECTED_STRING_FOR_JAMNE_KAPO,
     MESSAGE_EXPECTED_STRING_FOR_VIBHAAJAN_PANKTI,
     MESSAGE_EXPECTED_STRING_FOR_AKSHARO,
+    MESSAGE_EXPECTED_STRING_FOR_PARYAVARAN,
     MESSAGE_USAGE
 } MessageId;
 
@@ -483,6 +484,7 @@ static const char *localized_message(Language language, MessageId message)
         "expected a string argument for 'જમણે_કાપો' or 'jamne_kapo'",
         "expected a string argument for 'વિભાજન_પંક્તિ' or 'vibhaajan_pankti'",
         "expected a string argument for 'અક્ષરો' or 'aksharo'",
+        "expected a string argument for 'પર્યાવરણ' or 'paryavaran'",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -611,6 +613,7 @@ static const char *localized_message(Language language, MessageId message)
         "'જમણે_કાપો' માટે લખાણ દલીલ અપેક્ષિત છે",
         "'વિભાજન_પંક્તિ' માટે લખાણ દલીલ અપેક્ષિત છે",
         "'અક્ષરો' માટે લખાણ દલીલ અપેક્ષિત છે",
+        "'પર્યાવરણ' માટે લખાણ દલીલ અપેક્ષિત છે",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1215,7 +1218,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "પંક્તિ_ભાગ") ||
            token_matches(parser, name, "pankti_bhag") ||
            token_matches(parser, name, "અક્ષરો") ||
-           token_matches(parser, name, "aksharo");
+           token_matches(parser, name, "aksharo") ||
+           token_matches(parser, name, "પર્યાવરણ") ||
+           token_matches(parser, name, "paryavaran");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -2067,6 +2072,47 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.kind = VALUE_STRING;
                             result.string_length = len;
                             result.owned_string = str;
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "પર્યાવરણ") ||
+                       token_matches(parser, name, "paryavaran")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_PARYAVARAN);
+                } else {
+                    size_t name_len = decoded_string_length(parser, arguments[0]);
+                    char *name_buf = (char *)malloc(name_len + 1);
+                    if (name_buf == NULL) {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        copy_value_string(parser, arguments[0], name_buf);
+                        name_buf[name_len] = '\0';
+                        const char *env_val = getenv(name_buf);
+                        free(name_buf);
+                        if (env_val == NULL) {
+                            result = null_value();
+                        } else {
+                            size_t val_len = strlen(env_val);
+                            char *out_val = (char *)malloc(val_len + 1);
+                            if (out_val == NULL) {
+                                report_error(parser, name.line, name.column,
+                                             MESSAGE_OUT_OF_MEMORY);
+                            } else {
+                                memcpy(out_val, env_val, val_len + 1);
+                                if (!store_owned_string(parser, name, out_val)) {
+                                    result = number_value(0.0);
+                                } else {
+                                    result.kind = VALUE_STRING;
+                                    result.string_offset = 0;
+                                    result.string_length = val_len;
+                                    result.owned_string = out_val;
+                                }
+                            }
                         }
                     }
                 }

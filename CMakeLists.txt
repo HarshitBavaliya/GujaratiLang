@@ -242,6 +242,11 @@ if(BUILD_TESTING)
             builtin_aksharo_type_error
             builtin_aksharo_gujarati_error
             reserved_aksharo
+            builtin_paryavaran
+            builtin_paryavaran_error
+            builtin_paryavaran_type_error
+            builtin_paryavaran_gujarati_error
+            reserved_paryavaran
             romanized_error
             romanized_fatal_error
             lists_and_indexing

@@ -72,6 +72,7 @@ Recent completed work includes:
   - `જમણે_કાપો(string)` / `jamne_kapo(string)` (alias `જમણે_સાફ` / `jamne_saf`): trims trailing whitespace.
   - `વિભાજન_પંક્તિ(string)` / `vibhaajan_pankti(string)` (alias `પંક્તિઓ` / `panktiyo`): splits a multi-line string into lines.
   - `અક્ષરો(string)` / `aksharo(string)`: splits a string into a list of individual UTF-8 characters.
+  - `પર્યાવરણ(name)` / `paryavaran(name)`: retrieves system environment variable, or returns `નકામો` (`null`) if not found.
   - `બદલો(string, target, replacement)` / `badlo(string, target, replacement)`: replaces occurrences of a substring.
   - `શરૂઆત_સાથે(string, prefix)` / `sharuat_sathe(string, prefix)`: returns 1.0 if string starts with prefix, 0.0 otherwise.
   - `અંત_સાથે(string, suffix)` / `ant_sathe(string, suffix)`: returns 1.0 if string ends with suffix, 0.0 otherwise.
