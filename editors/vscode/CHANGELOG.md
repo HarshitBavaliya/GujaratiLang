@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0
+
+- Add syntax highlighting and starter snippets for list index search, list insertion, string padding, and value clamping built-ins:
+  `sthan` (`સ્થાન`), `muko` (`મૂકો`), `dabe_bharo` (`ડાબે_ભરો`), `jamne_bharo` (`જમણે_ભરો`), and `sima` (`સીમા`).
+
 ## 0.1.9
 
 - Add syntax highlighting and starter snippets for math rounding, string repeat, and list slicing built-ins:

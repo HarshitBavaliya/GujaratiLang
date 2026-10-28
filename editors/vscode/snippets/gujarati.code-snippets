@@ -678,5 +678,105 @@
       "tukdo(${1:list}, ${2:start}, ${3:length})"
     ],
     "description": "Get sub-list slice with romanized built-in"
+  },
+  "GujaratiLang find list item": {
+    "prefix": [
+      "gj-find",
+      "સ્થાન"
+    ],
+    "body": [
+      "સ્થાન(${1:list}, ${2:item})"
+    ],
+    "description": "Find first index of item in list (-1 if not found)"
+  },
+  "GujaratiLang find list item (romanized)": {
+    "prefix": [
+      "gj-find-en",
+      "sthan"
+    ],
+    "body": [
+      "sthan(${1:list}, ${2:item})"
+    ],
+    "description": "Find first index of item in list with romanized built-in"
+  },
+  "GujaratiLang insert list item": {
+    "prefix": [
+      "gj-insert",
+      "મૂકો"
+    ],
+    "body": [
+      "મૂકો(${1:list}, ${2:index}, ${3:item});"
+    ],
+    "description": "Insert item into list at index in-place"
+  },
+  "GujaratiLang insert list item (romanized)": {
+    "prefix": [
+      "gj-insert-en",
+      "muko"
+    ],
+    "body": [
+      "muko(${1:list}, ${2:index}, ${3:item});"
+    ],
+    "description": "Insert item into list at index with romanized built-in"
+  },
+  "GujaratiLang pad string left": {
+    "prefix": [
+      "gj-padleft",
+      "ડાબે_ભરો"
+    ],
+    "body": [
+      "ડાબે_ભરો(${1:string}, ${2:width}, ${3:\" \"})"
+    ],
+    "description": "Pad string on left to target width"
+  },
+  "GujaratiLang pad string left (romanized)": {
+    "prefix": [
+      "gj-padleft-en",
+      "dabe_bharo"
+    ],
+    "body": [
+      "dabe_bharo(${1:string}, ${2:width}, ${3:\" \"})"
+    ],
+    "description": "Pad string on left to target width with romanized built-in"
+  },
+  "GujaratiLang pad string right": {
+    "prefix": [
+      "gj-padright",
+      "જમણે_ભરો"
+    ],
+    "body": [
+      "જમણે_ભરો(${1:string}, ${2:width}, ${3:\" \"})"
+    ],
+    "description": "Pad string on right to target width"
+  },
+  "GujaratiLang pad string right (romanized)": {
+    "prefix": [
+      "gj-padright-en",
+      "jamne_bharo"
+    ],
+    "body": [
+      "jamne_bharo(${1:string}, ${2:width}, ${3:\" \"})"
+    ],
+    "description": "Pad string on right to target width with romanized built-in"
+  },
+  "GujaratiLang clamp number": {
+    "prefix": [
+      "gj-clamp",
+      "સીમા"
+    ],
+    "body": [
+      "સીમા(${1:value}, ${2:min}, ${3:max})"
+    ],
+    "description": "Clamp number between minimum and maximum bounds"
+  },
+  "GujaratiLang clamp number (romanized)": {
+    "prefix": [
+      "gj-clamp-en",
+      "sima"
+    ],
+    "body": [
+      "sima(${1:value}, ${2:min}, ${3:max})"
+    ],
+    "description": "Clamp number between minimum and maximum bounds with romanized built-in"
   }
 }

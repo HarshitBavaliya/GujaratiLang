@@ -190,7 +190,7 @@ if(BUILD_TESTING)
         )
     endforeach()
 
-    foreach(example IN ITEMS fibonacci temperature_converter inventory stock calculator string_utils csv_parser math_suite text_filter report_generator)
+    foreach(example IN ITEMS fibonacci temperature_converter inventory stock calculator string_utils csv_parser math_suite text_filter report_generator invoice_generator)
         set(input_file_arg)
         if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/examples/${example}.stdin")
             set(input_file_arg "-DINPUT_FILE=${CMAKE_CURRENT_SOURCE_DIR}/tests/examples/${example}.stdin")

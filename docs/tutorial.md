@@ -173,6 +173,6 @@ The [`examples`](../examples) folder also contains complete programs,
 including a [Fibonacci sequence](../examples/fibonacci.gj), a
 [temperature converter](../examples/temperature_converter.gj), an
 [inventory manager](../examples/inventory.gj), and a native Gujarati-script
-[stock manager](../examples/stock.gj). The full
+[stock manager](../examples/stock.gj), and an [invoice generator](../examples/invoice_generator.gj). The full
 [language guide](../README.md) lists all keywords, diagnostics, and runtime
 details.

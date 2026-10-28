@@ -24,7 +24,7 @@ can change.
   platform before publishing v0.8.0.
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
-  published as `HarshitBavaliya.gujarati`, currently v0.1.4 (v0.1.9 prepared locally).
+  published as `HarshitBavaliya.gujarati`, currently v0.1.4 (v0.2.0 prepared locally).
 - Install the extension with:
 
   ```powershell
@@ -49,6 +49,11 @@ Recent completed work includes:
   - `ઉપર(number)` / `upar(number)`: ceils number.
   - `પુનરાવર્તન(string, count)` / `punravartan(string, count)`: repeats a string count times.
   - `ટુકડો(list, start[, length])` / `tukdo(list, start[, length])`: slices a sub-list.
+  - `સ્થાન(list, item[, start])` / `sthan(list, item[, start])`: finds the 0-based first index of an item in a list (-1.0 if not found).
+  - `મૂકો(list, index, item)` / `muko(list, index, item)`: inserts an item into a list at index in-place.
+  - `ડાબે_ભરો(string, width[, pad])` / `dabe_bharo(string, width[, pad])`: pads a string on the left to target width.
+  - `જમણે_ભરો(string, width[, pad])` / `jamne_bharo(string, width[, pad])`: pads a string on the right to target width.
+  - `સીમા(value, min, max)` / `sima(value, min, max)`: clamps a numeric value between minimum and maximum bounds.
   - `બદલો(string, target, replacement)` / `badlo(string, target, replacement)`: replaces occurrences of a substring.
   - `શરૂઆત_સાથે(string, prefix)` / `sharuat_sathe(string, prefix)`: returns 1.0 if string starts with prefix, 0.0 otherwise.
   - `અંત_સાથે(string, suffix)` / `ant_sathe(string, suffix)`: returns 1.0 if string ends with suffix, 0.0 otherwise.
@@ -79,14 +84,15 @@ Recent completed work includes:
   - [`examples/math_suite.gj`](examples/math_suite.gj) combining `vancho`, `ghat`, `mul`, `sankhya`, `lakhan`, `saf`, `gothvo`, and `ultavo`.
   - [`examples/text_filter.gj`](examples/text_filter.gj) combining `vancho`, `sharuat_sathe`, `ant_sathe`, `badlo`, `samave_chhe`, `bhag`, `saf`, `umero`, and `jodo`.
   - [`examples/report_generator.gj`](examples/report_generator.gj) combining `vancho`, `punravartan`, `gol`, `tukdo`, `bhag`, `saf`, `umero`, and `jodo`.
+  - [`examples/invoice_generator.gj`](examples/invoice_generator.gj) combining `vancho`, `sima`, `sthan`, `muko`, `dabe_bharo`, `jamne_bharo`, `punravartan`, and `gol`.
   - Automated stdin/stdout regression tests in [`tests/examples/`](tests/examples/) registered under CTest.
-- Prepared VS Code extension v0.1.9 in [`editors/vscode/package.json`](editors/vscode/package.json) and [`editors/vscode/CHANGELOG.md`](editors/vscode/CHANGELOG.md):
+- Prepared VS Code extension v0.2.0 in [`editors/vscode/package.json`](editors/vscode/package.json) and [`editors/vscode/CHANGELOG.md`](editors/vscode/CHANGELOG.md):
   - Updated syntax highlighting grammar [`editors/vscode/syntaxes/gujarati.tmLanguage.json`](editors/vscode/syntaxes/gujarati.tmLanguage.json)
-    with rules for `gol`, `niche`, `upar`, `punravartan`, and `tukdo`.
+    with rules for `sthan` (`સ્થાન`), `muko` (`મૂકો`), `dabe_bharo` (`ડાબે_ભરો`), `jamne_bharo` (`જમણે_ભરો`), and `sima` (`સીમા`).
   - Added starter snippets in [`editors/vscode/snippets/gujarati.code-snippets`](editors/vscode/snippets/gujarati.code-snippets)
-    for `gj-round` (`ગોળ`), `gj-floor` (`નીચે`), `gj-ceil` (`ઉપર`), `gj-repeat` (`પુનરાવર્તન`), and `gj-listslice` (`ટુકડો`).
+    for `gj-find` (`સ્થાન`), `gj-insert` (`મૂકો`), `gj-padleft` (`ડાબે_ભરો`), `gj-padright` (`જમણે_ભરો`), and `gj-clamp` (`સીમા`).
 - Updated project landing page [`website/index.html`](website/index.html) with v0.8.0 downloads, VS Code extension v0.1.4 showcase, and new built-ins features.
-- Expanded test suite to **156 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
+- Expanded test suite to **169 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
 - Published [GujaratiLang v0.8.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v0.8.0) with automated GitHub Actions cross-platform release builds and comprehensive release notes.
 
 ## Build and test
@@ -102,20 +108,20 @@ ctest --test-dir build --build-config Release --output-on-failure
 ```
 
 On Linux/macOS, run the built interpreter as `./build/gujarati
-./examples/string_utils.gj`. The test suite has 156 passing cases (100% pass rate).
+./examples/string_utils.gj`. The test suite has 169 passing cases (100% pass rate).
 
 ## Suggested next work
 
-1. **List Index / Find built-in (`સ્થાન` / `sthan`)**:
-   Implement `sthan(list, item)` returning the 0-based integer index of the first occurrence in `list`, or `-1.0` if not found.
-2. **List Element Insertion built-in (`મૂકો` / `muko`)**:
-   Implement `muko(list, index, item)` inserting an element at a given position in-place and returning the list.
-3. **String Padding built-ins (`ડાબે_ભરો` / `dabe_bharo` and `જમણે_ભરો` / `jamne_bharo`)**:
-   Implement left and right string padding up to target length using optional fill character (default space), ideal for columnar table alignment.
-4. **Value Clamping built-in (`સીમા` / `sima`)**:
-   Implement `sima(value, min, max)` to restrict numeric values within given lower and upper bounds.
-5. **VS Code Extension v0.2.0 & Data Aligner Runnable Example**:
-   Update grammar and snippets for v0.2.0, bump `package.json` to 0.2.0, and create a runnable formatted invoice/table generator example backed by automated CTest assertions.
+1. **Random Number Generator built-in (`યાદચ્છિક` / `yadachhik`)**:
+   Implement `yadachhik()` returning pseudo-random float `[0.0, 1.0)` or `yadachhik(min, max)` returning random integer in range.
+2. **List Concatenation / Extend built-in (`વિસ્તારો` / `vistaro` or `જોડો_યાદી` / `jodo_yadi`)**:
+   Extend a list by appending all items from another list in-place.
+3. **String Character Replace / Regex-like Multi-replace**:
+   Extended string transformation utilities.
+4. **Math Constants (`પાઈ` / `pi` and `ઈ` / `e`)**:
+   Built-in numeric constants or functions for mathematical calculations.
+5. **Release v0.9.0**:
+   Bump version in CMakeLists.txt to 0.9.0, tag, push, and release binaries with automated GitHub Actions cross-platform builds.
 
 ## Important workspace notes
 

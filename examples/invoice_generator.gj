@@ -1,0 +1,55 @@
+aavo
+client = vancho("Enter client name: ");
+raw_discount = sankhya(vancho("Enter discount percentage: "));
+raw_items = vancho("Enter items (name:qty:price, ...): ");
+
+discount_pct = sima(raw_discount, 0, 20);
+
+line = punravartan("=", 40);
+chhapo line;
+chhapo "INVOICE FOR: " + client;
+chhapo "DISCOUNT RATE: " + lakhan(discount_pct) + "%";
+chhapo line;
+chhapo jamne_bharo("ITEM", 18) + dabe_bharo("QTY", 6) + dabe_bharo("PRICE", 8) + dabe_bharo("TOTAL", 8);
+chhapo punravartan("-", 40);
+
+records = bhag(raw_items, ",");
+items_list = [];
+subtotal = 0;
+
+darek (rec ma records) {
+    clean_rec = saf(rec);
+    parts = bhag(clean_rec, ":");
+    jo (lambai(parts) == 3) {
+        iname = saf(parts[0]);
+        iqty = sankhya(saf(parts[1]));
+        iprice = sankhya(saf(parts[2]));
+        line_cost = iqty * iprice;
+        subtotal = subtotal + line_cost;
+        row = jamne_bharo(iname, 18) + dabe_bharo(lakhan(iqty), 6) + dabe_bharo(lakhan(iprice), 8) + dabe_bharo(lakhan(line_cost), 8);
+        umero(items_list, row);
+    }
+}
+
+catalog = ["Hardware", "Software", "Consulting"];
+pos = sthan(catalog, "Consulting");
+jo (pos >= 0) {
+    delivery_fee = 50;
+    subtotal = subtotal + delivery_fee;
+    delivery_row = jamne_bharo("Delivery Priority", 18) + dabe_bharo("1", 6) + dabe_bharo(lakhan(delivery_fee), 8) + dabe_bharo(lakhan(delivery_fee), 8);
+    muko(items_list, 0, delivery_row);
+}
+
+darek (r ma items_list) {
+    chhapo r;
+}
+
+chhapo punravartan("-", 40);
+discount_amount = gol(subtotal * discount_pct / 100);
+final_total = subtotal - discount_amount;
+
+chhapo jamne_bharo("SUBTOTAL:", 32) + dabe_bharo(lakhan(subtotal), 8);
+chhapo jamne_bharo("DISCOUNT:", 32) + dabe_bharo("-" + lakhan(discount_amount), 8);
+chhapo jamne_bharo("FINAL TOTAL:", 32) + dabe_bharo(lakhan(final_total), 8);
+chhapo line;
+aavjo
