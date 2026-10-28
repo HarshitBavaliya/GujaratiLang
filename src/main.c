@@ -5656,14 +5656,16 @@ static int parse_for_loop(Parser *parser, int execute)
         return 0;
     }
     body_open = parser->current;
+    parser->loop_depth++;
     if (!parse_block(parser, 0)) {
+        parser->loop_depth--;
         return 0;
     }
     if (!execute) {
+        parser->loop_depth--;
         return 1;
     }
 
-    parser->loop_depth++;
     if (is_range) {
         double current = first.number;
         while (!parser->failed && !parser->error_caught && current < last.number) {
