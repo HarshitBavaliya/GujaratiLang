@@ -2349,7 +2349,7 @@ chhapo prakar(file_vancho(path));
 chhapo prakar(file_kad(path));
 aavjo
 ]=])
-    set(expected_stdout "0\n1\n1\n14\nHello Gujarat!\n1\n26\nHello Gujarat! and India!\n1\n0\nnull\nnull\n")
+    set(expected_stdout "0\n1\n1\n14\nHello Gujarat!\n1\n25\nHello Gujarat! and India!\n1\n0\nnull\nnull\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_file_io_gujarati")
