@@ -6777,7 +6777,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 1) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (arguments[0].kind != VALUE_LIST) {
-                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
                 } else {
                     List *l = arguments[0].list;
                     double sum = 0.0;
@@ -6792,7 +6792,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 1) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (arguments[0].kind != VALUE_LIST) {
-                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
                 } else {
                     List *l = arguments[0].list;
                     double sum = 0.0;
@@ -6811,7 +6811,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 1) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (arguments[0].kind != VALUE_LIST) {
-                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
                 } else {
                     List *l = arguments[0].list;
                     if (!l || l->count == 0) {
@@ -6918,7 +6918,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 1) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (arguments[0].kind != VALUE_LIST) {
-                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
                 } else {
                     List *src_list = arguments[0].list;
                     List *dst_list = create_list(parser, name);
@@ -6942,7 +6942,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 2) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (arguments[0].kind != VALUE_LIST || arguments[1].kind != VALUE_LIST) {
-                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
                 } else {
                     List *l1 = arguments[0].list;
                     List *l2 = arguments[1].list;
@@ -6973,7 +6973,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 2) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (arguments[0].kind != VALUE_LIST || arguments[1].kind != VALUE_LIST) {
-                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
                 } else {
                     List *l1 = arguments[0].list;
                     List *l2 = arguments[1].list;
@@ -7001,7 +7001,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 2) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (arguments[0].kind != VALUE_LIST || arguments[1].kind != VALUE_LIST) {
-                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
                 } else {
                     List *l1 = arguments[0].list;
                     List *l2 = arguments[1].list;
@@ -7079,7 +7079,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 1) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (arguments[0].kind != VALUE_LIST) {
-                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
                 } else {
                     List *src = arguments[0].list;
                     List *dst = create_list(parser, name);
@@ -7096,7 +7096,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 2) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (arguments[0].kind != VALUE_LIST) {
-                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
                 } else {
                     List *src = arguments[0].list;
                     size_t chunk_size = (size_t)arguments[1].number;
@@ -7122,7 +7122,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 1) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (arguments[0].kind != VALUE_LIST) {
-                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_LOOP);
                 } else {
                     List *src = arguments[0].list;
                     List *dst = create_list(parser, name);
@@ -7151,10 +7151,9 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 } else {
                     char *k = value_to_c_string(parser, arguments[1]);
                     if (k) {
-                        int found = 0;
-                        dict_get(arguments[0].dict, k, strlen(k), &found);
+                        Value *found = dict_get(arguments[0].dict, k, strlen(k));
                         free(k);
-                        result = number_value(found ? 1.0 : 0.0);
+                        result = number_value(found != NULL ? 1.0 : 0.0);
                     }
                 }
             } else if (token_matches(parser, name, "કોશ_જોડો") || token_matches(parser, name, "kosh_jodo")) {
