@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0
+
+- Add syntax highlighting and starter snippets for all new built-ins across mathematics, lists, strings, system, and control:
+  - Random numbers & seeding: `yadachhik` (`યાદચ્છિક`), `beej` (`બીજ`)
+  - Math constants & utilities: `pi` (`પાઈ`), `e` (`ઈ`), `chihna` (`ચિહ્ન`), `laghuganak` (`લઘુગણક`)
+  - Unicode & string functions: `akshar_kod` (`અક્ષર_કોડ`), `kod_thi_akshar` (`કોડ_થી_અક્ષર`), `dabe_kapo` (`ડાબે_કાપો`), `jamne_kapo` (`જમણે_કાપો`), `vibhaajan_pankti` (`વિભાજન_પંક્તિ`), `aksharo` (`અક્ષરો`), `samave_lakhan` (`સમાવે_લખાણ`)
+  - List operations: `vistaro` (`વિસ્તારો`), `yadi_bharo` (`યાદી_ભરો`), `sarvalo_yadi` (`સરવાળો_યાદી`), `yadi_nyunatam` (`યાદી_ન્યૂનતમ`), `yadi_mahatam` (`યાદી_મહત્તમ`), `ganatari` (`ગણતરી`)
+  - System & flow control: `paryavaran` (`પર્યાવરણ`), `bahar` (`બહાર`), `chakaso` (`ચકાસો`)
+
 ## 0.2.0
 
 - Add syntax highlighting and starter snippets for list index search, list insertion, string padding, and value clamping built-ins:
