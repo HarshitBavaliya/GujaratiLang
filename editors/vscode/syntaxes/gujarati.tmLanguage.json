@@ -61,7 +61,7 @@
       "patterns": [
         {
           "name": "support.function.builtin.gujarati",
-          "match": "(?<![\\p{L}\\p{M}\\p{N}_])(?:લંબાઈ|વાંચો|સંખ્યા|લખાણ|પ્રકાર|ઉમેરો|કાપો|શોધો|કાઢો|પહેલી_એબીસીડી|બીજી_એબીસીડી|મહત્તમ|ન્યૂનતમ|ધન_મૂલ્ય|ઉલટાવો|ભાગ|જોડો|સાફ|ઘાત|મૂળ|ગોઠવો|બદલો|શરૂઆત_સાથે|અંત_સાથે|સમાવે_છે|ગોળ|નીચે|ઉપર|પુનરાવર્તન|ટુકડો|સ્થાન|મૂકો|ડાબે_ભરો|જમણે_ભરો|સીમા|યાદચ્છિક|બીજ|વિસ્તારો|પાઈ|ઈ|ચિહ્ન|lambai|vancho|sankhya|lakhan|prakar|umero|kapo|shodho|kadho|peli_abcd|biji_abcd|mahatam|nyunatam|dhan_mulya|ultavo|bhag|jodo|saf|ghat|mul|gothvo|badlo|sharuat_sathe|ant_sathe|samave_chhe|gol|niche|upar|punravartan|tukdo|sthan|muko|dabe_bharo|jamne_bharo|sima|yadachhik|beej|vistaro|pi|e|chihna)(?![\\p{L}\\p{M}\\p{N}_])(?=\\s*\\()"
+          "match": "(?<![\\p{L}\\p{M}\\p{N}_])(?:લંબાઈ|વાંચો|સંખ્યા|લખાણ|પ્રકાર|ઉમેરો|કાપો|શોધો|કાઢો|પહેલી_એબીસીડી|બીજી_એબીસીડી|મહત્તમ|ન્યૂનતમ|ધન_મૂલ્ય|ઉલટાવો|ભાગ|જોડો|સાફ|ઘાત|મૂળ|ગોઠવો|બદલો|શરૂઆત_સાથે|અંત_સાથે|સમાવે_છે|ગોળ|નીચે|ઉપર|પુનરાવર્તન|ટુકડો|સ્થાન|મૂકો|ડાબે_ભરો|જમણે_ભરો|સીમા|યાદચ્છિક|બીજ|વિસ્તારો|પાઈ|ઈ|ચિહ્ન|લઘુગણક|lambai|vancho|sankhya|lakhan|prakar|umero|kapo|shodho|kadho|peli_abcd|biji_abcd|mahatam|nyunatam|dhan_mulya|ultavo|bhag|jodo|saf|ghat|mul|gothvo|badlo|sharuat_sathe|ant_sathe|samave_chhe|gol|niche|upar|punravartan|tukdo|sthan|muko|dabe_bharo|jamne_bharo|sima|yadachhik|beej|vistaro|pi|e|chihna|laghuganak)(?![\\p{L}\\p{M}\\p{N}_])(?=\\s*\\()"
         }
       ]
     },

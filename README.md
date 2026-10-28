@@ -160,6 +160,7 @@ can be used in the same program. Multi-word spellings use underscores.
 | `પાઈ()` | `pi()` | Mathematical constant pi (~3.14159) |
 | `ઈ()` | `e()` | Mathematical constant e (~2.71828) |
 | `ચિહ્ન(...)` | `chihna(...)` | Return sign of number (1 for positive, -1 for negative, 0 for zero) |
+| `લઘુગણક(...)` | `laghuganak(...)` | Return logarithm (natural log ln(n) or log base(n)) |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

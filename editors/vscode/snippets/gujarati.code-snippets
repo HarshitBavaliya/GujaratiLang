@@ -898,5 +898,25 @@
       "chihna(${1:number})"
     ],
     "description": "Return sign of number (1, -1, 0) with romanized built-in"
+  },
+  "GujaratiLang logarithm function": {
+    "prefix": [
+      "gj-log",
+      "લઘુગણક"
+    ],
+    "body": [
+      "લઘુગણક(${1:number})"
+    ],
+    "description": "Calculate natural logarithm or logarithm with base"
+  },
+  "GujaratiLang logarithm function (romanized)": {
+    "prefix": [
+      "gj-log-en",
+      "laghuganak"
+    ],
+    "body": [
+      "laghuganak(${1:number})"
+    ],
+    "description": "Calculate natural logarithm or logarithm with base with romanized built-in"
   }
 }

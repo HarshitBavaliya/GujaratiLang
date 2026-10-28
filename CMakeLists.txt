@@ -177,6 +177,12 @@ if(BUILD_TESTING)
             builtin_chihna_error
             builtin_chihna_type_error
             reserved_chihna
+            builtin_laghuganak
+            builtin_laghuganak_error
+            builtin_laghuganak_domain_error
+            builtin_laghuganak_base_error
+            builtin_laghuganak_gujarati_error
+            reserved_laghuganak
             romanized_error
             romanized_fatal_error
             lists_and_indexing

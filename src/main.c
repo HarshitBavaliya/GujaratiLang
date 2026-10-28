@@ -188,6 +188,8 @@ typedef enum {
     MESSAGE_YADACHHIK_MIN_GREATER_THAN_MAX,
     MESSAGE_EXPECTED_INTEGER_YADACHHIK,
     MESSAGE_EXPECTED_LIST_FOR_VISTARO,
+    MESSAGE_LAGHUGANAK_DOMAIN_ERROR,
+    MESSAGE_LAGHUGANAK_BASE_ERROR,
     MESSAGE_USAGE
 } MessageId;
 
@@ -441,6 +443,8 @@ static const char *localized_message(Language language, MessageId message)
         "minimum bound cannot be greater than maximum bound for 'યાદચ્છિક' or 'yadachhik'",
         "range bounds for 'યાદચ્છિક' or 'yadachhik' must be whole numbers",
         "expected list arguments for 'વિસ્તારો' or 'vistaro'",
+        "logarithm argument must be greater than zero",
+        "logarithm base must be greater than zero and not equal to one",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -548,6 +552,8 @@ static const char *localized_message(Language language, MessageId message)
         "'યાદચ્છિક' માટે ન્યૂનતમ સીમા મહત્તમ સીમા કરતાં મોટી ન હોઈ શકે",
         "'યાદચ્છિક' માટે સીમાઓ પૂર્ણાંક સંખ્યા હોવી જોઈએ",
         "'વિસ્તારો' માટે બંને દલીલો યાદી હોવી જોઈએ",
+        "લઘુગણક માટે કિંમત શૂન્ય કરતાં મોટી હોવી જોઈએ",
+        "લઘુગણક આધાર શૂન્ય કરતાં મોટો અને એક સિવાયનો હોવો જોઈએ",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1118,7 +1124,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "ઈ") ||
            token_matches(parser, name, "e") ||
            token_matches(parser, name, "ચિહ્ન") ||
-           token_matches(parser, name, "chihna");
+           token_matches(parser, name, "chihna") ||
+           token_matches(parser, name, "લઘુગણક") ||
+           token_matches(parser, name, "laghuganak");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -1933,6 +1941,30 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.string_length = len;
                             result.owned_string = str;
                         }
+                    }
+                }
+            } else if (token_matches(parser, name, "લઘુગણક") ||
+                       token_matches(parser, name, "laghuganak")) {
+                if (argument_count != 1 && argument_count != 2) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER ||
+                           (argument_count == 2 && arguments[1].kind != VALUE_NUMBER)) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else if (arguments[0].number <= 0.0) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_LAGHUGANAK_DOMAIN_ERROR);
+                } else if (argument_count == 2 && (arguments[1].number <= 0.0 || arguments[1].number == 1.0)) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_LAGHUGANAK_BASE_ERROR);
+                } else {
+                    double n = arguments[0].number;
+                    if (argument_count == 1) {
+                        result = number_value(log(n));
+                    } else {
+                        double base = arguments[1].number;
+                        result = number_value(log(n) / log(base));
                     }
                 }
             } else if (token_matches(parser, name, "ચિહ્ન") ||

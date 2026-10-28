@@ -1556,6 +1556,58 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_laghuganak")
+    set(source [=[aavo
+chhapo gol(laghuganak(e()));
+chhapo gol(laghuganak(100, 10));
+chhapo gol(laghuganak(8, 2));
+chhapo gol(લઘુગણક(1));
+aavjo
+]=])
+    set(expected_stdout "1\n2\n3\n0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_laghuganak_error")
+    set(source [=[aavo
+laghuganak();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_laghuganak_domain_error")
+    set(source [=[aavo
+laghuganak(0);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "logarithm argument must be greater than zero")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_laghuganak_base_error")
+    set(source [=[aavo
+laghuganak(10, 1);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "logarithm base must be greater than zero and not equal to one")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_laghuganak_gujarati_error")
+    set(source [=[આવો
+લઘુગણક(-5);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "લઘુગણક માટે કિંમત શૂન્ય કરતાં મોટી હોવી જોઈએ")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_laghuganak")
+    set(source [=[aavo
+kary laghuganak(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";
