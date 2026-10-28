@@ -206,6 +206,7 @@ typedef enum {
     MESSAGE_EXPECTED_LIST_OR_STRING_FOR_GANATARI,
     MESSAGE_EXPECTED_STRING_SECOND_FOR_GANATARI,
     MESSAGE_EXPECTED_STRING_FOR_DABE_KAPO,
+    MESSAGE_EXPECTED_STRING_FOR_JAMNE_KAPO,
     MESSAGE_USAGE
 } MessageId;
 
@@ -477,6 +478,7 @@ static const char *localized_message(Language language, MessageId message)
         "expected a list or string first argument for 'ગણતરી' or 'ganatari'",
         "expected a string second argument when counting in a string",
         "expected a string argument for 'ડાબે_કાપો' or 'dabe_kapo'",
+        "expected a string argument for 'જમણે_કાપો' or 'jamne_kapo'",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -602,6 +604,7 @@ static const char *localized_message(Language language, MessageId message)
         "'ગણતરી' માટે પ્રથમ દલીલ યાદી અથવા લખાણ હોવી જોઈએ",
         "લખાણમાં ગણતરી કરતી વખતે બીજી દલીલ લખાણ હોવી જોઈએ",
         "'ડાબે_કાપો' માટે લખાણ દલીલ અપેક્ષિત છે",
+        "'જમણે_કાપો' માટે લખાણ દલીલ અપેક્ષિત છે",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1194,7 +1197,11 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "ડાબે_કાપો") ||
            token_matches(parser, name, "dabe_kapo") ||
            token_matches(parser, name, "ડાબે_સાફ") ||
-           token_matches(parser, name, "dabe_saf");
+           token_matches(parser, name, "dabe_saf") ||
+           token_matches(parser, name, "જમણે_કાપો") ||
+           token_matches(parser, name, "jamne_kapo") ||
+           token_matches(parser, name, "જમણે_સાફ") ||
+           token_matches(parser, name, "jamne_saf");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -2046,6 +2053,54 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.kind = VALUE_STRING;
                             result.string_length = len;
                             result.owned_string = str;
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "જમણે_કાપો") ||
+                       token_matches(parser, name, "jamne_kapo") ||
+                       token_matches(parser, name, "જમણે_સાફ") ||
+                       token_matches(parser, name, "jamne_saf")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_JAMNE_KAPO);
+                } else {
+                    size_t length = decoded_string_length(parser, arguments[0]);
+                    char *buffer = (char *)malloc(length + 1);
+                    if (buffer == NULL) {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        size_t end = length;
+                        char *trimmed;
+
+                        copy_value_string(parser, arguments[0], buffer);
+                        buffer[length] = '\0';
+
+                        while (end > 0 &&
+                               (buffer[end - 1] == ' ' || buffer[end - 1] == '\t' ||
+                                buffer[end - 1] == '\r' || buffer[end - 1] == '\n')) {
+                            end--;
+                        }
+                        trimmed = (char *)malloc(end + 1);
+                        if (trimmed == NULL) {
+                            free(buffer);
+                            report_error(parser, name.line, name.column,
+                                         MESSAGE_OUT_OF_MEMORY);
+                        } else {
+                            memcpy(trimmed, buffer, end);
+                            trimmed[end] = '\0';
+                            free(buffer);
+                            if (!store_input_string(parser, name, trimmed)) {
+                                result = number_value(0.0);
+                            } else {
+                                result.kind = VALUE_STRING;
+                                result.string_offset = 0;
+                                result.string_length = end;
+                                result.owned_string = trimmed;
+                            }
                         }
                     }
                 }

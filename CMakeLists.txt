@@ -227,6 +227,11 @@ if(BUILD_TESTING)
             builtin_dabe_kapo_type_error
             builtin_dabe_kapo_gujarati_error
             reserved_dabe_kapo
+            builtin_jamne_kapo
+            builtin_jamne_kapo_error
+            builtin_jamne_kapo_type_error
+            builtin_jamne_kapo_gujarati_error
+            reserved_jamne_kapo
             romanized_error
             romanized_fatal_error
             lists_and_indexing

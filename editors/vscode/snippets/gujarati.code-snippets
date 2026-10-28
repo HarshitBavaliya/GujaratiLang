@@ -1078,5 +1078,25 @@
       "dabe_kapo(${1:string})"
     ],
     "description": "Trim leading whitespace with romanized built-in"
+  },
+  "GujaratiLang trim right": {
+    "prefix": [
+      "gj-rtrim",
+      "જમણે_કાપો"
+    ],
+    "body": [
+      "જમણે_કાપો(${1:string})"
+    ],
+    "description": "Trim trailing whitespace from a string"
+  },
+  "GujaratiLang trim right (romanized)": {
+    "prefix": [
+      "gj-rtrim-en",
+      "jamne_kapo"
+    ],
+    "body": [
+      "jamne_kapo(${1:string})"
+    ],
+    "description": "Trim trailing whitespace with romanized built-in"
   }
 }

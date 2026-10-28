@@ -1999,6 +1999,51 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_jamne_kapo")
+    set(source [=[aavo
+chhapo "[" + jamne_kapo("   hello world   ") + "]";
+chhapo "[" + jamne_kapo("test\t\r\n ") + "]";
+chhapo "[" + jamne_kapo("no_spaces") + "]";
+chhapo "[" + જમણે_કાપો("  ગુજરાતી  ") + "]";
+chhapo "[" + jamne_saf("   alias   ") + "]";
+aavjo
+]=])
+    set(expected_stdout "[   hello world]\n[test]\n[no_spaces]\n[  ગુજરાતી]\n[   alias]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_jamne_kapo_error")
+    set(source [=[aavo
+jamne_kapo();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_jamne_kapo_type_error")
+    set(source [=[aavo
+jamne_kapo(123);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a string argument for 'જમણે_કાપો' or 'jamne_kapo'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_jamne_kapo_gujarati_error")
+    set(source [=[આવો
+જમણે_કાપો(123);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'જમણે_કાપો' માટે લખાણ દલીલ અપેક્ષિત છે")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_jamne_kapo")
+    set(source [=[aavo
+kary jamne_kapo(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";
