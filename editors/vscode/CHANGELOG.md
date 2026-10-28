@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0
+
+- Add syntax highlighting and starter snippets for major language additions:
+  - Hard File System I/O: `file_vancho` (`ફાઇલ_વાંચો`), `file_lakho` (`ફાઇલ_લખો`), `file_umero` (`ફાઇલ_ઉમેરો`), `file_chhe` (`ફાઇલ_છે`), `file_kadho` / `file_hatao` (`ફાઇલ_કાઢો` / `ફાઇલ_હટાવો`), `file_kad` (`ફાઇલ_કદ`)
+  - Dictionaries / Hash Maps: Dictionary literals `{ "key": value }`, `kosh` (`કોશ`), `shabdakosh` (`શબ્દકોશ`), `chavio` (`ચાવીઓ`), `mulyo` (`મૂલ્યો`), `dur_karo` (`દૂર_કરો`), dictionary key subscripting and assignment
+  - Loop Control Statements: `atko` / `break` (`અટકો`), `chalu_rakho` / `aagal` / `continue` (`ચાલુ_રાખો` / `આગળ`) in `jya_sudhi` and `darek` loops
+  - Native Date & Time Utilities: `samay` (`સમય`), `tarikh` (`તારીખ`), `varsh` (`વર્ષ`), `mahino` (`મહિનો`), `divas` (`દિવસ`), `kalak` (`કલાક`), `minute` (`મિનિટ`), `second` (`સેકન્ડ`), `shant` / `raah_juo` (`શાંત` / `રાહ_જુઓ`)
+  - Error Recovery Mechanics: `prayatna` { ... } `pakdo` (err) { ... } (`પ્રયત્ન` ... `પકડો`), and error throwing with `phenko` (`ફેંકો`)
+
+
 ## 0.3.0
 
 - Add syntax highlighting and starter snippets for all new built-ins across mathematics, lists, strings, system, and control:

@@ -20,7 +20,7 @@ To try the extension locally, package it from this directory with
 file with VS Code or install it from the command line:
 
 ```powershell
-code --install-extension .\gujarati-0.1.4.vsix
+code --install-extension .\gujarati-0.4.0.vsix
 ```
 
 To develop the extension, open this folder in VS Code and press F5 to launch
