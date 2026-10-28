@@ -58,6 +58,11 @@ typedef enum {
     TOKEN_LEFT_BRACE,
     TOKEN_RIGHT_BRACE,
     TOKEN_SEMICOLON,
+    TOKEN_COLON,
+    TOKEN_BREAK,
+    TOKEN_CONTINUE,
+    TOKEN_TRY,
+    TOKEN_CATCH,
     TOKEN_INVALID
 } TokenKind;
 
@@ -75,7 +80,8 @@ typedef enum {
     VALUE_NUMBER,
     VALUE_NULL,
     VALUE_STRING,
-    VALUE_LIST
+    VALUE_LIST,
+    VALUE_DICT
 } ValueKind;
 
 typedef enum {
@@ -216,16 +222,40 @@ typedef enum {
     MESSAGE_EXPECTED_STRING_FOR_SAMAVE_LAKHAN,
     MESSAGE_EXPECTED_STRING_FOR_FILE_PATH,
     MESSAGE_EXPECTED_STRING_FOR_FILE_CONTENT,
+    MESSAGE_EXPECTED_COLON_AFTER_DICT_KEY,
+    MESSAGE_EXPECTED_DICT_KEY_STRING,
+    MESSAGE_EXPECTED_EVEN_DICT_ARGS,
+    MESSAGE_EXPECTED_DICT_FOR_OPERATION,
+    MESSAGE_BREAK_OUTSIDE_LOOP,
+    MESSAGE_CONTINUE_OUTSIDE_LOOP,
+    MESSAGE_EXPECTED_CATCH_AFTER_TRY,
+    MESSAGE_EXPECTED_STRING_FOR_PHENKO,
+    MESSAGE_EXPECTED_STRING_FOR_TARIKH,
+    MESSAGE_EXPECTED_TIMESTAMP_NUMBER,
+    MESSAGE_EXPECTED_SLEEP_MILLISECONDS,
     MESSAGE_USAGE
 } MessageId;
 
 typedef struct Value Value;
+typedef struct Dict Dict;
 
 typedef struct {
     Value *items;
     size_t count;
     size_t capacity;
 } List;
+
+typedef struct {
+    char *key;
+    size_t key_length;
+    Value value;
+} DictEntry;
+
+struct Dict {
+    DictEntry *entries;
+    size_t count;
+    size_t capacity;
+};
 
 struct Value {
     ValueKind kind;
@@ -235,6 +265,7 @@ struct Value {
     char *owned_string;
     const char *string_source;
     List *list;
+    Dict *dict;
 };
 
 typedef struct {
@@ -244,6 +275,9 @@ typedef struct {
     List **lists;
     size_t list_count;
     size_t list_capacity;
+    Dict **dicts;
+    size_t dict_count;
+    size_t dict_capacity;
 } StringStorage;
 
 typedef struct {
@@ -305,6 +339,12 @@ typedef struct {
     int in_function;
     int returned;
     Value return_value;
+    int loop_depth;
+    int loop_broken;
+    int loop_continued;
+    int in_try;
+    int error_caught;
+    char *last_error_message;
 } Parser;
 
 static int import_module(Parser *parser, Token keyword, Value path_value);
@@ -497,6 +537,17 @@ static const char *localized_message(Language language, MessageId message)
         "expected string arguments for 'સમાવે_લખાણ' or 'samave_lakhan'",
         "expected a string file path",
         "expected string content for file operation",
+        "expected ':' after dictionary key",
+        "dictionary key must be a string",
+        "expected an even number of key-value arguments for 'શબ્દકોશ' or 'kosh'",
+        "expected a dictionary argument",
+        "'અટકો' or 'atko' can only be used inside a loop",
+        "'ચાલુ_રાખો' or 'chalu_rakho' can only be used inside a loop",
+        "expected 'પકડો' or 'pakdo' block after 'પ્રયત્ન' or 'prayatna'",
+        "expected a string argument for 'ફેંકો' or 'phenko'",
+        "format for 'તારીખ' or 'tarikh' must be a string",
+        "timestamp must be a number",
+        "sleep duration must be a non-negative number of milliseconds",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -632,6 +683,17 @@ static const char *localized_message(Language language, MessageId message)
         "'સમાવે_લખાણ' માટે લખાણ દલીલો અપેક્ષિત છે",
         "ફાઇલ પાથ માટે લખાણ હોવું જરૂરી છે",
         "ફાઇલ સામગ્રી માટે લખાણ હોવું જરૂરી છે",
+        "શબ્દકોશ ચાવી પછી ':' અપેક્ષિત છે",
+        "શબ્દકોશની ચાવી લખાણ હોવી જોઈએ",
+        "'શબ્દકોશ' માટે બેકી સંખ્યામાં ચાવી-મૂલ્ય દલીલો અપેક્ષિત છે",
+        "શબ્દકોશ દલીલ અપેક્ષિત છે",
+        "'અટકો' નો ઉપયોગ ફક્ત લૂપની અંદર થઈ શકે છે",
+        "'ચાલુ_રાખો' નો ઉપયોગ ફક્ત લૂપની અંદર થઈ શકે છે",
+        "'પ્રયત્ન' બ્લોક પછી 'પકડો' બ્લોક અપેક્ષિત છે",
+        "'ફેંકો' માટે લખાણ દલીલ અપેક્ષિત છે",
+        "'તારીખ' માટે ફોર્મેટ લખાણ હોવું જોઈએ",
+        "સમયમુદ્રા સંખ્યા હોવી જોઈએ",
+        "વિરામ સમય મિલિસેકન્ડ્સમાં અનૃણ સંખ્યા હોવી જોઈએ",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -641,9 +703,20 @@ static const char *localized_message(Language language, MessageId message)
     return english_messages[message];
 }
 
+static char *copy_string(const char *text);
+
 static void report_error(Parser *parser, size_t line, size_t column,
                          MessageId message)
 {
+    if (parser->in_try) {
+        if (!parser->error_caught) {
+            const char *msg_str = localized_message(parser->language, message);
+            free(parser->last_error_message);
+            parser->last_error_message = copy_string(msg_str);
+            parser->error_caught = 1;
+        }
+        return;
+    }
     if (!parser->failed) {
         const char *label = parser->language == LANGUAGE_GUJARATI ?
                             "ભૂલ" : "error";
@@ -787,7 +860,17 @@ static Token scan_token(Parser *parser)
         {"ma", TOKEN_IN},
         {"આયાત", TOKEN_IMPORT},
         {"aayat", TOKEN_IMPORT},
-        {"import", TOKEN_IMPORT}
+        {"import", TOKEN_IMPORT},
+        {"ચાલુ_રાખો", TOKEN_CONTINUE},
+        {"chalu_rakho", TOKEN_CONTINUE},
+        {"આગળ", TOKEN_CONTINUE},
+        {"aagal", TOKEN_CONTINUE},
+        {"અટકો", TOKEN_BREAK},
+        {"atko", TOKEN_BREAK},
+        {"પ્રયત્ન", TOKEN_TRY},
+        {"prayatna", TOKEN_TRY},
+        {"પકડો", TOKEN_CATCH},
+        {"pakdo", TOKEN_CATCH}
     };
     Token token;
     size_t start;
@@ -942,6 +1025,7 @@ static Token scan_token(Parser *parser)
     case '{': token.kind = TOKEN_LEFT_BRACE; break;
     case '}': token.kind = TOKEN_RIGHT_BRACE; break;
     case ';': token.kind = TOKEN_SEMICOLON; break;
+    case ':': token.kind = TOKEN_COLON; break;
     default:
         report_error(parser, token.line, token.column,
                      MESSAGE_UNEXPECTED_CHARACTER);
@@ -1258,7 +1342,43 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "ફાઇલ_હટાવો") ||
            token_matches(parser, name, "file_hatao") ||
            token_matches(parser, name, "ફાઇલ_કદ") ||
-           token_matches(parser, name, "file_kad");
+           token_matches(parser, name, "file_kad") ||
+           token_matches(parser, name, "શબ્દકોશ") ||
+           token_matches(parser, name, "shabdakosh") ||
+           token_matches(parser, name, "કોશ") ||
+           token_matches(parser, name, "kosh") ||
+           token_matches(parser, name, "ચાવીઓ") ||
+           token_matches(parser, name, "chavio") ||
+           token_matches(parser, name, "ચાવી") ||
+           token_matches(parser, name, "chavi") ||
+           token_matches(parser, name, "મૂલ્યો") ||
+           token_matches(parser, name, "mulyo") ||
+           token_matches(parser, name, "દૂર_કરો") ||
+           token_matches(parser, name, "dur_karo") ||
+           token_matches(parser, name, "કોશ_દૂર") ||
+           token_matches(parser, name, "kosh_dur") ||
+           token_matches(parser, name, "સમય") ||
+           token_matches(parser, name, "samay") ||
+           token_matches(parser, name, "તારીખ") ||
+           token_matches(parser, name, "tarikh") ||
+           token_matches(parser, name, "વર્ષ") ||
+           token_matches(parser, name, "varsh") ||
+           token_matches(parser, name, "મહિનો") ||
+           token_matches(parser, name, "mahino") ||
+           token_matches(parser, name, "દિવસ") ||
+           token_matches(parser, name, "divas") ||
+           token_matches(parser, name, "કલાક") ||
+           token_matches(parser, name, "kalak") ||
+           token_matches(parser, name, "મિનિટ") ||
+           token_matches(parser, name, "minute") ||
+           token_matches(parser, name, "સેકન્ડ") ||
+           token_matches(parser, name, "second") ||
+           token_matches(parser, name, "શાંત") ||
+           token_matches(parser, name, "shant") ||
+           token_matches(parser, name, "રાહ_જુઓ") ||
+           token_matches(parser, name, "raah_juo") ||
+           token_matches(parser, name, "ફેંકો") ||
+           token_matches(parser, name, "phenko");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -1371,6 +1491,104 @@ static char *value_to_c_string(Parser *parser, Value value)
     copy_value_string(parser, value, buf);
     buf[len] = '\0';
     return buf;
+}
+
+static Dict *create_dict(Parser *parser, Token token)
+{
+    StringStorage *storage = parser->string_storage;
+    Dict *dict;
+
+    if (storage->dict_count == storage->dict_capacity) {
+        size_t capacity = storage->dict_capacity == 0 ? 4 :
+                          storage->dict_capacity * 2;
+        Dict **dicts;
+        if (capacity < storage->dict_capacity ||
+            capacity > (size_t)-1 / sizeof(*storage->dicts)) {
+            report_error(parser, token.line, token.column,
+                         MESSAGE_OUT_OF_MEMORY);
+            return NULL;
+        }
+        dicts = (Dict **)realloc(storage->dicts,
+                                 capacity * sizeof(*dicts));
+        if (dicts == NULL) {
+            report_error(parser, token.line, token.column,
+                         MESSAGE_OUT_OF_MEMORY);
+            return NULL;
+        }
+        storage->dicts = dicts;
+        storage->dict_capacity = capacity;
+    }
+    dict = (Dict *)calloc(1, sizeof(*dict));
+    if (dict == NULL) {
+        report_error(parser, token.line, token.column,
+                     MESSAGE_OUT_OF_MEMORY);
+        return NULL;
+    }
+    storage->dicts[storage->dict_count++] = dict;
+    return dict;
+}
+
+static Value *dict_get(Dict *dict, const char *key, size_t key_len)
+{
+    if (dict == NULL) return NULL;
+    for (size_t i = 0; i < dict->count; i++) {
+        if (dict->entries[i].key_length == key_len &&
+            memcmp(dict->entries[i].key, key, key_len) == 0) {
+            return &dict->entries[i].value;
+        }
+    }
+    return NULL;
+}
+
+static int dict_set(Parser *parser, Dict *dict, const char *key, size_t key_len,
+                    Value val, Token token)
+{
+    if (dict == NULL) return 0;
+    Value *existing = dict_get(dict, key, key_len);
+    if (existing != NULL) {
+        *existing = val;
+        return 1;
+    }
+    if (dict->count == dict->capacity) {
+        size_t new_cap = dict->capacity == 0 ? 4 : dict->capacity * 2;
+        DictEntry *new_entries = (DictEntry *)realloc(dict->entries,
+                                                      new_cap * sizeof(DictEntry));
+        if (new_entries == NULL) {
+            report_error(parser, token.line, token.column, MESSAGE_OUT_OF_MEMORY);
+            return 0;
+        }
+        dict->entries = new_entries;
+        dict->capacity = new_cap;
+    }
+    char *k_copy = (char *)malloc(key_len + 1);
+    if (k_copy == NULL) {
+        report_error(parser, token.line, token.column, MESSAGE_OUT_OF_MEMORY);
+        return 0;
+    }
+    memcpy(k_copy, key, key_len);
+    k_copy[key_len] = '\0';
+    dict->entries[dict->count].key = k_copy;
+    dict->entries[dict->count].key_length = key_len;
+    dict->entries[dict->count].value = val;
+    dict->count++;
+    return 1;
+}
+
+static int dict_delete(Dict *dict, const char *key, size_t key_len)
+{
+    if (dict == NULL) return 0;
+    for (size_t i = 0; i < dict->count; i++) {
+        if (dict->entries[i].key_length == key_len &&
+            memcmp(dict->entries[i].key, key, key_len) == 0) {
+            free(dict->entries[i].key);
+            for (size_t j = i; j + 1 < dict->count; j++) {
+                dict->entries[j] = dict->entries[j + 1];
+            }
+            dict->count--;
+            return 1;
+        }
+    }
+    return 0;
 }
 
 static int next_string_byte(Parser *parser, Value value, size_t *index)
@@ -1748,6 +1966,26 @@ static void format_value_to_buffer(Parser *parser, Value value,
         sb_append(sb, "]", 1);
         return;
     }
+    if (value.kind == VALUE_DICT) {
+        size_t index;
+        if (depth >= 256) {
+            sb_append(sb, "{...}", 5);
+            return;
+        }
+        sb_append(sb, "{", 1);
+        for (index = 0; index < value.dict->count; index++) {
+            if (index > 0) {
+                sb_append(sb, ", ", 2);
+            }
+            sb_append(sb, value.dict->entries[index].key,
+                      value.dict->entries[index].key_length);
+            sb_append(sb, ": ", 2);
+            format_value_to_buffer(parser, value.dict->entries[index].value,
+                                   sb, ancestors, depth + 1);
+        }
+        sb_append(sb, "}", 1);
+        return;
+    }
     if (value.kind == VALUE_NULL) {
         sb_append(sb, "\xE0\xAA\xA8\xE0\xAA\x95\xE0\xAA\xBE\xE0\xAA\xAE\xE0\xAB\x8B", 15);
         return;
@@ -1803,6 +2041,9 @@ static int values_are_equal(Parser *parser, Value a, Value b)
     }
     if (a.kind == VALUE_LIST) {
         return a.list == b.list;
+    }
+    if (a.kind == VALUE_DICT) {
+        return a.dict == b.dict;
     }
     return 0;
 }
@@ -2037,6 +2278,8 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                         parser, arguments[0]));
                 } else if (arguments[0].kind == VALUE_LIST) {
                     result = number_value((double)arguments[0].list->count);
+                } else if (arguments[0].kind == VALUE_DICT) {
+                    result = number_value((double)arguments[0].dict->count);
                 } else {
                     report_error(parser, name.line, name.column,
                                  MESSAGE_EXPECTED_LENGTH_STRING);
@@ -2109,6 +2352,8 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                         type_name = "string";
                     } else if (arguments[0].kind == VALUE_LIST) {
                         type_name = "list";
+                    } else if (arguments[0].kind == VALUE_DICT) {
+                        type_name = "dict";
                     }
                     size_t len = strlen(type_name);
                     char *str = (char *)malloc(len + 1);
@@ -2405,6 +2650,234 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 } else {
                     result = null_value();
                 }
+            } else if (token_matches(parser, name, "શબ્દકોશ") || token_matches(parser, name, "shabdakosh") ||
+                       token_matches(parser, name, "કોશ") || token_matches(parser, name, "kosh")) {
+                if (argument_count % 2 != 0) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_EVEN_DICT_ARGS);
+                } else if (execute) {
+                    Dict *dict = create_dict(parser, name);
+                    if (dict != NULL) {
+                        for (size_t i = 0; i < argument_count; i += 2) {
+                            if (arguments[i].kind != VALUE_STRING) {
+                                report_error(parser, name.line, name.column, MESSAGE_EXPECTED_DICT_KEY_STRING);
+                                break;
+                            }
+                            char *k = value_to_c_string(parser, arguments[i]);
+                            if (k == NULL) {
+                                report_error(parser, name.line, name.column, MESSAGE_OUT_OF_MEMORY);
+                                break;
+                            }
+                            dict_set(parser, dict, k, strlen(k), arguments[i + 1], name);
+                            free(k);
+                        }
+                        result = number_value(0.0);
+                        result.kind = VALUE_DICT;
+                        result.dict = dict;
+                    }
+                } else {
+                    result = number_value(0.0);
+                }
+            } else if (token_matches(parser, name, "ચાવીઓ") || token_matches(parser, name, "chavio") ||
+                       token_matches(parser, name, "ચાવી") || token_matches(parser, name, "chavi")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_DICT) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_DICT_FOR_OPERATION);
+                } else if (execute) {
+                    List *list = create_list(parser, name);
+                    if (list != NULL) {
+                        for (size_t i = 0; i < arguments[0].dict->count; i++) {
+                            char *k = arguments[0].dict->entries[i].key;
+                            size_t k_len = arguments[0].dict->entries[i].key_length;
+                            char *k_copy = (char *)malloc(k_len + 1);
+                            if (k_copy != NULL) {
+                                memcpy(k_copy, k, k_len + 1);
+                                if (store_owned_string(parser, name, k_copy)) {
+                                    Value k_val = number_value(0.0);
+                                    k_val.kind = VALUE_STRING;
+                                    k_val.string_offset = 0;
+                                    k_val.string_length = k_len;
+                                    k_val.owned_string = k_copy;
+                                    append_list_item(parser, list, k_val, name);
+                                }
+                            }
+                        }
+                        result = number_value(0.0);
+                        result.kind = VALUE_LIST;
+                        result.list = list;
+                    }
+                } else {
+                    result = number_value(0.0);
+                }
+            } else if (token_matches(parser, name, "મૂલ્યો") || token_matches(parser, name, "mulyo")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_DICT) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_DICT_FOR_OPERATION);
+                } else if (execute) {
+                    List *list = create_list(parser, name);
+                    if (list != NULL) {
+                        for (size_t i = 0; i < arguments[0].dict->count; i++) {
+                            append_list_item(parser, list, arguments[0].dict->entries[i].value, name);
+                        }
+                        result = number_value(0.0);
+                        result.kind = VALUE_LIST;
+                        result.list = list;
+                    }
+                } else {
+                    result = number_value(0.0);
+                }
+            } else if (token_matches(parser, name, "દૂર_કરો") || token_matches(parser, name, "dur_karo") ||
+                       token_matches(parser, name, "કોશ_દૂર") || token_matches(parser, name, "kosh_dur")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_DICT) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_DICT_FOR_OPERATION);
+                } else if (arguments[1].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_DICT_KEY_STRING);
+                } else if (execute) {
+                    char *k = value_to_c_string(parser, arguments[1]);
+                    int rc = 0;
+                    if (k != NULL) {
+                        rc = dict_delete(arguments[0].dict, k, strlen(k));
+                        free(k);
+                    }
+                    result = number_value(rc ? 1.0 : 0.0);
+                } else {
+                    result = number_value(0.0);
+                }
+            } else if (token_matches(parser, name, "સમય") ||
+                       token_matches(parser, name, "samay")) {
+                if (argument_count != 0) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    time_t now = time(NULL);
+                    result = number_value((double)now);
+                } else {
+                    result = number_value(0.0);
+                }
+            } else if (token_matches(parser, name, "તારીખ") ||
+                       token_matches(parser, name, "tarikh")) {
+                if (argument_count > 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (argument_count >= 1 && arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_STRING_FOR_TARIKH);
+                } else if (argument_count == 2 && arguments[1].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_TIMESTAMP_NUMBER);
+                } else if (execute) {
+                    time_t ts = time(NULL);
+                    if (argument_count == 2) {
+                        ts = (time_t)arguments[1].number;
+                    }
+                    struct tm *tm_info = localtime(&ts);
+                    char buf[128];
+                    const char *fmt = "%Y-%m-%d %H:%M:%S";
+                    char *custom_fmt = NULL;
+                    if (argument_count >= 1) {
+                        custom_fmt = value_to_c_string(parser, arguments[0]);
+                        if (custom_fmt != NULL) {
+                            fmt = custom_fmt;
+                        }
+                    }
+                    size_t formatted_len = strftime(buf, sizeof(buf), fmt, tm_info);
+                    free(custom_fmt);
+                    char *out_str = (char *)malloc(formatted_len + 1);
+                    if (out_str == NULL) {
+                        report_error(parser, name.line, name.column, MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        memcpy(out_str, buf, formatted_len + 1);
+                        if (!store_owned_string(parser, name, out_str)) {
+                            result = number_value(0.0);
+                        } else {
+                            result.kind = VALUE_STRING;
+                            result.string_offset = 0;
+                            result.string_length = formatted_len;
+                            result.owned_string = out_str;
+                        }
+                    }
+                } else {
+                    result = number_value(0.0);
+                }
+            } else if (token_matches(parser, name, "વર્ષ") || token_matches(parser, name, "varsh") ||
+                       token_matches(parser, name, "મહિનો") || token_matches(parser, name, "mahino") ||
+                       token_matches(parser, name, "દિવસ") || token_matches(parser, name, "divas") ||
+                       token_matches(parser, name, "કલાક") || token_matches(parser, name, "kalak") ||
+                       token_matches(parser, name, "મિનિટ") || token_matches(parser, name, "minute") ||
+                       token_matches(parser, name, "સેકન્ડ") || token_matches(parser, name, "second")) {
+                if (argument_count > 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (argument_count == 1 && arguments[0].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_TIMESTAMP_NUMBER);
+                } else if (execute) {
+                    time_t ts = time(NULL);
+                    if (argument_count == 1) {
+                        ts = (time_t)arguments[0].number;
+                    }
+                    struct tm *tm_info = localtime(&ts);
+                    double val = 0.0;
+                    if (token_matches(parser, name, "વર્ષ") || token_matches(parser, name, "varsh")) {
+                        val = (double)(tm_info->tm_year + 1900);
+                    } else if (token_matches(parser, name, "મહિનો") || token_matches(parser, name, "mahino")) {
+                        val = (double)(tm_info->tm_mon + 1);
+                    } else if (token_matches(parser, name, "દિવસ") || token_matches(parser, name, "divas")) {
+                        val = (double)tm_info->tm_mday;
+                    } else if (token_matches(parser, name, "કલાક") || token_matches(parser, name, "kalak")) {
+                        val = (double)tm_info->tm_hour;
+                    } else if (token_matches(parser, name, "મિનિટ") || token_matches(parser, name, "minute")) {
+                        val = (double)tm_info->tm_min;
+                    } else {
+                        val = (double)tm_info->tm_sec;
+                    }
+                    result = number_value(val);
+                } else {
+                    result = number_value(0.0);
+                }
+            } else if (token_matches(parser, name, "શાંત") || token_matches(parser, name, "shant") ||
+                       token_matches(parser, name, "રાહ_જુઓ") || token_matches(parser, name, "raah_juo")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER || arguments[0].number < 0.0) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_SLEEP_MILLISECONDS);
+                } else if (execute) {
+                    double ms = arguments[0].number;
+#ifdef _WIN32
+                    Sleep((DWORD)ms);
+#else
+                    usleep((useconds_t)(ms * 1000));
+#endif
+                    result = number_value(1.0);
+                } else {
+                    result = number_value(0.0);
+                }
+            } else if (token_matches(parser, name, "ફેંકો") || token_matches(parser, name, "phenko")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_STRING_FOR_PHENKO);
+                } else if (execute) {
+                    char *msg = value_to_c_string(parser, arguments[0]);
+                    if (msg == NULL) {
+                        report_error(parser, name.line, name.column, MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        if (parser->in_try) {
+                            if (!parser->error_caught) {
+                                free(parser->last_error_message);
+                                parser->last_error_message = msg;
+                                parser->error_caught = 1;
+                            } else {
+                                free(msg);
+                            }
+                        } else {
+                            const char *label = parser->language == LANGUAGE_GUJARATI ? "ભૂલ" : "error";
+                            fprintf(stderr, "%s:%zu:%zu: %s: %s\n",
+                                    parser->filename, name.line, name.column, label, msg);
+                            write_source_context(parser, name.line, name.column);
+                            parser->failed = 1;
+                            free(msg);
+                        }
+                    }
+                }
+                result = number_value(0.0);
             } else if (token_matches(parser, name, "ચકાસો") ||
                        token_matches(parser, name, "chakaso")) {
                 if (argument_count != 1 && argument_count != 2) {
@@ -3947,6 +4420,18 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 2) {
                     report_error(parser, name.line, name.column,
                                  MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind == VALUE_DICT) {
+                    if (arguments[1].kind != VALUE_STRING) {
+                        result = number_value(0.0);
+                    } else {
+                        char *k = value_to_c_string(parser, arguments[1]);
+                        int found = 0;
+                        if (k != NULL) {
+                            found = dict_get(arguments[0].dict, k, strlen(k)) != NULL;
+                            free(k);
+                        }
+                        result = number_value(found ? 1.0 : 0.0);
+                    }
                 } else if (arguments[0].kind != VALUE_LIST) {
                     report_error(parser, name.line, name.column,
                                  MESSAGE_EXPECTED_LIST_FOR_SAMAVE_CHHE);
@@ -4271,6 +4756,60 @@ static Value parse_primary_atom(Parser *parser, int execute)
         }
         return value;
     }
+    if (token.kind == TOKEN_LEFT_BRACE) {
+        Dict *dict = create_dict(parser, token);
+        advance_token(parser);
+        if (parser->current.kind != TOKEN_RIGHT_BRACE) {
+            for (;;) {
+                Value key_val = parse_expression(parser, execute);
+                if (parser->failed) return number_value(0.0);
+                if (parser->current.kind != TOKEN_COLON) {
+                    report_error(parser, parser->current.line, parser->current.column,
+                                 MESSAGE_EXPECTED_COLON_AFTER_DICT_KEY);
+                    return number_value(0.0);
+                }
+                advance_token(parser);
+                Value val = parse_expression(parser, execute);
+                if (parser->failed) return number_value(0.0);
+                if (execute) {
+                    if (key_val.kind != VALUE_STRING) {
+                        report_error(parser, token.line, token.column,
+                                     MESSAGE_EXPECTED_DICT_KEY_STRING);
+                        return number_value(0.0);
+                    }
+                    char *k_str = value_to_c_string(parser, key_val);
+                    if (k_str == NULL) {
+                        report_error(parser, token.line, token.column, MESSAGE_OUT_OF_MEMORY);
+                        return number_value(0.0);
+                    }
+                    dict_set(parser, dict, k_str, strlen(k_str), val, token);
+                    free(k_str);
+                }
+                if (parser->current.kind == TOKEN_COMMA) {
+                    advance_token(parser);
+                    if (parser->current.kind == TOKEN_RIGHT_BRACE) {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+        if (!parser->failed && parser->current.kind != TOKEN_RIGHT_BRACE) {
+            report_error(parser, parser->current.line, parser->current.column,
+                         MESSAGE_EXPECTED_BLOCK_CLOSE);
+            return number_value(0.0);
+        }
+        if (!parser->failed) {
+            advance_token(parser);
+        }
+        value = number_value(0.0);
+        if (execute) {
+            value.kind = VALUE_DICT;
+            value.dict = dict;
+        }
+        return value;
+    }
     if (token.kind == TOKEN_IDENTIFIER) {
         Variable *variable = find_variable(parser, token);
         advance_token(parser);
@@ -4331,11 +4870,27 @@ static Value parse_primary(Parser *parser, int execute)
         }
         advance_token(parser);
         if (execute) {
-            if (!resolve_list_index(parser, value, index_value, bracket,
-                                    &index)) {
+            if (value.kind == VALUE_DICT) {
+                if (index_value.kind != VALUE_STRING) {
+                    report_error(parser, bracket.line, bracket.column,
+                                 MESSAGE_EXPECTED_DICT_KEY_STRING);
+                    return number_value(0.0);
+                }
+                char *k_str = value_to_c_string(parser, index_value);
+                if (k_str == NULL) {
+                    report_error(parser, bracket.line, bracket.column,
+                                 MESSAGE_OUT_OF_MEMORY);
+                    return number_value(0.0);
+                }
+                Value *found = dict_get(value.dict, k_str, strlen(k_str));
+                free(k_str);
+                value = found ? *found : null_value();
+            } else if (!resolve_list_index(parser, value, index_value, bracket,
+                                           &index)) {
                 return number_value(0.0);
+            } else {
+                value = value.list->items[index];
             }
-            value = value.list->items[index];
         } else {
             value = number_value(0.0);
         }
@@ -4635,6 +5190,27 @@ static int write_value_recursive(Parser *parser, Value value,
         }
         return fputc(']', stdout) != EOF;
     }
+    if (value.kind == VALUE_DICT) {
+        size_t index;
+        if (depth >= 256) {
+            return 0;
+        }
+        if (fputc('{', stdout) == EOF) {
+            return 0;
+        }
+        for (index = 0; index < value.dict->count; index++) {
+            if ((index > 0 && fputs(", ", stdout) == EOF) ||
+                fwrite(value.dict->entries[index].key, 1,
+                       value.dict->entries[index].key_length, stdout) !=
+                value.dict->entries[index].key_length ||
+                fputs(": ", stdout) == EOF ||
+                !write_value_recursive(parser, value.dict->entries[index].value,
+                                       ancestors, depth + 1)) {
+                return 0;
+            }
+        }
+        return fputc('}', stdout) != EOF;
+    }
     if (value.kind == VALUE_NULL) {
         return fputs("નકામો", stdout) >= 0;
     }
@@ -4773,6 +5349,79 @@ static int resolve_list_index(Parser *parser, Value list_value,
     return 1;
 }
 
+static int parse_try_catch(Parser *parser, int execute)
+{
+    advance_token(parser);
+    int prev_in_try = parser->in_try;
+    parser->in_try++;
+    int try_had_error = 0;
+
+    if (!parse_block(parser, execute)) {
+        if (parser->error_caught) {
+            try_had_error = 1;
+            parser->error_caught = 0;
+            parser->failed = 0;
+        } else {
+            parser->in_try = prev_in_try;
+            return 0;
+        }
+    } else if (parser->error_caught) {
+        try_had_error = 1;
+        parser->error_caught = 0;
+    }
+    parser->in_try = prev_in_try;
+
+    if (parser->current.kind != TOKEN_CATCH) {
+        report_error(parser, parser->current.line, parser->current.column,
+                     MESSAGE_EXPECTED_CATCH_AFTER_TRY);
+        return 0;
+    }
+    advance_token(parser);
+    Token error_var;
+    int has_var = 0;
+    if (parser->current.kind == TOKEN_LEFT_PAREN) {
+        advance_token(parser);
+        if (parser->current.kind != TOKEN_IDENTIFIER) {
+            report_error(parser, parser->current.line, parser->current.column,
+                         MESSAGE_EXPECTED_PARAMETER);
+            return 0;
+        }
+        error_var = parser->current;
+        has_var = 1;
+        advance_token(parser);
+        if (parser->current.kind != TOKEN_RIGHT_PAREN) {
+            report_error(parser, parser->current.line, parser->current.column,
+                         MESSAGE_EXPECTED_RIGHT_PAREN);
+            return 0;
+        }
+        advance_token(parser);
+    }
+
+    int catch_execute = execute && try_had_error;
+    if (catch_execute && has_var) {
+        const char *err_text = parser->last_error_message ? parser->last_error_message : "";
+        size_t err_len = strlen(err_text);
+        char *err_copy = (char *)malloc(err_len + 1);
+        if (err_copy != NULL) {
+            memcpy(err_copy, err_text, err_len + 1);
+            if (store_owned_string(parser, error_var, err_copy)) {
+                Value err_val = number_value(0.0);
+                err_val.kind = VALUE_STRING;
+                err_val.string_offset = 0;
+                err_val.string_length = err_len;
+                err_val.owned_string = err_copy;
+                Variable *existing = find_variable(parser, error_var);
+                if (existing != NULL) {
+                    existing->value = err_val;
+                } else {
+                    declare_variable(parser, error_var, err_val);
+                }
+            }
+        }
+    }
+    return parse_block(parser, catch_execute);
+}
+
 static int parse_statement(Parser *parser, int execute);
 
 static int parse_block(Parser *parser, int execute)
@@ -4783,10 +5432,13 @@ static int parse_block(Parser *parser, int execute)
         return 0;
     }
     advance_token(parser);
-    while (!parser->failed && parser->current.kind != TOKEN_RIGHT_BRACE &&
+    while (!parser->failed &&
+           parser->current.kind != TOKEN_RIGHT_BRACE &&
            parser->current.kind != TOKEN_EOF &&
            parser->current.kind != TOKEN_END) {
-        parse_statement(parser, execute && !parser->returned);
+        parse_statement(parser, execute && !parser->returned &&
+                                !parser->loop_broken && !parser->loop_continued &&
+                                !parser->error_caught);
     }
     if (!parser->failed && parser->current.kind != TOKEN_RIGHT_BRACE) {
         report_error(parser, parser->current.line, parser->current.column,
@@ -4853,6 +5505,7 @@ static int parse_if_condition(Parser *parser, int execute, Token keyword)
 static int parse_while_loop(Parser *parser, int execute, Token keyword)
 {
     Token condition_open = parser->current;
+    parser->loop_depth++;
 
     for (;;) {
         Value condition;
@@ -4861,22 +5514,26 @@ static int parse_while_loop(Parser *parser, int execute, Token keyword)
         if (parser->current.kind != TOKEN_LEFT_PAREN) {
             report_error(parser, parser->current.line, parser->current.column,
                          MESSAGE_EXPECTED_WHILE_OPEN);
+            parser->loop_depth--;
             return 0;
         }
         advance_token(parser);
         condition = parse_expression(parser, execute);
         if (parser->failed) {
+            parser->loop_depth--;
             return 0;
         }
         if (parser->current.kind != TOKEN_RIGHT_PAREN) {
             report_error(parser, parser->current.line, parser->current.column,
                          MESSAGE_EXPECTED_CONDITION_CLOSE);
+            parser->loop_depth--;
             return 0;
         }
         if (condition.kind == VALUE_STRING) {
             report_runtime_error(parser, keyword, MESSAGE_CONDITION_TYPE,
                                  execute);
             if (parser->failed) {
+                parser->loop_depth--;
                 return 0;
             }
         }
@@ -4884,12 +5541,23 @@ static int parse_while_loop(Parser *parser, int execute, Token keyword)
         body_execute = execute && value_is_truthy(condition);
         advance_token(parser);
         if (!parse_block(parser, body_execute)) {
+            parser->loop_depth--;
             return 0;
         }
-        if (parser->returned) {
+        if (parser->returned || parser->error_caught) {
+            parser->loop_depth--;
             return 1;
         }
+        if (parser->loop_broken) {
+            parser->loop_broken = 0;
+            parser->loop_depth--;
+            return 1;
+        }
+        if (parser->loop_continued) {
+            parser->loop_continued = 0;
+        }
         if (!body_execute) {
+            parser->loop_depth--;
             return 1;
         }
 
@@ -4909,6 +5577,7 @@ static int parse_for_loop(Parser *parser, int execute)
     Value first;
     Value last = null_value();
     List *list = NULL;
+    Dict *dict = NULL;
     size_t index;
     int is_range = 0;
 
@@ -4967,12 +5636,15 @@ static int parse_for_loop(Parser *parser, int execute)
             return 0;
         }
     } else if (execute) {
-        if (first.kind != VALUE_LIST) {
+        if (first.kind == VALUE_DICT) {
+            dict = first.dict;
+        } else if (first.kind != VALUE_LIST) {
             report_error(parser, in_keyword.line, in_keyword.column,
                          MESSAGE_EXPECTED_LIST_FOR_LOOP);
             return 0;
+        } else {
+            list = first.list;
         }
-        list = first.list;
     }
     if (parser->current.kind != TOKEN_RIGHT_PAREN) {
         report_error(parser, parser->current.line, parser->current.column,
@@ -4993,9 +5665,10 @@ static int parse_for_loop(Parser *parser, int execute)
         return 1;
     }
 
+    parser->loop_depth++;
     if (is_range) {
         double current = first.number;
-        while (!parser->failed && current < last.number) {
+        while (!parser->failed && !parser->error_caught && current < last.number) {
             Value loop_value = number_value(current);
             Variable *existing;
             parser->returned = 0;
@@ -5003,6 +5676,7 @@ static int parse_for_loop(Parser *parser, int execute)
             if (existing != NULL) {
                 existing->value = loop_value;
             } else if (!declare_variable(parser, variable, loop_value)) {
+                parser->loop_depth--;
                 return 0;
             }
             parser->offset = body_open.source_offset;
@@ -5011,13 +5685,65 @@ static int parse_for_loop(Parser *parser, int execute)
             parser->current = make_token(TOKEN_EOF, parser->line,
                                          parser->column);
             advance_token(parser);
-            if (!parse_block(parser, 1) || parser->returned) {
+            if (!parse_block(parser, 1) || parser->returned || parser->error_caught) {
                 break;
+            }
+            if (parser->loop_broken) {
+                parser->loop_broken = 0;
+                break;
+            }
+            if (parser->loop_continued) {
+                parser->loop_continued = 0;
             }
             current += 1.0;
         }
+    } else if (dict != NULL) {
+        for (index = 0; index < dict->count && !parser->failed && !parser->error_caught; index++) {
+            Variable *existing;
+            parser->returned = 0;
+            Value key_val = number_value(0.0);
+            char *k_copy = (char *)malloc(dict->entries[index].key_length + 1);
+            if (k_copy == NULL) {
+                parser->loop_depth--;
+                report_error(parser, variable.line, variable.column, MESSAGE_OUT_OF_MEMORY);
+                return 0;
+            }
+            memcpy(k_copy, dict->entries[index].key, dict->entries[index].key_length + 1);
+            if (!store_owned_string(parser, variable, k_copy)) {
+                parser->loop_depth--;
+                return 0;
+            }
+            key_val.kind = VALUE_STRING;
+            key_val.string_offset = 0;
+            key_val.string_length = dict->entries[index].key_length;
+            key_val.owned_string = k_copy;
+
+            existing = find_variable(parser, variable);
+            if (existing != NULL) {
+                existing->value = key_val;
+            } else if (!declare_variable(parser, variable, key_val)) {
+                parser->loop_depth--;
+                return 0;
+            }
+            parser->offset = body_open.source_offset;
+            parser->line = body_open.line;
+            parser->column = body_open.column;
+            parser->current = make_token(TOKEN_EOF, parser->line,
+                                         parser->column);
+            advance_token(parser);
+            if (!parse_block(parser, 1) || parser->returned || parser->error_caught) {
+                break;
+            }
+            if (parser->loop_broken) {
+                parser->loop_broken = 0;
+                break;
+            }
+            if (parser->loop_continued) {
+                parser->loop_continued = 0;
+            }
+        }
     } else {
-        for (index = 0; index < list->count && !parser->failed; index++) {
+        for (index = 0; index < list->count && !parser->failed && !parser->error_caught; index++) {
             Variable *existing;
             parser->returned = 0;
             existing = find_variable(parser, variable);
@@ -5025,6 +5751,7 @@ static int parse_for_loop(Parser *parser, int execute)
                 existing->value = list->items[index];
             } else if (!declare_variable(parser, variable,
                                          list->items[index])) {
+                parser->loop_depth--;
                 return 0;
             }
             parser->offset = body_open.source_offset;
@@ -5033,11 +5760,19 @@ static int parse_for_loop(Parser *parser, int execute)
             parser->current = make_token(TOKEN_EOF, parser->line,
                                          parser->column);
             advance_token(parser);
-            if (!parse_block(parser, 1) || parser->returned) {
+            if (!parse_block(parser, 1) || parser->returned || parser->error_caught) {
                 break;
+            }
+            if (parser->loop_broken) {
+                parser->loop_broken = 0;
+                break;
+            }
+            if (parser->loop_continued) {
+                parser->loop_continued = 0;
             }
         }
     }
+    parser->loop_depth--;
     return !parser->failed;
 }
 
@@ -5116,6 +5851,8 @@ static int parse_variable_assignment(Parser *parser, Token name, int execute)
     Value value;
     Value indexed_value = number_value(0.0);
     List *target_list = NULL;
+    Dict *target_dict = NULL;
+    char *target_key = NULL;
     size_t list_index = 0;
     int indexed_assignment = 0;
 
@@ -5125,11 +5862,13 @@ static int parse_variable_assignment(Parser *parser, Token name, int execute)
         advance_token(parser);
         index_value = parse_expression(parser, execute);
         if (parser->failed) {
+            free(target_key);
             return 0;
         }
         if (parser->current.kind != TOKEN_RIGHT_BRACKET) {
             report_error(parser, parser->current.line, parser->current.column,
                          MESSAGE_EXPECTED_LIST_INDEX);
+            free(target_key);
             return 0;
         }
         if (execute) {
@@ -5138,16 +5877,40 @@ static int parse_variable_assignment(Parser *parser, Token name, int execute)
                 if (variable == NULL) {
                     report_error(parser, name.line, name.column,
                                  MESSAGE_UNDEFINED_VARIABLE);
+                    free(target_key);
                     return 0;
                 }
                 indexed_value = variable->value;
             }
-            if (!resolve_list_index(parser, indexed_value, index_value, bracket,
-                                    &list_index)) {
+            if (indexed_value.kind == VALUE_DICT) {
+                if (index_value.kind != VALUE_STRING) {
+                    report_error(parser, bracket.line, bracket.column,
+                                 MESSAGE_EXPECTED_DICT_KEY_STRING);
+                    free(target_key);
+                    return 0;
+                }
+                target_dict = indexed_value.dict;
+                target_list = NULL;
+                free(target_key);
+                target_key = value_to_c_string(parser, index_value);
+                Value *existing = dict_get(target_dict, target_key, strlen(target_key));
+                indexed_value = existing ? *existing : null_value();
+            } else if (indexed_value.kind == VALUE_LIST) {
+                target_dict = NULL;
+                free(target_key);
+                target_key = NULL;
+                if (!resolve_list_index(parser, indexed_value, index_value, bracket,
+                                        &list_index)) {
+                    return 0;
+                }
+                target_list = indexed_value.list;
+                indexed_value = target_list->items[list_index];
+            } else {
+                report_error(parser, bracket.line, bracket.column,
+                             MESSAGE_INDEXED_VALUE_NOT_LIST);
+                free(target_key);
                 return 0;
             }
-            target_list = indexed_value.list;
-            indexed_value = target_list->items[list_index];
         }
         indexed_assignment = 1;
         advance_token(parser);
@@ -5156,29 +5919,39 @@ static int parse_variable_assignment(Parser *parser, Token name, int execute)
     if (parser->current.kind != TOKEN_EQUAL) {
         report_error(parser, parser->current.line, parser->current.column,
                      MESSAGE_EXPECTED_ASSIGNMENT);
+        free(target_key);
         return 0;
     }
     advance_token(parser);
     value = parse_expression(parser, execute);
     if (parser->failed) {
+        free(target_key);
         return 0;
     }
     if (parser->current.kind != TOKEN_SEMICOLON) {
         report_error(parser, parser->current.line, parser->current.column,
                      MESSAGE_EXPECTED_EXPRESSION_SEMICOLON);
+        free(target_key);
         return 0;
     }
     if (execute) {
         if (indexed_assignment) {
-            target_list->items[list_index] = value;
+            if (target_dict != NULL && target_key != NULL) {
+                dict_set(parser, target_dict, target_key, strlen(target_key), value, name);
+            } else if (target_list != NULL) {
+                target_list->items[list_index] = value;
+            }
         } else if (find_variable(parser, name) != NULL) {
             if (!assign_variable(parser, name, value)) {
+                free(target_key);
                 return 0;
             }
         } else if (!declare_variable(parser, name, value)) {
+            free(target_key);
             return 0;
         }
     }
+    free(target_key);
     advance_token(parser);
     return !parser->failed;
 }
@@ -5427,6 +6200,45 @@ static int parse_statement(Parser *parser, int execute)
     Token statement = parser->current;
     Value value;
 
+    if (statement.kind == TOKEN_TRY) {
+        return parse_try_catch(parser, execute);
+    }
+    if (statement.kind == TOKEN_BREAK) {
+        advance_token(parser);
+        if (parser->current.kind != TOKEN_SEMICOLON) {
+            report_error(parser, parser->current.line, parser->current.column,
+                         MESSAGE_EXPECTED_EXPRESSION_SEMICOLON);
+            return 0;
+        }
+        if (parser->loop_depth == 0) {
+            report_error(parser, statement.line, statement.column,
+                         MESSAGE_BREAK_OUTSIDE_LOOP);
+            return 0;
+        }
+        if (execute) {
+            parser->loop_broken = 1;
+        }
+        advance_token(parser);
+        return !parser->failed;
+    }
+    if (statement.kind == TOKEN_CONTINUE) {
+        advance_token(parser);
+        if (parser->current.kind != TOKEN_SEMICOLON) {
+            report_error(parser, parser->current.line, parser->current.column,
+                         MESSAGE_EXPECTED_EXPRESSION_SEMICOLON);
+            return 0;
+        }
+        if (parser->loop_depth == 0) {
+            report_error(parser, statement.line, statement.column,
+                         MESSAGE_CONTINUE_OUTSIDE_LOOP);
+            return 0;
+        }
+        if (execute) {
+            parser->loop_continued = 1;
+        }
+        advance_token(parser);
+        return !parser->failed;
+    }
     if (statement.kind == TOKEN_IF) {
         advance_token(parser);
         return parse_if_condition(parser, execute, statement);
@@ -5513,6 +6325,9 @@ static int parse_repl_command(Parser *parser, int execute)
         parser->current.kind == TOKEN_FUNCTION ||
         parser->current.kind == TOKEN_IMPORT ||
         parser->current.kind == TOKEN_RETURN ||
+        parser->current.kind == TOKEN_TRY ||
+        parser->current.kind == TOKEN_BREAK ||
+        parser->current.kind == TOKEN_CONTINUE ||
         parser->current.kind == TOKEN_ERROR ||
         parser->current.kind == TOKEN_FATAL_ERROR ||
         parser->current.kind == TOKEN_WARNING ||
@@ -5817,6 +6632,18 @@ static int run_repl(Language language)
         free(list);
     }
     free(string_storage.lists);
+    while (string_storage.dict_count > 0) {
+        Dict *dict = string_storage.dicts[--string_storage.dict_count];
+        if (dict != NULL) {
+            for (size_t e = 0; e < dict->count; e++) {
+                free(dict->entries[e].key);
+            }
+            free(dict->entries);
+            free(dict);
+        }
+    }
+    free(string_storage.dicts);
+    free(parser.last_error_message);
     while (modules.count > 0) {
         Module *module = &modules.items[--modules.count];
         free(module->path);
@@ -5907,6 +6734,18 @@ static int interpret(const char *source, const char *filename, Language language
         free(list);
     }
     free(string_storage.lists);
+    while (string_storage.dict_count > 0) {
+        Dict *dict = string_storage.dicts[--string_storage.dict_count];
+        if (dict != NULL) {
+            for (size_t e = 0; e < dict->count; e++) {
+                free(dict->entries[e].key);
+            }
+            free(dict->entries);
+            free(dict);
+        }
+    }
+    free(string_storage.dicts);
+    free(parser.last_error_message);
     while (modules.count > 0) {
         Module *module = &modules.items[--modules.count];
         free(module->path);
@@ -6207,6 +7046,7 @@ static int import_module(Parser *parser, Token keyword, Value path_value)
         if (!interpret_program(&imported)) {
             parser->failed = 1;
         }
+        free(imported.last_error_message);
     }
     parser->modules->items[module_index].loading = 0;
     return !parser->failed;

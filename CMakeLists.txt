@@ -271,6 +271,24 @@ if(BUILD_TESTING)
             builtin_file_io_error_content_type
             builtin_file_io_gujarati_error
             reserved_file_io
+            builtin_dict_literals
+            builtin_dict_constructors_and_helpers
+            builtin_dict_gujarati
+            builtin_dict_for_iteration
+            builtin_dict_errors
+            loop_control_while
+            loop_control_for
+            loop_control_gujarati
+            loop_control_outside_loop_error
+            builtin_datetime_ops
+            builtin_datetime_gujarati
+            builtin_datetime_errors
+            builtin_try_catch_recovery
+            builtin_try_catch_custom_throw
+            builtin_try_catch_gujarati
+            builtin_try_catch_no_error
+            builtin_try_catch_unhandled_phenko
+            builtin_try_missing_catch_error
             romanized_error
             romanized_fatal_error
             lists_and_indexing

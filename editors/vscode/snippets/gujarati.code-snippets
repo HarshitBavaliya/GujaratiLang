@@ -1338,5 +1338,197 @@
       "file_kad(${1:\"path.txt\"})"
     ],
     "description": "Get file size in bytes with romanized built-in"
+  },
+  "GujaratiLang dictionary literal": {
+    "prefix": [
+      "gj-dict-literal",
+      "kosh-literal"
+    ],
+    "body": [
+      "{",
+      "\t\"${1:key}\": ${2:value}",
+      "}"
+    ],
+    "description": "Define a dictionary literal"
+  },
+  "GujaratiLang dictionary constructor": {
+    "prefix": [
+      "gj-dict",
+      "શબ્દકોશ",
+      "કોશ"
+    ],
+    "body": [
+      "શબ્દકોશ(\"${1:key}\", ${2:value})"
+    ],
+    "description": "Create a dictionary using the built-in function"
+  },
+  "GujaratiLang dictionary constructor (romanized)": {
+    "prefix": [
+      "gj-dict-en",
+      "kosh",
+      "shabdakosh"
+    ],
+    "body": [
+      "kosh(\"${1:key}\", ${2:value})"
+    ],
+    "description": "Create a dictionary using romanized constructor"
+  },
+  "GujaratiLang dictionary keys": {
+    "prefix": [
+      "gj-dict-keys",
+      "ચાવીઓ",
+      "chavio"
+    ],
+    "body": [
+      "ચાવીઓ(${1:dict})"
+    ],
+    "description": "Get list of keys in a dictionary"
+  },
+  "GujaratiLang dictionary values": {
+    "prefix": [
+      "gj-dict-values",
+      "મૂલ્યો",
+      "mulyo"
+    ],
+    "body": [
+      "મૂલ્યો(${1:dict})"
+    ],
+    "description": "Get list of values in a dictionary"
+  },
+  "GujaratiLang dictionary remove key": {
+    "prefix": [
+      "gj-dict-remove",
+      "દૂર_કરો",
+      "dur_karo"
+    ],
+    "body": [
+      "દૂર_કરો(${1:dict}, ${2:key})"
+    ],
+    "description": "Remove a key from a dictionary"
+  },
+  "GujaratiLang break": {
+    "prefix": [
+      "gj-break",
+      "અટકો"
+    ],
+    "body": [
+      "અટકો;"
+    ],
+    "description": "Break out of the current loop"
+  },
+  "GujaratiLang break (romanized)": {
+    "prefix": [
+      "gj-break-en",
+      "atko"
+    ],
+    "body": [
+      "atko;"
+    ],
+    "description": "Break out of current loop with romanized keyword"
+  },
+  "GujaratiLang continue": {
+    "prefix": [
+      "gj-continue",
+      "ચાલુ_રાખો",
+      "આગળ"
+    ],
+    "body": [
+      "ચાલુ_રાખો;"
+    ],
+    "description": "Continue to the next loop iteration"
+  },
+  "GujaratiLang continue (romanized)": {
+    "prefix": [
+      "gj-continue-en",
+      "chalu_rakho",
+      "aagal"
+    ],
+    "body": [
+      "chalu_rakho;"
+    ],
+    "description": "Continue to next loop iteration with romanized keyword"
+  },
+  "GujaratiLang timestamp now": {
+    "prefix": [
+      "gj-time-now",
+      "સમય",
+      "samay"
+    ],
+    "body": [
+      "સમય()"
+    ],
+    "description": "Get current epoch timestamp in seconds"
+  },
+  "GujaratiLang date format": {
+    "prefix": [
+      "gj-date-format",
+      "તારીખ",
+      "tarikh"
+    ],
+    "body": [
+      "તારીખ(\"${1:%Y-%m-%d %H:%M:%S}\"${2:, ${3:timestamp}})"
+    ],
+    "description": "Format a timestamp into a date/time string"
+  },
+  "GujaratiLang sleep": {
+    "prefix": [
+      "gj-sleep",
+      "શાંત",
+      "રાહ_જુઓ",
+      "shant",
+      "raah_juo"
+    ],
+    "body": [
+      "શાંત(${1:1000});"
+    ],
+    "description": "Pause execution for milliseconds"
+  },
+  "GujaratiLang try catch": {
+    "prefix": [
+      "gj-try-catch",
+      "પ્રયત્ન"
+    ],
+    "body": [
+      "પ્રયત્ન {",
+      "\t${1:// risky code}",
+      "} પકડો (${2:ભૂલ}) {",
+      "\t${0:છાપો ભૂલ;}",
+      "}"
+    ],
+    "description": "Error recovery try-catch block"
+  },
+  "GujaratiLang try catch (romanized)": {
+    "prefix": [
+      "gj-try-catch-en",
+      "prayatna"
+    ],
+    "body": [
+      "prayatna {",
+      "\t${1:// risky code}",
+      "} pakdo (${2:err}) {",
+      "\t${0:chhapo err;}",
+      "}"
+    ],
+    "description": "Error recovery try-catch block with romanized keywords"
+  },
+  "GujaratiLang throw error": {
+    "prefix": [
+      "gj-throw",
+      "ફેંકો"
+    ],
+    "body": [
+      "ફેંકો(\"${1:error message}\");"
+    ],
+    "description": "Throw custom error message"
+  },
+  "GujaratiLang throw error (romanized)": {
+    "prefix": [
+      "gj-throw-en",
+      "phenko"
+    ],
+    "body": [
+      "phenko(\"${1:error message}\");"
+    ],
+    "description": "Throw custom error message with romanized built-in"
   }
 }

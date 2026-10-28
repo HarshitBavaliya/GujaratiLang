@@ -182,6 +182,23 @@ can be used in the same program. Multi-word spellings use underscores.
 | `ફાઇલ_છે(...)` | `file_chhe(...)` | Check if file exists on disk (1.0 or 0.0) |
 | `ફાઇલ_કાઢો(...)` / `ફાઇલ_હટાવો(...)` | `file_kadho(...)` / `file_hatao(...)` | Delete file from disk (1.0 on success, 0.0 on failure) |
 | `ફાઇલ_કદ(...)` | `file_kad(...)` | Get file size in bytes (or null if missing) |
+| `અટકો` | `atko` | Break out of loop immediately |
+| `ચાલુ_રાખો` / `આગળ` | `chalu_rakho` / `aagal` | Continue to next loop iteration |
+| `પ્રયત્ન` / `પકડો` | `prayatna` / `pakdo` | Try-catch block for error recovery |
+| `શબ્દકોશ(...)` / `કોશ(...)` | `shabdakosh(...)` / `kosh(...)` | Create dictionary from key-value pairs |
+| `ચાવીઓ(...)` / `ચાવી(...)` | `chavio(...)` / `chavi(...)` | Return list of dictionary keys |
+| `મૂલ્યો(...)` | `mulyo(...)` | Return list of dictionary values |
+| `દૂર_કરો(...)` / `કોશ_દૂર(...)` | `dur_karo(...)` / `kosh_dur(...)` | Remove key from dictionary (1 on success, 0 if not found) |
+| `સમય()` | `samay()` | Current epoch timestamp in seconds |
+| `તારીખ([format[, timestamp]])` | `tarikh([format[, timestamp]])` | Format timestamp into date-time string |
+| `વર્ષ([timestamp])` | `varsh([timestamp])` | Extract year (e.g. 2026) |
+| `મહિનો([timestamp])` | `mahino([timestamp])` | Extract month (1-12) |
+| `દિવસ([timestamp])` | `divas([timestamp])` | Extract day of month (1-31) |
+| `કલાક([timestamp])` | `kalak([timestamp])` | Extract hour (0-23) |
+| `મિનિટ([timestamp])` | `minute([timestamp])` | Extract minute (0-59) |
+| `સેકન્ડ([timestamp])` | `second([timestamp])` | Extract second (0-59) |
+| `શાંત(...)` / `રાહ_જુઓ(...)` | `shant(...)` / `raah_juo(...)` | Pause execution for milliseconds |
+| `ફેંકો(...)` | `phenko(...)` | Throw an error message |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:
@@ -242,6 +259,62 @@ See [`examples/modules.gj`](examples/modules.gj),
 [`examples/invoice_generator.gj`](examples/invoice_generator.gj), and
 [`examples/random_game.gj`](examples/random_game.gj) samples combining modules,
 functions, lists, and input.
+
+### Dictionaries (Key-Value Pairs)
+
+GujaratiLang supports dictionary data structures with string keys and arbitrary values:
+
+```text
+વિદ્યાર્થી = {"નામ": "હર્ષ", "ગુણ": 95};
+છાપો વિદ્યાર્થી["નામ"];
+વિદ્યાર્થી["શહેર"] = "અમદાવાદ";
+છાપો ચાવીઓ(વિદ્યાર્થી);
+છાપો મૂલ્યો(વિદ્યાર્થી);
+દરેક (ચાવી માં વિદ્યાર્થી) {
+    છાપો ચાવી + ": " + લખાણ(વિદ્યાર્થી[ચાવી]);
+}
+```
+
+### Loop Control (`અટકો` and `ચાલુ_રાખો`)
+
+Use `અટકો` (`atko` / `break`) to exit a loop early and `ચાલુ_રાખો` (`chalu_rakho` / `aagal` / `continue`) to skip the rest of the current iteration:
+
+```text
+સંખ્યા = 0;
+જ્યાં સુધી (સંખ્યા < 10) {
+    સંખ્યા = સંખ્યા + 1;
+    જો (સંખ્યા == 2) { ચાલુ_રાખો; }
+    જો (સંખ્યા == 5) { અટકો; }
+    છાપો સંખ્યા;
+}
+```
+
+### Date and Time Utilities
+
+Query timestamps, format localized date/time strings, inspect calendar components, or sleep:
+
+```text
+હમણાં = સમય();
+છાપો તારીખ("%Y-%m-%d %H:%M:%S", હમણાં);
+છાપો વર્ષ(હમણાં);
+છાપો મહિનો(હમણાં);
+શાંત(100); // 100 મિલિસેકન્ડ વિરામ
+```
+
+### Error Recovery (`પ્રયત્ન` and `પકડો`)
+
+Protect against runtime errors (division by zero, file missing, invalid type) or explicitly throw custom errors with `ફેંકો` (`phenko`):
+
+```text
+પ્રયત્ન {
+    જો (ઇનપુટ < 0) {
+        ફેંકો("અનૃણ સંખ્યા અપેક્ષિત છે");
+    }
+    પરિણામ = 100 / ઇનપુટ;
+} પકડો (ભૂલ) {
+    છાપો "ભૂલ પકડાઈ: " + ભૂલ;
+}
+```
 
 Example (`examples/hello.gj`):
 

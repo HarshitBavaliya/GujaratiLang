@@ -2410,6 +2410,263 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_dict_literals")
+    set(source [=[aavo
+d = {"a": 10, "b": "hello", "c": [1, 2]};
+chhapo d["a"];
+chhapo d["b"];
+chhapo d["c"];
+chhapo prakar(d);
+chhapo lambai(d);
+chhapo samave_chhe(d, "a");
+chhapo samave_chhe(d, "missing");
+d["d"] = 99;
+chhapo d["d"];
+chhapo lambai(d);
+d["a"] = 100;
+chhapo d["a"];
+chhapo dur_karo(d, "b");
+chhapo samave_chhe(d, "b");
+chhapo lambai(d);
+empty = {};
+chhapo prakar(empty);
+chhapo lambai(empty);
+aavjo
+]=])
+    set(expected_stdout "10\nhello\n[1, 2]\ndict\n3\n1\n0\n99\n4\n100\n1\n0\n3\ndict\n0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_dict_constructors_and_helpers")
+    set(source [=[aavo
+d = kosh("name", "Gujarati", "version", 1);
+chhapo d["name"];
+chhapo d["version"];
+chhapo chavio(d);
+chhapo mulyo(d);
+aavjo
+]=])
+    set(expected_stdout "Gujarati\n1\n[name, version]\n[Gujarati, 1]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_dict_gujarati")
+    set(source [=[આવો
+દ = {"નામ": "ગુજરાત", "કોડ": 24};
+છાપો દ["નામ"];
+છાપો દ["કોડ"];
+છાપો પ્રકાર(દ);
+છાપો લંબાઈ(દ);
+છાપો સમાવે_છે(દ, "નામ");
+છાપો દૂર_કરો(દ, "કોડ");
+છાપો લંબાઈ(દ);
+છાપો ચાવીઓ(દ);
+છાપો મૂલ્યો(દ);
+આવજો
+]=])
+    set(expected_stdout "ગુજરાત\n24\ndict\n2\n1\n1\n1\n[નામ]\n[ગુજરાત]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "builtin_dict_for_iteration")
+    set(source [=[aavo
+scores = {"Alice": 95, "Bob": 80};
+darek (k in scores) {
+    chhapo k;
+    chhapo scores[k];
+}
+aavjo
+]=])
+    set(expected_stdout "Alice\n95\nBob\n80\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_dict_errors")
+    set(source [=[aavo
+d = kosh("a");
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected an even number of key-value arguments for 'શબ્દકોશ' or 'kosh'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "loop_control_while")
+    set(source [=[aavo
+i = 0;
+jya_sudhi (i < 5) {
+    i = i + 1;
+    jo (i == 2) {
+        chalu_rakho;
+    }
+    jo (i == 4) {
+        atko;
+    }
+    chhapo i;
+}
+aavjo
+]=])
+    set(expected_stdout "1\n3\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "loop_control_for")
+    set(source [=[aavo
+darek (x in 1..6) {
+    jo (x == 2) {
+        aagal;
+    }
+    jo (x == 5) {
+        atko;
+    }
+    chhapo x;
+}
+aavjo
+]=])
+    set(expected_stdout "1\n3\n4\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "loop_control_gujarati")
+    set(source [=[આવો
+સંખ્યા = 0;
+જ્યાં સુધી (સંખ્યા < 5) {
+    સંખ્યા = સંખ્યા + 1;
+    જો (સંખ્યા == 2) {
+        ચાલુ_રાખો;
+    }
+    જો (સંખ્યા == 4) {
+        અટકો;
+    }
+    છાપો સંખ્યા;
+}
+આવજો
+]=])
+    set(expected_stdout "1\n3\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "loop_control_outside_loop_error")
+    set(source [=[aavo
+atko;
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'અટકો' or 'atko' can only be used inside a loop")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_datetime_ops")
+    set(source [=[aavo
+ts = 1700000000;
+chhapo prakar(samay());
+chhapo varsh(ts);
+chhapo tarikh("%Y", ts);
+chhapo mahino(ts) >= 1;
+chhapo divas(ts) >= 1;
+chhapo kalak(ts) >= 0;
+chhapo minute(ts) >= 0;
+chhapo second(ts) >= 0;
+chhapo shant(1);
+aavjo
+]=])
+    set(expected_stdout "number\n2023\n2023\n1\n1\n1\n1\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_datetime_gujarati")
+    set(source [=[આવો
+મુદ્રા = 1700000000;
+છાપો પ્રકાર(સમય());
+છાપો વર્ષ(મુદ્રા);
+છાપો તારીખ("%Y", મુદ્રા);
+છાપો મહિનો(મુદ્રા) >= 1;
+છાપો દિવસ(મુદ્રા) >= 1;
+છાપો કલાક(મુદ્રા) >= 0;
+છાપો મિનિટ(મુદ્રા) >= 0;
+છાપો સેકન્ડ(મુદ્રા) >= 0;
+છાપો શાંત(1);
+આવજો
+]=])
+    set(expected_stdout "number\n2023\n2023\n1\n1\n1\n1\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "builtin_datetime_errors")
+    set(source [=[aavo
+varsh("not_number");
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "timestamp must be a number")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_try_catch_recovery")
+    set(source [=[aavo
+recovered = 0;
+prayatna {
+    x = 10 / 0;
+    chhapo "not reached";
+} pakdo (err) {
+    recovered = 1;
+    chhapo err;
+}
+chhapo recovered;
+aavjo
+]=])
+    set(expected_stdout "division by zero\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_try_catch_custom_throw")
+    set(source [=[aavo
+prayatna {
+    phenko("custom error message");
+    chhapo "not reached";
+} pakdo (msg) {
+    chhapo msg;
+}
+chhapo "after try catch";
+aavjo
+]=])
+    set(expected_stdout "custom error message\nafter try catch\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_try_catch_gujarati")
+    set(source [=[આવો
+પ્રયત્ન {
+    ફેંકો("કસ્ટમ ભૂલ સંદેશ");
+    છાપો "અહીં નહીં પહોંચે";
+} પકડો (સંદેશ) {
+    છાપો સંદેશ;
+}
+છાપો "પછીનું કાર્ય";
+આવજો
+]=])
+    set(expected_stdout "કસ્ટમ ભૂલ સંદેશ\nપછીનું કાર્ય\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "builtin_try_catch_no_error")
+    set(source [=[aavo
+prayatna {
+    chhapo "all good";
+} pakdo (err) {
+    chhapo "should not run";
+}
+chhapo "done";
+aavjo
+]=])
+    set(expected_stdout "all good\ndone\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_try_catch_unhandled_phenko")
+    set(source [=[aavo
+phenko("fatal failure");
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "fatal failure")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_try_missing_catch_error")
+    set(source [=[aavo
+prayatna {
+    chhapo 1;
+}
+chhapo 2;
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected 'પકડો' or 'pakdo' block after 'પ્રયત્ન' or 'prayatna'")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";
