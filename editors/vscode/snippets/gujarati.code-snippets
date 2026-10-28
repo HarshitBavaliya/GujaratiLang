@@ -998,5 +998,25 @@
       "sarvalo_yadi(${1:list})"
     ],
     "description": "Sum all numeric elements in a list with romanized built-in"
+  },
+  "GujaratiLang list minimum": {
+    "prefix": [
+      "gj-minlist",
+      "યાદી_ન્યૂનતમ"
+    ],
+    "body": [
+      "યાદી_ન્યૂનતમ(${1:list})"
+    ],
+    "description": "Find minimum number in list"
+  },
+  "GujaratiLang list minimum (romanized)": {
+    "prefix": [
+      "gj-minlist-en",
+      "yadi_nyunatam"
+    ],
+    "body": [
+      "yadi_nyunatam(${1:list})"
+    ],
+    "description": "Find minimum number in list with romanized built-in"
   }
 }

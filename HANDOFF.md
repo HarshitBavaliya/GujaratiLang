@@ -65,6 +65,7 @@ Recent completed work includes:
   - `કોડ_થી_અક્ષર(code)` / `kod_thi_akshar(code)`: creates a single-character string from a Unicode code point.
   - `યાદી_ભરો(count, value)` / `yadi_bharo(count, value)`: creates a new list filled with count copies of value.
   - `સરવાળો_યાદી(list)` / `sarvalo_yadi(list)`: sums all numeric elements in a list (0 for empty list).
+  - `યાદી_ન્યૂનતમ(list)` / `yadi_nyunatam(list)`: finds the minimum number in a list.
   - `બદલો(string, target, replacement)` / `badlo(string, target, replacement)`: replaces occurrences of a substring.
   - `શરૂઆત_સાથે(string, prefix)` / `sharuat_sathe(string, prefix)`: returns 1.0 if string starts with prefix, 0.0 otherwise.
   - `અંત_સાથે(string, suffix)` / `ant_sathe(string, suffix)`: returns 1.0 if string ends with suffix, 0.0 otherwise.
@@ -103,7 +104,7 @@ Recent completed work includes:
   - Added starter snippets in [`editors/vscode/snippets/gujarati.code-snippets`](editors/vscode/snippets/gujarati.code-snippets)
     for `gj-find` (`સ્થાન`), `gj-insert` (`મૂકો`), `gj-padleft` (`ડાબે_ભરો`), `gj-padright` (`જમણે_ભરો`), and `gj-clamp` (`સીમા`).
 - Updated project landing page [`website/index.html`](website/index.html) with v0.8.0 downloads, VS Code extension v0.1.4 showcase, and new built-ins features.
-- Expanded test suite to **220 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
+- Expanded test suite to **226 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
 - Published [GujaratiLang v0.8.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v0.8.0) with automated GitHub Actions cross-platform release builds and comprehensive release notes.
 
 ## Build and test
@@ -119,7 +120,7 @@ ctest --test-dir build --build-config Release --output-on-failure
 ```
 
 On Linux/macOS, run the built interpreter as `./build/gujarati
-./examples/string_utils.gj`. The test suite has 220 passing cases (100% pass rate).
+./examples/string_utils.gj`. The test suite has 226 passing cases (100% pass rate).
 
 ## Suggested next work
 

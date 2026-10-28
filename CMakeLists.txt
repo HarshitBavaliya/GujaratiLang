@@ -204,6 +204,12 @@ if(BUILD_TESTING)
             builtin_sarvalo_yadi_element_error
             builtin_sarvalo_yadi_gujarati_error
             reserved_sarvalo_yadi
+            builtin_yadi_nyunatam
+            builtin_yadi_nyunatam_error
+            builtin_yadi_nyunatam_empty_error
+            builtin_yadi_nyunatam_type_error
+            builtin_yadi_nyunatam_gujarati_error
+            reserved_yadi_nyunatam
             romanized_error
             romanized_fatal_error
             lists_and_indexing

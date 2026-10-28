@@ -165,6 +165,7 @@ can be used in the same program. Multi-word spellings use underscores.
 | `કોડ_થી_અક્ષર(...)` | `kod_thi_akshar(...)` | Convert Unicode code point to single-character string |
 | `યાદી_ભરો(...)` | `yadi_bharo(...)` | Create a new list filled with count copies of value |
 | `સરવાળો_યાદી(...)` | `sarvalo_yadi(...)` | Sum numeric elements in a list |
+| `યાદી_ન્યૂનતમ(...)` | `yadi_nyunatam(...)` | Find minimum numeric element in list |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

@@ -1793,6 +1793,57 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_yadi_nyunatam")
+    set(source [=[aavo
+chhapo yadi_nyunatam([10, 5, 20, 2]);
+chhapo yadi_nyunatam([-10, -50, 0]);
+chhapo યાદી_ન્યૂનતમ([42]);
+aavjo
+]=])
+    set(expected_stdout "2\n-50\n42\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_yadi_nyunatam_error")
+    set(source [=[aavo
+yadi_nyunatam();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_yadi_nyunatam_empty_error")
+    set(source [=[aavo
+yadi_nyunatam([]);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "cannot find minimum of an empty list")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_yadi_nyunatam_type_error")
+    set(source [=[aavo
+yadi_nyunatam([1, "x"]);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "all list items must be numbers for 'યાદી_ન્યૂનતમ' or 'yadi_nyunatam'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_yadi_nyunatam_gujarati_error")
+    set(source [=[આવો
+યાદી_ન્યૂનતમ([]);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "ખાલી યાદીમાંથી ન્યૂનતમ શોધી શકાતું નથી")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_yadi_nyunatam")
+    set(source [=[aavo
+kary yadi_nyunatam(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";
