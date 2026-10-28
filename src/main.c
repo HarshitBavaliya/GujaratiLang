@@ -1923,6 +1923,7 @@ static void format_value_to_buffer(Parser *parser, Value value,
                                    StringBuffer *sb, List **ancestors,
                                    size_t depth)
 {
+    size_t index;
     if (sb->failed) {
         return;
     }
@@ -1943,7 +1944,6 @@ static void format_value_to_buffer(Parser *parser, Value value,
         return;
     }
     if (value.kind == VALUE_LIST) {
-        size_t index;
         if (depth >= 256) {
             sb_append(sb, "[...]", 5);
             return;
