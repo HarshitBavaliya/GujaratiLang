@@ -2044,6 +2044,52 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_vibhaajan_pankti")
+    set(source [=[aavo
+chhapo vibhaajan_pankti("one\ntwo\nthree");
+chhapo vibhaajan_pankti("first\r\nsecond\r\n");
+chhapo vibhaajan_pankti("");
+chhapo vibhaajan_pankti("single");
+chhapo વિભાજન_પંક્તિ("લાઇન ૧\nલાઇન ૨");
+chhapo panktiyo("a\nb");
+aavjo
+]=])
+    set(expected_stdout "[one, two, three]\n[first, second]\n[]\n[single]\n[લાઇન ૧, લાઇન ૨]\n[a, b]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_vibhaajan_pankti_error")
+    set(source [=[aavo
+vibhaajan_pankti();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_vibhaajan_pankti_type_error")
+    set(source [=[aavo
+vibhaajan_pankti(123);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a string argument for 'વિભાજન_પંક્તિ' or 'vibhaajan_pankti'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_vibhaajan_pankti_gujarati_error")
+    set(source [=[આવો
+વિભાજન_પંક્તિ(123);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'વિભાજન_પંક્તિ' માટે લખાણ દલીલ અપેક્ષિત છે")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_vibhaajan_pankti")
+    set(source [=[aavo
+kary vibhaajan_pankti(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

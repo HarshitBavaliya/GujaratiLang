@@ -1098,5 +1098,25 @@
       "jamne_kapo(${1:string})"
     ],
     "description": "Trim trailing whitespace with romanized built-in"
+  },
+  "GujaratiLang split lines": {
+    "prefix": [
+      "gj-splitlines",
+      "વિભાજન_પંક્તિ"
+    ],
+    "body": [
+      "વિભાજન_પંક્તિ(${1:string})"
+    ],
+    "description": "Split multi-line string into a list of lines"
+  },
+  "GujaratiLang split lines (romanized)": {
+    "prefix": [
+      "gj-splitlines-en",
+      "vibhaajan_pankti"
+    ],
+    "body": [
+      "vibhaajan_pankti(${1:string})"
+    ],
+    "description": "Split multi-line string into lines with romanized built-in"
   }
 }

@@ -170,6 +170,7 @@ can be used in the same program. Multi-word spellings use underscores.
 | `ગણતરી(...)` / `ગણતરી_વસ્તુ(...)` | `ganatari(...)` / `ganatari_vastu(...)` | Count item occurrences in list or substring in string |
 | `ડાબે_કાપો(...)` | `dabe_kapo(...)` | Trim leading whitespace from string |
 | `જમણે_કાપો(...)` | `jamne_kapo(...)` | Trim trailing whitespace from string |
+| `વિભાજન_પંક્તિ(...)` | `vibhaajan_pankti(...)` | Split multi-line string into list of lines |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

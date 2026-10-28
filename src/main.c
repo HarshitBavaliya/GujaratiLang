@@ -207,6 +207,7 @@ typedef enum {
     MESSAGE_EXPECTED_STRING_SECOND_FOR_GANATARI,
     MESSAGE_EXPECTED_STRING_FOR_DABE_KAPO,
     MESSAGE_EXPECTED_STRING_FOR_JAMNE_KAPO,
+    MESSAGE_EXPECTED_STRING_FOR_VIBHAAJAN_PANKTI,
     MESSAGE_USAGE
 } MessageId;
 
@@ -479,6 +480,7 @@ static const char *localized_message(Language language, MessageId message)
         "expected a string second argument when counting in a string",
         "expected a string argument for 'ડાબે_કાપો' or 'dabe_kapo'",
         "expected a string argument for 'જમણે_કાપો' or 'jamne_kapo'",
+        "expected a string argument for 'વિભાજન_પંક્તિ' or 'vibhaajan_pankti'",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -605,6 +607,7 @@ static const char *localized_message(Language language, MessageId message)
         "લખાણમાં ગણતરી કરતી વખતે બીજી દલીલ લખાણ હોવી જોઈએ",
         "'ડાબે_કાપો' માટે લખાણ દલીલ અપેક્ષિત છે",
         "'જમણે_કાપો' માટે લખાણ દલીલ અપેક્ષિત છે",
+        "'વિભાજન_પંક્તિ' માટે લખાણ દલીલ અપેક્ષિત છે",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1201,7 +1204,13 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "જમણે_કાપો") ||
            token_matches(parser, name, "jamne_kapo") ||
            token_matches(parser, name, "જમણે_સાફ") ||
-           token_matches(parser, name, "jamne_saf");
+           token_matches(parser, name, "jamne_saf") ||
+           token_matches(parser, name, "વિભાજન_પંક્તિ") ||
+           token_matches(parser, name, "vibhaajan_pankti") ||
+           token_matches(parser, name, "પંક્તિઓ") ||
+           token_matches(parser, name, "panktiyo") ||
+           token_matches(parser, name, "પંક્તિ_ભાગ") ||
+           token_matches(parser, name, "pankti_bhag");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -2053,6 +2062,100 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.kind = VALUE_STRING;
                             result.string_length = len;
                             result.owned_string = str;
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "વિભાજન_પંક્તિ") ||
+                       token_matches(parser, name, "vibhaajan_pankti") ||
+                       token_matches(parser, name, "પંક્તિઓ") ||
+                       token_matches(parser, name, "panktiyo") ||
+                       token_matches(parser, name, "પંક્તિ_ભાગ") ||
+                       token_matches(parser, name, "pankti_bhag")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_VIBHAAJAN_PANKTI);
+                } else {
+                    List *list = create_list(parser, name);
+                    if (list != NULL) {
+                        size_t length = decoded_string_length(parser, arguments[0]);
+                        char *buffer = (char *)malloc(length + 1);
+                        if (buffer == NULL) {
+                            report_error(parser, name.line, name.column,
+                                         MESSAGE_OUT_OF_MEMORY);
+                        } else {
+                            copy_value_string(parser, arguments[0], buffer);
+                            buffer[length] = '\0';
+                            int ok = 1;
+                            if (length > 0) {
+                                size_t line_start = 0;
+                                size_t i = 0;
+                                while (i < length) {
+                                    if (buffer[i] == '\r' || buffer[i] == '\n') {
+                                        size_t line_len = i - line_start;
+                                        char *line = (char *)malloc(line_len + 1);
+                                        if (line == NULL) {
+                                            report_error(parser, name.line, name.column,
+                                                         MESSAGE_OUT_OF_MEMORY);
+                                            ok = 0;
+                                            break;
+                                        }
+                                        memcpy(line, buffer + line_start, line_len);
+                                        line[line_len] = '\0';
+                                        if (!store_owned_string(parser, name, line)) {
+                                            ok = 0;
+                                            break;
+                                        }
+                                        Value item = number_value(0.0);
+                                        item.kind = VALUE_STRING;
+                                        item.string_length = line_len;
+                                        item.owned_string = line;
+                                        if (!append_list_item(parser, list, item, name)) {
+                                            ok = 0;
+                                            break;
+                                        }
+                                        if (buffer[i] == '\r' && i + 1 < length && buffer[i + 1] == '\n') {
+                                            i += 2;
+                                        } else {
+                                            i += 1;
+                                        }
+                                        line_start = i;
+                                    } else {
+                                        i++;
+                                    }
+                                }
+                                if (ok && line_start < length) {
+                                    size_t line_len = length - line_start;
+                                    char *line = (char *)malloc(line_len + 1);
+                                    if (line == NULL) {
+                                        report_error(parser, name.line, name.column,
+                                                     MESSAGE_OUT_OF_MEMORY);
+                                        ok = 0;
+                                    } else {
+                                        memcpy(line, buffer + line_start, line_len);
+                                        line[line_len] = '\0';
+                                        if (!store_owned_string(parser, name, line)) {
+                                            ok = 0;
+                                        } else {
+                                            Value item = number_value(0.0);
+                                            item.kind = VALUE_STRING;
+                                            item.string_length = line_len;
+                                            item.owned_string = line;
+                                            if (!append_list_item(parser, list, item, name)) {
+                                                ok = 0;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            free(buffer);
+                            if (ok) {
+                                result = number_value(0.0);
+                                result.kind = VALUE_LIST;
+                                result.list = list;
+                            }
                         }
                     }
                 }

@@ -232,6 +232,11 @@ if(BUILD_TESTING)
             builtin_jamne_kapo_type_error
             builtin_jamne_kapo_gujarati_error
             reserved_jamne_kapo
+            builtin_vibhaajan_pankti
+            builtin_vibhaajan_pankti_error
+            builtin_vibhaajan_pankti_type_error
+            builtin_vibhaajan_pankti_gujarati_error
+            reserved_vibhaajan_pankti
             romanized_error
             romanized_fatal_error
             lists_and_indexing
