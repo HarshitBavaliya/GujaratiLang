@@ -144,6 +144,9 @@ if(BUILD_TESTING)
             builtin_sthan
             builtin_sthan_error
             reserved_sthan
+            builtin_muko
+            builtin_muko_error
+            reserved_muko
             romanized_error
             romanized_fatal_error
             lists_and_indexing

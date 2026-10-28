@@ -174,6 +174,9 @@ typedef enum {
     MESSAGE_EXPECTED_TUKDO_INTEGER,
     MESSAGE_EXPECTED_LIST_FOR_STHAN,
     MESSAGE_EXPECTED_STHAN_INTEGER,
+    MESSAGE_EXPECTED_LIST_FOR_MUKO,
+    MESSAGE_EXPECTED_MUKO_INTEGER,
+    MESSAGE_MUKO_INDEX_OUT_OF_RANGE,
     MESSAGE_USAGE
 } MessageId;
 
@@ -269,6 +272,8 @@ static int import_module(Parser *parser, Token keyword, Value path_value);
 static int interpret_program(Parser *parser);
 static int append_list_item(Parser *parser, List *list, Value value,
                             Token token);
+static int insert_list_item(Parser *parser, List *list, size_t index,
+                            Value value, Token token);
 
 static void write_source_context(Parser *parser, size_t line, size_t column)
 {
@@ -415,6 +420,9 @@ static const char *localized_message(Language language, MessageId message)
         "slice indices for 'ટુકડો' or 'tukdo' must be non-negative whole numbers",
         "expected a list first argument for 'સ્થાન' or 'sthan'",
         "start index for 'સ્થાન' or 'sthan' must be a non-negative whole number",
+        "expected a list first argument for 'મૂકો' or 'muko'",
+        "insert index for 'મૂકો' or 'muko' must be a non-negative whole number",
+        "insert index for 'મૂકો' or 'muko' is out of range",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -512,6 +520,9 @@ static const char *localized_message(Language language, MessageId message)
         "'ટુકડો' માટે અનુક્રમ શૂન્ય અથવા ધન પૂર્ણાંક હોવા જોઈએ",
         "'સ્થાન' માટે પ્રથમ દલીલ યાદી હોવી જોઈએ",
         "'સ્થાન' માટે શરૂઆતનો અનુક્રમ શૂન્ય અથવા ધન પૂર્ણાંક હોવો જોઈએ",
+        "'મૂકો' માટે પ્રથમ દલીલ યાદી હોવી જોઈએ",
+        "'મૂકો' માટે ઉમેરવાનો અનુક્રમ શૂન્ય અથવા ધન પૂર્ણાંક હોવો જોઈએ",
+        "'મૂકો' માટે અનુક્રમ યાદીની મર્યાદા બહાર છે",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1033,7 +1044,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "ટુકડો") ||
            token_matches(parser, name, "tukdo") ||
            token_matches(parser, name, "સ્થાન") ||
-           token_matches(parser, name, "sthan");
+           token_matches(parser, name, "sthan") ||
+           token_matches(parser, name, "મૂકો") ||
+           token_matches(parser, name, "muko");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -2717,6 +2730,30 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                     }
                     result = number_value(index);
                 }
+            } else if (token_matches(parser, name, "મૂકો") ||
+                       token_matches(parser, name, "muko")) {
+                if (argument_count != 3) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_LIST_FOR_MUKO);
+                } else if (arguments[1].kind != VALUE_NUMBER ||
+                           arguments[1].number < 0.0 ||
+                           arguments[1].number >= (double)(size_t)-1 ||
+                           arguments[1].number != (double)(size_t)arguments[1].number) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_MUKO_INTEGER);
+                } else if ((size_t)arguments[1].number > arguments[0].list->count) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_MUKO_INDEX_OUT_OF_RANGE);
+                } else {
+                    if (insert_list_item(parser, arguments[0].list,
+                                         (size_t)arguments[1].number,
+                                         arguments[2], name)) {
+                        result = arguments[0];
+                    }
+                }
             } else {
                 Function *function = find_function(parser, name);
                 if (function == NULL) {
@@ -3242,6 +3279,36 @@ static int append_list_item(Parser *parser, List *list, Value value,
         list->capacity = capacity;
     }
     list->items[list->count++] = value;
+    return 1;
+}
+
+static int insert_list_item(Parser *parser, List *list, size_t index,
+                            Value value, Token token)
+{
+    if (list->count == list->capacity) {
+        size_t capacity = list->capacity == 0 ? 4 : list->capacity * 2;
+        Value *items;
+        if (capacity < list->capacity ||
+            capacity > (size_t)-1 / sizeof(*list->items)) {
+            report_error(parser, token.line, token.column,
+                         MESSAGE_OUT_OF_MEMORY_FOR_LIST);
+            return 0;
+        }
+        items = (Value *)realloc(list->items, capacity * sizeof(*items));
+        if (items == NULL) {
+            report_error(parser, token.line, token.column,
+                         MESSAGE_OUT_OF_MEMORY_FOR_LIST);
+            return 0;
+        }
+        list->items = items;
+        list->capacity = capacity;
+    }
+    if (index < list->count) {
+        memmove(&list->items[index + 1], &list->items[index],
+                (list->count - index) * sizeof(Value));
+    }
+    list->items[index] = value;
+    list->count++;
     return 1;
 }
 

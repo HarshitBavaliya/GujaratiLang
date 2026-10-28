@@ -1223,6 +1223,41 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_muko")
+    set(source [=[aavo
+items = [10, 30];
+muko(items, 1, 20);
+chhapo items;
+muko(items, 0, 5);
+chhapo items;
+muko(items, 4, 40);
+chhapo items;
+મૂકો(items, 2, "inserted");
+chhapo items;
+empty = [];
+muko(empty, 0, "first");
+chhapo empty;
+aavjo
+]=])
+    set(expected_stdout "[10, 20, 30]\n[5, 10, 20, 30]\n[5, 10, 20, 30, 40]\n[5, 10, inserted, 20, 30, 40]\n[first]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_muko_error")
+    set(source [=[aavo
+muko([1], 5, 1);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "insert index for 'મૂકો' or 'muko' is out of range")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_muko")
+    set(source [=[aavo
+kary muko(x, y, z) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";
