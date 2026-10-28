@@ -147,6 +147,9 @@ if(BUILD_TESTING)
             builtin_muko
             builtin_muko_error
             reserved_muko
+            builtin_padding
+            builtin_padding_error
+            reserved_padding
             romanized_error
             romanized_fatal_error
             lists_and_indexing

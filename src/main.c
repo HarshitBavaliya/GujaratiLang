@@ -177,6 +177,9 @@ typedef enum {
     MESSAGE_EXPECTED_LIST_FOR_MUKO,
     MESSAGE_EXPECTED_MUKO_INTEGER,
     MESSAGE_MUKO_INDEX_OUT_OF_RANGE,
+    MESSAGE_EXPECTED_STRING_FOR_PADDING,
+    MESSAGE_EXPECTED_PADDING_WIDTH_INTEGER,
+    MESSAGE_EXPECTED_PAD_STRING,
     MESSAGE_USAGE
 } MessageId;
 
@@ -423,6 +426,9 @@ static const char *localized_message(Language language, MessageId message)
         "expected a list first argument for 'મૂકો' or 'muko'",
         "insert index for 'મૂકો' or 'muko' must be a non-negative whole number",
         "insert index for 'મૂકો' or 'muko' is out of range",
+        "expected a string first argument for padding",
+        "width for padding must be a non-negative whole number",
+        "pad character for padding must be a string",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -523,6 +529,9 @@ static const char *localized_message(Language language, MessageId message)
         "'મૂકો' માટે પ્રથમ દલીલ યાદી હોવી જોઈએ",
         "'મૂકો' માટે ઉમેરવાનો અનુક્રમ શૂન્ય અથવા ધન પૂર્ણાંક હોવો જોઈએ",
         "'મૂકો' માટે અનુક્રમ યાદીની મર્યાદા બહાર છે",
+        "પેડિંગ માટે પ્રથમ દલીલ લખાણ હોવી જોઈએ",
+        "પેડિંગ માટે પહોળાઈ શૂન્ય અથવા ધન પૂર્ણાંક હોવી જોઈએ",
+        "પેડિંગ માટે પેડ કેરેક્ટર લખાણ હોવું જોઈએ",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1046,7 +1055,11 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "સ્થાન") ||
            token_matches(parser, name, "sthan") ||
            token_matches(parser, name, "મૂકો") ||
-           token_matches(parser, name, "muko");
+           token_matches(parser, name, "muko") ||
+           token_matches(parser, name, "ડાબે_ભરો") ||
+           token_matches(parser, name, "dabe_bharo") ||
+           token_matches(parser, name, "જમણે_ભરો") ||
+           token_matches(parser, name, "jamne_bharo");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -1573,6 +1586,130 @@ static int compare_sort_values(Parser *parser, Value a, Value b)
         return 0;
     }
     return 0;
+}
+
+static Value pad_string_value(Parser *parser, Token name, Value str_val,
+                              Value width_val, Value *opt_pad_val, int is_left)
+{
+    Value result = str_val;
+    size_t target_width = (size_t)width_val.number;
+    size_t str_cp = string_codepoint_length(parser, str_val);
+    size_t pad_cp;
+    size_t needed_cp;
+    size_t str_bytes;
+    size_t pad_bytes;
+    size_t full_repeats;
+    size_t rem_cp;
+    size_t rem_bytes;
+    size_t pad_total_bytes;
+    size_t total_bytes;
+    char *str_buf;
+    char *pad_buf;
+    char *out_buf;
+    size_t r;
+
+    if (str_cp >= target_width) {
+        return str_val;
+    }
+
+    if (opt_pad_val != NULL) {
+        pad_cp = string_codepoint_length(parser, *opt_pad_val);
+        if (pad_cp == 0) {
+            return str_val;
+        }
+        pad_bytes = decoded_string_length(parser, *opt_pad_val);
+        pad_buf = (char *)malloc(pad_bytes + 1);
+        if (pad_buf == NULL) {
+            report_error(parser, name.line, name.column, MESSAGE_OUT_OF_MEMORY);
+            return result;
+        }
+        copy_value_string(parser, *opt_pad_val, pad_buf);
+        pad_buf[pad_bytes] = '\0';
+    } else {
+        pad_cp = 1;
+        pad_bytes = 1;
+        pad_buf = (char *)malloc(2);
+        if (pad_buf == NULL) {
+            report_error(parser, name.line, name.column, MESSAGE_OUT_OF_MEMORY);
+            return result;
+        }
+        pad_buf[0] = ' ';
+        pad_buf[1] = '\0';
+    }
+
+    needed_cp = target_width - str_cp;
+    str_bytes = decoded_string_length(parser, str_val);
+    str_buf = (char *)malloc(str_bytes + 1);
+    if (str_buf == NULL) {
+        free(pad_buf);
+        report_error(parser, name.line, name.column, MESSAGE_OUT_OF_MEMORY);
+        return result;
+    }
+    copy_value_string(parser, str_val, str_buf);
+    str_buf[str_bytes] = '\0';
+
+    full_repeats = needed_cp / pad_cp;
+    rem_cp = needed_cp % pad_cp;
+    rem_bytes = utf8_codepoint_to_byte_offset(pad_buf, pad_bytes, rem_cp);
+
+    if (full_repeats > 0 && pad_bytes > (size_t)-1 / full_repeats) {
+        free(str_buf);
+        free(pad_buf);
+        report_error(parser, name.line, name.column, MESSAGE_OUT_OF_MEMORY);
+        return result;
+    }
+    pad_total_bytes = full_repeats * pad_bytes + rem_bytes;
+    if (str_bytes > (size_t)-1 - pad_total_bytes) {
+        free(str_buf);
+        free(pad_buf);
+        report_error(parser, name.line, name.column, MESSAGE_OUT_OF_MEMORY);
+        return result;
+    }
+    total_bytes = str_bytes + pad_total_bytes;
+
+    out_buf = (char *)malloc(total_bytes + 1);
+    if (out_buf == NULL) {
+        free(str_buf);
+        free(pad_buf);
+        report_error(parser, name.line, name.column, MESSAGE_OUT_OF_MEMORY);
+        return result;
+    }
+
+    if (is_left) {
+        char *ptr = out_buf;
+        for (r = 0; r < full_repeats; r++) {
+            memcpy(ptr, pad_buf, pad_bytes);
+            ptr += pad_bytes;
+        }
+        if (rem_bytes > 0) {
+            memcpy(ptr, pad_buf, rem_bytes);
+            ptr += rem_bytes;
+        }
+        memcpy(ptr, str_buf, str_bytes);
+    } else {
+        char *ptr = out_buf;
+        memcpy(ptr, str_buf, str_bytes);
+        ptr += str_bytes;
+        for (r = 0; r < full_repeats; r++) {
+            memcpy(ptr, pad_buf, pad_bytes);
+            ptr += pad_bytes;
+        }
+        if (rem_bytes > 0) {
+            memcpy(ptr, pad_buf, rem_bytes);
+            ptr += rem_bytes;
+        }
+    }
+    out_buf[total_bytes] = '\0';
+    free(str_buf);
+    free(pad_buf);
+
+    if (store_owned_string(parser, name, out_buf)) {
+        result = number_value(0.0);
+        result.kind = VALUE_STRING;
+        result.string_length = total_bytes;
+        result.owned_string = out_buf;
+    }
+    return result;
 }
 
 static Value parse_function_call(Parser *parser, Token name, int execute)
@@ -2753,6 +2890,32 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                                          arguments[2], name)) {
                         result = arguments[0];
                     }
+                }
+            } else if (token_matches(parser, name, "ડાબે_ભરો") ||
+                       token_matches(parser, name, "dabe_bharo") ||
+                       token_matches(parser, name, "જમણે_ભરો") ||
+                       token_matches(parser, name, "jamne_bharo")) {
+                int is_left = (token_matches(parser, name, "ડાબે_ભરો") ||
+                               token_matches(parser, name, "dabe_bharo"));
+                if (argument_count != 2 && argument_count != 3) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_PADDING);
+                } else if (arguments[1].kind != VALUE_NUMBER ||
+                           arguments[1].number < 0.0 ||
+                           arguments[1].number >= (double)(size_t)-1 ||
+                           arguments[1].number != (double)(size_t)arguments[1].number) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_PADDING_WIDTH_INTEGER);
+                } else if (argument_count == 3 && arguments[2].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_PAD_STRING);
+                } else {
+                    Value *opt_pad = (argument_count == 3) ? &arguments[2] : NULL;
+                    result = pad_string_value(parser, name, arguments[0],
+                                              arguments[1], opt_pad, is_left);
                 }
             } else {
                 Function *function = find_function(parser, name);

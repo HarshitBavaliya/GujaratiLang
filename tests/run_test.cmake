@@ -1258,6 +1258,37 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_padding")
+    set(source [=[aavo
+chhapo "[" + dabe_bharo("42", 5, "0") + "]";
+chhapo "[" + dabe_bharo("hello", 10) + "]";
+chhapo "[" + jamne_bharo("hello", 10) + "]";
+chhapo "[" + jamne_bharo("item", 10, ".") + "]";
+chhapo "[" + dabe_bharo("long string", 5) + "]";
+chhapo "[" + ડાબે_ભરો("42", 5, "0") + "]";
+chhapo "[" + જમણે_ભરો("નમસ્તે", 10, "-") + "]";
+chhapo "[" + jamne_bharo("hi", 6, "=-") + "]";
+aavjo
+]=])
+    set(expected_stdout "[00042]\n[     hello]\n[hello     ]\n[item......]\n[long string]\n[00042]\n[નમસ્તે----]\n[hi=-=-]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_padding_error")
+    set(source [=[aavo
+chhapo dabe_bharo(123, 5);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a string first argument for padding")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_padding")
+    set(source [=[aavo
+kary dabe_bharo(x, y) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";
