@@ -1741,6 +1741,58 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_sarvalo_yadi")
+    set(source [=[aavo
+chhapo sarvalo_yadi([1, 2, 3, 4]);
+chhapo sarvalo_yadi([10.5, -2.5]);
+chhapo સરવાળો_યાદી([]);
+chhapo સરવાળો_યાદી([100]);
+aavjo
+]=])
+    set(expected_stdout "10\n8\n0\n100\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_sarvalo_yadi_error")
+    set(source [=[aavo
+sarvalo_yadi();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_sarvalo_yadi_type_error")
+    set(source [=[aavo
+sarvalo_yadi(123);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a list argument for 'સરવાળો_યાદી' or 'sarvalo_yadi'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_sarvalo_yadi_element_error")
+    set(source [=[aavo
+sarvalo_yadi([1, "two", 3]);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "all list items must be numbers for 'સરવાળો_યાદી' or 'sarvalo_yadi'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_sarvalo_yadi_gujarati_error")
+    set(source [=[આવો
+સરવાળો_યાદી([1, "ખોટું"]);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'સરવાળો_યાદી' માટે યાદીના તમામ ઘટકો સંખ્યા હોવા જોઈએ")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_sarvalo_yadi")
+    set(source [=[aavo
+kary sarvalo_yadi(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

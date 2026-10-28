@@ -978,5 +978,25 @@
       "yadi_bharo(${1:count}, ${2:value})"
     ],
     "description": "Create a new list filled with count copies of value with romanized built-in"
+  },
+  "GujaratiLang sum list": {
+    "prefix": [
+      "gj-sumlist",
+      "સરવાળો_યાદી"
+    ],
+    "body": [
+      "સરવાળો_યાદી(${1:list})"
+    ],
+    "description": "Sum all numeric elements in a list"
+  },
+  "GujaratiLang sum list (romanized)": {
+    "prefix": [
+      "gj-sumlist-en",
+      "sarvalo_yadi"
+    ],
+    "body": [
+      "sarvalo_yadi(${1:list})"
+    ],
+    "description": "Sum all numeric elements in a list with romanized built-in"
   }
 }

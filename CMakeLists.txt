@@ -198,6 +198,12 @@ if(BUILD_TESTING)
             builtin_yadi_bharo_count_error
             builtin_yadi_bharo_gujarati_error
             reserved_yadi_bharo
+            builtin_sarvalo_yadi
+            builtin_sarvalo_yadi_error
+            builtin_sarvalo_yadi_type_error
+            builtin_sarvalo_yadi_element_error
+            builtin_sarvalo_yadi_gujarati_error
+            reserved_sarvalo_yadi
             romanized_error
             romanized_fatal_error
             lists_and_indexing
