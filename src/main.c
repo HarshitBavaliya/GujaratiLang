@@ -5,6 +5,7 @@
 #include <math.h>
 #include <time.h>
 #include <stdint.h>
+#include <ctype.h>
 
 #define GUJARATI_PI 3.14159265358979323846
 #define GUJARATI_E  2.71828182845904523536
@@ -17,6 +18,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/time.h>
 #endif
 
 typedef enum {
@@ -1618,7 +1620,101 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "ભાષા_આવૃત્તિ") ||
            token_matches(parser, name, "bhasha_avrutti") ||
            token_matches(parser, name, "પ્લેટફોર્મ_નામ") ||
-           token_matches(parser, name, "platform_nam");
+           token_matches(parser, name, "platform_nam") ||
+           token_matches(parser, name, "પર્યાવરણ") ||
+           token_matches(parser, name, "paryavaran") ||
+           token_matches(parser, name, "પર્યાવરણ_લખો") ||
+           token_matches(parser, name, "paryavaran_lakho") ||
+           token_matches(parser, name, "પાથ_જોડો") ||
+           token_matches(parser, name, "path_jodo") ||
+           token_matches(parser, name, "પાથ_વિસ્તરણ") ||
+           token_matches(parser, name, "path_vistaran") ||
+           token_matches(parser, name, "પાથ_મુખ્ય") ||
+           token_matches(parser, name, "path_mukhya") ||
+           token_matches(parser, name, "પાથ_ફોલ્ડર") ||
+           token_matches(parser, name, "path_folder") ||
+           token_matches(parser, name, "યુયુઆઈડી_બનાવો") ||
+           token_matches(parser, name, "uuid_banao") ||
+           token_matches(parser, name, "યુઆરએલ_કોડ") ||
+           token_matches(parser, name, "url_kod") ||
+           token_matches(parser, name, "યુઆરએલ_ડીકોડ") ||
+           token_matches(parser, name, "url_decode") ||
+           token_matches(parser, name, "યાદી_સરવાળો") ||
+           token_matches(parser, name, "yadi_sarvalo") ||
+           token_matches(parser, name, "યાદી_સરેરાશ") ||
+           token_matches(parser, name, "yadi_sareras") ||
+           token_matches(parser, name, "યાદી_મધ્યસ્થ") ||
+           token_matches(parser, name, "yadi_madhyastha") ||
+           token_matches(parser, name, "લેખન_પૂર્ણ_ડાબી") ||
+           token_matches(parser, name, "lakhan_purn_dabi") ||
+           token_matches(parser, name, "લેખન_પૂર્ણ_જમણી") ||
+           token_matches(parser, name, "lakhan_purn_jamni") ||
+           token_matches(parser, name, "બીટ_અને") ||
+           token_matches(parser, name, "bit_ane") ||
+           token_matches(parser, name, "બીટ_અથવા") ||
+           token_matches(parser, name, "bit_athva") ||
+           token_matches(parser, name, "બીટ_એક્સઓર") ||
+           token_matches(parser, name, "bit_xor") ||
+           token_matches(parser, name, "બીટ_નહિ") ||
+           token_matches(parser, name, "bit_nahi") ||
+           token_matches(parser, name, "બીટ_શિફ્ટ_ડાબી") ||
+           token_matches(parser, name, "bit_shifte_dabi") ||
+           token_matches(parser, name, "બીટ_શિફ્ટ_જમણી") ||
+           token_matches(parser, name, "bit_shifte_jamni") ||
+           token_matches(parser, name, "યાદી_અનન્ય") ||
+           token_matches(parser, name, "yadi_ananya") ||
+           token_matches(parser, name, "યાદી_મેળ") ||
+           token_matches(parser, name, "yadi_mel") ||
+           token_matches(parser, name, "યાદી_છેદ") ||
+           token_matches(parser, name, "yadi_chhed") ||
+           token_matches(parser, name, "યાદી_તફાવત") ||
+           token_matches(parser, name, "yadi_tavat") ||
+           token_matches(parser, name, "અક્ષર_કોડ") ||
+           token_matches(parser, name, "akshar_kod") ||
+           token_matches(parser, name, "કોડ_થી_અક્ષર") ||
+           token_matches(parser, name, "kod_thi_akshar") ||
+           token_matches(parser, name, "લૉગ_કુદરતી") ||
+           token_matches(parser, name, "log_kudrati") ||
+           token_matches(parser, name, "લૉગ_૧૦") ||
+           token_matches(parser, name, "log_10") ||
+           token_matches(parser, name, "ઘાત_મૂળ") ||
+           token_matches(parser, name, "ghat_mul") ||
+           token_matches(parser, name, "ઈ_ઘાત") ||
+           token_matches(parser, name, "e_ghat") ||
+           token_matches(parser, name, "યાદી_ઊલટે_ક્રમ") ||
+           token_matches(parser, name, "yadi_ulte_kram") ||
+           token_matches(parser, name, "યાદી_ટુકડા") ||
+           token_matches(parser, name, "yadi_tukda") ||
+           token_matches(parser, name, "યાદી_ખીચડી") ||
+           token_matches(parser, name, "yadi_khichdi") ||
+           token_matches(parser, name, "ચાવી_છે") ||
+           token_matches(parser, name, "chavi_chhe") ||
+           token_matches(parser, name, "કોશ_જોડો") ||
+           token_matches(parser, name, "kosh_jodo") ||
+           token_matches(parser, name, "માઇક્રો_સમય") ||
+           token_matches(parser, name, "micro_samay") ||
+           token_matches(parser, name, "લેખન_આવૃત્તિ") ||
+           token_matches(parser, name, "lakhan_aavrutti") ||
+           token_matches(parser, name, "લેખન_ગણતરી") ||
+           token_matches(parser, name, "lakhan_ganatari") ||
+           token_matches(parser, name, "લેખન_ટુકડા_યાદી") ||
+           token_matches(parser, name, "lakhan_tukda_yadi") ||
+           token_matches(parser, name, "ફાઇલ_લાઇન_વાંચો") ||
+           token_matches(parser, name, "file_line_vancho") ||
+           token_matches(parser, name, "હેક્સ_થી_લેખન") ||
+           token_matches(parser, name, "hex_thi_lakhan") ||
+           token_matches(parser, name, "સીએસવી_વાંચો") ||
+           token_matches(parser, name, "csv_vancho") ||
+           token_matches(parser, name, "સંખ્યા_છે") ||
+           token_matches(parser, name, "sankhya_chhe") ||
+           token_matches(parser, name, "લેખન_છે") ||
+           token_matches(parser, name, "lakhan_chhe") ||
+           token_matches(parser, name, "યાદી_છે") ||
+           token_matches(parser, name, "yadi_chhe") ||
+           token_matches(parser, name, "કોશ_છે") ||
+           token_matches(parser, name, "kosh_chhe") ||
+           token_matches(parser, name, "નકામો_છે") ||
+           token_matches(parser, name, "nakamo_chhe");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -3224,6 +3320,300 @@ static Function *resolve_callee_function(Parser *parser, Value func_val)
     Function *fn = find_function_by_name(parser, fn_name, strlen(fn_name));
     free(fn_name);
     return fn;
+}
+
+static char *generate_uuid_v4(void)
+{
+    char *uuid = (char *)malloc(37);
+    if (!uuid) return NULL;
+    unsigned char b[16];
+    for (int i = 0; i < 16; i++) {
+        b[i] = (unsigned char)(rand() & 0xFF);
+    }
+    b[6] = (b[6] & 0x0F) | 0x40;
+    b[8] = (b[8] & 0x3F) | 0x80;
+    sprintf(uuid, "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+            b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7],
+            b[8], b[9], b[10], b[11], b[12], b[13], b[14], b[15]);
+    return uuid;
+}
+
+static char *url_encode(const char *src, size_t len)
+{
+    StringBuffer sb;
+    sb_init(&sb);
+    for (size_t i = 0; i < len; i++) {
+        unsigned char c = (unsigned char)src[i];
+        if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
+            sb_append(&sb, (const char *)&c, 1);
+        } else {
+            char hex[4];
+            sprintf(hex, "%%%02X", c);
+            sb_append(&sb, hex, 3);
+        }
+    }
+    return sb.data;
+}
+
+static char *url_decode(const char *src, size_t len)
+{
+    StringBuffer sb;
+    sb_init(&sb);
+    size_t i = 0;
+    while (i < len) {
+        if (src[i] == '+') {
+            sb_append(&sb, " ", 1);
+            i++;
+        } else if (src[i] == '%' && i + 2 < len && isxdigit((unsigned char)src[i + 1]) && isxdigit((unsigned char)src[i + 2])) {
+            char hex[3] = { src[i + 1], src[i + 2], '\0' };
+            unsigned int c = 0;
+            sscanf(hex, "%x", &c);
+            unsigned char ch = (unsigned char)c;
+            sb_append(&sb, (const char *)&ch, 1);
+            i += 3;
+        } else {
+            sb_append(&sb, &src[i], 1);
+            i++;
+        }
+    }
+    return sb.data;
+}
+
+static int compare_doubles_asc(const void *a, const void *b)
+{
+    double da = *(const double *)a;
+    double db = *(const double *)b;
+    if (da < db) return -1;
+    if (da > db) return 1;
+    return 0;
+}
+
+static char *path_join(const char *a, size_t a_len, const char *b, size_t b_len)
+{
+    while (a_len > 0 && (a[a_len - 1] == '/' || a[a_len - 1] == '\\')) a_len--;
+    while (b_len > 0 && (*b == '/' || *b == '\\')) { b++; b_len--; }
+    char *res = (char *)malloc(a_len + b_len + 2);
+    if (!res) return NULL;
+    memcpy(res, a, a_len);
+    res[a_len] = '/';
+    memcpy(res + a_len + 1, b, b_len);
+    res[a_len + 1 + b_len] = '\0';
+    return res;
+}
+
+static const char *path_extension(const char *path, size_t len)
+{
+    for (size_t i = len; i > 0; i--) {
+        char c = path[i - 1];
+        if (c == '/' || c == '\\') break;
+        if (c == '.') return &path[i - 1];
+    }
+    return "";
+}
+
+static const char *path_basename(const char *path, size_t len)
+{
+    for (size_t i = len; i > 0; i--) {
+        char c = path[i - 1];
+        if (c == '/' || c == '\\') return &path[i];
+    }
+    return path;
+}
+
+static char *path_dirname(const char *path, size_t len)
+{
+    for (size_t i = len; i > 0; i--) {
+        char c = path[i - 1];
+        if (c == '/' || c == '\\') {
+            size_t dlen = i - 1;
+            if (dlen == 0) dlen = 1;
+            char *d = (char *)malloc(dlen + 1);
+            if (!d) return NULL;
+            memcpy(d, path, dlen);
+            d[dlen] = '\0';
+            return d;
+        }
+    }
+    return copy_string(".");
+}
+
+static char *string_repeat(const char *src, size_t src_len, size_t count, size_t *out_len)
+{
+    if (count == 0 || src_len == 0) {
+        char *r = copy_string("");
+        if (out_len) *out_len = 0;
+        return r;
+    }
+    size_t total = src_len * count;
+    char *res = (char *)malloc(total + 1);
+    if (!res) return NULL;
+    for (size_t i = 0; i < count; i++) {
+        memcpy(res + i * src_len, src, src_len);
+    }
+    res[total] = '\0';
+    if (out_len) *out_len = total;
+    return res;
+}
+
+static size_t string_count_substring(const char *src, size_t src_len, const char *sub, size_t sub_len)
+{
+    if (sub_len == 0 || src_len < sub_len) return 0;
+    size_t count = 0;
+    const char *p = src;
+    const char *end = src + src_len - sub_len + 1;
+    while (p < end) {
+        if (memcmp(p, sub, sub_len) == 0) {
+            count++;
+            p += sub_len;
+        } else {
+            p++;
+        }
+    }
+    return count;
+}
+
+static char *pad_string(const char *src, size_t src_len, size_t target_len, char pad_char, int is_left, size_t *out_len)
+{
+    if (src_len >= target_len) {
+        char *res = (char *)malloc(src_len + 1);
+        if (!res) return NULL;
+        memcpy(res, src, src_len);
+        res[src_len] = '\0';
+        if (out_len) *out_len = src_len;
+        return res;
+    }
+    char *res = (char *)malloc(target_len + 1);
+    if (!res) return NULL;
+    size_t pad_amount = target_len - src_len;
+    if (is_left) {
+        memset(res, pad_char, pad_amount);
+        memcpy(res + pad_amount, src, src_len);
+    } else {
+        memcpy(res, src, src_len);
+        memset(res + src_len, pad_char, pad_amount);
+    }
+    res[target_len] = '\0';
+    if (out_len) *out_len = target_len;
+    return res;
+}
+
+static char *hex_to_string(const char *hex, size_t len, size_t *out_len)
+{
+    if (len % 2 != 0) return NULL;
+    size_t result_len = len / 2;
+    char *out = (char *)malloc(result_len + 1);
+    if (!out) return NULL;
+    for (size_t i = 0; i < result_len; i++) {
+        char buf[3] = { hex[i * 2], hex[i * 2 + 1], '\0' };
+        if (!isxdigit((unsigned char)buf[0]) || !isxdigit((unsigned char)buf[1])) {
+            free(out);
+            return NULL;
+        }
+        unsigned int byte_val = 0;
+        sscanf(buf, "%x", &byte_val);
+        out[i] = (char)byte_val;
+    }
+    out[result_len] = '\0';
+    if (out_len) *out_len = result_len;
+    return out;
+}
+
+static Value read_file_lines(Parser *parser, Token name, const char *path)
+{
+    FILE *f = fopen(path, "rb");
+    if (!f) return null_value();
+    List *list = create_list(parser, name);
+    StringBuffer line;
+    sb_init(&line);
+    int c;
+    while ((c = fgetc(f)) != EOF) {
+        if (c == '\r') {
+            int next = fgetc(f);
+            if (next != '\n' && next != EOF) ungetc(next, f);
+            Value lv = make_owned_string_value(parser, name, line.data ? line.data : copy_string(""), line.length);
+            append_list_item(parser, list, lv, name);
+            sb_init(&line);
+        } else if (c == '\n') {
+            Value lv = make_owned_string_value(parser, name, line.data ? line.data : copy_string(""), line.length);
+            append_list_item(parser, list, lv, name);
+            sb_init(&line);
+        } else {
+            char ch = (char)c;
+            sb_append(&line, &ch, 1);
+        }
+    }
+    if (line.length > 0) {
+        Value lv = make_owned_string_value(parser, name, line.data ? line.data : copy_string(""), line.length);
+        append_list_item(parser, list, lv, name);
+    } else {
+        sb_free(&line);
+    }
+    fclose(f);
+    Value res = number_value(0.0);
+    res.kind = VALUE_LIST;
+    res.list = list;
+    return res;
+}
+
+static Value parse_csv_string(Parser *parser, Token name, const char *csv, size_t len)
+{
+    List *rows = create_list(parser, name);
+    size_t i = 0;
+    while (i < len) {
+        if (csv[i] == '\r' || csv[i] == '\n') {
+            i++;
+            continue;
+        }
+        List *row = create_list(parser, name);
+        while (i < len && csv[i] != '\r' && csv[i] != '\n') {
+            StringBuffer field;
+            sb_init(&field);
+            if (csv[i] == '"') {
+                i++;
+                while (i < len) {
+                    if (csv[i] == '"') {
+                        if (i + 1 < len && csv[i + 1] == '"') {
+                            sb_append(&field, "\"", 1);
+                            i += 2;
+                        } else {
+                            i++;
+                            break;
+                        }
+                    } else {
+                        sb_append(&field, &csv[i], 1);
+                        i++;
+                    }
+                }
+                while (i < len && csv[i] != ',' && csv[i] != '\r' && csv[i] != '\n') {
+                    i++;
+                }
+            } else {
+                while (i < len && csv[i] != ',' && csv[i] != '\r' && csv[i] != '\n') {
+                    sb_append(&field, &csv[i], 1);
+                    i++;
+                }
+            }
+            Value col_val = make_owned_string_value(parser, name, field.data ? field.data : copy_string(""), field.length);
+            append_list_item(parser, row, col_val, name);
+            if (i < len && csv[i] == ',') {
+                i++;
+                if (i == len || csv[i] == '\r' || csv[i] == '\n') {
+                    Value empty_val = make_owned_string_value(parser, name, copy_string(""), 0);
+                    append_list_item(parser, row, empty_val, name);
+                }
+            }
+        }
+        Value row_val = number_value(0.0);
+        row_val.kind = VALUE_LIST;
+        row_val.list = row;
+        append_list_item(parser, rows, row_val, name);
+        if (i < len && csv[i] == '\r') i++;
+        if (i < len && csv[i] == '\n') i++;
+    }
+    Value result = number_value(0.0);
+    result.kind = VALUE_LIST;
+    result.list = rows;
+    return result;
 }
 
 static Value parse_function_call(Parser *parser, Token name, int execute)
@@ -6273,7 +6663,664 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                         result = make_owned_string_value(parser, name, pname, strlen(pname));
                     }
                 }
-            } else {
+            } else if (token_matches(parser, name, "પર્યાવરણ") || token_matches(parser, name, "paryavaran")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *ename = value_to_c_string(parser, arguments[0]);
+                    if (ename) {
+                        char *eval = getenv(ename);
+                        free(ename);
+                        if (eval) {
+                            char *copy = copy_string(eval);
+                            if (copy) result = make_owned_string_value(parser, name, copy, strlen(copy));
+                        } else {
+                            result = null_value();
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "પર્યાવરણ_લખો") || token_matches(parser, name, "paryavaran_lakho")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *ename = value_to_c_string(parser, arguments[0]);
+                    char *eval = value_to_c_string(parser, arguments[1]);
+                    if (ename && eval) {
+#if defined(_WIN32)
+                        _putenv_s(ename, eval);
+#else
+                        setenv(ename, eval, 1);
+#endif
+                        result = number_value(1.0);
+                    }
+                    if (ename) free(ename);
+                    if (eval) free(eval);
+                }
+            } else if (token_matches(parser, name, "પાથ_જોડો") || token_matches(parser, name, "path_jodo")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *a = value_to_c_string(parser, arguments[0]);
+                    char *b = value_to_c_string(parser, arguments[1]);
+                    if (a && b) {
+                        char *res = path_join(a, strlen(a), b, strlen(b));
+                        if (res) result = make_owned_string_value(parser, name, res, strlen(res));
+                    }
+                    if (a) free(a);
+                    if (b) free(b);
+                }
+            } else if (token_matches(parser, name, "પાથ_વિસ્તરણ") || token_matches(parser, name, "path_vistaran")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *p = value_to_c_string(parser, arguments[0]);
+                    if (p) {
+                        const char *ext = path_extension(p, strlen(p));
+                        char *copy = copy_string(ext);
+                        free(p);
+                        if (copy) result = make_owned_string_value(parser, name, copy, strlen(copy));
+                    }
+                }
+            } else if (token_matches(parser, name, "પાથ_મુખ્ય") || token_matches(parser, name, "path_mukhya")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *p = value_to_c_string(parser, arguments[0]);
+                    if (p) {
+                        const char *base = path_basename(p, strlen(p));
+                        char *copy = copy_string(base);
+                        free(p);
+                        if (copy) result = make_owned_string_value(parser, name, copy, strlen(copy));
+                    }
+                }
+            } else if (token_matches(parser, name, "પાથ_ફોલ્ડર") || token_matches(parser, name, "path_folder")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *p = value_to_c_string(parser, arguments[0]);
+                    if (p) {
+                        char *dir = path_dirname(p, strlen(p));
+                        free(p);
+                        if (dir) result = make_owned_string_value(parser, name, dir, strlen(dir));
+                    }
+                }
+            } else if (token_matches(parser, name, "યુયુઆઈડી_બનાવો") || token_matches(parser, name, "uuid_banao")) {
+                if (argument_count != 0) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *u = generate_uuid_v4();
+                    if (u) result = make_owned_string_value(parser, name, u, strlen(u));
+                }
+            } else if (token_matches(parser, name, "યુઆરએલ_કોડ") || token_matches(parser, name, "url_kod")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *s = value_to_c_string(parser, arguments[0]);
+                    if (s) {
+                        char *enc = url_encode(s, strlen(s));
+                        free(s);
+                        if (enc) result = make_owned_string_value(parser, name, enc, strlen(enc));
+                    }
+                }
+            } else if (token_matches(parser, name, "યુઆરએલ_ડીકોડ") || token_matches(parser, name, "url_decode")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *s = value_to_c_string(parser, arguments[0]);
+                    if (s) {
+                        char *dec = url_decode(s, strlen(s));
+                        free(s);
+                        if (dec) result = make_owned_string_value(parser, name, dec, strlen(dec));
+                    }
+                }
+            } else if (token_matches(parser, name, "યાદી_સરવાળો") || token_matches(parser, name, "yadi_sarvalo")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                } else {
+                    List *l = arguments[0].list;
+                    double sum = 0.0;
+                    if (l) {
+                        for (size_t i = 0; i < l->count; i++) {
+                            if (l->items[i].kind == VALUE_NUMBER) sum += l->items[i].number;
+                        }
+                    }
+                    result = number_value(sum);
+                }
+            } else if (token_matches(parser, name, "યાદી_સરેરાશ") || token_matches(parser, name, "yadi_sareras")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                } else {
+                    List *l = arguments[0].list;
+                    double sum = 0.0;
+                    size_t cnt = 0;
+                    if (l) {
+                        for (size_t i = 0; i < l->count; i++) {
+                            if (l->items[i].kind == VALUE_NUMBER) {
+                                sum += l->items[i].number;
+                                cnt++;
+                            }
+                        }
+                    }
+                    result = number_value(cnt > 0 ? (sum / (double)cnt) : 0.0);
+                }
+            } else if (token_matches(parser, name, "યાદી_મધ્યસ્થ") || token_matches(parser, name, "yadi_madhyastha")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                } else {
+                    List *l = arguments[0].list;
+                    if (!l || l->count == 0) {
+                        result = number_value(0.0);
+                    } else {
+                        double *arr = (double *)malloc(l->count * sizeof(double));
+                        if (arr) {
+                            size_t cnt = 0;
+                            for (size_t i = 0; i < l->count; i++) {
+                                if (l->items[i].kind == VALUE_NUMBER) arr[cnt++] = l->items[i].number;
+                            }
+                            if (cnt == 0) {
+                                result = number_value(0.0);
+                            } else {
+                                qsort(arr, cnt, sizeof(double), compare_doubles_asc);
+                                if (cnt % 2 == 1) {
+                                    result = number_value(arr[cnt / 2]);
+                                } else {
+                                    result = number_value((arr[cnt / 2 - 1] + arr[cnt / 2]) / 2.0);
+                                }
+                            }
+                            free(arr);
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "લેખન_પૂર્ણ_ડાબી") || token_matches(parser, name, "lakhan_purn_dabi")) {
+                if (argument_count != 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *s = value_to_c_string(parser, arguments[0]);
+                    char *p = value_to_c_string(parser, arguments[2]);
+                    char pch = (p && p[0] != '\0') ? p[0] : ' ';
+                    size_t out_len = 0;
+                    if (s) {
+                        char *res = pad_string(s, strlen(s), (size_t)arguments[1].number, pch, 1, &out_len);
+                        if (res) result = make_owned_string_value(parser, name, res, out_len);
+                        free(s);
+                    }
+                    if (p) free(p);
+                }
+            } else if (token_matches(parser, name, "લેખન_પૂર્ણ_જમણી") || token_matches(parser, name, "lakhan_purn_jamni")) {
+                if (argument_count != 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *s = value_to_c_string(parser, arguments[0]);
+                    char *p = value_to_c_string(parser, arguments[2]);
+                    char pch = (p && p[0] != '\0') ? p[0] : ' ';
+                    size_t out_len = 0;
+                    if (s) {
+                        char *res = pad_string(s, strlen(s), (size_t)arguments[1].number, pch, 0, &out_len);
+                        if (res) result = make_owned_string_value(parser, name, res, out_len);
+                        free(s);
+                    }
+                    if (p) free(p);
+                }
+            } else if (token_matches(parser, name, "બીટ_અને") || token_matches(parser, name, "bit_ane")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    int64_t a = (int64_t)arguments[0].number;
+                    int64_t b = (int64_t)arguments[1].number;
+                    result = number_value((double)(a & b));
+                }
+            } else if (token_matches(parser, name, "બીટ_અથવા") || token_matches(parser, name, "bit_athva")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    int64_t a = (int64_t)arguments[0].number;
+                    int64_t b = (int64_t)arguments[1].number;
+                    result = number_value((double)(a | b));
+                }
+            } else if (token_matches(parser, name, "બીટ_એક્સઓર") || token_matches(parser, name, "bit_xor")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    int64_t a = (int64_t)arguments[0].number;
+                    int64_t b = (int64_t)arguments[1].number;
+                    result = number_value((double)(a ^ b));
+                }
+            } else if (token_matches(parser, name, "બીટ_નહિ") || token_matches(parser, name, "bit_nahi")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    int64_t a = (int64_t)arguments[0].number;
+                    result = number_value((double)(~a));
+                }
+            } else if (token_matches(parser, name, "બીટ_શિફ્ટ_ડાબી") || token_matches(parser, name, "bit_shifte_dabi")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    int64_t a = (int64_t)arguments[0].number;
+                    int64_t b = (int64_t)arguments[1].number;
+                    result = number_value((double)(a << b));
+                }
+            } else if (token_matches(parser, name, "બીટ_શિફ્ટ_જમણી") || token_matches(parser, name, "bit_shifte_jamni")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    int64_t a = (int64_t)arguments[0].number;
+                    int64_t b = (int64_t)arguments[1].number;
+                    result = number_value((double)(a >> b));
+                }
+            } else if (token_matches(parser, name, "યાદી_અનન્ય") || token_matches(parser, name, "yadi_ananya")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                } else {
+                    List *src_list = arguments[0].list;
+                    List *dst_list = create_list(parser, name);
+                    if (src_list && dst_list) {
+                        for (size_t i = 0; i < src_list->count; i++) {
+                            int exists = 0;
+                            for (size_t j = 0; j < dst_list->count; j++) {
+                                if (values_are_equal(parser, src_list->items[i], dst_list->items[j])) {
+                                    exists = 1;
+                                    break;
+                                }
+                            }
+                            if (!exists) append_list_item(parser, dst_list, src_list->items[i], name);
+                        }
+                    }
+                    result = number_value(0.0);
+                    result.kind = VALUE_LIST;
+                    result.list = dst_list;
+                }
+            } else if (token_matches(parser, name, "યાદી_મેળ") || token_matches(parser, name, "yadi_mel")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST || arguments[1].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                } else {
+                    List *l1 = arguments[0].list;
+                    List *l2 = arguments[1].list;
+                    List *dst = create_list(parser, name);
+                    if (l1 && dst) {
+                        for (size_t i = 0; i < l1->count; i++) {
+                            int exists = 0;
+                            for (size_t j = 0; j < dst->count; j++) {
+                                if (values_are_equal(parser, l1->items[i], dst->items[j])) { exists = 1; break; }
+                            }
+                            if (!exists) append_list_item(parser, dst, l1->items[i], name);
+                        }
+                    }
+                    if (l2 && dst) {
+                        for (size_t i = 0; i < l2->count; i++) {
+                            int exists = 0;
+                            for (size_t j = 0; j < dst->count; j++) {
+                                if (values_are_equal(parser, l2->items[i], dst->items[j])) { exists = 1; break; }
+                            }
+                            if (!exists) append_list_item(parser, dst, l2->items[i], name);
+                        }
+                    }
+                    result = number_value(0.0);
+                    result.kind = VALUE_LIST;
+                    result.list = dst;
+                }
+            } else if (token_matches(parser, name, "યાદી_છેદ") || token_matches(parser, name, "yadi_chhed")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST || arguments[1].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                } else {
+                    List *l1 = arguments[0].list;
+                    List *l2 = arguments[1].list;
+                    List *dst = create_list(parser, name);
+                    if (l1 && l2 && dst) {
+                        for (size_t i = 0; i < l1->count; i++) {
+                            int in_l2 = 0;
+                            for (size_t j = 0; j < l2->count; j++) {
+                                if (values_are_equal(parser, l1->items[i], l2->items[j])) { in_l2 = 1; break; }
+                            }
+                            if (in_l2) {
+                                int in_dst = 0;
+                                for (size_t k = 0; k < dst->count; k++) {
+                                    if (values_are_equal(parser, l1->items[i], dst->items[k])) { in_dst = 1; break; }
+                                }
+                                if (!in_dst) append_list_item(parser, dst, l1->items[i], name);
+                            }
+                        }
+                    }
+                    result = number_value(0.0);
+                    result.kind = VALUE_LIST;
+                    result.list = dst;
+                }
+            } else if (token_matches(parser, name, "યાદી_તફાવત") || token_matches(parser, name, "yadi_tavat")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST || arguments[1].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                } else {
+                    List *l1 = arguments[0].list;
+                    List *l2 = arguments[1].list;
+                    List *dst = create_list(parser, name);
+                    if (l1 && dst) {
+                        for (size_t i = 0; i < l1->count; i++) {
+                            int in_l2 = 0;
+                            if (l2) {
+                                for (size_t j = 0; j < l2->count; j++) {
+                                    if (values_are_equal(parser, l1->items[i], l2->items[j])) { in_l2 = 1; break; }
+                                }
+                            }
+                            if (!in_l2) {
+                                int in_dst = 0;
+                                for (size_t k = 0; k < dst->count; k++) {
+                                    if (values_are_equal(parser, l1->items[i], dst->items[k])) { in_dst = 1; break; }
+                                }
+                                if (!in_dst) append_list_item(parser, dst, l1->items[i], name);
+                            }
+                        }
+                    }
+                    result = number_value(0.0);
+                    result.kind = VALUE_LIST;
+                    result.list = dst;
+                }
+            } else if (token_matches(parser, name, "અક્ષર_કોડ") || token_matches(parser, name, "akshar_kod")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *s = value_to_c_string(parser, arguments[0]);
+                    if (s) {
+                        size_t idx = (size_t)arguments[1].number;
+                        size_t slen = strlen(s);
+                        if (idx < slen) {
+                            result = number_value((double)(unsigned char)s[idx]);
+                        } else {
+                            result = number_value(-1.0);
+                        }
+                        free(s);
+                    }
+                }
+            } else if (token_matches(parser, name, "કોડ_થી_અક્ષર") || token_matches(parser, name, "kod_thi_akshar")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char buf[2] = { (char)(int)arguments[0].number, '\0' };
+                    char *copy = copy_string(buf);
+                    if (copy) result = make_owned_string_value(parser, name, copy, 1);
+                }
+            } else if (token_matches(parser, name, "લૉગ_કુદરતી") || token_matches(parser, name, "log_kudrati")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = number_value(log(arguments[0].number));
+                }
+            } else if (token_matches(parser, name, "લૉગ_૧૦") || token_matches(parser, name, "log_10")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = number_value(log10(arguments[0].number));
+                }
+            } else if (token_matches(parser, name, "ઘાત_મૂળ") || token_matches(parser, name, "ghat_mul")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = number_value(pow(arguments[0].number, arguments[1].number));
+                }
+            } else if (token_matches(parser, name, "ઈ_ઘાત") || token_matches(parser, name, "e_ghat")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = number_value(exp(arguments[0].number));
+                }
+            } else if (token_matches(parser, name, "યાદી_ઊલટે_ક્રમ") || token_matches(parser, name, "yadi_ulte_kram")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                } else {
+                    List *src = arguments[0].list;
+                    List *dst = create_list(parser, name);
+                    if (src && dst) {
+                        for (size_t i = src->count; i > 0; i--) {
+                            append_list_item(parser, dst, src->items[i - 1], name);
+                        }
+                    }
+                    result = number_value(0.0);
+                    result.kind = VALUE_LIST;
+                    result.list = dst;
+                }
+            } else if (token_matches(parser, name, "યાદી_ટુકડા") || token_matches(parser, name, "yadi_tukda")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                } else {
+                    List *src = arguments[0].list;
+                    size_t chunk_size = (size_t)arguments[1].number;
+                    if (chunk_size == 0) chunk_size = 1;
+                    List *chunks = create_list(parser, name);
+                    if (src && chunks) {
+                        for (size_t i = 0; i < src->count; i += chunk_size) {
+                            List *chunk = create_list(parser, name);
+                            for (size_t j = i; j < i + chunk_size && j < src->count; j++) {
+                                append_list_item(parser, chunk, src->items[j], name);
+                            }
+                            Value cv = number_value(0.0);
+                            cv.kind = VALUE_LIST;
+                            cv.list = chunk;
+                            append_list_item(parser, chunks, cv, name);
+                        }
+                    }
+                    result = number_value(0.0);
+                    result.kind = VALUE_LIST;
+                    result.list = chunks;
+                }
+            } else if (token_matches(parser, name, "યાદી_ખીચડી") || token_matches(parser, name, "yadi_khichdi")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_LIST_FOR_OPERATION);
+                } else {
+                    List *src = arguments[0].list;
+                    List *dst = create_list(parser, name);
+                    if (src && dst) {
+                        for (size_t i = 0; i < src->count; i++) {
+                            append_list_item(parser, dst, src->items[i], name);
+                        }
+                        if (dst->count > 1) {
+                            for (size_t i = dst->count - 1; i > 0; i--) {
+                                size_t j = (size_t)rand() % (i + 1);
+                                Value tmp = dst->items[i];
+                                dst->items[i] = dst->items[j];
+                                dst->items[j] = tmp;
+                            }
+                        }
+                    }
+                    result = number_value(0.0);
+                    result.kind = VALUE_LIST;
+                    result.list = dst;
+                }
+            } else if (token_matches(parser, name, "ચાવી_છે") || token_matches(parser, name, "chavi_chhe")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_DICT) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_DICT_FOR_OPERATION);
+                } else {
+                    char *k = value_to_c_string(parser, arguments[1]);
+                    if (k) {
+                        int found = 0;
+                        dict_get(arguments[0].dict, k, strlen(k), &found);
+                        free(k);
+                        result = number_value(found ? 1.0 : 0.0);
+                    }
+                }
+            } else if (token_matches(parser, name, "કોશ_જોડો") || token_matches(parser, name, "kosh_jodo")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_DICT || arguments[1].kind != VALUE_DICT) {
+                    report_error(parser, name.line, name.column, MESSAGE_EXPECTED_DICT_FOR_OPERATION);
+                } else {
+                    Dict *d1 = arguments[0].dict;
+                    Dict *d2 = arguments[1].dict;
+                    Dict *dst = create_dict(parser, name);
+                    if (d1 && dst) {
+                        for (size_t i = 0; i < d1->count; i++) {
+                            dict_set(parser, dst, d1->entries[i].key, d1->entries[i].key_length, d1->entries[i].value, name);
+                        }
+                    }
+                    if (d2 && dst) {
+                        for (size_t i = 0; i < d2->count; i++) {
+                            dict_set(parser, dst, d2->entries[i].key, d2->entries[i].key_length, d2->entries[i].value, name);
+                        }
+                    }
+                    result = number_value(0.0);
+                    result.kind = VALUE_DICT;
+                    result.dict = dst;
+                }
+            } else if (token_matches(parser, name, "માઇક્રો_સમય") || token_matches(parser, name, "micro_samay")) {
+                if (argument_count != 0) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+#if defined(_WIN32)
+                    FILETIME ft;
+                    GetSystemTimeAsFileTime(&ft);
+                    ULARGE_INTEGER uli;
+                    uli.LowPart = ft.dwLowDateTime;
+                    uli.HighPart = ft.dwHighDateTime;
+                    double usec = (double)(uli.QuadPart - 116444736000000000ULL) / 10.0;
+                    result = number_value(usec);
+#else
+                    struct timeval tv;
+                    gettimeofday(&tv, NULL);
+                    double usec = (double)tv.tv_sec * 1000000.0 + (double)tv.tv_usec;
+                    result = number_value(usec);
+#endif
+                }
+            } else if (token_matches(parser, name, "લેખન_આવૃત્તિ") || token_matches(parser, name, "lakhan_aavrutti")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *s = value_to_c_string(parser, arguments[0]);
+                    if (s) {
+                        size_t out_len = 0;
+                        size_t count = arguments[1].number > 0 ? (size_t)arguments[1].number : 0;
+                        char *rep = string_repeat(s, strlen(s), count, &out_len);
+                        free(s);
+                        if (rep) result = make_owned_string_value(parser, name, rep, out_len);
+                    }
+                }
+            } else if (token_matches(parser, name, "લેખન_ગણતરી") || token_matches(parser, name, "lakhan_ganatari")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *s = value_to_c_string(parser, arguments[0]);
+                    char *sub = value_to_c_string(parser, arguments[1]);
+                    if (s && sub) {
+                        size_t cnt = string_count_substring(s, strlen(s), sub, strlen(sub));
+                        result = number_value((double)cnt);
+                    }
+                    if (s) free(s);
+                    if (sub) free(sub);
+                }
+            } else if (token_matches(parser, name, "લેખન_ટુકડા_યાદી") || token_matches(parser, name, "lakhan_tukda_yadi")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *s = value_to_c_string(parser, arguments[0]);
+                    char *delims = value_to_c_string(parser, arguments[1]);
+                    List *dst = create_list(parser, name);
+                    if (s && delims && dst) {
+                        StringBuffer piece;
+                        sb_init(&piece);
+                        size_t slen = strlen(s);
+                        for (size_t i = 0; i < slen; i++) {
+                            char c = s[i];
+                            if (strchr(delims, c) != NULL) {
+                                Value pv = make_owned_string_value(parser, name, piece.data ? piece.data : copy_string(""), piece.length);
+                                append_list_item(parser, dst, pv, name);
+                                sb_init(&piece);
+                            } else {
+                                sb_append(&piece, &c, 1);
+                            }
+                        }
+                        Value pv = make_owned_string_value(parser, name, piece.data ? piece.data : copy_string(""), piece.length);
+                        append_list_item(parser, dst, pv, name);
+                    }
+                    if (s) free(s);
+                    if (delims) free(delims);
+                    result = number_value(0.0);
+                    result.kind = VALUE_LIST;
+                    result.list = dst;
+                }
+            } else if (token_matches(parser, name, "ફાઇલ_લાઇન_વાંચો") || token_matches(parser, name, "file_line_vancho")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *p = value_to_c_string(parser, arguments[0]);
+                    if (p) {
+                        result = read_file_lines(parser, name, p);
+                        free(p);
+                    }
+                }
+            } else if (token_matches(parser, name, "હેક્સ_થી_લેખન") || token_matches(parser, name, "hex_thi_lakhan")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *hex = value_to_c_string(parser, arguments[0]);
+                    if (hex) {
+                        size_t out_len = 0;
+                        char *txt = hex_to_string(hex, strlen(hex), &out_len);
+                        free(hex);
+                        if (txt) {
+                            result = make_owned_string_value(parser, name, txt, out_len);
+                        } else {
+                            result = null_value();
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "સીએસવી_વાંચો") || token_matches(parser, name, "csv_vancho")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    char *csv = value_to_c_string(parser, arguments[0]);
+                    if (csv) {
+                        result = parse_csv_string(parser, name, csv, strlen(csv));
+                        free(csv);
+                    }
+                }
+            } else if (token_matches(parser, name, "સંખ્યા_છે") || token_matches(parser, name, "sankhya_chhe")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = number_value(arguments[0].kind == VALUE_NUMBER ? 1.0 : 0.0);
+                }
+            } else if (token_matches(parser, name, "લેખન_છે") || token_matches(parser, name, "lakhan_chhe")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = number_value(arguments[0].kind == VALUE_STRING ? 1.0 : 0.0);
+                }
+            } else if (token_matches(parser, name, "યાદી_છે") || token_matches(parser, name, "yadi_chhe")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = number_value(arguments[0].kind == VALUE_LIST ? 1.0 : 0.0);
+                }
+            } else if (token_matches(parser, name, "કોશ_છે") || token_matches(parser, name, "kosh_chhe")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = number_value(arguments[0].kind == VALUE_DICT ? 1.0 : 0.0);
+                }
+            } else if (token_matches(parser, name, "નકામો_છે") || token_matches(parser, name, "nakamo_chhe")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = number_value(arguments[0].kind == VALUE_NULL ? 1.0 : 0.0);
+                }
                 Function *function = find_function(parser, name);
                 if (function == NULL) {
                     report_error(parser, name.line, name.column,

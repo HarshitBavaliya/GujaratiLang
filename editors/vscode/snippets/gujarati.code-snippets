@@ -1,8 +1,9 @@
 {
   "GujaratiLang program": {
     "prefix": [
-      "gj-program",
-      "aavo"
+      "આ",
+      "આવો",
+      "gj-program"
     ],
     "body": [
       "આવો",
@@ -13,11 +14,13 @@
   },
   "GujaratiLang function": {
     "prefix": [
-      "gj-function",
-      "કાર્ય"
+      "ક",
+      "કાર્ય",
+      "gj-function"
     ],
     "body": [
       "કાર્ય ${1:name}(${2:parameters}) {",
+      "\t$0",
       "\tપરત ${3:value};",
       "}"
     ],
@@ -25,8 +28,9 @@
   },
   "GujaratiLang conditional": {
     "prefix": [
-      "gj-if",
-      "જો"
+      "જ",
+      "જો",
+      "gj-if"
     ],
     "body": [
       "જો (${1:condition}) {",
@@ -37,8 +41,9 @@
   },
   "GujaratiLang while loop": {
     "prefix": [
-      "gj-while",
-      "જ્યાં સુધી"
+      "જ્યાં",
+      "જ્યાં સુધી",
+      "gj-while"
     ],
     "body": [
       "જ્યાં સુધી (${1:condition}) {",
@@ -49,8 +54,9 @@
   },
   "GujaratiLang for loop": {
     "prefix": [
-      "gj-for",
-      "દરેક"
+      "દ",
+      "દરેક",
+      "gj-for"
     ],
     "body": [
       "દરેક (${1:item} માં ${2:items}) {",
@@ -61,8 +67,9 @@
   },
   "GujaratiLang program (romanized)": {
     "prefix": [
-      "gj-program-en",
-      "aavo-en"
+      "a",
+      "aavo",
+      "gj-program-en"
     ],
     "body": [
       "aavo",
@@ -73,11 +80,13 @@
   },
   "GujaratiLang function (romanized)": {
     "prefix": [
-      "gj-function-en",
-      "kary"
+      "k",
+      "kary",
+      "gj-function-en"
     ],
     "body": [
       "kary ${1:name}(${2:parameters}) {",
+      "\t$0",
       "\tparat ${3:value};",
       "}"
     ],
@@ -85,8 +94,9 @@
   },
   "GujaratiLang conditional (romanized)": {
     "prefix": [
-      "gj-if-en",
-      "jo"
+      "j",
+      "jo",
+      "gj-if-en"
     ],
     "body": [
       "jo (${1:condition}) {",
@@ -97,8 +107,9 @@
   },
   "GujaratiLang while loop (romanized)": {
     "prefix": [
-      "gj-while-en",
-      "jya_sudhi"
+      "jya",
+      "jya_sudhi",
+      "gj-while-en"
     ],
     "body": [
       "jya_sudhi (${1:condition}) {",
@@ -109,8 +120,9 @@
   },
   "GujaratiLang for loop (romanized)": {
     "prefix": [
-      "gj-for-en",
-      "darek"
+      "d",
+      "darek",
+      "gj-for-en"
     ],
     "body": [
       "darek (${1:item} ma ${2:items}) {",
@@ -1600,5 +1612,436 @@
       "gaalo_yadi(${1:list}, \"${2:predicate_fn}\")"
     ],
     "description": "Filter list elements with predicate"
+  },
+  "GujaratiLang print (romanized)": {
+    "prefix": [
+      "c",
+      "chhapo",
+      "print",
+      "gj-print-en"
+    ],
+    "body": [
+      "chhapo ${1:expression};"
+    ],
+    "description": "Print expression to output"
+  },
+  "GujaratiLang print": {
+    "prefix": [
+      "છ",
+      "છાપો",
+      "gj-print"
+    ],
+    "body": [
+      "છાપો ${1:અભિવ્યક્તિ};"
+    ],
+    "description": "છાપો વિધાન / Print expression"
+  },
+  "GujaratiLang environment get": {
+    "prefix": [
+      "paryavaran",
+      "env",
+      "gj-env-get"
+    ],
+    "body": [
+      "paryavaran(\"${1:ENV_VAR}\")"
+    ],
+    "description": "Get environment variable value"
+  },
+  "GujaratiLang environment set": {
+    "prefix": [
+      "paryavaran_lakho",
+      "setenv",
+      "gj-env-set"
+    ],
+    "body": [
+      "paryavaran_lakho(\"${1:ENV_VAR}\", \"${2:value}\")"
+    ],
+    "description": "Set environment variable"
+  },
+  "GujaratiLang path join": {
+    "prefix": [
+      "path_jodo",
+      "gj-path-join"
+    ],
+    "body": [
+      "path_jodo(${1:base}, ${2:child})"
+    ],
+    "description": "Join filesystem paths"
+  },
+  "GujaratiLang path extension": {
+    "prefix": [
+      "path_vistaran",
+      "gj-path-ext"
+    ],
+    "body": [
+      "path_vistaran(${1:path})"
+    ],
+    "description": "Get file extension from path"
+  },
+  "GujaratiLang UUID v4": {
+    "prefix": [
+      "uuid_banao",
+      "uuid",
+      "gj-uuid"
+    ],
+    "body": [
+      "uuid_banao()"
+    ],
+    "description": "Generate unique UUID v4 string"
+  },
+  "GujaratiLang URL encode": {
+    "prefix": [
+      "url_kod",
+      "gj-url-encode"
+    ],
+    "body": [
+      "url_kod(${1:string})"
+    ],
+    "description": "Percent-encode URL string"
+  },
+  "GujaratiLang URL decode": {
+    "prefix": [
+      "url_decode",
+      "gj-url-decode"
+    ],
+    "body": [
+      "url_decode(${1:url_string})"
+    ],
+    "description": "Decode percent-encoded URL string"
+  },
+  "GujaratiLang list sum": {
+    "prefix": [
+      "yadi_sarvalo",
+      "gj-sum"
+    ],
+    "body": [
+      "yadi_sarvalo(${1:number_list})"
+    ],
+    "description": "Calculate sum of numbers in list"
+  },
+  "GujaratiLang list average": {
+    "prefix": [
+      "yadi_sareras",
+      "gj-average"
+    ],
+    "body": [
+      "yadi_sareras(${1:number_list})"
+    ],
+    "description": "Calculate mean average of numbers in list"
+  },
+  "GujaratiLang list median": {
+    "prefix": [
+      "yadi_madhyastha",
+      "gj-median"
+    ],
+    "body": [
+      "yadi_madhyastha(${1:number_list})"
+    ],
+    "description": "Calculate median of numbers in list"
+  },
+  "GujaratiLang string pad start": {
+    "prefix": [
+      "lakhan_purn_dabi",
+      "padStart",
+      "gj-pad-start"
+    ],
+    "body": [
+      "lakhan_purn_dabi(${1:string}, ${2:length}, \"${3:0}\")"
+    ],
+    "description": "Left pad string to length"
+  },
+  "GujaratiLang string pad end": {
+    "prefix": [
+      "lakhan_purn_jamni",
+      "padEnd",
+      "gj-pad-end"
+    ],
+    "body": [
+      "lakhan_purn_jamni(${1:string}, ${2:length}, \"${3: }\")"
+    ],
+    "description": "Right pad string to length"
+  },
+  "GujaratiLang bitwise and": {
+    "prefix": [
+      "bit_ane",
+      "gj-bit-and"
+    ],
+    "body": [
+      "bit_ane(${1:a}, ${2:b})"
+    ],
+    "description": "Bitwise AND operation"
+  },
+  "GujaratiLang bitwise or": {
+    "prefix": [
+      "bit_athva",
+      "gj-bit-or"
+    ],
+    "body": [
+      "bit_athva(${1:a}, ${2:b})"
+    ],
+    "description": "Bitwise OR operation"
+  },
+  "GujaratiLang bitwise xor": {
+    "prefix": [
+      "bit_xor",
+      "gj-bit-xor"
+    ],
+    "body": [
+      "bit_xor(${1:a}, ${2:b})"
+    ],
+    "description": "Bitwise XOR operation"
+  },
+  "GujaratiLang list unique": {
+    "prefix": [
+      "yadi_ananya",
+      "unique",
+      "gj-unique"
+    ],
+    "body": [
+      "yadi_ananya(${1:list})"
+    ],
+    "description": "Get distinct elements of list"
+  },
+  "GujaratiLang list union": {
+    "prefix": [
+      "yadi_mel",
+      "union",
+      "gj-union"
+    ],
+    "body": [
+      "yadi_mel(${1:list1}, ${2:list2})"
+    ],
+    "description": "Get set union of two lists"
+  },
+  "GujaratiLang list intersection": {
+    "prefix": [
+      "yadi_chhed",
+      "intersect",
+      "gj-intersect"
+    ],
+    "body": [
+      "yadi_chhed(${1:list1}, ${2:list2})"
+    ],
+    "description": "Get set intersection of two lists"
+  },
+  "GujaratiLang list difference": {
+    "prefix": [
+      "yadi_tavat",
+      "diff",
+      "gj-diff"
+    ],
+    "body": [
+      "yadi_tavat(${1:list1}, ${2:list2})"
+    ],
+    "description": "Get set difference of two lists"
+  },
+  "GujaratiLang char code": {
+    "prefix": [
+      "akshar_kod",
+      "charCodeAt",
+      "gj-char-code"
+    ],
+    "body": [
+      "akshar_kod(${1:string}, ${2:index})"
+    ],
+    "description": "Get character code unit at index"
+  },
+  "GujaratiLang char from code": {
+    "prefix": [
+      "kod_thi_akshar",
+      "fromCharCode",
+      "gj-from-char-code"
+    ],
+    "body": [
+      "kod_thi_akshar(${1:code})"
+    ],
+    "description": "Create string character from code unit"
+  },
+  "GujaratiLang list reverse": {
+    "prefix": [
+      "yadi_ulte_kram",
+      "reverse",
+      "gj-reverse"
+    ],
+    "body": [
+      "yadi_ulte_kram(${1:list})"
+    ],
+    "description": "Reverse elements of list"
+  },
+  "GujaratiLang list chunk": {
+    "prefix": [
+      "yadi_tukda",
+      "chunk",
+      "gj-chunk"
+    ],
+    "body": [
+      "yadi_tukda(${1:list}, ${2:chunk_size})"
+    ],
+    "description": "Chunk list into sublists of size"
+  },
+  "GujaratiLang list shuffle": {
+    "prefix": [
+      "yadi_khichdi",
+      "shuffle",
+      "gj-shuffle"
+    ],
+    "body": [
+      "yadi_khichdi(${1:list})"
+    ],
+    "description": "Randomly shuffle elements of list"
+  },
+  "GujaratiLang dict has key": {
+    "prefix": [
+      "chavi_chhe",
+      "has_key",
+      "gj-has-key"
+    ],
+    "body": [
+      "chavi_chhe(${1:dict}, \"${2:key}\")"
+    ],
+    "description": "Check if key exists in dictionary"
+  },
+  "GujaratiLang dict merge": {
+    "prefix": [
+      "kosh_jodo",
+      "merge",
+      "gj-dict-merge"
+    ],
+    "body": [
+      "kosh_jodo(${1:dict1}, ${2:dict2})"
+    ],
+    "description": "Merge two dictionaries"
+  },
+  "GujaratiLang microsecond time": {
+    "prefix": [
+      "micro_samay",
+      "micros",
+      "gj-micros"
+    ],
+    "body": [
+      "micro_samay()"
+    ],
+    "description": "High resolution microsecond timestamp"
+  },
+  "GujaratiLang string repeat": {
+    "prefix": [
+      "lakhan_aavrutti",
+      "repeat",
+      "gj-repeat"
+    ],
+    "body": [
+      "lakhan_aavrutti(${1:string}, ${2:count})"
+    ],
+    "description": "Repeat string N times"
+  },
+  "GujaratiLang string count": {
+    "prefix": [
+      "lakhan_ganatari",
+      "count",
+      "gj-count"
+    ],
+    "body": [
+      "lakhan_ganatari(${1:string}, \"${2:substring}\")"
+    ],
+    "description": "Count occurrences of substring"
+  },
+  "GujaratiLang string split multi-delims": {
+    "prefix": [
+      "lakhan_tukda_yadi",
+      "split",
+      "gj-split-delims"
+    ],
+    "body": [
+      "lakhan_tukda_yadi(${1:string}, \"${2:delimiters}\")"
+    ],
+    "description": "Split string by any delimiter character"
+  },
+  "GujaratiLang file read lines": {
+    "prefix": [
+      "file_line_vancho",
+      "readLines",
+      "gj-file-lines"
+    ],
+    "body": [
+      "file_line_vancho(\"${1:filename}\")"
+    ],
+    "description": "Read file lines as list of strings"
+  },
+  "GujaratiLang hex to string": {
+    "prefix": [
+      "hex_thi_lakhan",
+      "fromHex",
+      "gj-hex-decode"
+    ],
+    "body": [
+      "hex_thi_lakhan(\"${1:hex_string}\")"
+    ],
+    "description": "Decode hexadecimal string to plain text"
+  },
+  "GujaratiLang CSV parse": {
+    "prefix": [
+      "csv_vancho",
+      "csv",
+      "gj-csv-parse"
+    ],
+    "body": [
+      "csv_vancho(${1:csv_string})"
+    ],
+    "description": "Parse CSV text to 2D list table"
+  },
+  "GujaratiLang type is number": {
+    "prefix": [
+      "sankhya_chhe",
+      "isNumber",
+      "gj-is-number"
+    ],
+    "body": [
+      "sankhya_chhe(${1:value})"
+    ],
+    "description": "Check if value is a number"
+  },
+  "GujaratiLang type is string": {
+    "prefix": [
+      "lakhan_chhe",
+      "isString",
+      "gj-is-string"
+    ],
+    "body": [
+      "lakhan_chhe(${1:value})"
+    ],
+    "description": "Check if value is a string"
+  },
+  "GujaratiLang type is list": {
+    "prefix": [
+      "yadi_chhe",
+      "isList",
+      "gj-is-list"
+    ],
+    "body": [
+      "yadi_chhe(${1:value})"
+    ],
+    "description": "Check if value is a list"
+  },
+  "GujaratiLang type is dict": {
+    "prefix": [
+      "kosh_chhe",
+      "isDict",
+      "gj-is-dict"
+    ],
+    "body": [
+      "kosh_chhe(${1:value})"
+    ],
+    "description": "Check if value is a dictionary"
+  },
+  "GujaratiLang type is null": {
+    "prefix": [
+      "nakamo_chhe",
+      "isNull",
+      "gj-is-null"
+    ],
+    "body": [
+      "nakamo_chhe(${1:value})"
+    ],
+    "description": "Check if value is null"
   }
 }

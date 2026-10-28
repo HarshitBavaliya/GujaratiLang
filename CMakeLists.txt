@@ -335,7 +335,27 @@ if(BUILD_TESTING)
             compound_assignment
             constant_variables
             constant_reassign_error
-            builtin_version_platform)
+            builtin_version_platform
+            builtin_env
+            builtin_path_utils
+            builtin_uuid
+            builtin_url
+            builtin_statistics
+            builtin_padding
+            builtin_bitwise
+            builtin_list_sets
+            builtin_char_code
+            builtin_exp_log
+            builtin_list_reverse
+            builtin_list_chunk
+            builtin_dict_utils
+            builtin_micro_samay
+            builtin_repeat_count
+            builtin_split_delim
+            builtin_file_lines
+            builtin_hex_to_string
+            builtin_csv
+            builtin_type_predicates)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

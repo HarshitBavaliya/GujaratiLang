@@ -2,7 +2,7 @@
   "name": "gujarati",
   "displayName": "GujaratiLang",
   "description": "Syntax highlighting for GujaratiLang source files.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "harshitbavaliya",
   "icon": "images/icon.png",
   "engines": {

@@ -3192,6 +3192,212 @@ aavjo
     set(expected_stdout "1.0.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_env")
+    set(source [=[aavo
+paryavaran_lakho("GJ_TEST_VAR", "hello_env");
+chhapo paryavaran("GJ_TEST_VAR");
+aavjo
+]=])
+    set(expected_stdout "hello_env\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_path_utils")
+    set(source [=[aavo
+chhapo path_jodo("foo/bar", "baz.txt");
+chhapo path_vistaran("my/dir/file.gj");
+chhapo path_mukhya("my/dir/file.gj");
+chhapo path_folder("my/dir/file.gj");
+aavjo
+]=])
+    set(expected_stdout "foo/bar/baz.txt\n.gj\nfile.gj\nmy/dir\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_uuid")
+    set(source [=[aavo
+u = uuid_banao();
+chhapo lambai(u);
+aavjo
+]=])
+    set(expected_stdout "36\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_url")
+    set(source [=[aavo
+enc = url_kod("hello world & foo=bar");
+chhapo enc;
+dec = url_decode(enc);
+chhapo dec;
+aavjo
+]=])
+    set(expected_stdout "hello%20world%20%26%20foo%3Dbar\nhello world & foo=bar\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_statistics")
+    set(source [=[aavo
+l = [10, 20, 30, 40, 50];
+chhapo yadi_sarvalo(l);
+chhapo yadi_sareras(l);
+chhapo yadi_madhyastha(l);
+aavjo
+]=])
+    set(expected_stdout "150\n30\n30\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_padding")
+    set(source [=[aavo
+chhapo lakhan_purn_dabi("42", 5, "0");
+chhapo lakhan_purn_jamni("hi", 5, ".");
+aavjo
+]=])
+    set(expected_stdout "00042\nhi...\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_bitwise")
+    set(source [=[aavo
+chhapo bit_ane(12, 10);
+chhapo bit_athva(12, 10);
+chhapo bit_xor(12, 10);
+chhapo bit_shifte_dabi(1, 4);
+chhapo bit_shifte_jamni(16, 2);
+aavjo
+]=])
+    set(expected_stdout "8\n14\n6\n16\n4\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_list_sets")
+    set(source [=[aavo
+l1 = [1, 2, 2, 3];
+chhapo yadi_ananya(l1);
+l2 = [3, 4, 5];
+chhapo yadi_mel(l1, l2);
+chhapo yadi_chhed(l1, l2);
+chhapo yadi_tavat(l1, l2);
+aavjo
+]=])
+    set(expected_stdout "[1, 2, 3]\n[1, 2, 3, 4, 5]\n[3]\n[1, 2]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_char_code")
+    set(source [=[aavo
+c = akshar_kod("ABC", 1);
+chhapo c;
+s = kod_thi_akshar(65);
+chhapo s;
+aavjo
+]=])
+    set(expected_stdout "66\nA\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_exp_log")
+    set(source [=[aavo
+chhapo log_10(100);
+chhapo ghat_mul(2, 8);
+aavjo
+]=])
+    set(expected_stdout "2\n256\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_list_reverse")
+    set(source [=[aavo
+l = [10, 20, 30];
+chhapo yadi_ulte_kram(l);
+aavjo
+]=])
+    set(expected_stdout "[30, 20, 10]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_list_chunk")
+    set(source [=[aavo
+l = [1, 2, 3, 4, 5];
+chhapo yadi_tukda(l, 2);
+aavjo
+]=])
+    set(expected_stdout "[[1, 2], [3, 4], [5]]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_dict_utils")
+    set(source [=[aavo
+d1 = { "a": 1, "b": 2 };
+chhapo chavi_chhe(d1, "a");
+chhapo chavi_chhe(d1, "z");
+d2 = { "b": 20, "c": 30 };
+d3 = kosh_jodo(d1, d2);
+chhapo d3["b"];
+chhapo d3["c"];
+aavjo
+]=])
+    set(expected_stdout "1\n0\n20\n30\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_micro_samay")
+    set(source [=[aavo
+t = micro_samay();
+chhapo t > 0;
+aavjo
+]=])
+    set(expected_stdout "1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_repeat_count")
+    set(source [=[aavo
+chhapo lakhan_aavrutti("abc", 3);
+chhapo lakhan_ganatari("banana", "an");
+aavjo
+]=])
+    set(expected_stdout "abcabcabc\n2\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_split_delim")
+    set(source [=[aavo
+res = lakhan_tukda_yadi("apple,banana;cherry:date", ",;:");
+chhapo res;
+aavjo
+]=])
+    set(expected_stdout "[apple, banana, cherry, date]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_file_lines")
+    set(source [=[aavo
+file_lakho("test_lines_tmp.txt", "line1\nline2\nline3\n");
+lines = file_line_vancho("test_lines_tmp.txt");
+chhapo lines;
+file_kadho("test_lines_tmp.txt");
+aavjo
+]=])
+    set(expected_stdout "[line1, line2, line3]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_hex_to_string")
+    set(source [=[aavo
+txt = hex_thi_lakhan("47756a61726174");
+chhapo txt;
+aavjo
+]=])
+    set(expected_stdout "Gujarat\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_csv")
+    set(source [=[aavo
+csv = "name,age,city\nAlice,30,Ahmedabad\nBob,25,\"Surat, City\"";
+table = csv_vancho(csv);
+chhapo table;
+aavjo
+]=])
+    set(expected_stdout "[[name, age, city], [Alice, 30, Ahmedabad], [Bob, 25, Surat, City]]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_type_predicates")
+    set(source [=[aavo
+chhapo sankhya_chhe(42);
+chhapo lakhan_chhe("hello");
+chhapo yadi_chhe([1, 2]);
+chhapo kosh_chhe({ "a": 1 });
+chhapo nakamo_chhe(nakamo);
+aavjo
+]=])
+    set(expected_stdout "1\n1\n1\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
 else()
     message(FATAL_ERROR "Unknown interpreter test case: ${TEST_CASE}")
 endif()

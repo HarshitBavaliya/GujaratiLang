@@ -241,6 +241,53 @@ can be used in the same program. Multi-word spellings use underscores.
 | `મેટ્રિક્સ_ગુણાકાર(...)` | `matrix_gunakar(...)` | Standard matrix multiplication of two 2D matrices |
 | `ભાષા_આવૃત્તિ()` | `bhasha_avrutti()` | Get current interpreter version (`"1.0.0"`) |
 | `પ્લેટફોર્મ_નામ()` | `platform_nam()` | Get operating system platform (`"windows"`, `"linux"`, `"macos"`) |
+| `પર્યાવરણ(નામ)` | `paryavaran(nam)` | Get environment variable value (`getenv`) |
+| `પર્યાવરણ_લખો(નામ, મૂલ્ય)` | `paryavaran_lakho(nam, mulya)` | Set environment variable value |
+| `પાથ_જોડો(a, b)` | `path_jodo(a, b)` | Join filesystem paths cross-platform |
+| `પાથ_વિસ્તરણ(પાથ)` | `path_vistaran(path)` | Extract file extension (e.g. `".gj"`) |
+| `પાથ_મુખ્ય(પાથ)` | `path_mukhya(path)` | Extract basename/filename from path |
+| `પાથ_ફોલ્ડર(પાથ)` | `path_folder(path)` | Extract parent directory from path |
+| `યુયુઆઈડી_બનાવો()` | `uuid_banao()` | Generate RFC 4122 v4 unique identifier string |
+| `યુઆરએલ_કોડ(લખાણ)` | `url_kod(str)` | Percent-encode string for URLs |
+| `યુઆરએલ_ડીકોડ(લખાણ)` | `url_decode(str)` | Decode percent-encoded URL string |
+| `યાદી_સરવાળો(યાદી)` | `yadi_sarvalo(list)` | Calculate sum of numeric list elements |
+| `યાદી_સરેરાશ(યાદી)` | `yadi_sareras(list)` | Calculate arithmetic mean of numeric list |
+| `યાદી_મધ્યસ્થ(યાદી)` | `yadi_madhyastha(list)` | Calculate median of numeric list |
+| `લેખન_પૂર્ણ_ડાબી(...)` | `lakhan_purn_dabi(...)` | Pad string on the left to target length |
+| `લેખન_પૂર્ણ_જમણી(...)` | `lakhan_purn_jamni(...)` | Pad string on the right to target length |
+| `બીટ_અને(a, b)` | `bit_ane(a, b)` | Bitwise AND operation |
+| `બીટ_અથવા(a, b)` | `bit_athva(a, b)` | Bitwise OR operation |
+| `બીટ_એક્સઓર(a, b)` | `bit_xor(a, b)` | Bitwise XOR operation |
+| `બીટ_નહિ(a)` | `bit_nahi(a)` | Bitwise NOT operation |
+| `બીટ_શિફ્ટ_ડાબી(a, n)` | `bit_shifte_dabi(a, n)` | Bitwise left shift |
+| `બીટ_શિફ્ટ_જમણી(a, n)` | `bit_shifte_jamni(a, n)` | Bitwise right shift |
+| `યાદી_અનન્ય(યાદી)` | `yadi_ananya(list)` | Return list with duplicate values removed |
+| `યાદી_મેળ(l1, l2)` | `yadi_mel(l1, l2)` | Set union of two lists |
+| `યાદી_છેદ(l1, l2)` | `yadi_chhed(l1, l2)` | Set intersection of two lists |
+| `યાદી_તફાવત(l1, l2)` | `yadi_tavat(l1, l2)` | Set difference of two lists |
+| `અક્ષર_કોડ(લખાણ, ક્રમ)` | `akshar_kod(str, idx)` | Get ASCII/Unicode code unit at byte index |
+| `કોડ_થી_અક્ષર(કોડ)` | `kod_thi_akshar(code)` | Convert integer code unit to 1-char string |
+| `લૉગ_કુદરતી(x)` | `log_kudrati(x)` | Natural logarithm `ln(x)` |
+| `લૉગ_૧૦(x)` | `log_10(x)` | Base-10 logarithm `log10(x)` |
+| `ઘાત_મૂળ(આધાર, ઘાત)` | `ghat_mul(base, exp)` | Power function `pow(base, exp)` |
+| `ઈ_ઘાત(x)` | `e_ghat(x)` | Natural exponential `exp(x)` |
+| `યાદી_ઊલટે_ક્રમ(યાદી)` | `yadi_ulte_kram(list)` | Return reversed copy of list |
+| `યાદી_ટુકડા(યાદી, કદ)` | `yadi_tukda(list, size)` | Partition list into sublists of size `size` |
+| `યાદી_ખીચડી(યાદી)` | `yadi_khichdi(list)` | Randomly shuffle list elements |
+| `ચાવી_છે(કોશ, ચાવી)` | `chavi_chhe(dict, key)` | Test if dictionary contains key (1 or 0) |
+| `કોશ_જોડો(d1, d2)` | `kosh_jodo(d1, d2)` | Merge two dictionaries into a new dictionary |
+| `માઇક્રો_સમય()` | `micro_samay()` | High-resolution microsecond epoch timestamp |
+| `લેખન_આવૃત્તિ(લખાણ, ગણતરી)` | `lakhan_aavrutti(str, n)` | Repeat string N times |
+| `લેખન_ગણતરી(લખાણ, શોધ)` | `lakhan_ganatari(str, sub)` | Count non-overlapping substring occurrences |
+| `લેખન_ટુકડા_યાદી(લખાણ, વિભાજક)` | `lakhan_tukda_yadi(str, delims)` | Split string by any delimiter character in string |
+| `ફાઇલ_લાઇન_વાંચો(પાથ)` | `file_line_vancho(path)` | Read file directly into list of string lines |
+| `હેક્સ_થી_લેખન(હેક્સ)` | `hex_thi_lakhan(hex)` | Decode hexadecimal string to text |
+| `સીએસવી_વાંચો(લખાણ)` | `csv_vancho(csv_text)` | Parse CSV text into 2D list of row lists |
+| `સંખ્યા_છે(મૂલ્ય)` | `sankhya_chhe(val)` | Type predicate: 1 if number, 0 otherwise |
+| `લેખન_છે(મૂલ્ય)` | `lakhan_chhe(val)` | Type predicate: 1 if string, 0 otherwise |
+| `યાદી_છે(મૂલ્ય)` | `yadi_chhe(val)` | Type predicate: 1 if list, 0 otherwise |
+| `કોશ_છે(મૂલ્ય)` | `kosh_chhe(val)` | Type predicate: 1 if dict, 0 otherwise |
+| `નકામો_છે(મૂલ્ય)` | `nakamo_chhe(val)` | Type predicate: 1 if null, 0 otherwise |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

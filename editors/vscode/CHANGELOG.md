@@ -1,25 +1,51 @@
 # Changelog
 
+## 1.0.1
+
+- Major 50-Point Milestone Release with Instant Single-Letter Auto-Completion Snippets:
+  - Type a single letter like `k` to instantly get `kary` function boilerplate, `j` for `jo`, `d` for `darek`, `c` for `chhapo`, `a` for `aavo`, etc., expanding full syntax automatically.
+  - Full syntax highlighting & snippets for all 50 features of GujaratiLang v1.0.0.
+
 ## 1.0.0
 
-- Major 30-Point Milestone Release for GujaratiLang:
+- Major 50-Point Milestone Release for GujaratiLang:
+  - Instant Single-Letter Auto-Completion Snippets: Type a single letter like `k` to instantly get `kary` function boilerplate, `j` for `jo`, `d` for `darek`, `c` for `chhapo`, `a` for `aavo`, etc., expanding full syntax automatically.
+  - Environment variables: `paryavaran` (`પર્યાવરણ`), `paryavaran_lakho` (`પર્યાવરણ_લખો`)
+  - Path utilities: `path_jodo` (`પાથ_જોડો`), `path_vistaran` (`પાથ_વિસ્તરણ`), `path_mukhya` (`પાથ_મુખ્ય`), `path_folder` (`પાથ_ફોલ્ડર`)
+  - UUID generation: `uuid_banao` (`યુયુઆઈડી_બનાવો`) RFC 4122 v4
+  - URL encoding & decoding: `url_kod` (`યુઆરએલ_કોડ`), `url_decode` (`યુઆરએલ_ડીકોડ`)
+  - Statistical aggregates: `yadi_sarvalo` (`યાદી_સરવાળો`), `yadi_sareras` (`યાદી_સરેરાશ`), `yadi_madhyastha` (`યાદી_મધ્યસ્થ`)
+  - String padding: `lakhan_purn_dabi` (`લેખન_પૂર્ણ_ડાબી`), `lakhan_purn_jamni` (`લેખન_પૂર્ણ_જમણી`)
+  - Bitwise operations: `bit_ane` (`બીટ_અને`), `bit_athva` (`બીટ_અથવા`), `bit_xor` (`બીટ_એક્સઓર`), `bit_nahi` (`બીટ_નહિ`), `bit_shifte_dabi` (`બીટ_શિફ્ટ_ડાબી`), `bit_shifte_jamni` (`બીટ_શિફ્ટ_જમણી`)
+  - Set operations on lists: `yadi_ananya` (`યાદી_અનન્ય`), `yadi_mel` (`યાદી_મેળ`), `yadi_chhed` (`યાદી_છેદ`), `yadi_tavat` (`યાદી_તફાવત`)
+  - Character code utilities: `akshar_kod` (`અક્ષર_કોડ`), `kod_thi_akshar` (`કોડ_થી_અક્ષર`)
+  - Exponential & logarithmic math: `log_kudrati` (`લૉગ_કુદરતી`), `log_10` (`લૉગ_૧૦`), `ghat_mul` (`ઘાત_મૂળ`), `e_ghat` (`ઈ_ઘાત`)
+  - List manipulation: `yadi_ulte_kram` (`યાદી_ઊલટે_ક્રમ`), `yadi_tukda` (`યાદી_ટુકડા`), `yadi_khichdi` (`યાદી_ખીચડી`)
+  - Dictionary utilities: `chavi_chhe` (`ચાવી_છે`), `kosh_jodo` (`કોશ_જોડો`)
+  - High-precision microsecond timer: `micro_samay` (`માઇક્રો_સમય`)
+  - String repetition & count: `lakhan_aavrutti` (`લેખન_આવૃત્તિ`), `lakhan_ganatari` (`લેખન_ગણતરી`)
+  - Multi-delimiter splitting: `lakhan_tukda_yadi` (`લેખન_ટુકડા_યાદી`)
+  - File reading by line: `file_line_vancho` (`ફાઇલ_લાઇન_વાંચો`)
+  - Hexadecimal decoding: `hex_thi_lakhan` (`હેક્સ_થી_લેખન`)
+  - Native CSV parser: `csv_vancho` (`સીએસવી_વાંચો`)
+  - Type checking predicates: `sankhya_chhe` (`સંખ્યા_છે`), `lakhan_chhe` (`લેખન_છે`), `yadi_chhe` (`યાદી_છે`), `kosh_chhe` (`કોશ_છે`), `nakamo_chhe` (`નકામો_છે`)
   - JSON serialization & parsing: `json_lakho` (`જેસન_લખો`), `json_vancho` (`જેસન_વાંચો`)
   - Command-line arguments: `daleelo` (`દલીલો`), `arg_yadi` (`દલીલ_યાદી`)
   - Radix integer & string conversions: `dvi_sankhya` (`દ્વિ_સંખ્યા`), `dvi_thi_sankhya` (`દ્વિ_થી_સંખ્યા`), `hex_lakhan` (`હેક્સ_લખાણ`), `hex_thi_sankhya` (`હેક્સ_થી_સંખ્યા`)
   - Directory & folder utilities: `folder_chhe` (`ફોલ્ડર_છે`), `folder_banao` (`ફોલ્ડર_બનાવો`), `folder_suchi` (`ફોલ્ડર_સૂચિ`)
   - System shell command execution: `command_chalao` (`કમાન્ડ_ચલાવો`), `system_kary` (`સિસ્ટમ`)
-  - Functional list operations: `naksho_yadi` (`નકશો_યાદી` - map), `gaalo_yadi` (`ગાળો_યાદી` - filter), `sameto_yadi` (`સમેટો_યાદી` - reduce), `shodho_yadi` (`શોધો_યાદી` - find), `shodho_suchak_yadi` (`શોધો_સૂચક_યાદી`)
-  - List manipulation: `chapti_yadi` (`ચપટી_યાદી` - flatten), `zip_yadi` (`ઝીપ_યાદી`)
-  - Wildcard pattern matching & global replace: `pattern_shodho` (`પેટર્ન_શોધો`), `lakhan_badlo_darek` (`લખાણ_બદલો_દરેક`)
-  - Base64 encoding and decoding: `base64_kod` (`બેઝ૬૪_કોડ`), `base64_decode` (`બેઝ૬૪_ડીકોડ`)
+  - Functional list operations: `naksho_yadi` (`નકશો_યાદી`), `gaalo_yadi` (`ગાળો_યાદી`), `sameto_yadi` (`સમેટો_યાદી`), `shodho_yadi` (`શોધો_યાદી`), `shodho_suchak_yadi` (`શોધો_સૂચક_યાદી`)
+  - List flatten & zip: `chapti_yadi` (`ચપટી_યાદી`), `zip_yadi` (`ઝીપ_યાદી`)
+  - Wildcard pattern matching & replace: `pattern_shodho` (`પેટર્ન_શોધો`), `lakhan_badlo_darek` (`લખાણ_બદલો_દરેક`)
+  - Base64 encoding & decoding: `base64_kod` (`બેઝ૬૪_કોડ`), `base64_decode` (`બેઝ૬૪_ડીકોડ`)
   - String case utilities: `shirshak_lakhan` (`શીર્ષક_લખાણ`), `pratham_moti` (`પ્રથમ_મોટી`)
   - String template formatting: `swaroop` (`સ્વરૂપ`)
   - Levenshtein edit distance: `lakhan_antar` (`લખાણ_અંતર`)
   - SHA-256 cryptographic hashing: `sha256_hash` (`શા૨૫૬_હેશ`)
   - Trigonometry: `sine` (`સાઇન`), `cosine` (`કોસાઇન`), `tangent` (`ટેન્જન્ટ`), `arcsin` (`આર્કસાઇન`), `arccos` (`આર્કકોસ`), `arctan` (`આર્કટેન`)
-  - Number theory & angle conversions: `guru_tam` (`ગુરુ_તમ`), `laghu_tam` (`લઘુ_તમ`), `ansha_thi_radian` (`અંશ_થી_રેડિયન`), `radian_thi_ansha` (`રેડિયન_થી_અંશ`)
+  - Number theory & angles: `guru_tam` (`ગુરુ_તમ`), `laghu_tam` (`લઘુ_તમ`), `ansha_thi_radian` (`અંશ_થી_રેડિયન`), `radian_thi_ansha` (`રેડિયન_થી_અંશ`)
   - Matrix 2D math: `matrix_sarvalo` (`મેટ્રિક્સ_સરવાળો`), `matrix_gunakar` (`મેટ્રિક્સ_ગુણાકાર`)
-  - Syntax extensions: Ternary conditional `? :`, compound assignments `+=`, `-=`, `*=`, `/=`, `%=`, modulo operator `%`, and constant variable declarations with `achala` (`અચળ`) / `const`
+  - Syntax extensions: Ternary conditional `? :`, compound assignments `+=`, `-=`, `*=`, `/=`, `%=`, modulo `%`, logical `&&`, `||`, and constant declarations with `achala` (`અચળ`) / `const`
   - System metadata: `bhasha_avrutti` (`ભાષા_આવૃત્તિ`), `platform_nam` (`પ્લેટફોર્મ_નામ`)
 
 ## 0.4.0
