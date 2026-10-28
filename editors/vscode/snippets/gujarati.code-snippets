@@ -1118,5 +1118,25 @@
       "vibhaajan_pankti(${1:string})"
     ],
     "description": "Split multi-line string into lines with romanized built-in"
+  },
+  "GujaratiLang characters list": {
+    "prefix": [
+      "gj-chars",
+      "અક્ષરો"
+    ],
+    "body": [
+      "અક્ષરો(${1:string})"
+    ],
+    "description": "Convert string to list of characters"
+  },
+  "GujaratiLang characters list (romanized)": {
+    "prefix": [
+      "gj-chars-en",
+      "aksharo"
+    ],
+    "body": [
+      "aksharo(${1:string})"
+    ],
+    "description": "Convert string to list of characters with romanized built-in"
   }
 }

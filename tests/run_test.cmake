@@ -2090,6 +2090,49 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_aksharo")
+    set(source [=[aavo
+chhapo aksharo("abc");
+chhapo aksharo("");
+chhapo અક્ષરો("ગુજરાતી");
+aavjo
+]=])
+    set(expected_stdout "[a, b, c]\n[]\n[ગ, ુ, જ, ર, ા, ત, ી]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_aksharo_error")
+    set(source [=[aavo
+aksharo();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_aksharo_type_error")
+    set(source [=[aavo
+aksharo(123);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a string argument for 'અક્ષરો' or 'aksharo'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_aksharo_gujarati_error")
+    set(source [=[આવો
+અક્ષરો(123);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'અક્ષરો' માટે લખાણ દલીલ અપેક્ષિત છે")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_aksharo")
+    set(source [=[aavo
+kary aksharo(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

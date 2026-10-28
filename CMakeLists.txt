@@ -237,6 +237,11 @@ if(BUILD_TESTING)
             builtin_vibhaajan_pankti_type_error
             builtin_vibhaajan_pankti_gujarati_error
             reserved_vibhaajan_pankti
+            builtin_aksharo
+            builtin_aksharo_error
+            builtin_aksharo_type_error
+            builtin_aksharo_gujarati_error
+            reserved_aksharo
             romanized_error
             romanized_fatal_error
             lists_and_indexing
