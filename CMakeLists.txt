@@ -259,6 +259,11 @@ if(BUILD_TESTING)
             builtin_chakaso_msg_type_error
             builtin_chakaso_gujarati_error
             reserved_chakaso
+            builtin_samave_lakhan
+            builtin_samave_lakhan_error
+            builtin_samave_lakhan_type_error
+            builtin_samave_lakhan_gujarati_error
+            reserved_samave_lakhan
             romanized_error
             romanized_fatal_error
             lists_and_indexing

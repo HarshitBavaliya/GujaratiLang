@@ -75,6 +75,7 @@ Recent completed work includes:
   - `પર્યાવરણ(name)` / `paryavaran(name)`: retrieves system environment variable, or returns `નકામો` (`null`) if not found.
   - `બહાર([code])` / `bahar([code])`: exits program immediately with exit code (default 0).
   - `ચકાસો(condition[, message])` / `chakaso(condition[, message])`: asserts condition is truthy, triggering runtime failure otherwise.
+  - `સમાવે_લખાણ(haystack, needle)` / `samave_lakhan(haystack, needle)`: returns 1.0 if string contains substring, 0.0 otherwise.
   - `બદલો(string, target, replacement)` / `badlo(string, target, replacement)`: replaces occurrences of a substring.
   - `શરૂઆત_સાથે(string, prefix)` / `sharuat_sathe(string, prefix)`: returns 1.0 if string starts with prefix, 0.0 otherwise.
   - `અંત_સાથે(string, suffix)` / `ant_sathe(string, suffix)`: returns 1.0 if string ends with suffix, 0.0 otherwise.

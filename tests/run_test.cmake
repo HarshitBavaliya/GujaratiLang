@@ -2286,6 +2286,51 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_samave_lakhan")
+    set(source [=[aavo
+chhapo samave_lakhan("hello world", "world");
+chhapo samave_lakhan("hello world", "planet");
+chhapo samave_lakhan("hello", "");
+chhapo સમાવે_લખાણ("નમસ્તે ગુજરાત", "ગુજરાત");
+chhapo સમાવે_લખાણ("નમસ્તે ગુજરાત", "ભારત");
+aavjo
+]=])
+    set(expected_stdout "1\n0\n1\n1\n0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_samave_lakhan_error")
+    set(source [=[aavo
+samave_lakhan();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_samave_lakhan_type_error")
+    set(source [=[aavo
+samave_lakhan("hello", 123);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected string arguments for 'સમાવે_લખાણ' or 'samave_lakhan'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_samave_lakhan_gujarati_error")
+    set(source [=[આવો
+સમાવે_લખાણ("hello", 123);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'સમાવે_લખાણ' માટે લખાણ દલીલો અપેક્ષિત છે")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_samave_lakhan")
+    set(source [=[aavo
+kary samave_lakhan(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

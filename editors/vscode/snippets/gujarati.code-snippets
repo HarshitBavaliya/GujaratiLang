@@ -1198,5 +1198,25 @@
       "chakaso(${1:condition}, \"${2:message}\");"
     ],
     "description": "Assert condition is true with romanized built-in"
+  },
+  "GujaratiLang string contains": {
+    "prefix": [
+      "gj-contains",
+      "સમાવે_લખાણ"
+    ],
+    "body": [
+      "સમાવે_લખાણ(${1:haystack}, ${2:needle})"
+    ],
+    "description": "Check if string contains a substring"
+  },
+  "GujaratiLang string contains (romanized)": {
+    "prefix": [
+      "gj-contains-en",
+      "samave_lakhan"
+    ],
+    "body": [
+      "samave_lakhan(${1:haystack}, ${2:needle})"
+    ],
+    "description": "Check if string contains substring with romanized built-in"
   }
 }

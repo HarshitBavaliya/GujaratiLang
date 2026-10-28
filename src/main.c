@@ -213,6 +213,7 @@ typedef enum {
     MESSAGE_EXPECTED_EXIT_CODE_INTEGER,
     MESSAGE_EXPECTED_STRING_ASSERTION_MESSAGE,
     MESSAGE_ASSERTION_FAILED,
+    MESSAGE_EXPECTED_STRING_FOR_SAMAVE_LAKHAN,
     MESSAGE_USAGE
 } MessageId;
 
@@ -491,6 +492,7 @@ static const char *localized_message(Language language, MessageId message)
         "exit code for 'બહાર' or 'bahar' must be a whole number between 0 and 255",
         "assertion failure message must be a string",
         "assertion failed",
+        "expected string arguments for 'સમાવે_લખાણ' or 'samave_lakhan'",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -623,6 +625,7 @@ static const char *localized_message(Language language, MessageId message)
         "'બહાર' માટે એક્ઝિટ કોડ ૦ અને ૨૫૫ વચ્ચેનો પૂર્ણ આંક હોવો જોઈએ",
         "ચકાસણી નિષ્ફળતા સંદેશ લખાણ હોવો જોઈએ",
         "ચકાસણી નિષ્ફળ ગઈ",
+        "'સમાવે_લખાણ' માટે લખાણ દલીલો અપેક્ષિત છે",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1233,7 +1236,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "બહાર") ||
            token_matches(parser, name, "bahar") ||
            token_matches(parser, name, "ચકાસો") ||
-           token_matches(parser, name, "chakaso");
+           token_matches(parser, name, "chakaso") ||
+           token_matches(parser, name, "સમાવે_લખાણ") ||
+           token_matches(parser, name, "samave_lakhan");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -2085,6 +2090,49 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.kind = VALUE_STRING;
                             result.string_length = len;
                             result.owned_string = str;
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "સમાવે_લખાણ") ||
+                       token_matches(parser, name, "samave_lakhan")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING ||
+                           arguments[1].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_SAMAVE_LAKHAN);
+                } else {
+                    size_t h_len = decoded_string_length(parser, arguments[0]);
+                    size_t n_len = decoded_string_length(parser, arguments[1]);
+                    if (n_len == 0) {
+                        result = number_value(1.0);
+                    } else if (h_len < n_len) {
+                        result = number_value(0.0);
+                    } else {
+                        char *h_buf = (char *)malloc(h_len + 1);
+                        char *n_buf = (char *)malloc(n_len + 1);
+                        if (h_buf == NULL || n_buf == NULL) {
+                            free(h_buf);
+                            free(n_buf);
+                            report_error(parser, name.line, name.column,
+                                         MESSAGE_OUT_OF_MEMORY);
+                        } else {
+                            copy_value_string(parser, arguments[0], h_buf);
+                            h_buf[h_len] = '\0';
+                            copy_value_string(parser, arguments[1], n_buf);
+                            n_buf[n_len] = '\0';
+                            int found = 0;
+                            size_t limit = h_len - n_len;
+                            for (size_t i = 0; i <= limit; i++) {
+                                if (memcmp(h_buf + i, n_buf, n_len) == 0) {
+                                    found = 1;
+                                    break;
+                                }
+                            }
+                            free(h_buf);
+                            free(n_buf);
+                            result = number_value(found ? 1.0 : 0.0);
                         }
                     }
                 }

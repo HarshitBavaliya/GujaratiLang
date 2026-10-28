@@ -175,6 +175,7 @@ can be used in the same program. Multi-word spellings use underscores.
 | `પર્યાવરણ(...)` | `paryavaran(...)` | Get system environment variable value (or null) |
 | `બહાર(...)` | `bahar(...)` | Terminate program immediately with exit code (default 0) |
 | `ચકાસો(...)` | `chakaso(...)` | Assert condition is truthy with optional error message |
+| `સમાવે_લખાણ(...)` | `samave_lakhan(...)` | Check if string contains substring |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:
