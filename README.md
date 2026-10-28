@@ -149,6 +149,7 @@ can be used in the same program. Multi-word spellings use underscores.
 | `ઉપર(...)` | `upar(...)` | Ceil number |
 | `પુનરાવર્તન(...)` | `punravartan(...)` | Repeat string count times |
 | `ટુકડો(...)` | `tukdo(...)` | Extract sub-list slice |
+| `સ્થાન(...)` | `sthan(...)` | Find 0-based first index of item in list (-1 if not found) |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

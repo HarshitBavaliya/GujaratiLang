@@ -1192,6 +1192,37 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_sthan")
+    set(source [=[aavo
+items = [10, 20, 30, 20, 50];
+chhapo sthan(items, 20);
+chhapo sthan(items, 20, 2);
+chhapo sthan(items, 99);
+chhapo sthan([], 1);
+chhapo સ્થાન(["safarchand", "keri", "kela"], "keri");
+chhapo સ્થાન(["safarchand", "keri", "kela"], "draksh");
+chhapo સ્થાન([1, nakamo, 2], nakamo);
+aavjo
+]=])
+    set(expected_stdout "1\n3\n-1\n-1\n1\n-1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_sthan_error")
+    set(source [=[aavo
+chhapo sthan("not a list", 10);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a list first argument for 'સ્થાન' or 'sthan'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_sthan")
+    set(source [=[aavo
+kary sthan(x, y) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

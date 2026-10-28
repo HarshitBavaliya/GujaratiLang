@@ -172,6 +172,8 @@ typedef enum {
     MESSAGE_EXPECTED_PUNRAVARTAN_INTEGER,
     MESSAGE_EXPECTED_LIST_FOR_TUKDO,
     MESSAGE_EXPECTED_TUKDO_INTEGER,
+    MESSAGE_EXPECTED_LIST_FOR_STHAN,
+    MESSAGE_EXPECTED_STHAN_INTEGER,
     MESSAGE_USAGE
 } MessageId;
 
@@ -411,6 +413,8 @@ static const char *localized_message(Language language, MessageId message)
         "repetition count for 'પુનરાવર્તન' or 'punravartan' must be a non-negative whole number",
         "expected a list first argument for 'ટુકડો' or 'tukdo'",
         "slice indices for 'ટુકડો' or 'tukdo' must be non-negative whole numbers",
+        "expected a list first argument for 'સ્થાન' or 'sthan'",
+        "start index for 'સ્થાન' or 'sthan' must be a non-negative whole number",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -506,6 +510,8 @@ static const char *localized_message(Language language, MessageId message)
         "'પુનરાવર્તન' માટે ગણતરી શૂન્ય અથવા ધન પૂર્ણાંક હોવી જોઈએ",
         "'ટુકડો' માટે પ્રથમ દલીલ યાદી હોવી જોઈએ",
         "'ટુકડો' માટે અનુક્રમ શૂન્ય અથવા ધન પૂર્ણાંક હોવા જોઈએ",
+        "'સ્થાન' માટે પ્રથમ દલીલ યાદી હોવી જોઈએ",
+        "'સ્થાન' માટે શરૂઆતનો અનુક્રમ શૂન્ય અથવા ધન પૂર્ણાંક હોવો જોઈએ",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1025,7 +1031,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "પુનરાવર્તન") ||
            token_matches(parser, name, "punravartan") ||
            token_matches(parser, name, "ટુકડો") ||
-           token_matches(parser, name, "tukdo");
+           token_matches(parser, name, "tukdo") ||
+           token_matches(parser, name, "સ્થાન") ||
+           token_matches(parser, name, "sthan");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -2677,6 +2685,37 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.list = new_list;
                         }
                     }
+                }
+            } else if (token_matches(parser, name, "સ્થાન") ||
+                       token_matches(parser, name, "sthan")) {
+                if (argument_count != 2 && argument_count != 3) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_LIST_FOR_STHAN);
+                } else if (argument_count == 3 &&
+                           (arguments[2].kind != VALUE_NUMBER ||
+                            arguments[2].number < 0.0 ||
+                            arguments[2].number >= (double)(size_t)-1 ||
+                            arguments[2].number != (double)(size_t)arguments[2].number)) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STHAN_INTEGER);
+                } else {
+                    List *list = arguments[0].list;
+                    size_t start = 0;
+                    size_t i;
+                    double index = -1.0;
+                    if (argument_count == 3) {
+                        start = (size_t)arguments[2].number;
+                    }
+                    for (i = start; i < list->count; i++) {
+                        if (values_are_equal(parser, list->items[i], arguments[1])) {
+                            index = (double)i;
+                            break;
+                        }
+                    }
+                    result = number_value(index);
                 }
             } else {
                 Function *function = find_function(parser, name);

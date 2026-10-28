@@ -141,6 +141,9 @@ if(BUILD_TESTING)
             builtin_tukdo
             builtin_tukdo_error
             reserved_tukdo
+            builtin_sthan
+            builtin_sthan_error
+            reserved_sthan
             romanized_error
             romanized_fatal_error
             lists_and_indexing
