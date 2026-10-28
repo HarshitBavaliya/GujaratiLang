@@ -1178,5 +1178,25 @@
       "bahar(${1:0});"
     ],
     "description": "Exit program immediately with romanized built-in"
+  },
+  "GujaratiLang assert": {
+    "prefix": [
+      "gj-assert",
+      "ચકાસો"
+    ],
+    "body": [
+      "ચકાસો(${1:condition}, \"${2:message}\");"
+    ],
+    "description": "Assert condition is true with optional failure message"
+  },
+  "GujaratiLang assert (romanized)": {
+    "prefix": [
+      "gj-assert-en",
+      "chakaso"
+    ],
+    "body": [
+      "chakaso(${1:condition}, \"${2:message}\");"
+    ],
+    "description": "Assert condition is true with romanized built-in"
   }
 }

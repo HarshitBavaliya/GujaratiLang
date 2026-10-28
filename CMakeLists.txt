@@ -253,6 +253,12 @@ if(BUILD_TESTING)
             builtin_bahar_type_error
             builtin_bahar_gujarati_error
             reserved_bahar
+            builtin_chakaso
+            builtin_chakaso_fail
+            builtin_chakaso_fail_custom
+            builtin_chakaso_msg_type_error
+            builtin_chakaso_gujarati_error
+            reserved_chakaso
             romanized_error
             romanized_fatal_error
             lists_and_indexing

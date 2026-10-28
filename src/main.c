@@ -211,6 +211,8 @@ typedef enum {
     MESSAGE_EXPECTED_STRING_FOR_AKSHARO,
     MESSAGE_EXPECTED_STRING_FOR_PARYAVARAN,
     MESSAGE_EXPECTED_EXIT_CODE_INTEGER,
+    MESSAGE_EXPECTED_STRING_ASSERTION_MESSAGE,
+    MESSAGE_ASSERTION_FAILED,
     MESSAGE_USAGE
 } MessageId;
 
@@ -487,6 +489,8 @@ static const char *localized_message(Language language, MessageId message)
         "expected a string argument for 'અક્ષરો' or 'aksharo'",
         "expected a string argument for 'પર્યાવરણ' or 'paryavaran'",
         "exit code for 'બહાર' or 'bahar' must be a whole number between 0 and 255",
+        "assertion failure message must be a string",
+        "assertion failed",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -617,6 +621,8 @@ static const char *localized_message(Language language, MessageId message)
         "'અક્ષરો' માટે લખાણ દલીલ અપેક્ષિત છે",
         "'પર્યાવરણ' માટે લખાણ દલીલ અપેક્ષિત છે",
         "'બહાર' માટે એક્ઝિટ કોડ ૦ અને ૨૫૫ વચ્ચેનો પૂર્ણ આંક હોવો જોઈએ",
+        "ચકાસણી નિષ્ફળતા સંદેશ લખાણ હોવો જોઈએ",
+        "ચકાસણી નિષ્ફળ ગઈ",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1225,7 +1231,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "પર્યાવરણ") ||
            token_matches(parser, name, "paryavaran") ||
            token_matches(parser, name, "બહાર") ||
-           token_matches(parser, name, "bahar");
+           token_matches(parser, name, "bahar") ||
+           token_matches(parser, name, "ચકાસો") ||
+           token_matches(parser, name, "chakaso");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -2079,6 +2087,42 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.owned_string = str;
                         }
                     }
+                }
+            } else if (token_matches(parser, name, "ચકાસો") ||
+                       token_matches(parser, name, "chakaso")) {
+                if (argument_count != 1 && argument_count != 2) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (argument_count == 2 && arguments[1].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_ASSERTION_MESSAGE);
+                } else if (execute && !value_is_truthy(arguments[0])) {
+                    if (argument_count == 2) {
+                        size_t msg_len = decoded_string_length(parser, arguments[1]);
+                        char *msg_buf = (char *)malloc(msg_len + 1);
+                        if (msg_buf == NULL) {
+                            report_error(parser, name.line, name.column,
+                                         MESSAGE_OUT_OF_MEMORY);
+                        } else {
+                            copy_value_string(parser, arguments[1], msg_buf);
+                            msg_buf[msg_len] = '\0';
+                            if (!parser->failed) {
+                                const char *label = parser->language == LANGUAGE_GUJARATI ?
+                                                    "ભૂલ" : "error";
+                                fprintf(stderr, "%s:%zu:%zu: %s: %s\n",
+                                        parser->filename, name.line, name.column, label, msg_buf);
+                                write_source_context(parser, name.line, name.column);
+                                parser->failed = 1;
+                            }
+                            free(msg_buf);
+                        }
+                    } else {
+                        report_error(parser, name.line, name.column,
+                                     MESSAGE_ASSERTION_FAILED);
+                    }
+                    result = number_value(0.0);
+                } else {
+                    result = number_value(1.0);
                 }
             } else if (token_matches(parser, name, "બહાર") ||
                        token_matches(parser, name, "bahar")) {

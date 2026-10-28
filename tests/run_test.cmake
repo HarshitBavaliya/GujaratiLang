@@ -2234,6 +2234,58 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_chakaso")
+    set(source [=[aavo
+chakaso(1);
+chakaso(5 > 2, "five is greater than two");
+ચકાસો(10 == 10);
+chhapo "all assertions passed";
+aavjo
+]=])
+    set(expected_stdout "all assertions passed\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_chakaso_fail")
+    set(source [=[aavo
+chakaso(0);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "assertion failed")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_chakaso_fail_custom")
+    set(source [=[aavo
+chakaso(0, "custom check failed!");
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "custom check failed!")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_chakaso_msg_type_error")
+    set(source [=[aavo
+chakaso(1, 123);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "assertion failure message must be a string")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_chakaso_gujarati_error")
+    set(source [=[આવો
+ચકાસો(0);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "ચકાસણી નિષ્ફળ ગઈ")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_chakaso")
+    set(source [=[aavo
+kary chakaso(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";
