@@ -2139,6 +2139,18 @@ static void sb_append(StringBuffer *sb, const char *str, size_t len)
     sb->data[sb->length] = '\0';
 }
 
+static void sb_free(StringBuffer *sb)
+{
+    if (sb != NULL && sb->data != NULL) {
+        free(sb->data);
+        sb->data = NULL;
+    }
+    if (sb != NULL) {
+        sb->length = 0;
+        sb->capacity = 0;
+    }
+}
+
 static void format_value_to_buffer(Parser *parser, Value value,
                                    StringBuffer *sb, List **ancestors,
                                    size_t depth)
@@ -6979,6 +6991,7 @@ static int parse_try_catch(Parser *parser, int execute)
     }
     advance_token(parser);
     Token error_var;
+    memset(&error_var, 0, sizeof(error_var));
     int has_var = 0;
     if (parser->current.kind == TOKEN_LEFT_PAREN) {
         advance_token(parser);
