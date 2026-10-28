@@ -162,6 +162,11 @@ if(BUILD_TESTING)
             builtin_beej_error
             builtin_beej_type_error
             reserved_beej
+            builtin_vistaro
+            builtin_vistaro_error
+            builtin_vistaro_type_error
+            builtin_vistaro_gujarati_error
+            reserved_vistaro
             romanized_error
             romanized_fatal_error
             lists_and_indexing

@@ -56,6 +56,7 @@ Recent completed work includes:
   - `સીમા(value, min, max)` / `sima(value, min, max)`: clamps a numeric value between minimum and maximum bounds.
   - `યાદચ્છિક([min, max])` / `yadachhik([min, max])`: generates a pseudo-random float in [0.0, 1.0) or random integer in range [min, max].
   - `બીજ(seed)` / `beej(seed)`: sets pseudo-random number generator seed for deterministic simulation and testing.
+  - `વિસ્તારો(list, other)` / `vistaro(list, other)`: appends all items from another list in-place and evaluates to the list.
   - `બદલો(string, target, replacement)` / `badlo(string, target, replacement)`: replaces occurrences of a substring.
   - `શરૂઆત_સાથે(string, prefix)` / `sharuat_sathe(string, prefix)`: returns 1.0 if string starts with prefix, 0.0 otherwise.
   - `અંત_સાથે(string, suffix)` / `ant_sathe(string, suffix)`: returns 1.0 if string ends with suffix, 0.0 otherwise.
@@ -94,7 +95,7 @@ Recent completed work includes:
   - Added starter snippets in [`editors/vscode/snippets/gujarati.code-snippets`](editors/vscode/snippets/gujarati.code-snippets)
     for `gj-find` (`સ્થાન`), `gj-insert` (`મૂકો`), `gj-padleft` (`ડાબે_ભરો`), `gj-padright` (`જમણે_ભરો`), and `gj-clamp` (`સીમા`).
 - Updated project landing page [`website/index.html`](website/index.html) with v0.8.0 downloads, VS Code extension v0.1.4 showcase, and new built-ins features.
-- Expanded test suite to **178 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
+- Expanded test suite to **183 passing test cases (100% pass rate)** in [`tests/run_test.cmake`](tests/run_test.cmake) and [`CMakeLists.txt`](CMakeLists.txt).
 - Published [GujaratiLang v0.8.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v0.8.0) with automated GitHub Actions cross-platform release builds and comprehensive release notes.
 
 ## Build and test
@@ -110,7 +111,7 @@ ctest --test-dir build --build-config Release --output-on-failure
 ```
 
 On Linux/macOS, run the built interpreter as `./build/gujarati
-./examples/string_utils.gj`. The test suite has 178 passing cases (100% pass rate).
+./examples/string_utils.gj`. The test suite has 183 passing cases (100% pass rate).
 
 ## Suggested next work
 

@@ -156,6 +156,7 @@ can be used in the same program. Multi-word spellings use underscores.
 | `સીમા(...)` | `sima(...)` | Clamp number between minimum and maximum bounds |
 | `યાદચ્છિક(...)` | `yadachhik(...)` | Generate random float in [0.0, 1.0) or random integer in [min, max] |
 | `બીજ(...)` | `beej(...)` | Set pseudo-random number generator seed for deterministic output |
+| `વિસ્તારો(...)` | `vistaro(...)` | Append all items from another list in-place |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

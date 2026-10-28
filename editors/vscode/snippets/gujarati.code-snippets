@@ -818,5 +818,25 @@
       "beej(${1:seed});"
     ],
     "description": "Set pseudo-random number generator seed with romanized built-in"
+  },
+  "GujaratiLang extend list": {
+    "prefix": [
+      "gj-extend",
+      "વિસ્તારો"
+    ],
+    "body": [
+      "વિસ્તારો(${1:list}, ${2:other_list});"
+    ],
+    "description": "Append all items from other list in-place"
+  },
+  "GujaratiLang extend list (romanized)": {
+    "prefix": [
+      "gj-extend-en",
+      "vistaro"
+    ],
+    "body": [
+      "vistaro(${1:list}, ${2:other_list});"
+    ],
+    "description": "Append all items from other list in-place with romanized built-in"
   }
 }

@@ -184,6 +184,7 @@ typedef enum {
     MESSAGE_SIMA_MIN_GREATER_THAN_MAX,
     MESSAGE_YADACHHIK_MIN_GREATER_THAN_MAX,
     MESSAGE_EXPECTED_INTEGER_YADACHHIK,
+    MESSAGE_EXPECTED_LIST_FOR_VISTARO,
     MESSAGE_USAGE
 } MessageId;
 
@@ -436,6 +437,7 @@ static const char *localized_message(Language language, MessageId message)
         "minimum bound cannot be greater than maximum bound for 'સીમા' or 'sima'",
         "minimum bound cannot be greater than maximum bound for 'યાદચ્છિક' or 'yadachhik'",
         "range bounds for 'યાદચ્છિક' or 'yadachhik' must be whole numbers",
+        "expected list arguments for 'વિસ્તારો' or 'vistaro'",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -542,6 +544,7 @@ static const char *localized_message(Language language, MessageId message)
         "'સીમા' માટે ન્યૂનતમ સીમા મહત્તમ સીમા કરતાં મોટી ન હોઈ શકે",
         "'યાદચ્છિક' માટે ન્યૂનતમ સીમા મહત્તમ સીમા કરતાં મોટી ન હોઈ શકે",
         "'યાદચ્છિક' માટે સીમાઓ પૂર્ણાંક સંખ્યા હોવી જોઈએ",
+        "'વિસ્તારો' માટે બંને દલીલો યાદી હોવી જોઈએ",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1104,7 +1107,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "યાદચ્છિક") ||
            token_matches(parser, name, "yadachhik") ||
            token_matches(parser, name, "બીજ") ||
-           token_matches(parser, name, "beej");
+           token_matches(parser, name, "beej") ||
+           token_matches(parser, name, "વિસ્તારો") ||
+           token_matches(parser, name, "vistaro");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -1919,6 +1924,30 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.string_length = len;
                             result.owned_string = str;
                         }
+                    }
+                }
+            } else if (token_matches(parser, name, "વિસ્તારો") ||
+                       token_matches(parser, name, "vistaro")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST ||
+                           arguments[1].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_LIST_FOR_VISTARO);
+                } else {
+                    List *dst = arguments[0].list;
+                    List *src = arguments[1].list;
+                    size_t count = src->count;
+                    int success = 1;
+                    for (size_t i = 0; i < count; i++) {
+                        if (!append_list_item(parser, dst, src->items[i], name)) {
+                            success = 0;
+                            break;
+                        }
+                    }
+                    if (success) {
+                        result = arguments[0];
                     }
                 }
             } else if (token_matches(parser, name, "ઉમેરો") ||

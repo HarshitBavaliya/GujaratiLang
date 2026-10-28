@@ -1412,6 +1412,59 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_vistaro")
+    set(source [=[aavo
+a = [1, 2];
+b = [3, 4];
+c = vistaro(a, b);
+chhapo a;
+chhapo c;
+vistaro(a, ["five"]);
+chhapo a;
+d = [10];
+vistaro(d, d);
+chhapo d;
+p = ["x"];
+વિસ્તારો(p, ["y", "z"]);
+chhapo p;
+aavjo
+]=])
+    set(expected_stdout "[1, 2, 3, 4]\n[1, 2, 3, 4]\n[1, 2, 3, 4, five]\n[10, 10]\n[x, y, z]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_vistaro_error")
+    set(source [=[aavo
+vistaro([1]);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_vistaro_type_error")
+    set(source [=[aavo
+vistaro([1, 2], "not_list");
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected list arguments for 'વિસ્તારો' or 'vistaro'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_vistaro_gujarati_error")
+    set(source [=[આવો
+વિસ્તારો(42, [1]);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'વિસ્તારો' માટે બંને દલીલો યાદી હોવી જોઈએ")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_vistaro")
+    set(source [=[aavo
+kary vistaro(x, y) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";
