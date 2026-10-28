@@ -6695,6 +6695,7 @@ static int interpret(const char *source, const char *filename, Language language
     memset(&string_storage, 0, sizeof(string_storage));
     memset(&function_table, 0, sizeof(function_table));
     memset(&modules, 0, sizeof(modules));
+    memset(&parser, 0, sizeof(parser));
     parser.source = source;
     parser.offset = 0;
     parser.line = 1;
