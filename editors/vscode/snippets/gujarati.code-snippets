@@ -1018,5 +1018,25 @@
       "yadi_nyunatam(${1:list})"
     ],
     "description": "Find minimum number in list with romanized built-in"
+  },
+  "GujaratiLang list maximum": {
+    "prefix": [
+      "gj-maxlist",
+      "યાદી_મહત્તમ"
+    ],
+    "body": [
+      "યાદી_મહત્તમ(${1:list})"
+    ],
+    "description": "Find maximum number in list"
+  },
+  "GujaratiLang list maximum (romanized)": {
+    "prefix": [
+      "gj-maxlist-en",
+      "yadi_mahatam"
+    ],
+    "body": [
+      "yadi_mahatam(${1:list})"
+    ],
+    "description": "Find maximum number in list with romanized built-in"
   }
 }

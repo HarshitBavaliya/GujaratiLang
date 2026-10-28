@@ -210,6 +210,12 @@ if(BUILD_TESTING)
             builtin_yadi_nyunatam_type_error
             builtin_yadi_nyunatam_gujarati_error
             reserved_yadi_nyunatam
+            builtin_yadi_mahatam
+            builtin_yadi_mahatam_error
+            builtin_yadi_mahatam_empty_error
+            builtin_yadi_mahatam_type_error
+            builtin_yadi_mahatam_gujarati_error
+            reserved_yadi_mahatam
             romanized_error
             romanized_fatal_error
             lists_and_indexing

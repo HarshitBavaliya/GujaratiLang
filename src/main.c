@@ -200,6 +200,9 @@ typedef enum {
     MESSAGE_EXPECTED_LIST_FOR_YADI_NYUNATAM,
     MESSAGE_EMPTY_LIST_FOR_YADI_NYUNATAM,
     MESSAGE_EXPECTED_NUMERIC_LIST_FOR_YADI_NYUNATAM,
+    MESSAGE_EXPECTED_LIST_FOR_YADI_MAHATAM,
+    MESSAGE_EMPTY_LIST_FOR_YADI_MAHATAM,
+    MESSAGE_EXPECTED_NUMERIC_LIST_FOR_YADI_MAHATAM,
     MESSAGE_USAGE
 } MessageId;
 
@@ -465,6 +468,9 @@ static const char *localized_message(Language language, MessageId message)
         "expected a list argument for 'યાદી_ન્યૂનતમ' or 'yadi_nyunatam'",
         "cannot find minimum of an empty list",
         "all list items must be numbers for 'યાદી_ન્યૂનતમ' or 'yadi_nyunatam'",
+        "expected a list argument for 'યાદી_મહત્તમ' or 'yadi_mahatam'",
+        "cannot find maximum of an empty list",
+        "all list items must be numbers for 'યાદી_મહત્તમ' or 'yadi_mahatam'",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -584,6 +590,9 @@ static const char *localized_message(Language language, MessageId message)
         "'યાદી_ન્યૂનતમ' માટે યાદી દલીલ અપેક્ષિત છે",
         "ખાલી યાદીમાંથી ન્યૂનતમ શોધી શકાતું નથી",
         "'યાદી_ન્યૂનતમ' માટે તમામ ઘટકો સંખ્યા હોવા જોઈએ",
+        "'યાદી_મહત્તમ' માટે યાદી દલીલ અપેક્ષિત છે",
+        "ખાલી યાદીમાંથી મહત્તમ શોધી શકાતું નથી",
+        "'યાદી_મહત્તમ' માટે તમામ ઘટકો સંખ્યા હોવા જોઈએ",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1166,7 +1175,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "સરવાળો_યાદી") ||
            token_matches(parser, name, "sarvalo_yadi") ||
            token_matches(parser, name, "યાદી_ન્યૂનતમ") ||
-           token_matches(parser, name, "yadi_nyunatam");
+           token_matches(parser, name, "yadi_nyunatam") ||
+           token_matches(parser, name, "યાદી_મહત્તમ") ||
+           token_matches(parser, name, "yadi_mahatam");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -2019,6 +2030,36 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.string_length = len;
                             result.owned_string = str;
                         }
+                    }
+                }
+            } else if (token_matches(parser, name, "યાદી_મહત્તમ") ||
+                       token_matches(parser, name, "yadi_mahatam")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_LIST) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_LIST_FOR_YADI_MAHATAM);
+                } else if (arguments[0].list->count == 0) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EMPTY_LIST_FOR_YADI_MAHATAM);
+                } else {
+                    List *list = arguments[0].list;
+                    double max_val = 0.0;
+                    int ok = 1;
+                    for (size_t i = 0; i < list->count; i++) {
+                        if (list->items[i].kind != VALUE_NUMBER) {
+                            report_error(parser, name.line, name.column,
+                                         MESSAGE_EXPECTED_NUMERIC_LIST_FOR_YADI_MAHATAM);
+                            ok = 0;
+                            break;
+                        }
+                        if (i == 0 || list->items[i].number > max_val) {
+                            max_val = list->items[i].number;
+                        }
+                    }
+                    if (ok) {
+                        result = number_value(max_val);
                     }
                 }
             } else if (token_matches(parser, name, "યાદી_ન્યૂનતમ") ||

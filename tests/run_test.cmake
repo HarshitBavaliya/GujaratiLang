@@ -1844,6 +1844,57 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_yadi_mahatam")
+    set(source [=[aavo
+chhapo yadi_mahatam([10, 5, 20, 2]);
+chhapo yadi_mahatam([-10, -50, -5]);
+chhapo યાદી_મહત્તમ([42]);
+aavjo
+]=])
+    set(expected_stdout "20\n-5\n42\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_yadi_mahatam_error")
+    set(source [=[aavo
+yadi_mahatam();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_yadi_mahatam_empty_error")
+    set(source [=[aavo
+yadi_mahatam([]);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "cannot find maximum of an empty list")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_yadi_mahatam_type_error")
+    set(source [=[aavo
+yadi_mahatam([1, "x"]);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "all list items must be numbers for 'યાદી_મહત્તમ' or 'yadi_mahatam'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_yadi_mahatam_gujarati_error")
+    set(source [=[આવો
+યાદી_મહત્તમ([]);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "ખાલી યાદીમાંથી મહત્તમ શોધી શકાતું નથી")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_yadi_mahatam")
+    set(source [=[aavo
+kary yadi_mahatam(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";
