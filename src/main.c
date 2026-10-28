@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -7320,6 +7321,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 } else {
                     result = number_value(arguments[0].kind == VALUE_NULL ? 1.0 : 0.0);
                 }
+            } else {
                 Function *function = find_function(parser, name);
                 if (function == NULL) {
                     report_error(parser, name.line, name.column,
