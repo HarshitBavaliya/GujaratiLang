@@ -247,6 +247,12 @@ if(BUILD_TESTING)
             builtin_paryavaran_type_error
             builtin_paryavaran_gujarati_error
             reserved_paryavaran
+            builtin_bahar
+            builtin_bahar_code
+            builtin_bahar_unexecuted
+            builtin_bahar_type_error
+            builtin_bahar_gujarati_error
+            reserved_bahar
             romanized_error
             romanized_fatal_error
             lists_and_indexing

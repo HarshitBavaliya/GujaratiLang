@@ -173,6 +173,7 @@ can be used in the same program. Multi-word spellings use underscores.
 | `વિભાજન_પંક્તિ(...)` | `vibhaajan_pankti(...)` | Split multi-line string into list of lines |
 | `અક્ષરો(...)` | `aksharo(...)` | Split string into list of characters |
 | `પર્યાવરણ(...)` | `paryavaran(...)` | Get system environment variable value (or null) |
+| `બહાર(...)` | `bahar(...)` | Terminate program immediately with exit code (default 0) |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

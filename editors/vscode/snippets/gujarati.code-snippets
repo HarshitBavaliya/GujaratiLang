@@ -1158,5 +1158,25 @@
       "paryavaran(${1:name})"
     ],
     "description": "Get environment variable with romanized built-in"
+  },
+  "GujaratiLang exit": {
+    "prefix": [
+      "gj-exit",
+      "બહાર"
+    ],
+    "body": [
+      "બહાર(${1:0});"
+    ],
+    "description": "Exit program immediately with status code"
+  },
+  "GujaratiLang exit (romanized)": {
+    "prefix": [
+      "gj-exit-en",
+      "bahar"
+    ],
+    "body": [
+      "bahar(${1:0});"
+    ],
+    "description": "Exit program immediately with romanized built-in"
   }
 }

@@ -2179,6 +2179,61 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_bahar")
+    set(source [=[aavo
+chhapo "before exit";
+bahar();
+chhapo "after exit should not run";
+aavjo
+]=])
+    set(expected_stdout "before exit\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_bahar_code")
+    set(source [=[aavo
+chhapo "exiting with 42";
+bahar(42);
+aavjo
+]=])
+    set(expected_stdout "exiting with 42\n")
+    set(expected_stderr "")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_bahar_unexecuted")
+    set(source [=[aavo
+jo (0) {
+    bahar(1);
+}
+chhapo "survived";
+aavjo
+]=])
+    set(expected_stdout "survived\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_bahar_type_error")
+    set(source [=[aavo
+bahar(-1);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "exit code for 'બહાર' or 'bahar' must be a whole number between 0 and 255")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_bahar_gujarati_error")
+    set(source [=[આવો
+બહાર(999);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'બહાર' માટે એક્ઝિટ કોડ ૦ અને ૨૫૫ વચ્ચેનો પૂર્ણ આંક હોવો જોઈએ")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_bahar")
+    set(source [=[aavo
+kary bahar(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

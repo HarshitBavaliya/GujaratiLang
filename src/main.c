@@ -210,6 +210,7 @@ typedef enum {
     MESSAGE_EXPECTED_STRING_FOR_VIBHAAJAN_PANKTI,
     MESSAGE_EXPECTED_STRING_FOR_AKSHARO,
     MESSAGE_EXPECTED_STRING_FOR_PARYAVARAN,
+    MESSAGE_EXPECTED_EXIT_CODE_INTEGER,
     MESSAGE_USAGE
 } MessageId;
 
@@ -485,6 +486,7 @@ static const char *localized_message(Language language, MessageId message)
         "expected a string argument for 'વિભાજન_પંક્તિ' or 'vibhaajan_pankti'",
         "expected a string argument for 'અક્ષરો' or 'aksharo'",
         "expected a string argument for 'પર્યાવરણ' or 'paryavaran'",
+        "exit code for 'બહાર' or 'bahar' must be a whole number between 0 and 255",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -614,6 +616,7 @@ static const char *localized_message(Language language, MessageId message)
         "'વિભાજન_પંક્તિ' માટે લખાણ દલીલ અપેક્ષિત છે",
         "'અક્ષરો' માટે લખાણ દલીલ અપેક્ષિત છે",
         "'પર્યાવરણ' માટે લખાણ દલીલ અપેક્ષિત છે",
+        "'બહાર' માટે એક્ઝિટ કોડ ૦ અને ૨૫૫ વચ્ચેનો પૂર્ણ આંક હોવો જોઈએ",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1220,7 +1223,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "અક્ષરો") ||
            token_matches(parser, name, "aksharo") ||
            token_matches(parser, name, "પર્યાવરણ") ||
-           token_matches(parser, name, "paryavaran");
+           token_matches(parser, name, "paryavaran") ||
+           token_matches(parser, name, "બહાર") ||
+           token_matches(parser, name, "bahar");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -2074,6 +2079,28 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.owned_string = str;
                         }
                     }
+                }
+            } else if (token_matches(parser, name, "બહાર") ||
+                       token_matches(parser, name, "bahar")) {
+                if (argument_count > 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (argument_count == 1 &&
+                           (arguments[0].kind != VALUE_NUMBER ||
+                            arguments[0].number < 0.0 ||
+                            arguments[0].number > 255.0 ||
+                            arguments[0].number != (double)(int)arguments[0].number)) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_EXIT_CODE_INTEGER);
+                } else {
+                    int exit_code = 0;
+                    if (argument_count == 1) {
+                        exit_code = (int)arguments[0].number;
+                    }
+                    if (execute) {
+                        exit(exit_code);
+                    }
+                    result = number_value(0.0);
                 }
             } else if (token_matches(parser, name, "પર્યાવરણ") ||
                        token_matches(parser, name, "paryavaran")) {
