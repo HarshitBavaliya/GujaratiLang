@@ -18,6 +18,8 @@ if(NOT result EQUAL 0)
 endif()
 
 file(READ "${EXPECTED_OUTPUT_FILE}" expected_output)
+string(REPLACE "\r\n" "\n" actual_output "${actual_output}")
+string(REPLACE "\r\n" "\n" expected_output "${expected_output}")
 if(NOT actual_output STREQUAL expected_output)
     message(FATAL_ERROR
         "Unexpected output from ${SOURCE_FILE}.\n"

@@ -1,14 +1,14 @@
-Enter client name: Enter discount percentage: Enter items (name:qty:price, ...): ========================================
-INVOICE FOR: Acme Corp
-DISCOUNT RATE: 20%
-========================================
-ITEM                 QTY   PRICE   TOTAL
-----------------------------------------
-Delivery Priority      1      50      50
-Software               2     120     240
-Consulting             1     200     200
-----------------------------------------
-SUBTOTAL:                            490
-DISCOUNT:                            -98
-FINAL TOTAL:                         392
-========================================
+Enter client name: Enter discount percentage: Enter items (name:qty:price, ...): ========================================
+INVOICE FOR: Acme Corp
+DISCOUNT RATE: 20%
+========================================
+ITEM                 QTY   PRICE   TOTAL
+----------------------------------------
+Delivery Priority      1      50      50
+Software               2     120     240
+Consulting             1     200     200
+----------------------------------------
+SUBTOTAL:                            490
+DISCOUNT:                            -98
+FINAL TOTAL:                         392
+========================================
