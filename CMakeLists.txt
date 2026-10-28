@@ -173,6 +173,10 @@ if(BUILD_TESTING)
             builtin_e
             builtin_e_error
             reserved_e
+            builtin_chihna
+            builtin_chihna_error
+            builtin_chihna_type_error
+            reserved_chihna
             romanized_error
             romanized_fatal_error
             lists_and_indexing

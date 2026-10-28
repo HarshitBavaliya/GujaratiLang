@@ -159,6 +159,7 @@ can be used in the same program. Multi-word spellings use underscores.
 | `વિસ્તારો(...)` | `vistaro(...)` | Append all items from another list in-place |
 | `પાઈ()` | `pi()` | Mathematical constant pi (~3.14159) |
 | `ઈ()` | `e()` | Mathematical constant e (~2.71828) |
+| `ચિહ્ન(...)` | `chihna(...)` | Return sign of number (1 for positive, -1 for negative, 0 for zero) |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

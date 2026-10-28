@@ -1116,7 +1116,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "પાઈ") ||
            token_matches(parser, name, "pi") ||
            token_matches(parser, name, "ઈ") ||
-           token_matches(parser, name, "e");
+           token_matches(parser, name, "e") ||
+           token_matches(parser, name, "ચિહ્ન") ||
+           token_matches(parser, name, "chihna");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -1931,6 +1933,24 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.string_length = len;
                             result.owned_string = str;
                         }
+                    }
+                }
+            } else if (token_matches(parser, name, "ચિહ્ન") ||
+                       token_matches(parser, name, "chihna")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_NUMBER) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_NUMERIC_MATH_ARGUMENT);
+                } else {
+                    double n = arguments[0].number;
+                    if (n > 0.0) {
+                        result = number_value(1.0);
+                    } else if (n < 0.0) {
+                        result = number_value(-1.0);
+                    } else {
+                        result = number_value(0.0);
                     }
                 }
             } else if (token_matches(parser, name, "ઈ") ||

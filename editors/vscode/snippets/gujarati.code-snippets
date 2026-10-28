@@ -878,5 +878,25 @@
       "e()"
     ],
     "description": "Mathematical constant e (~2.71828) with romanized built-in"
+  },
+  "GujaratiLang sign function": {
+    "prefix": [
+      "gj-sign",
+      "ચિહ્ન"
+    ],
+    "body": [
+      "ચિહ્ન(${1:number})"
+    ],
+    "description": "Return sign of number (1, -1, 0)"
+  },
+  "GujaratiLang sign function (romanized)": {
+    "prefix": [
+      "gj-sign-en",
+      "chihna"
+    ],
+    "body": [
+      "chihna(${1:number})"
+    ],
+    "description": "Return sign of number (1, -1, 0) with romanized built-in"
   }
 }

@@ -1519,6 +1519,43 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_chihna")
+    set(source [=[aavo
+chhapo chihna(42);
+chhapo chihna(-15.5);
+chhapo chihna(0);
+chhapo ચિહ્ન(100);
+chhapo ચિહ્ન(-0.01);
+chhapo ચિહ્ન(0);
+aavjo
+]=])
+    set(expected_stdout "1\n-1\n0\n1\n-1\n0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_chihna_error")
+    set(source [=[aavo
+chihna();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_chihna_type_error")
+    set(source [=[aavo
+chihna("not_a_number");
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected number arguments for math function")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_chihna")
+    set(source [=[aavo
+kary chihna(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";
