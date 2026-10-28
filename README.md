@@ -168,6 +168,7 @@ can be used in the same program. Multi-word spellings use underscores.
 | `યાદી_ન્યૂનતમ(...)` | `yadi_nyunatam(...)` | Find minimum numeric element in list |
 | `યાદી_મહત્તમ(...)` | `yadi_mahatam(...)` | Find maximum numeric element in list |
 | `ગણતરી(...)` / `ગણતરી_વસ્તુ(...)` | `ganatari(...)` / `ganatari_vastu(...)` | Count item occurrences in list or substring in string |
+| `ડાબે_કાપો(...)` | `dabe_kapo(...)` | Trim leading whitespace from string |
 
 Here is a complete program written using only English-keyboard keyword
 spellings:

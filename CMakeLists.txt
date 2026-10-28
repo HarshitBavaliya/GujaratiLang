@@ -222,6 +222,11 @@ if(BUILD_TESTING)
             builtin_ganatari_string_type_error
             builtin_ganatari_gujarati_error
             reserved_ganatari
+            builtin_dabe_kapo
+            builtin_dabe_kapo_error
+            builtin_dabe_kapo_type_error
+            builtin_dabe_kapo_gujarati_error
+            reserved_dabe_kapo
             romanized_error
             romanized_fatal_error
             lists_and_indexing

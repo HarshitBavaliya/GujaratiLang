@@ -1954,6 +1954,51 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_dabe_kapo")
+    set(source [=[aavo
+chhapo "[" + dabe_kapo("   hello world   ") + "]";
+chhapo "[" + dabe_kapo(" \t\r\ntest") + "]";
+chhapo "[" + dabe_kapo("no_spaces") + "]";
+chhapo "[" + ડાબે_કાપો("  ગુજરાતી  ") + "]";
+chhapo "[" + dabe_saf("   alias   ") + "]";
+aavjo
+]=])
+    set(expected_stdout "[hello world   ]\n[test]\n[no_spaces]\n[ગુજરાતી  ]\n[alias   ]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_dabe_kapo_error")
+    set(source [=[aavo
+dabe_kapo();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_dabe_kapo_type_error")
+    set(source [=[aavo
+dabe_kapo(123);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a string argument for 'ડાબે_કાપો' or 'dabe_kapo'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_dabe_kapo_gujarati_error")
+    set(source [=[આવો
+ડાબે_કાપો(123);
+આવજો
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "'ડાબે_કાપો' માટે લખાણ દલીલ અપેક્ષિત છે")
+    set(expect_failure TRUE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "reserved_dabe_kapo")
+    set(source [=[aavo
+kary dabe_kapo(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

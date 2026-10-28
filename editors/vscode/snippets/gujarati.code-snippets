@@ -1058,5 +1058,25 @@
       "ganatari(${1:sequence}, ${2:item})"
     ],
     "description": "Count occurrences in list or string with romanized built-in"
+  },
+  "GujaratiLang trim left": {
+    "prefix": [
+      "gj-ltrim",
+      "ડાબે_કાપો"
+    ],
+    "body": [
+      "ડાબે_કાપો(${1:string})"
+    ],
+    "description": "Trim leading whitespace from a string"
+  },
+  "GujaratiLang trim left (romanized)": {
+    "prefix": [
+      "gj-ltrim-en",
+      "dabe_kapo"
+    ],
+    "body": [
+      "dabe_kapo(${1:string})"
+    ],
+    "description": "Trim leading whitespace with romanized built-in"
   }
 }
