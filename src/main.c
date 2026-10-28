@@ -190,6 +190,9 @@ typedef enum {
     MESSAGE_EXPECTED_LIST_FOR_VISTARO,
     MESSAGE_LAGHUGANAK_DOMAIN_ERROR,
     MESSAGE_LAGHUGANAK_BASE_ERROR,
+    MESSAGE_EXPECTED_STRING_FOR_AKSHAR_KOD,
+    MESSAGE_EXPECTED_AKSHAR_KOD_INTEGER,
+    MESSAGE_AKSHAR_KOD_INDEX_OUT_OF_RANGE,
     MESSAGE_USAGE
 } MessageId;
 
@@ -445,6 +448,9 @@ static const char *localized_message(Language language, MessageId message)
         "expected list arguments for 'વિસ્તારો' or 'vistaro'",
         "logarithm argument must be greater than zero",
         "logarithm base must be greater than zero and not equal to one",
+        "expected a string first argument for 'અક્ષર_કોડ' or 'akshar_kod'",
+        "index for 'અક્ષર_કોડ' or 'akshar_kod' must be a non-negative whole number",
+        "index for 'અક્ષર_કોડ' or 'akshar_kod' is out of range",
         "usage: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
     static const char *const gujarati_messages[] = {
@@ -554,6 +560,9 @@ static const char *localized_message(Language language, MessageId message)
         "'વિસ્તારો' માટે બંને દલીલો યાદી હોવી જોઈએ",
         "લઘુગણક માટે કિંમત શૂન્ય કરતાં મોટી હોવી જોઈએ",
         "લઘુગણક આધાર શૂન્ય કરતાં મોટો અને એક સિવાયનો હોવો જોઈએ",
+        "'અક્ષર_કોડ' માટે પ્રથમ દલીલ લખાણ હોવી જોઈએ",
+        "'અક્ષર_કોડ' માટે અનુક્રમ શૂન્ય અથવા ધન પૂર્ણાંક હોવો જોઈએ",
+        "'અક્ષર_કોડ' માટે અનુક્રમ લખાણની મર્યાદા બહાર છે",
         "ઉપયોગ: %s [--language en|gu] <source.gj> | [--language en|gu] --repl"
     };
 
@@ -1126,7 +1135,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "ચિહ્ન") ||
            token_matches(parser, name, "chihna") ||
            token_matches(parser, name, "લઘુગણક") ||
-           token_matches(parser, name, "laghuganak");
+           token_matches(parser, name, "laghuganak") ||
+           token_matches(parser, name, "અક્ષર_કોડ") ||
+           token_matches(parser, name, "akshar_kod");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -1295,6 +1306,22 @@ static size_t utf8_total_codepoints(const char *str, size_t str_len)
         }
     }
     return count;
+}
+
+static unsigned int utf8_decode_codepoint(const char *bytes, size_t len)
+{
+    if (len == 0) return 0;
+    unsigned char b0 = (unsigned char)bytes[0];
+    if (b0 < 0x80) {
+        return b0;
+    } else if ((b0 & 0xE0) == 0xC0 && len >= 2) {
+        return ((b0 & 0x1F) << 6) | ((unsigned char)bytes[1] & 0x3F);
+    } else if ((b0 & 0xF0) == 0xE0 && len >= 3) {
+        return ((b0 & 0x0F) << 12) | (((unsigned char)bytes[1] & 0x3F) << 6) | ((unsigned char)bytes[2] & 0x3F);
+    } else if ((b0 & 0xF8) == 0xF0 && len >= 4) {
+        return ((b0 & 0x07) << 18) | (((unsigned char)bytes[1] & 0x3F) << 12) | (((unsigned char)bytes[2] & 0x3F) << 6) | ((unsigned char)bytes[3] & 0x3F);
+    }
+    return b0;
 }
 
 static size_t utf8_codepoint_to_byte_offset(const char *str, size_t str_len, size_t target_cp)
@@ -1940,6 +1967,46 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.kind = VALUE_STRING;
                             result.string_length = len;
                             result.owned_string = str;
+                        }
+                    }
+                }
+            } else if (token_matches(parser, name, "અક્ષર_કોડ") ||
+                       token_matches(parser, name, "akshar_kod")) {
+                if (argument_count != 1 && argument_count != 2) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (arguments[0].kind != VALUE_STRING) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_STRING_FOR_AKSHAR_KOD);
+                } else if (argument_count == 2 && (arguments[1].kind != VALUE_NUMBER ||
+                           arguments[1].number < 0.0 ||
+                           arguments[1].number >= (double)(size_t)-1 ||
+                           arguments[1].number != (double)(size_t)arguments[1].number)) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_EXPECTED_AKSHAR_KOD_INTEGER);
+                } else {
+                    size_t length = decoded_string_length(parser, arguments[0]);
+                    char *buffer = (char *)malloc(length + 1);
+                    if (buffer == NULL) {
+                        report_error(parser, name.line, name.column, MESSAGE_OUT_OF_MEMORY);
+                    } else {
+                        copy_value_string(parser, arguments[0], buffer);
+                        buffer[length] = '\0';
+                        size_t total_cp = utf8_total_codepoints(buffer, length);
+                        size_t target_idx = 0;
+                        if (argument_count == 2) {
+                            target_idx = (size_t)arguments[1].number;
+                        }
+                        if (target_idx >= total_cp) {
+                            free(buffer);
+                            report_error(parser, name.line, name.column,
+                                         MESSAGE_AKSHAR_KOD_INDEX_OUT_OF_RANGE);
+                        } else {
+                            size_t b_start = utf8_codepoint_to_byte_offset(buffer, length, target_idx);
+                            size_t b_end = utf8_codepoint_to_byte_offset(buffer, length, target_idx + 1);
+                            unsigned int cp = utf8_decode_codepoint(buffer + b_start, b_end - b_start);
+                            free(buffer);
+                            result = number_value((double)cp);
                         }
                     }
                 }

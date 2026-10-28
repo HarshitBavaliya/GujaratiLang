@@ -918,5 +918,25 @@
       "laghuganak(${1:number})"
     ],
     "description": "Calculate natural logarithm or logarithm with base with romanized built-in"
+  },
+  "GujaratiLang character code": {
+    "prefix": [
+      "gj-charcode",
+      "અક્ષર_કોડ"
+    ],
+    "body": [
+      "અક્ષર_કોડ(${1:string}, ${2:index})"
+    ],
+    "description": "Return Unicode code point of character at index"
+  },
+  "GujaratiLang character code (romanized)": {
+    "prefix": [
+      "gj-charcode-en",
+      "akshar_kod"
+    ],
+    "body": [
+      "akshar_kod(${1:string}, ${2:index})"
+    ],
+    "description": "Return Unicode code point of character at index with romanized built-in"
   }
 }

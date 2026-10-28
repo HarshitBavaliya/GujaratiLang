@@ -183,6 +183,11 @@ if(BUILD_TESTING)
             builtin_laghuganak_base_error
             builtin_laghuganak_gujarati_error
             reserved_laghuganak
+            builtin_akshar_kod
+            builtin_akshar_kod_error
+            builtin_akshar_kod_type_error
+            builtin_akshar_kod_range_error
+            reserved_akshar_kod
             romanized_error
             romanized_fatal_error
             lists_and_indexing

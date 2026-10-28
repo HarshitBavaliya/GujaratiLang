@@ -1608,6 +1608,50 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_akshar_kod")
+    set(source [=[aavo
+chhapo akshar_kod("A");
+chhapo akshar_kod("ABC", 1);
+chhapo akshar_kod("ABC", 2);
+chhapo akshar_kod("ગુજરાતી", 0);
+chhapo અક્ષર_કોડ("ગુજરાતી", 1);
+aavjo
+]=])
+    set(expected_stdout "65\n66\n67\n2711\n2753\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_akshar_kod_error")
+    set(source [=[aavo
+akshar_kod();
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_akshar_kod_type_error")
+    set(source [=[aavo
+akshar_kod(123);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "expected a string first argument for 'અક્ષર_કોડ' or 'akshar_kod'")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_akshar_kod_range_error")
+    set(source [=[aavo
+akshar_kod("hi", 5);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "index for 'અક્ષર_કોડ' or 'akshar_kod' is out of range")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_akshar_kod")
+    set(source [=[aavo
+kary akshar_kod(x) { parat x; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";
