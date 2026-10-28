@@ -5,6 +5,8 @@
 #include <math.h>
 #include <time.h>
 
+#define GUJARATI_PI 3.14159265358979323846
+
 #ifdef _WIN32
 #include <windows.h>
 #else
@@ -1109,7 +1111,9 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "બીજ") ||
            token_matches(parser, name, "beej") ||
            token_matches(parser, name, "વિસ્તારો") ||
-           token_matches(parser, name, "vistaro");
+           token_matches(parser, name, "vistaro") ||
+           token_matches(parser, name, "પાઈ") ||
+           token_matches(parser, name, "pi");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -1925,6 +1929,14 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                             result.owned_string = str;
                         }
                     }
+                }
+            } else if (token_matches(parser, name, "પાઈ") ||
+                       token_matches(parser, name, "pi")) {
+                if (argument_count != 0) {
+                    report_error(parser, name.line, name.column,
+                                 MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = number_value(GUJARATI_PI);
                 }
             } else if (token_matches(parser, name, "વિસ્તારો") ||
                        token_matches(parser, name, "vistaro")) {

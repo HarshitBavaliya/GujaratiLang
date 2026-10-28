@@ -167,6 +167,9 @@ if(BUILD_TESTING)
             builtin_vistaro_type_error
             builtin_vistaro_gujarati_error
             reserved_vistaro
+            builtin_pi
+            builtin_pi_error
+            reserved_pi
             romanized_error
             romanized_fatal_error
             lists_and_indexing

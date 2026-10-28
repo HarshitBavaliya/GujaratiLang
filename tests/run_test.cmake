@@ -1465,6 +1465,33 @@ aavjo
     set(expected_stdout "")
     set(expected_stderr "built-in function name cannot be declared")
     set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "builtin_pi")
+    set(source [=[aavo
+p1 = pi();
+chhapo gol(p1 * 100);
+p2 = પાઈ();
+chhapo gol(p2 * 100);
+aavjo
+]=])
+    set(expected_stdout "314\n314\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_pi_error")
+    set(source [=[aavo
+pi(1);
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "incorrect number of function arguments")
+    set(expect_failure TRUE)
+elseif(TEST_CASE STREQUAL "reserved_pi")
+    set(source [=[aavo
+kary pi() { parat 0; }
+aavjo
+]=])
+    set(expected_stdout "")
+    set(expected_stderr "built-in function name cannot be declared")
+    set(expect_failure TRUE)
 elseif(TEST_CASE STREQUAL "romanized_error")
     set(source [=[aavo
 bhul "stop here";

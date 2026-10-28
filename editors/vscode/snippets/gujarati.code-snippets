@@ -838,5 +838,25 @@
       "vistaro(${1:list}, ${2:other_list});"
     ],
     "description": "Append all items from other list in-place with romanized built-in"
+  },
+  "GujaratiLang pi constant": {
+    "prefix": [
+      "gj-pi",
+      "પાઈ"
+    ],
+    "body": [
+      "પાઈ()"
+    ],
+    "description": "Mathematical constant pi (~3.14159)"
+  },
+  "GujaratiLang pi constant (romanized)": {
+    "prefix": [
+      "gj-pi-en",
+      "pi"
+    ],
+    "body": [
+      "pi()"
+    ],
+    "description": "Mathematical constant pi (~3.14159) with romanized built-in"
   }
 }
