@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 1.4.0 LANGUAGES C)
+project(gujaratilang VERSION 1.5.0 LANGUAGES C)
 
 include(CTest)
 
@@ -11,7 +11,7 @@ if(WIN32)
     target_link_libraries(gujarati PRIVATE ws2_32 user32 gdi32)
 endif()
 if(UNIX)
-    target_link_libraries(gujarati PRIVATE m pthread)
+    target_link_libraries(gujarati PRIVATE m pthread ${CMAKE_DL_LIBS})
 endif()
 target_compile_features(gujarati PRIVATE c_std_99)
 

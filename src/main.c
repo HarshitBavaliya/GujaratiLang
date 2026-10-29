@@ -21,6 +21,8 @@
 typedef SOCKET socket_t;
 #define IS_INVALID_SOCKET(s) ((s) == INVALID_SOCKET)
 #define CLOSE_SOCKET(s) closesocket(s)
+#define STR_ICMP _stricmp
+#define STR_NICMP _strnicmp
 #else
 #include <unistd.h>
 #include <dirent.h>
@@ -32,9 +34,16 @@ typedef SOCKET socket_t;
 #include <arpa/inet.h>
 #include <pthread.h>
 #include <dlfcn.h>
+#include <netdb.h>
+#include <strings.h>
+#ifndef MAX_PATH
+#define MAX_PATH 1024
+#endif
 typedef int socket_t;
 #define IS_INVALID_SOCKET(s) ((s) < 0)
 #define CLOSE_SOCKET(s) close(s)
+#define STR_ICMP strcasecmp
+#define STR_NICMP strncasecmp
 #endif
 
 typedef enum {
@@ -2693,7 +2702,7 @@ static Value call_method(Parser *parser, Function function, Value instance,
         parser->failed = 1;
         parser->error_caught = callee.error_caught;
         if (callee.last_error_message && !parser->last_error_message) {
-            parser->last_error_message = _strdup(callee.last_error_message);
+            parser->last_error_message = copy_string(callee.last_error_message);
         }
     } else if (callee.returned) {
         result = callee.return_value;
@@ -6515,6 +6524,24 @@ static Value ffi_call_helper(Parser *parser, Token name, Value dll_val, Value fu
 #else
     void *lib = dlopen(dll_name, RTLD_LAZY);
     if (!lib) {
+        if (strcmp(dll_name, "msvcrt") == 0 || strcmp(dll_name, "m") == 0 || strcmp(dll_name, "c") == 0) {
+            lib = dlopen(NULL, RTLD_LAZY);
+            if (!lib) lib = dlopen("libm.so", RTLD_LAZY);
+            if (!lib) lib = dlopen("libm.dylib", RTLD_LAZY);
+        } else {
+            char with_ext[300];
+            snprintf(with_ext, sizeof(with_ext), "lib%s.so", dll_name);
+            lib = dlopen(with_ext, RTLD_LAZY);
+            if (!lib) {
+                snprintf(with_ext, sizeof(with_ext), "lib%s.dylib", dll_name);
+                lib = dlopen(with_ext, RTLD_LAZY);
+            }
+            if (!lib) {
+                lib = dlopen(NULL, RTLD_LAZY);
+            }
+        }
+    }
+    if (!lib) {
         free(dll_name);
         free(func_name);
         return null_value();
@@ -6532,17 +6559,17 @@ static Value ffi_call_helper(Parser *parser, Token name, Value dll_val, Value fu
 
     if (argc == 0) {
         typedef double (*f0_t)(void);
-        f0_t fn = (f0_t)proc;
+        f0_t fn; memcpy(&fn, &proc, sizeof(fn));
         result = number_value(fn());
     } else if (argc == 1) {
         Value a0 = args_val.list->items[0];
         if (a0.kind == VALUE_NUMBER) {
             typedef double (*f1_t)(double);
-            f1_t fn = (f1_t)proc;
+            f1_t fn; memcpy(&fn, &proc, sizeof(fn));
             result = number_value(fn(a0.number));
         } else if (a0.kind == VALUE_STRING) {
             typedef int (*f1s_t)(const char *);
-            f1s_t fn = (f1s_t)proc;
+            f1s_t fn; memcpy(&fn, &proc, sizeof(fn));
             char *s0 = value_to_c_string(parser, a0);
             result = number_value((double)fn(s0 ? s0 : ""));
             if (s0) free(s0);
@@ -6551,7 +6578,7 @@ static Value ffi_call_helper(Parser *parser, Token name, Value dll_val, Value fu
         Value a0 = args_val.list->items[0];
         Value a1 = args_val.list->items[1];
         typedef double (*f2_t)(double, double);
-        f2_t fn = (f2_t)proc;
+        f2_t fn; memcpy(&fn, &proc, sizeof(fn));
         double n0 = (a0.kind == VALUE_NUMBER) ? a0.number : 0.0;
         double n1 = (a1.kind == VALUE_NUMBER) ? a1.number : 0.0;
         result = number_value(fn(n0, n1));
@@ -6560,7 +6587,7 @@ static Value ffi_call_helper(Parser *parser, Token name, Value dll_val, Value fu
         Value a1 = args_val.list->items[1];
         Value a2 = args_val.list->items[2];
         typedef double (*f3_t)(double, double, double);
-        f3_t fn = (f3_t)proc;
+        f3_t fn; memcpy(&fn, &proc, sizeof(fn));
         double n0 = (a0.kind == VALUE_NUMBER) ? a0.number : 0.0;
         double n1 = (a1.kind == VALUE_NUMBER) ? a1.number : 0.0;
         double n2 = (a2.kind == VALUE_NUMBER) ? a2.number : 0.0;
@@ -6939,8 +6966,8 @@ static Value websocket_client_helper(Parser *parser, Token name, Value url_val, 
     char path[256] = "/";
 
     char *p = url;
-    if (_strnicmp(p, "ws://", 5) == 0) p += 5;
-    else if (_strnicmp(p, "wss://", 6) == 0) p += 6;
+    if (STR_NICMP(p, "ws://", 5) == 0) p += 5;
+    else if (STR_NICMP(p, "wss://", 6) == 0) p += 6;
 
     char *slash = strchr(p, '/');
     if (slash) {
@@ -8337,8 +8364,10 @@ static int run_cli_disasm(const char *filename)
  * 6. Debugger & Memory Diagnostics
  */
 
+#ifdef _WIN32
 #pragma comment(lib, "user32.lib")
 #pragma comment(lib, "gdi32.lib")
+#endif
 
 static Value gj_string(Parser *parser, Token name, const char *s)
 {

@@ -61,7 +61,11 @@ jobs:
         shell: bash
         run: |
           mkdir -p dist package/examples
-          cp build/gujarati package/gujarati
+          if [ -f build/Release/gujarati ]; then
+            cp build/Release/gujarati package/gujarati
+          else
+            cp build/gujarati package/gujarati
+          fi
           cp examples/*.gj package/examples/
           cp release/README.txt package/README.txt
           cp LICENSE package/LICENSE
