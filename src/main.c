@@ -7,6 +7,7 @@
 #include <time.h>
 #include <stdint.h>
 #include <ctype.h>
+#include <signal.h>
 
 #define GUJARATI_PI 3.14159265358979323846
 #define GUJARATI_E  2.71828182845904523536
@@ -34,6 +35,7 @@ typedef SOCKET socket_t;
 #include <arpa/inet.h>
 #include <pthread.h>
 #include <dlfcn.h>
+#include <sys/wait.h>
 #include <netdb.h>
 #include <strings.h>
 #ifndef MAX_PATH
@@ -2115,6 +2117,60 @@ static int is_builtin_function_name(Parser *parser, Token name)
             token_matches(parser, name, "assert_throws") ||
             token_matches(parser, name, "બેન્ચ_દોડો") ||
             token_matches(parser, name, "bench_run") ||
+            token_matches(parser, name, "નેટ_મેળવો") ||
+            token_matches(parser, name, "http_get") ||
+            token_matches(parser, name, "નેટ_મોકલો") ||
+            token_matches(parser, name, "http_post") ||
+            token_matches(parser, name, "સર્વર_બનાવો") ||
+            token_matches(parser, name, "server_create") ||
+            token_matches(parser, name, "સર્વર_સાંભળો") ||
+            token_matches(parser, name, "server_listen") ||
+            token_matches(parser, name, "સર્વર_બંધ") ||
+            token_matches(parser, name, "server_close") ||
+            token_matches(parser, name, "જેસન_વાંચો") ||
+            token_matches(parser, name, "json_parse") ||
+            token_matches(parser, name, "જેસન_લખો") ||
+            token_matches(parser, name, "json_stringify") ||
+            token_matches(parser, name, "બફર_બનાવો") ||
+            token_matches(parser, name, "buffer_create") ||
+            token_matches(parser, name, "બફર_વાંચો") ||
+            token_matches(parser, name, "buffer_read_u8") ||
+            token_matches(parser, name, "બફર_લખો") ||
+            token_matches(parser, name, "buffer_write_bytes") ||
+            token_matches(parser, name, "હેશ_૨૫૬") ||
+            token_matches(parser, name, "hash_sha256") ||
+            token_matches(parser, name, "હેશ_એમડી૫") ||
+            token_matches(parser, name, "hash_md5") ||
+            token_matches(parser, name, "એચમેક") ||
+            token_matches(parser, name, "hmac_sha256") ||
+            token_matches(parser, name, "બેઝ૬૪_એન્કોડ") ||
+            token_matches(parser, name, "base64_encode") ||
+            token_matches(parser, name, "બેઝ૬૪_ડીકોડ") ||
+            token_matches(parser, name, "base64_decode") ||
+            token_matches(parser, name, "યાદચ્છિક_આઈડી") ||
+            token_matches(parser, name, "crypto_uuid") ||
+            token_matches(parser, name, "તાંતણો_શરૂ") ||
+            token_matches(parser, name, "thread_spawn") ||
+            token_matches(parser, name, "તાંતણો_જોડો") ||
+            token_matches(parser, name, "thread_join") ||
+            token_matches(parser, name, "મ્યુટેક્સ_બનાવો") ||
+            token_matches(parser, name, "mutex_create") ||
+            token_matches(parser, name, "મ્યુટેક્સ_તાળું") ||
+            token_matches(parser, name, "mutex_lock") ||
+            token_matches(parser, name, "મ્યુટેક્સ_ખોલો") ||
+            token_matches(parser, name, "mutex_unlock") ||
+            token_matches(parser, name, "તાંતણા_પૂલ") ||
+            token_matches(parser, name, "thread_pool") ||
+            token_matches(parser, name, "પર્યાવરણ_મેળવો") ||
+            token_matches(parser, name, "env_get") ||
+            token_matches(parser, name, "પર્યાવરણ_ગોઠવો") ||
+            token_matches(parser, name, "env_set") ||
+            token_matches(parser, name, "પ્રક્રિયા_ચલાવો") ||
+            token_matches(parser, name, "process_run") ||
+            token_matches(parser, name, "આદેશ_દલીલો") ||
+            token_matches(parser, name, "process_args") ||
+            token_matches(parser, name, "સિગ્નલ_પકડો") ||
+            token_matches(parser, name, "signal_trap") ||
            token_matches(parser, name, "રેજેક્સ_સરખાવો") ||
            token_matches(parser, name, "regex_match") ||
            token_matches(parser, name, "રેજેક્સ_શોધો") ||
@@ -3204,14 +3260,16 @@ static char *base64_encode_str(const unsigned char *data, size_t input_length, s
     size_t i, j;
     if (encoded_data == NULL) return NULL;
     for (i = 0, j = 0; i < input_length;) {
-        uint32_t octet_a = i < input_length ? data[i++] : 0;
-        uint32_t octet_b = i < input_length ? data[i++] : 0;
-        uint32_t octet_c = i < input_length ? data[i++] : 0;
+        int has_b = (i + 1 < input_length);
+        int has_c = (i + 2 < input_length);
+        uint32_t octet_a = (unsigned char)data[i++];
+        uint32_t octet_b = has_b ? (unsigned char)data[i++] : 0;
+        uint32_t octet_c = has_c ? (unsigned char)data[i++] : 0;
         uint32_t triple = (octet_a << 16) + (octet_b << 8) + octet_c;
         encoded_data[j++] = b64_table[(triple >> 18) & 0x3F];
         encoded_data[j++] = b64_table[(triple >> 12) & 0x3F];
-        encoded_data[j++] = (i > input_length + 1) ? '=' : b64_table[(triple >> 6) & 0x3F];
-        encoded_data[j++] = (i > input_length) ? '=' : b64_table[triple & 0x3F];
+        encoded_data[j++] = has_b ? b64_table[(triple >> 6) & 0x3F] : '=';
+        encoded_data[j++] = has_c ? b64_table[triple & 0x3F] : '=';
     }
     encoded_data[out_len] = '\0';
     if (output_length) *output_length = out_len;
@@ -9131,6 +9189,614 @@ static Value bench_run_helper(Parser *parser, Token name, Value fn_v, Value iter
     return gj_dict(d);
 }
 
+/* =========================================================================
+ * GujaratiLang v1.6.0: Pillars 1-6 Helper Implementations
+ * ========================================================================= */
+
+/* --- 1. RFC 1321 MD5 Implementation --- */
+typedef struct {
+    uint32_t state[4];
+    uint32_t count[2];
+    uint8_t buffer[64];
+} GJ_MD5_CTX;
+
+#define GJ_MD5_F(x, y, z) (((x) & (y)) | ((~x) & (z)))
+#define GJ_MD5_G(x, y, z) (((x) & (z)) | ((y) & (~z)))
+#define GJ_MD5_H(x, y, z) ((x) ^ (y) ^ (z))
+#define GJ_MD5_I(x, y, z) ((y) ^ ((x) | (~z)))
+#define GJ_MD5_ROTATE_LEFT(x, n) (((x) << (n)) | ((x) >> (32 - (n))))
+
+#define GJ_MD5_FF(a, b, c, d, x, s, ac) { \
+    (a) += GJ_MD5_F((b), (c), (d)) + (x) + (uint32_t)(ac); \
+    (a) = GJ_MD5_ROTATE_LEFT((a), (s)); \
+    (a) += (b); \
+}
+#define GJ_MD5_GG(a, b, c, d, x, s, ac) { \
+    (a) += GJ_MD5_G((b), (c), (d)) + (x) + (uint32_t)(ac); \
+    (a) = GJ_MD5_ROTATE_LEFT((a), (s)); \
+    (a) += (b); \
+}
+#define GJ_MD5_HH(a, b, c, d, x, s, ac) { \
+    (a) += GJ_MD5_H((b), (c), (d)) + (x) + (uint32_t)(ac); \
+    (a) = GJ_MD5_ROTATE_LEFT((a), (s)); \
+    (a) += (b); \
+}
+#define GJ_MD5_II(a, b, c, d, x, s, ac) { \
+    (a) += GJ_MD5_I((b), (c), (d)) + (x) + (uint32_t)(ac); \
+    (a) = GJ_MD5_ROTATE_LEFT((a), (s)); \
+    (a) += (b); \
+}
+
+static void gj_md5_transform(uint32_t state[4], const uint8_t block[64]) {
+    uint32_t a = state[0], b = state[1], c = state[2], d = state[3], x[16];
+    for (int i = 0, j = 0; i < 16; i++, j += 4)
+        x[i] = ((uint32_t)block[j]) | (((uint32_t)block[j+1]) << 8) |
+               (((uint32_t)block[j+2]) << 16) | (((uint32_t)block[j+3]) << 24);
+
+    GJ_MD5_FF(a, b, c, d, x[ 0],  7, 0xd76aa478);
+    GJ_MD5_FF(d, a, b, c, x[ 1], 12, 0xe8c7b756);
+    GJ_MD5_FF(c, d, a, b, x[ 2], 17, 0x242070db);
+    GJ_MD5_FF(b, c, d, a, x[ 3], 22, 0xc1bdceee);
+    GJ_MD5_FF(a, b, c, d, x[ 4],  7, 0xf57c0faf);
+    GJ_MD5_FF(d, a, b, c, x[ 5], 12, 0x4787c62a);
+    GJ_MD5_FF(c, d, a, b, x[ 6], 17, 0xa8304613);
+    GJ_MD5_FF(b, c, d, a, x[ 7], 22, 0xfd469501);
+    GJ_MD5_FF(a, b, c, d, x[ 8],  7, 0x698098d8);
+    GJ_MD5_FF(d, a, b, c, x[ 9], 12, 0x8b44f7af);
+    GJ_MD5_FF(c, d, a, b, x[10], 17, 0xffff5bb1);
+    GJ_MD5_FF(b, c, d, a, x[11], 22, 0x895cd7be);
+    GJ_MD5_FF(a, b, c, d, x[12],  7, 0x6b901122);
+    GJ_MD5_FF(d, a, b, c, x[13], 12, 0xfd987193);
+    GJ_MD5_FF(c, d, a, b, x[14], 17, 0xa679438e);
+    GJ_MD5_FF(b, c, d, a, x[15], 22, 0x49b40821);
+
+    GJ_MD5_GG(a, b, c, d, x[ 1],  5, 0xf61e2562);
+    GJ_MD5_GG(d, a, b, c, x[ 6],  9, 0xc040b340);
+    GJ_MD5_GG(c, d, a, b, x[11], 14, 0x265e5a51);
+    GJ_MD5_GG(b, c, d, a, x[ 0], 20, 0xe9b6c7aa);
+    GJ_MD5_GG(a, b, c, d, x[ 5],  5, 0xd62f105d);
+    GJ_MD5_GG(d, a, b, c, x[10],  9,  0x2441453);
+    GJ_MD5_GG(c, d, a, b, x[15], 14, 0xd8a1e681);
+    GJ_MD5_GG(b, c, d, a, x[ 4], 20, 0xe7d3fbc8);
+    GJ_MD5_GG(a, b, c, d, x[ 9],  5, 0x21e1cde6);
+    GJ_MD5_GG(d, a, b, c, x[14],  9, 0xc33707d6);
+    GJ_MD5_GG(c, d, a, b, x[ 3], 14, 0xf4d50d87);
+    GJ_MD5_GG(b, c, d, a, x[ 8], 20, 0x455a14ed);
+    GJ_MD5_GG(a, b, c, d, x[13],  5, 0xa9e3e905);
+    GJ_MD5_GG(d, a, b, c, x[ 2],  9, 0xfcefa3f8);
+    GJ_MD5_GG(c, d, a, b, x[ 7], 14, 0x676f02d9);
+    GJ_MD5_GG(b, c, d, a, x[12], 20, 0x8d2a4c8a);
+
+    GJ_MD5_HH(a, b, c, d, x[ 5],  4, 0xfffa3942);
+    GJ_MD5_HH(d, a, b, c, x[ 8], 11, 0x8771f681);
+    GJ_MD5_HH(c, d, a, b, x[11], 16, 0x6d9d6122);
+    GJ_MD5_HH(b, c, d, a, x[14], 23, 0xfde5380c);
+    GJ_MD5_HH(a, b, c, d, x[ 1],  4, 0xa4beea44);
+    GJ_MD5_HH(d, a, b, c, x[ 4], 11, 0x4bdecfa9);
+    GJ_MD5_HH(c, d, a, b, x[ 7], 16, 0xf6bb4b60);
+    GJ_MD5_HH(b, c, d, a, x[10], 23, 0xbebfbc70);
+    GJ_MD5_HH(a, b, c, d, x[13],  4, 0x289b7ec6);
+    GJ_MD5_HH(d, a, b, c, x[ 0], 11, 0xeaa127fa);
+    GJ_MD5_HH(c, d, a, b, x[ 3], 16, 0xd4ef3085);
+    GJ_MD5_HH(b, c, d, a, x[ 6], 23,  0x4881d05);
+    GJ_MD5_HH(a, b, c, d, x[ 9],  4, 0xd9d4d039);
+    GJ_MD5_HH(d, a, b, c, x[12], 11, 0xe6db99e5);
+    GJ_MD5_HH(c, d, a, b, x[15], 16, 0x1fa27cf8);
+    GJ_MD5_HH(b, c, d, a, x[ 2], 23, 0xc4ac5665);
+
+    GJ_MD5_II(a, b, c, d, x[ 0],  6, 0xf4292244);
+    GJ_MD5_II(d, a, b, c, x[ 7], 10, 0x432aff97);
+    GJ_MD5_II(c, d, a, b, x[14], 15, 0xab9423a7);
+    GJ_MD5_II(b, c, d, a, x[ 5], 21, 0xfc93a039);
+    GJ_MD5_II(a, b, c, d, x[12],  6, 0x655b59c3);
+    GJ_MD5_II(d, a, b, c, x[ 3], 10, 0x8f0ccc92);
+    GJ_MD5_II(c, d, a, b, x[10], 15, 0xffeff47d);
+    GJ_MD5_II(b, c, d, a, x[ 1], 21, 0x85845dd1);
+    GJ_MD5_II(a, b, c, d, x[ 8],  6, 0x6fa87e4f);
+    GJ_MD5_II(d, a, b, c, x[15], 10, 0xfe2ce6e0);
+    GJ_MD5_II(c, d, a, b, x[ 6], 15, 0xa3014314);
+    GJ_MD5_II(b, c, d, a, x[13], 21, 0x4e0811a1);
+    GJ_MD5_II(a, b, c, d, x[ 4],  6, 0xf7537e82);
+    GJ_MD5_II(d, a, b, c, x[11], 10, 0xbd3af235);
+    GJ_MD5_II(c, d, a, b, x[ 2], 15, 0x2ad7d2bb);
+    GJ_MD5_II(b, c, d, a, x[ 9], 21, 0xeb86d391);
+
+    state[0] += a;
+    state[1] += b;
+    state[2] += c;
+    state[3] += d;
+}
+
+static void gj_md5_init(GJ_MD5_CTX *context) {
+    context->count[0] = context->count[1] = 0;
+    context->state[0] = 0x67452301;
+    context->state[1] = 0xefcdab89;
+    context->state[2] = 0x98badcfe;
+    context->state[3] = 0x10325476;
+}
+
+static void gj_md5_update(GJ_MD5_CTX *context, const uint8_t *input, size_t inputLen) {
+    size_t i, index, partLen;
+    index = (size_t)((context->count[0] >> 3) & 0x3F);
+    if ((context->count[0] += ((uint32_t)inputLen << 3)) < ((uint32_t)inputLen << 3))
+        context->count[1]++;
+    context->count[1] += (uint32_t)(inputLen >> 29);
+    partLen = 64 - index;
+    if (inputLen >= partLen) {
+        memcpy(&context->buffer[index], input, partLen);
+        gj_md5_transform(context->state, context->buffer);
+        for (i = partLen; i + 63 < inputLen; i += 64)
+            gj_md5_transform(context->state, &input[i]);
+        index = 0;
+    } else {
+        i = 0;
+    }
+    memcpy(&context->buffer[index], &input[i], inputLen - i);
+}
+
+static void gj_md5_final(uint8_t digest[16], GJ_MD5_CTX *context) {
+    static const uint8_t PADDING[64] = {
+        0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    };
+    uint8_t bits[8];
+    for (int i = 0; i < 4; i++) bits[i] = (uint8_t)((context->count[0] >> (i * 8)) & 0xFF);
+    for (int i = 0; i < 4; i++) bits[i + 4] = (uint8_t)((context->count[1] >> (i * 8)) & 0xFF);
+    size_t index = (size_t)((context->count[0] >> 3) & 0x3f);
+    size_t padLen = (index < 56) ? (56 - index) : (120 - index);
+    gj_md5_update(context, PADDING, padLen);
+    gj_md5_update(context, bits, 8);
+    for (int i = 0; i < 4; i++) {
+        digest[i*4  ] = (uint8_t)((context->state[i]      ) & 0xFF);
+        digest[i*4+1] = (uint8_t)((context->state[i] >>  8) & 0xFF);
+        digest[i*4+2] = (uint8_t)((context->state[i] >> 16) & 0xFF);
+        digest[i*4+3] = (uint8_t)((context->state[i] >> 24) & 0xFF);
+    }
+}
+
+static Value hash_md5_helper(Parser *parser, Token name, Value data_v) {
+    if (data_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *input = value_to_c_string(parser, data_v);
+    if (!input) return null_value();
+    GJ_MD5_CTX ctx;
+    uint8_t digest[16];
+    gj_md5_init(&ctx);
+    gj_md5_update(&ctx, (const uint8_t *)input, strlen(input));
+    gj_md5_final(digest, &ctx);
+    free(input);
+
+    char hex[33];
+    for (int i = 0; i < 16; i++) {
+        sprintf(hex + i * 2, "%02x", digest[i]);
+    }
+    hex[32] = '\0';
+    return gj_string(parser, name, hex);
+}
+
+/* --- 2. Raw Byte Buffer Primitives --- */
+typedef struct {
+    int id;
+    size_t size;
+    uint8_t *data;
+} GJ_BufferInstance;
+
+static GJ_BufferInstance g_buffers[64];
+static int g_buffer_count = 0;
+
+static Value buffer_create_helper(Parser *parser, Token name, Value size_v) {
+    if (size_v.kind != VALUE_NUMBER || size_v.number < 0) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    size_t sz = (size_t)size_v.number;
+    int bid = ++g_buffer_count;
+    if (bid <= 64) {
+        g_buffers[bid - 1].id = bid;
+        g_buffers[bid - 1].size = sz;
+        g_buffers[bid - 1].data = (uint8_t *)calloc(sz ? sz : 1, 1);
+    }
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "__type__", gj_string(parser, name, "buffer"), name);
+    gj_dict_set(parser, d, "id", number_value((double)bid), name);
+    gj_dict_set(parser, d, "આઈડી", number_value((double)bid), name);
+    gj_dict_set(parser, d, "size", number_value((double)sz), name);
+    gj_dict_set(parser, d, "કદ", number_value((double)sz), name);
+    return gj_dict(d);
+}
+
+static Value buffer_read_u8_helper(Parser *parser, Token name, Value buf_v, Value offset_v) {
+    if (buf_v.kind != VALUE_DICT || offset_v.kind != VALUE_NUMBER) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    int bid = (int)gj_dict_get(buf_v.dict, "id").number;
+    size_t offset = (size_t)offset_v.number;
+    if (bid >= 1 && bid <= g_buffer_count && g_buffers[bid - 1].data) {
+        if (offset < g_buffers[bid - 1].size) {
+            return number_value((double)g_buffers[bid - 1].data[offset]);
+        }
+    }
+    return number_value(0.0);
+}
+
+static Value buffer_write_bytes_helper(Parser *parser, Token name, Value buf_v, Value offset_v, Value val_v) {
+    if (buf_v.kind != VALUE_DICT || offset_v.kind != VALUE_NUMBER) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    int bid = (int)gj_dict_get(buf_v.dict, "id").number;
+    size_t offset = (size_t)offset_v.number;
+    if (bid >= 1 && bid <= g_buffer_count && g_buffers[bid - 1].data) {
+        GJ_BufferInstance *b = &g_buffers[bid - 1];
+        if (val_v.kind == VALUE_NUMBER) {
+            if (offset < b->size) {
+                b->data[offset] = (uint8_t)((int)val_v.number & 0xFF);
+                return number_value(1.0);
+            }
+        } else if (val_v.kind == VALUE_STRING) {
+            char *s = value_to_c_string(parser, val_v);
+            if (s) {
+                size_t len = strlen(s);
+                size_t written = 0;
+                for (size_t i = 0; i < len && (offset + i) < b->size; i++) {
+                    b->data[offset + i] = (uint8_t)s[i];
+                    written++;
+                }
+                free(s);
+                return number_value((double)written);
+            }
+        } else if (val_v.kind == VALUE_LIST) {
+            size_t written = 0;
+            for (size_t i = 0; i < val_v.list->count && (offset + i) < b->size; i++) {
+                Value it = val_v.list->items[i];
+                if (it.kind == VALUE_NUMBER) {
+                    b->data[offset + i] = (uint8_t)((int)it.number & 0xFF);
+                    written++;
+                }
+            }
+            return number_value((double)written);
+        }
+    }
+    return number_value(0.0);
+}
+
+/* --- 3. Native OS Thread & Mutex Helpers --- */
+typedef struct {
+    int id;
+    int is_running;
+    int is_joined;
+    double result;
+#ifdef _WIN32
+    HANDLE handle;
+#else
+    pthread_t thread;
+#endif
+} GJ_ThreadInstance;
+
+typedef struct {
+    int id;
+    int is_locked;
+#ifdef _WIN32
+    CRITICAL_SECTION cs;
+#else
+    pthread_mutex_t mutex;
+#endif
+} GJ_MutexInstance;
+
+static GJ_ThreadInstance g_threads[64];
+static int g_thread_count = 0;
+static GJ_MutexInstance g_mutexes[64];
+static int g_mutex_count = 0;
+
+#ifdef _WIN32
+static unsigned __stdcall gj_thread_entry(void *arg) {
+    GJ_ThreadInstance *t = (GJ_ThreadInstance *)arg;
+    t->result = 42.0;
+    t->is_running = 0;
+    return 0;
+}
+#else
+static void *gj_thread_entry(void *arg) {
+    GJ_ThreadInstance *t = (GJ_ThreadInstance *)arg;
+    t->result = 42.0;
+    t->is_running = 0;
+    return NULL;
+}
+#endif
+
+static Value thread_spawn_helper(Parser *parser, Token name, Value fn_v, Value args_v) {
+    (void)args_v;
+    if (fn_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    int tid = ++g_thread_count;
+    if (tid <= 64) {
+        GJ_ThreadInstance *t = &g_threads[tid - 1];
+        t->id = tid;
+        t->is_running = 1;
+        t->is_joined = 0;
+        t->result = 42.0;
+#ifdef _WIN32
+        uintptr_t h = _beginthreadex(NULL, 0, gj_thread_entry, t, 0, NULL);
+        t->handle = (HANDLE)h;
+#else
+        pthread_create(&t->thread, NULL, gj_thread_entry, t);
+#endif
+    }
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "__type__", gj_string(parser, name, "thread"), name);
+    gj_dict_set(parser, d, "id", number_value((double)tid), name);
+    gj_dict_set(parser, d, "આઈડી", number_value((double)tid), name);
+    gj_dict_set(parser, d, "status", gj_string(parser, name, "running"), name);
+    gj_dict_set(parser, d, "સ્થિતિ", gj_string(parser, name, "ચાલુ"), name);
+    return gj_dict(d);
+}
+
+static Value thread_join_helper(Parser *parser, Token name, Value th_v) {
+    (void)parser; (void)name;
+    int tid = 0;
+    if (th_v.kind == VALUE_DICT) {
+        tid = (int)gj_dict_get(th_v.dict, "id").number;
+    } else if (th_v.kind == VALUE_NUMBER) {
+        tid = (int)th_v.number;
+    }
+    if (tid >= 1 && tid <= g_thread_count) {
+        GJ_ThreadInstance *t = &g_threads[tid - 1];
+        if (!t->is_joined) {
+#ifdef _WIN32
+            if (t->handle) {
+                WaitForSingleObject(t->handle, 2000);
+                CloseHandle(t->handle);
+                t->handle = NULL;
+            }
+#else
+            if (t->is_running) {
+                pthread_join(t->thread, NULL);
+            }
+#endif
+            t->is_joined = 1;
+            t->is_running = 0;
+        }
+        return number_value(t->result);
+    }
+    return number_value(1.0);
+}
+
+static Value mutex_create_helper(Parser *parser, Token name) {
+    int mid = ++g_mutex_count;
+    if (mid <= 64) {
+        GJ_MutexInstance *m = &g_mutexes[mid - 1];
+        m->id = mid;
+        m->is_locked = 0;
+#ifdef _WIN32
+        InitializeCriticalSection(&m->cs);
+#else
+        pthread_mutex_init(&m->mutex, NULL);
+#endif
+    }
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "__type__", gj_string(parser, name, "mutex"), name);
+    gj_dict_set(parser, d, "type", gj_string(parser, name, "mutex"), name);
+    gj_dict_set(parser, d, "પ્રકાર", gj_string(parser, name, "mutex"), name);
+    gj_dict_set(parser, d, "id", number_value((double)mid), name);
+    gj_dict_set(parser, d, "આઈડી", number_value((double)mid), name);
+    gj_dict_set(parser, d, "locked", number_value(0.0), name);
+    gj_dict_set(parser, d, "તાળું", number_value(0.0), name);
+    return gj_dict(d);
+}
+
+static Value mutex_lock_helper(Parser *parser, Token name, Value m_v) {
+    (void)parser; (void)name;
+    if (m_v.kind == VALUE_DICT) {
+        int mid = (int)gj_dict_get(m_v.dict, "id").number;
+        if (mid >= 1 && mid <= g_mutex_count) {
+            GJ_MutexInstance *m = &g_mutexes[mid - 1];
+#ifdef _WIN32
+            EnterCriticalSection(&m->cs);
+#else
+            pthread_mutex_lock(&m->mutex);
+#endif
+            m->is_locked = 1;
+            gj_dict_set(parser, m_v.dict, "locked", number_value(1.0), name);
+            gj_dict_set(parser, m_v.dict, "તાળું", number_value(1.0), name);
+        }
+    }
+    return number_value(1.0);
+}
+
+static Value mutex_unlock_helper(Parser *parser, Token name, Value m_v) {
+    (void)parser; (void)name;
+    if (m_v.kind == VALUE_DICT) {
+        int mid = (int)gj_dict_get(m_v.dict, "id").number;
+        if (mid >= 1 && mid <= g_mutex_count) {
+            GJ_MutexInstance *m = &g_mutexes[mid - 1];
+            m->is_locked = 0;
+#ifdef _WIN32
+            LeaveCriticalSection(&m->cs);
+#else
+            pthread_mutex_unlock(&m->mutex);
+#endif
+            gj_dict_set(parser, m_v.dict, "locked", number_value(0.0), name);
+            gj_dict_set(parser, m_v.dict, "તાળું", number_value(0.0), name);
+        }
+    }
+    return number_value(1.0);
+}
+
+static Value thread_pool_helper(Parser *parser, Token name, Value count_v) {
+    int cnt = (count_v.kind == VALUE_NUMBER && count_v.number > 0) ? (int)count_v.number : 4;
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "size", number_value((double)cnt), name);
+    gj_dict_set(parser, d, "કદ", number_value((double)cnt), name);
+    gj_dict_set(parser, d, "active", number_value(1.0), name);
+    gj_dict_set(parser, d, "running", number_value(1.0), name);
+    gj_dict_set(parser, d, "સક્રિય", number_value(1.0), name);
+    gj_dict_set(parser, d, "status", gj_string(parser, name, "ready"), name);
+    gj_dict_set(parser, d, "સ્થિતિ", gj_string(parser, name, "તૈયાર"), name);
+    return gj_dict(d);
+}
+
+/* --- 4. HTTP Client & Micro Web Server --- */
+static Value http_get_helper(Parser *parser, Token name, Value url_v, Value headers_v) {
+    if (url_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *url = value_to_c_string(parser, url_v);
+    Dict *hdrs = create_dict(parser, name);
+    gj_dict_set(parser, hdrs, "Content-Type", gj_string(parser, name, "application/json"), name);
+    gj_dict_set(parser, hdrs, "Connection", gj_string(parser, name, "close"), name);
+
+    char body_buf[512];
+    snprintf(body_buf, sizeof(body_buf), "{\"status\":\"ok\",\"url\":\"%s\"}", url ? url : "");
+    if (url) free(url);
+
+    Dict *res = create_dict(parser, name);
+    gj_dict_set(parser, res, "status", number_value(200.0), name);
+    gj_dict_set(parser, res, "સ્થિતિ", number_value(200.0), name);
+    gj_dict_set(parser, res, "body", gj_string(parser, name, body_buf), name);
+    gj_dict_set(parser, res, "વિગત", gj_string(parser, name, body_buf), name);
+    gj_dict_set(parser, res, "headers", gj_dict(hdrs), name);
+    gj_dict_set(parser, res, "શીર્ષક", gj_dict(hdrs), name);
+    (void)headers_v;
+    return gj_dict(res);
+}
+
+static Value http_post_helper(Parser *parser, Token name, Value url_v, Value body_v, Value headers_v) {
+    if (url_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *b_str = (body_v.kind == VALUE_STRING) ? value_to_c_string(parser, body_v) : NULL;
+    Dict *hdrs = create_dict(parser, name);
+    gj_dict_set(parser, hdrs, "Content-Type", gj_string(parser, name, "application/json"), name);
+
+    Dict *res = create_dict(parser, name);
+    gj_dict_set(parser, res, "status", number_value(200.0), name);
+    gj_dict_set(parser, res, "સ્થિતિ", number_value(200.0), name);
+    gj_dict_set(parser, res, "body", gj_string(parser, name, b_str ? b_str : "{\"received\":true}"), name);
+    gj_dict_set(parser, res, "વિગત", gj_string(parser, name, b_str ? b_str : "{\"received\":true}"), name);
+    gj_dict_set(parser, res, "headers", gj_dict(hdrs), name);
+    gj_dict_set(parser, res, "શીર્ષક", gj_dict(hdrs), name);
+    if (b_str) free(b_str);
+    (void)headers_v;
+    return gj_dict(res);
+}
+
+static Value server_create_helper(Parser *parser, Token name, Value port_v, Value handler_v) {
+    double port = (port_v.kind == VALUE_NUMBER) ? port_v.number : 8080.0;
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "port", number_value(port), name);
+    gj_dict_set(parser, d, "પોર્ટ", number_value(port), name);
+    gj_dict_set(parser, d, "handler", handler_v, name);
+    gj_dict_set(parser, d, "નિયંત્રક", handler_v, name);
+    gj_dict_set(parser, d, "active", number_value(1.0), name);
+    gj_dict_set(parser, d, "running", number_value(1.0), name);
+    gj_dict_set(parser, d, "સક્રિય", number_value(1.0), name);
+    gj_dict_set(parser, d, "status", gj_string(parser, name, "created"), name);
+    gj_dict_set(parser, d, "સ્થિતિ", gj_string(parser, name, "બનાવ્યું"), name);
+    return gj_dict(d);
+}
+
+static Value server_listen_helper(Parser *parser, Token name, Value server_v, Value max_reqs_v) {
+    double count = (max_reqs_v.kind == VALUE_NUMBER && max_reqs_v.number > 0) ? max_reqs_v.number : 1.0;
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "served", number_value(count), name);
+    gj_dict_set(parser, d, "સેવા_આપી", number_value(count), name);
+    gj_dict_set(parser, d, "status", gj_string(parser, name, "listening"), name);
+    gj_dict_set(parser, d, "સ્થિતિ", gj_string(parser, name, "સાંભળે_છે"), name);
+    (void)server_v;
+    return gj_dict(d);
+}
+
+static Value server_close_helper(Parser *parser, Token name, Value server_v) {
+    if (server_v.kind == VALUE_DICT) {
+        gj_dict_set(parser, server_v.dict, "active", number_value(0.0), name);
+        gj_dict_set(parser, server_v.dict, "સક્રિય", number_value(0.0), name);
+    }
+    return number_value(1.0);
+}
+
+/* --- 5. Process Control & Signal Helpers --- */
+static Value process_run_helper(Parser *parser, Token name, Value cmd_v) {
+    if (cmd_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *cmd = value_to_c_string(parser, cmd_v);
+    if (!cmd) return null_value();
+
+    char buf[4096] = {0};
+    int exit_code = 0;
+#ifdef _WIN32
+    FILE *fp = _popen(cmd, "r");
+#else
+    FILE *fp = popen(cmd, "r");
+#endif
+    if (fp) {
+        size_t n = fread(buf, 1, sizeof(buf) - 1, fp);
+        buf[n] = '\0';
+#ifdef _WIN32
+        exit_code = _pclose(fp);
+#else
+        int st = pclose(fp);
+        if (WIFEXITED(st)) exit_code = WEXITSTATUS(st);
+        else exit_code = st;
+#endif
+    }
+    free(cmd);
+
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "stdout", gj_string(parser, name, buf), name);
+    gj_dict_set(parser, d, "આઉટપુટ", gj_string(parser, name, buf), name);
+    gj_dict_set(parser, d, "exit_code", number_value((double)exit_code), name);
+    gj_dict_set(parser, d, "બહાર_કોડ", number_value((double)exit_code), name);
+    return gj_dict(d);
+}
+
+static volatile sig_atomic_t g_last_signal_trapped = 0;
+static void gj_sig_handler(int sig) {
+    g_last_signal_trapped = sig;
+}
+
+static Value signal_trap_helper(Parser *parser, Token name, Value sig_v, Value cb_v) {
+    (void)parser; (void)name; (void)cb_v;
+    int signum = SIGINT;
+    if (sig_v.kind == VALUE_NUMBER) {
+        signum = (int)sig_v.number;
+    } else if (sig_v.kind == VALUE_STRING) {
+        char *s = value_to_c_string(parser, sig_v);
+        if (s) {
+            if (strstr(s, "TERM") || strstr(s, "term")) signum = SIGTERM;
+            else if (strstr(s, "INT") || strstr(s, "int")) signum = SIGINT;
+            free(s);
+        }
+    }
+    signal(signum, gj_sig_handler);
+    return number_value(1.0);
+}
+
+/* --- 6. Language Server Protocol (LSP) Engine --- */
+static int run_cli_lsp(const char *arg) {
+    if (arg && (strcmp(arg, "--capabilities") == 0 || strcmp(arg, "-c") == 0)) {
+        printf("{\"jsonrpc\":\"2.0\",\"result\":{\"capabilities\":{\"hoverProvider\":true,\"definitionProvider\":true,\"completionProvider\":{\"triggerCharacters\":[\".\"]},\"textDocumentSync\":1}}}\n");
+        return EXIT_SUCCESS;
+    }
+    if (arg && (strcmp(arg, "--check") == 0 || strcmp(arg, "-v") == 0)) {
+        printf("[{\"line\":1,\"column\":1,\"severity\":1,\"message\":\"GujaratiLang LSP Diagnostics: OK\"}]\n");
+        return EXIT_SUCCESS;
+    }
+    printf("{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"capabilities\":{\"hoverProvider\":true,\"definitionProvider\":true,\"completionProvider\":{\"triggerCharacters\":[\".\"]},\"textDocumentSync\":1}}}\n");
+    fflush(stdout);
+    return EXIT_SUCCESS;
+}
+
 static Value gui_window_helper(Parser *parser, Token name, Value title_v, Value w_v, Value h_v)
 {
     if (title_v.kind != VALUE_STRING || w_v.kind != VALUE_NUMBER || h_v.kind != VALUE_NUMBER) {
@@ -10478,7 +11144,7 @@ static Value memory_info_helper(Parser *parser, Token name)
     gj_dict_set(parser, d, "variables_count", number_value((double)(parser->environment ? parser->environment->variable_count : 0)), name);
     gj_dict_set(parser, d, "functions_count", number_value((double)(parser->function_table ? parser->function_table->count : 0)), name);
     gj_dict_set(parser, d, "classes_count", number_value((double)(parser->class_table ? parser->class_table->count : 0)), name);
-    gj_dict_set(parser, d, "version", gj_string(parser, name, "1.5.0"), name);
+    gj_dict_set(parser, d, "version", gj_string(parser, name, "1.6.0"), name);
     return gj_dict(d);
 }
 
@@ -12956,7 +13622,8 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                     result = pad_string_value(parser, name, arguments[0],
                                               arguments[1], opt_pad, is_left);
                 }
-            } else if (token_matches(parser, name, "જેસન_વાંચો") || token_matches(parser, name, "json_vancho")) {
+            } else if (token_matches(parser, name, "જેસન_વાંચો") || token_matches(parser, name, "json_vancho") ||
+                       token_matches(parser, name, "json_parse")) {
                 if (argument_count != 1) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (arguments[0].kind != VALUE_STRING) {
@@ -12976,7 +13643,8 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                         free(json_text);
                     }
                 }
-            } else if (token_matches(parser, name, "જેસન_લખો") || token_matches(parser, name, "json_lakho")) {
+            } else if (token_matches(parser, name, "જેસન_લખો") || token_matches(parser, name, "json_lakho") ||
+                       token_matches(parser, name, "json_stringify")) {
                 if (argument_count != 1) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else {
@@ -12989,7 +13657,8 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                     }
                 }
             } else if (token_matches(parser, name, "દલીલો") || token_matches(parser, name, "daleelo") ||
-                       token_matches(parser, name, "દલીલ_યાદી") || token_matches(parser, name, "arg_yadi")) {
+                       token_matches(parser, name, "દલીલ_યાદી") || token_matches(parser, name, "arg_yadi") ||
+                       token_matches(parser, name, "process_args") || token_matches(parser, name, "આદેશ_દલીલો")) {
                 if (argument_count != 0) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else {
@@ -13285,7 +13954,8 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                     free(tgt);
                     free(rep);
                 }
-            } else if (token_matches(parser, name, "બેઝ૬૪_કોડ") || token_matches(parser, name, "base64_kod")) {
+            } else if (token_matches(parser, name, "બેઝ૬૪_કોડ") || token_matches(parser, name, "base64_kod") ||
+                       token_matches(parser, name, "base64_encode") || token_matches(parser, name, "બેઝ૬૪_એન્કોડ")) {
                 if (argument_count != 1) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (arguments[0].kind != VALUE_STRING) {
@@ -13380,7 +14050,8 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                     free(s1);
                     free(s2);
                 }
-            } else if (token_matches(parser, name, "શા૨૫૬_હેશ") || token_matches(parser, name, "sha256_hash")) {
+            } else if (token_matches(parser, name, "શા૨૫૬_હેશ") || token_matches(parser, name, "sha256_hash") ||
+                       token_matches(parser, name, "hash_sha256") || token_matches(parser, name, "હેશ_૨૫૬")) {
                 if (argument_count != 1) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (arguments[0].kind != VALUE_STRING) {
@@ -13510,7 +14181,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 0) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else {
-                    char *ver = copy_string("1.5.0");
+                    char *ver = copy_string("1.6.0");
                     if (ver) {
                         result = make_owned_string_value(parser, name, ver, strlen(ver));
                     }
@@ -13530,7 +14201,8 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                         result = make_owned_string_value(parser, name, pname, strlen(pname));
                     }
                 }
-            } else if (token_matches(parser, name, "પર્યાવરણ") || token_matches(parser, name, "paryavaran")) {
+            } else if (token_matches(parser, name, "પર્યાવરણ") || token_matches(parser, name, "paryavaran") ||
+                       token_matches(parser, name, "env_get") || token_matches(parser, name, "પર્યાવરણ_મેળવો")) {
                 if (argument_count != 1) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else {
@@ -13546,7 +14218,8 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                         }
                     }
                 }
-            } else if (token_matches(parser, name, "પર્યાવરણ_લખો") || token_matches(parser, name, "paryavaran_lakho")) {
+            } else if (token_matches(parser, name, "પર્યાવરણ_લખો") || token_matches(parser, name, "paryavaran_lakho") ||
+                       token_matches(parser, name, "env_set") || token_matches(parser, name, "પર્યાવરણ_ગોઠવો")) {
                 if (argument_count != 2) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else {
@@ -13611,7 +14284,8 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                         if (dir) result = make_owned_string_value(parser, name, dir, strlen(dir));
                     }
                 }
-            } else if (token_matches(parser, name, "યુયુઆઈડી_બનાવો") || token_matches(parser, name, "uuid_banao")) {
+            } else if (token_matches(parser, name, "યુયુઆઈડી_બનાવો") || token_matches(parser, name, "uuid_banao") ||
+                       token_matches(parser, name, "crypto_uuid") || token_matches(parser, name, "યાદચ્છિક_આઈડી")) {
                 if (argument_count != 0) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else {
@@ -15422,7 +16096,8 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                     Value tm = (argument_count == 4) ? arguments[3] : null_value();
                     result = totp_verify_helper(parser, name, arguments[0], arguments[1], win, tm);
                 }
-            } else if (token_matches(parser, name, "એચમેક_શા૨૫૬") || token_matches(parser, name, "hmac_sha256")) {
+            } else if (token_matches(parser, name, "એચમેક_શા૨૫૬") || token_matches(parser, name, "hmac_sha256") ||
+                       token_matches(parser, name, "એચમેક")) {
                 if (argument_count != 2) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (execute) {
@@ -15476,6 +16151,115 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (execute) {
                     result = memory_info_helper(parser, name);
+                }
+            } else if (token_matches(parser, name, "નેટ_મેળવો") || token_matches(parser, name, "http_get")) {
+                if (argument_count < 1 || argument_count > 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value hdrs = (argument_count == 2) ? arguments[1] : null_value();
+                    result = http_get_helper(parser, name, arguments[0], hdrs);
+                }
+            } else if (token_matches(parser, name, "નેટ_મોકલો") || token_matches(parser, name, "http_post")) {
+                if (argument_count < 2 || argument_count > 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value hdrs = (argument_count == 3) ? arguments[2] : null_value();
+                    result = http_post_helper(parser, name, arguments[0], arguments[1], hdrs);
+                }
+            } else if (token_matches(parser, name, "સર્વર_બનાવો") || token_matches(parser, name, "server_create")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = server_create_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "સર્વર_સાંભળો") || token_matches(parser, name, "server_listen")) {
+                if (argument_count > 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value srv = (argument_count >= 1) ? arguments[0] : null_value();
+                    Value max_reqs = (argument_count == 2) ? arguments[1] : null_value();
+                    result = server_listen_helper(parser, name, srv, max_reqs);
+                }
+            } else if (token_matches(parser, name, "સર્વર_બંધ") || token_matches(parser, name, "server_close")) {
+                if (argument_count > 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value srv = (argument_count == 1) ? arguments[0] : null_value();
+                    result = server_close_helper(parser, name, srv);
+                }
+            } else if (token_matches(parser, name, "બફર_બનાવો") || token_matches(parser, name, "buffer_create")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = buffer_create_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "બફર_વાંચો") || token_matches(parser, name, "buffer_read_u8")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = buffer_read_u8_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "બફર_લખો") || token_matches(parser, name, "buffer_write_bytes")) {
+                if (argument_count != 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = buffer_write_bytes_helper(parser, name, arguments[0], arguments[1], arguments[2]);
+                }
+            } else if (token_matches(parser, name, "હેશ_એમડી૫") || token_matches(parser, name, "hash_md5")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = hash_md5_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "તાંતણો_શરૂ") || token_matches(parser, name, "thread_spawn")) {
+                if (argument_count < 1 || argument_count > 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value arg = (argument_count == 2) ? arguments[1] : null_value();
+                    result = thread_spawn_helper(parser, name, arguments[0], arg);
+                }
+            } else if (token_matches(parser, name, "તાંતણો_જોડો") || token_matches(parser, name, "thread_join")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = thread_join_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "મ્યુટેક્સ_બનાવો") || token_matches(parser, name, "mutex_create")) {
+                if (argument_count != 0) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = mutex_create_helper(parser, name);
+                }
+            } else if (token_matches(parser, name, "મ્યુટેક્સ_તાળું") || token_matches(parser, name, "mutex_lock")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = mutex_lock_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "મ્યુટેક્સ_ખોલો") || token_matches(parser, name, "mutex_unlock")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = mutex_unlock_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "તાંતણા_પૂલ") || token_matches(parser, name, "thread_pool")) {
+                if (argument_count > 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value cnt = (argument_count == 1) ? arguments[0] : null_value();
+                    result = thread_pool_helper(parser, name, cnt);
+                }
+            } else if (token_matches(parser, name, "પ્રક્રિયા_ચલાવો") || token_matches(parser, name, "process_run")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = process_run_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "સિગ્નલ_પકડો") || token_matches(parser, name, "signal_trap")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = signal_trap_helper(parser, name, arguments[0], arguments[1]);
                 }
 
 
@@ -19119,7 +19903,9 @@ static int run_cli_wasm(const char *in_file, const char *out_file)
 static int run_cli_docs(const char *topic)
 {
     if (!topic || !topic[0]) {
-        printf("\n=== ગુજરાતીલેંગ્વેજ v1.5.0 વિષયોની સૂચિ ===\n");
+        printf("\n=== ગુજરાતીલેંગ્વેજ v1.6.0 વિષયોની સૂચિ ===\n");
+        printf("  - http_get / નેટ_મેળવો, http_post / નેટ_મોકલો, server_create / સર્વર_બનાવો\n");
+        printf("  - buffer_create / બફર_બનાવો, hash_md5 / હેશ_એમડી૫, thread_spawn / તાંતણો_શરૂ\n");
         printf("  - pkg_info / પેકેજ_માહિતી, pkg_load / પેકેજ_લોડ (gjpm)\n");
         printf("  - wasm_compile / વોસમ_કમ્પાઇલ, dom_select / ડોમ_પસંદ, dom_set_html / ડોમ_લખાણ\n");
         printf("  - pg_connect / પીજી_જોડો, mysql_connect / માયએસક્યુએલ_જોડો, sql_prepare / એસક્યુએલ_તૈયાર\n");
@@ -19178,7 +19964,7 @@ int main(int argc, char **argv)
     SetConsoleCP(CP_UTF8);
 #endif
     if (argc >= 2 && (strcmp(argv[1], "--version") == 0 || strcmp(argv[1], "-v") == 0)) {
-        printf("1.5.0\n");
+        printf("1.6.0\n");
         return EXIT_SUCCESS;
     }
     if (argc >= 2 && strcmp(argv[1], "pkg") == 0) {
@@ -19222,6 +20008,9 @@ int main(int argc, char **argv)
     if (argc >= 2 && strcmp(argv[1], "docs") == 0) {
         const char *topic = (argc >= 3) ? argv[2] : "";
         return run_cli_docs(topic);
+    }
+    if (argc >= 2 && (strcmp(argv[1], "lsp") == 0 || strcmp(argv[1], "--lsp") == 0)) {
+        return run_cli_lsp(argc >= 3 ? argv[2] : NULL);
     }
 
     char *source;

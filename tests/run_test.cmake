@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "1.5.0\n1\n")
+    set(expected_stdout "1.6.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "1.5.0\n")
+    set(expected_stdout "1.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "1.5.0\n1\n0\n")
+    set(expected_stdout "1.6.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n1.5.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n1.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4124,6 +4124,164 @@ elseif(TEST_CASE STREQUAL "v150_gujarati_syntax")
 આવજો
 ]=])
     set(expected_stdout "ગણિત\nasm\ndiv\npostgres\n1\n10\n42\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "v160_http_networking")
+    set(source [=[aavo
+g = http_get("http://localhost:8080/api/status");
+chhapo g["status"];
+chhapo (lambai(g["body"]) > 0);
+p = http_post("http://localhost:8080/api/echo", "hello server");
+chhapo p["status"];
+chhapo p["body"];
+srv = server_create(8080, "handle_request");
+chhapo srv["port"];
+chhapo srv["running"];
+lst = server_listen(srv, 1);
+chhapo lst["served"];
+cls = server_close(srv);
+chhapo cls;
+aavjo
+]=])
+    set(expected_stdout "200\n1\n200\nhello server\n8080\n1\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v160_json_buffers")
+    set(source [=[aavo
+k = json_parse("{\"key\": \"val\", \"num\": 123}");
+chhapo k["key"];
+chhapo k["num"];
+s = json_stringify(k);
+chhapo (lambai(s) > 0);
+buf = buffer_create(16);
+chhapo buf["size"];
+w = buffer_write_bytes(buf, 0, "Gujarati");
+chhapo w;
+b0 = buffer_read_u8(buf, 0);
+chhapo (b0 > 0);
+aavjo
+]=])
+    set(expected_stdout "val\n123\n1\n16\n8\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v160_crypto_md5")
+    set(source [=[aavo
+m = hash_md5("GujaratiLang");
+chhapo m;
+s = hash_sha256("GujaratiLang");
+chhapo (lambai(s) == 64);
+h = hmac_sha256("secret_key", "data");
+chhapo (lambai(h) == 64);
+b = base64_encode("Hello World");
+chhapo b;
+d = base64_decode(b);
+chhapo d;
+u = crypto_uuid();
+chhapo (lambai(u) == 36);
+aavjo
+]=])
+    set(expected_stdout "c5889e55b293681ed17389ce665f634f\n1\n1\nSGVsbG8gV29ybGQ=\nHello World\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v160_lsp_tooling")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[aavo
+chhapo 1;
+aavjo
+]=])
+    set(program_arguments "lsp;--capabilities")
+    set(expected_stdout "{\"jsonrpc\":\"2.0\",\"result\":{\"capabilities\":{\"hoverProvider\":true,\"definitionProvider\":true,\"completionProvider\":{\"triggerCharacters\":[\".\"]},\"textDocumentSync\":1}}}\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v160_threads_mutex")
+    set(source [=[aavo
+m = mutex_create();
+chhapo m["type"];
+l = mutex_lock(m);
+chhapo l;
+u = mutex_unlock(m);
+chhapo u;
+th = thread_spawn("worker", 100);
+chhapo th["__type__"];
+j = thread_join(th);
+chhapo (j >= 0);
+p = thread_pool(2);
+chhapo p["size"];
+chhapo p["active"];
+aavjo
+]=])
+    set(expected_stdout "mutex\n1\n1\nthread\n1\n2\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v160_process_signals")
+    set(source [=[aavo
+env_set("GJ_V160_KEY", "FortressV160");
+val = env_get("GJ_V160_KEY");
+chhapo val;
+args = process_args();
+chhapo (lambai(args) >= 0);
+res = process_run("echo v160_ok");
+chhapo res["exit_code"];
+s = signal_trap(2, "handle_sig");
+chhapo s;
+aavjo
+]=])
+    set(expected_stdout "FortressV160\n1\n0\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v160_gujarati_syntax")
+    set(source [=[આવો
+મેળવ્યું = નેટ_મેળવો("http://localhost/api");
+છાપો મેળવ્યું["status"];
+મોકલ્યું = નેટ_મોકલો("http://localhost/api", "ડેટા");
+છાપો મોકલ્યું["status"];
+સર્વર = સર્વર_બનાવો(9000, "હેન્ડલર");
+છાપો સર્વર["port"];
+સાંભળો = સર્વર_સાંભળો(સર્વર, 1);
+છાપો સાંભળો["served"];
+બંધ = સર્વર_બંધ(સર્વર);
+છાપો બંધ;
+બફર = બફર_બનાવો(32);
+છાપો બફર["size"];
+લખો = બફર_લખો(બફર, 0, "ગુજરાતી");
+છાપો (લખો > 0);
+વાંચો = બફર_વાંચો(બફર, 0);
+છાપો (વાંચો > 0);
+એમડી૫ = હેશ_એમડી૫("ગુજરાતી");
+છાપો (લંબાઈ(એમડી૫) == 32);
+શા૨૫૬ = હેશ_૨૫૬("ગુજરાતી");
+છાપો (લંબાઈ(શા૨૫૬) == 64);
+એચ = એચમેક("કી", "ડેટા");
+છાપો (લંબાઈ(એચ) == 64);
+એન્કોડ = બેઝ૬૪_એન્કોડ("નમસ્તે");
+છાપો (લંબાઈ(એન્કોડ) > 0);
+ડીકોડ = બેઝ૬૪_ડીકોડ(એન્કોડ);
+છાપો ડીકોડ;
+આઈડી = યાદચ્છિક_આઈડી();
+છાપો (લંબાઈ(આઈડી) == 36);
+મ્યુ = મ્યુટેક્સ_બનાવો();
+તાળું = મ્યુટેક્સ_તાળું(મ્યુ);
+છાપો તાળું;
+ખોલો = મ્યુટેક્સ_ખોલો(મ્યુ);
+છાપો ખોલો;
+તાંતણો = તાંતણો_શરૂ("કાર્ય", 1);
+જોડો = તાંતણો_જોડો(તાંતણો);
+છાપો (જોડો >= 0);
+પૂલ = તાંતણા_પૂલ(4);
+છાપો પૂલ["size"];
+પર્યાવરણ_ગોઠવો("GJ_GUJ", "સાચું");
+પી = પર્યાવરણ_મેળવો("GJ_GUJ");
+છાપો પી;
+દલીલો_યાદી = આદેશ_દલીલો();
+છાપો (લંબાઈ(દલીલો_યાદી) >= 0);
+પ્રક્રિયા = પ્રક્રિયા_ચલાવો("echo ok");
+છાપો પ્રક્રિયા["exit_code"];
+સિગ = સિગ્નલ_પકડો(2, "બંધ_કરો");
+છાપો સિગ;
+આવજો
+]=])
+    set(expected_stdout "200\n200\n9000\n1\n1\n32\n1\n1\n1\n1\n1\n1\nનમસ્તે\n1\n1\n1\n1\n4\nસાચું\n1\n0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)

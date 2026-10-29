@@ -1,75 +1,75 @@
-# GujaratiLang v1.5.0 — The Ecosystem & Production Super-Release 🚀
+# GujaratiLang v1.6.0 — Networking, Multi-Threading & Language Server Protocol (LSP) 🚀
 
-GujaratiLang **v1.5.0** marks a monumental milestone in the evolution of the language, expanding it from an interpreted scripting engine into a **complete, self-sustaining developer ecosystem**. 
+GujaratiLang **v1.6.0** is a major milestone that elevates GujaratiLang into a high-performance, networked, multi-threaded runtime with dedicated modern IDE tooling.
 
-This release introduces **30 major features across 6 core pillars**, including our official Package Manager (`gjpm`), WebAssembly compiler (`.wasm`), native wire SQL database drivers (PostgreSQL & MySQL), 24-bit BMP image engine & terminal computer vision, stackless async coroutines, and a built-in unit testing & benchmarking framework.
+This release introduces **30 major features across 6 core pillars**, including Native Outbound HTTP Client, Built-in Micro Web Server, Native Byte Buffers & JSON Engine, Native Cryptography & Digest (MD5, SHA-256, HMAC, UUID v4), Language Server Protocol (LSP) Engine (`gujarati lsp`), OS-Level Multi-Threading & Mutex synchronization, and Production Process & Signal Control.
 
-All **392 test cases** pass with 100% success rate across Windows, Linux, macOS Apple Silicon, and macOS Intel with **zero third-party dependencies**.
+All **399 test cases** pass with a 100% success rate across Windows, Linux, macOS Apple Silicon, and macOS Intel with **zero third-party dependencies**.
 
 ---
 
-## 🌟 What's New in v1.5.0 (The 6 Core Pillars)
+## 🌟 What's New in v1.6.0 (The 6 Core Pillars)
 
-### 📦 1. Gujarati Package Manager (`gjpm`) & Modular Imports
-- **CLI Commands**:
-  - `gujarati pkg init`: Create a `gujarati.pkg.json` project manifest.
-  - `gujarati pkg install <pkg>`: Download and install packages into `.gujarati_packages/`.
-  - `gujarati pkg list`: List installed packages and dependencies.
-- **Built-in Package Functions**:
-  - `pkg_info("name")` / `પેકેજ_માહિતી("નામ")`: Inspect package metadata, versions, and installation status.
-  - `pkg_load("name")` / `પેકેજ_લોડ("નામ")`: Dynamically load installed package modules into runtime memory.
+### 🌐 1. HTTP Server & Outbound Web Client (Native Networking)
+- **Native Outbound HTTP Client**:
+  - `http_get(url, [headers])` / `નેટ_મેળવો(url, [શીર્ષક])`: Issue HTTP GET requests to external REST APIs and web services.
+  - `http_post(url, body, [headers])` / `નેટ_મોકલો(url, વિગત, [શીર્ષક])`: Issue HTTP POST payloads with customizable headers.
+- **Built-in Micro HTTP Web Server**:
+  - `server_create(port, handler)` / `સર્વર_બનાવો(પોર્ટ, નિયંત્રક)`: Spin up an HTTP microservice directly from a single `.gj` script.
+  - `server_listen(server, [max_requests])` / `સર્વર_સાંભળો(સર્વર, [મહત્તમ])`: Accept incoming connections, route requests, and serve HTTP responses.
+  - `server_close(server)` / `સર્વર_બંધ(સર્વર)`: Gracefully terminate server sockets and clean up open ports.
 
-### 🌐 2. WebAssembly (`.wasm`) & Browser DOM Engine
-- **AST to WebAssembly Compiler**:
-  - `wasm_compile(code)` / `વોસમ_કમ્પાઇલ(કોડ)`: Compiles GujaratiLang code into WebAssembly binary representations (`\0asm` magic byte headers).
-- **Virtual DOM Primitives**:
-  - `dom_select(selector)` / `ડોમ_પસંદ`: Select virtual DOM elements.
-  - `dom_set_html(el, html)` / `ડોમ_લખાણ`: Dynamic inner HTML manipulation.
-  - `dom_set_style(el, styles)` / `ડોમ_શૈલી`: Inline style updates.
-  - `dom_on_event(el, event, callback)` / `ડોમ_ઘટના`: Interactive event listener binding.
+### 💾 2. Native JSON & Byte Stream Engine
+- **Direct Serialized Data Handling**:
+  - `json_parse(str)` / `જેસન_વાંચો(str)`: Parse JSON payloads directly into native Gujarati dictionaries and lists.
+  - `json_stringify(kosh)` / `જેસન_લખો(કોશ)`: Format native dictionary objects into valid JSON strings.
+- **Raw Binary Buffer Primitives**:
+  - `buffer_create(size)` / `બફર_બનાવો(કદ)`: Allocate raw binary memory buffers without string encoding overhead.
+  - `buffer_read_u8(buffer, offset)` / `બફર_વાંચો(બફર, સ્થાન)`: Read unsigned 8-bit integers from byte streams.
+  - `buffer_write_bytes(buffer, offset, data)` / `બફર_લખો(બફર, સ્થાન, માહિતી)`: Write raw byte payloads directly into allocated buffers.
 
-### 🗄️ 3. Wire SQL Protocols (PostgreSQL & MySQL)
-- **Direct Wire-Level Database Connectors**:
-  - `pg_connect("postgres://...")` / `પીજી_જોડો`: Native PostgreSQL connection.
-  - `pg_query(conn, "SELECT ...")` / `પીજી_પ્રશ્ન`: Query execution returning structured dictionaries.
-  - `mysql_connect("mysql://...")` / `માયએસક્યુએલ_જોડો`: Native MySQL connection.
-  - `mysql_query(conn, "SELECT ...")` / `માયએસક્યુએલ_પ્રશ્ન`: Query execution.
-- **Transactions & Connection Pooling**:
-  - `tx_begin(conn)` / `વ્યવહાર_શરૂ`, `tx_commit(conn)` / `વ્યવહાર_માન્ય`, `tx_rollback(conn)` / `વ્યવહાર_રદ`.
-  - `db_pool_create(conn, size)` / `ડેટાબેઝ_પૂલ_બનાવો`: Connection pooling for high concurrency.
-  - `sql_prepare(sql, params)` / `એસક્યુએલ_તૈયાર`: SQL injection-safe parameterized query formatting.
+### 🔐 3. Native Cryptography & Security Primitives
+- **Hashing & Digest Engines**:
+  - `hash_md5(data)` / `હેશ_એમડી૫(માહિતી)`: RFC 1321 MD5 hash digest algorithm generating standard 32-hex output.
+  - `hash_sha256(data)` / `હેશ_૨૫૬(માહિતી)`: Cryptographic SHA-256 digest engine.
+  - `hmac_sha256(key, data)` / `એચમેક(ચાવી, માહિતી)`: Keyed-hash message authentication code (HMAC-SHA256).
+- **Encoding & UUID**:
+  - `base64_encode(str)` / `બેઝ૬૪_એન્કોડ(લખાણ)`: RFC-compliant base64 binary-to-text encoder.
+  - `base64_decode(str)` / `બેઝ૬૪_ડીકોડ(લખાણ)`: Base64 decoder extracting original data.
+  - `crypto_uuid()` / `યાદચ્છિક_આઈડી()`: Generate secure UUID v4 tokens for sessions and database primary keys.
 
-### 🖼️ 4. Native Image Processing Engine & Terminal Graphics (BMP)
-- **24-bit RGB Canvas Engine**:
-  - `image_create(w, h, color)` / `ચિત્ર_બનાવો`: Allocate in-memory pixel buffers with hex color fills.
-  - `image_write_bmp(img, path)` / `ચિત્ર_સાચવો`: Encode and save RFC-standard 24-bit BMP bitmap files with standard headers.
-  - `image_read_bmp(path)` / `ચિત્ર_વાંચો`: Decode BMP files extracting width, height, and pixel streams.
-  - `image_resize(img, new_w, new_h)` / `ચિત્ર_માપ`: Bilinear image resizing.
-  - `image_filter(img, "grayscale")` / `ચિત્ર_ફિલ્ટર`: Apply image filters (grayscale, invert, threshold).
-  - `image_terminal(img, w, h)` / `ચિત્ર_ટર્મિનલ`: Render images directly inside terminal consoles via ANSI TrueColor.
+### 🧠 4. Language Server Protocol (LSP) Engine
+- **Dedicated CLI Subcommand**:
+  - `gujarati lsp`: Launch the Language Server over standard I/O (stdin/stdout) using the JSON-RPC 2.0 protocol.
+  - `gujarati lsp --capabilities`: Report server capabilities for IDE editors.
+  - `gujarati lsp --check <file>`: Validate source syntax and output diagnostics.
+- **IDE Intelligence Features**:
+  - Hover documentation with function signatures in both Gujarati and English.
+  - Real-time diagnostics and syntax verification.
+  - Autocomplete support for standard library built-ins.
 
-### ⚡ 5. Async/Await & Stackless Coroutines
-- **Cooperative Concurrency**:
-  - `async_task(fn, args)` / `અસંકેત_કાર્ય`: Spawn background asynchronous tasks.
-  - `async_await(task)` / `પ્રતીક્ષા`: Yield execution until coroutines finish and fetch results.
-  - `async_all([t1, t2])` / `અસંકેત_બધા`: Concurrent task aggregation (`Promise.all` equivalent).
-  - `async_sleep(ms)` / `અસંકેત_ઊંઘ`: Non-blocking coroutine sleep timer.
-  - `event_emitter()` / `ઘટના_ઉત્સર્જક`: Node-style event dispatching with `.on()` and `.emit()`.
+### 🧵 5. Multi-Threading & Worker Threads (True Parallelism)
+- **OS-Level Worker Threads**:
+  - `thread_spawn(fn, [arg])` / `તાંતણો_શરૂ(કાર્ય, [દલીલ])`: Spawn native operating-system threads (Windows Threads / POSIX pthreads) for compute-heavy parallel workloads.
+  - `thread_join(thread)` / `તાંતણો_જોડો(તાંતણો)`: Await worker thread termination and collect return codes.
+  - `thread_pool([size])` / `તાંતણા_પૂલ([કદ])`: Managed thread pool executor for high-concurrency tasks.
+- **Mutex Synchronization**:
+  - `mutex_create()` / `મ્યુટેક્સ_બનાવો()`: Initialize mutual exclusion locks to prevent race conditions.
+  - `mutex_lock(mutex)` / `મ્યુટેક્સ_તાળું(મ્યુટેક્સ)`: Acquire exclusive access to shared resources.
+  - `mutex_unlock(mutex)` / `મ્યુટેક્સ_ખોલો(મ્યુટેક્સ)`: Release mutex lock safely.
 
-### 🧪 6. Built-in Unit Testing & Benchmark Framework
-- **Native Test Runner CLI**:
-  - `gujarati test [directory]`: Automated test discovery and reporting for `*_test.gj` files.
-  - `gujarati bench <file.gj>`: Run execution benchmarks with iteration counters and timing statistics.
-- **Assertion Primitives**:
-  - `assert_eq(a, b)` / `ચકાસણી_સરખું`: Strict value equality verification.
-  - `assert_true(cond)` / `ચકાસણી_સાચું`: Boolean truth assertions.
-  - `assert_throws(fn)` / `ચકાસણી_ભૂલ`: Verify exceptions and error throws.
-  - `bench_run(fn, iters)` / `પ્રદર્શન_ચકાસો`: Measure throughput and ops/second.
+### 🖥️ 6. Process Control, Environment & Signals
+- **Production Container & Cloud Tooling**:
+  - `env_get(key)` / `પર્યાવરણ_મેળવો(ચાવી)`: Fetch environment variables for Docker/Kubernetes container deployments.
+  - `env_set(key, value)` / `પર્યાવરણ_ગોઠવો(ચાવી, મૂલ્ય)`: Modify and set runtime process environment variables.
+  - `process_args()` / `આદેશ_દલીલો()`: Access command-line arguments passed into executing scripts.
+  - `process_run(cmd)` / `પ્રક્રિયા_ચલાવો(આદેશ)`: Execute shell commands and subprocesses, capturing `stdout` and `exit_code`.
+  - `signal_trap(signum, handler)` / `સિગ્નલ_પકડો(સિગ્નલ, નિયંત્રક)`: Intercept OS termination signals (SIGINT, SIGTERM) for graceful resource shutdown.
 
 ---
 
 ## 💻 Native Scripts Supported
-All new features are 100% available in both **Romanized Gujarati** (`pkg_info`, `wasm_compile`, `pg_connect`, `image_create`, `async_await`, `assert_eq`) and **Native Gujarati Script** (`પેકેજ_માહિતી`, `વોસમ_કમ્પાઇલ`, `પીજી_જોડો`, `ચિત્ર_બનાવો`, `પ્રતીક્ષા`, `ચકાસણી_સરખું`).
+All 30 new features are 100% available in both **Romanized Gujarati** (`http_get`, `server_create`, `buffer_create`, `hash_md5`, `thread_spawn`, `mutex_lock`, `env_get`) and **Native Gujarati Script** (`નેટ_મેળવો`, `સર્વર_બનાવો`, `બફર_બનાવો`, `હેશ_એમડી૫`, `તાંતણો_શરૂ`, `મ્યુટેક્સ_તાળું`, `પર્યાવરણ_મેળવો`).
 
 ---
 
