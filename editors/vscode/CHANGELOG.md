@@ -1,5 +1,43 @@
 # Changelog
 
+## 1.2.0
+
+- Major 30-Point Milestone Release with Micro Web Server, Embedded SQL Database, Concurrency, Gujarati NLP & Machine Learning Suite:
+  - **Pillar 1: Micro HTTP Web Server & REST Framework**:
+    - `web_server(port, router_kary, [max_req])` (`વેબ_સર્વર`): Lightweight HTTP server with request routing, header/query parsing, and JSON response formatting.
+    - `web_server_bandh(id)` (`વેબ_સર્વર_બંધ`): Clean server shutdown.
+    - `web_static_file(path)` (`વેબ_ફાઇલ`): Static asset server with automatic MIME detection (`.html`, `.json`, `.css`, `.js`, etc.).
+    - `url_banao(base_url, query_dict)` (`url_બનાવો`): URL query builder with percent-encoding.
+  - **Pillar 2: Embedded Relational Database Engine**:
+    - `db_kholo(filename)` (`ડેટાબેઝ_ખોલો`): In-memory (`:memory:`) and file-backed table database engine.
+    - `db_chalao(db, sql, [params])` (`ડેટાબેઝ_ચલાવો`): Execute `CREATE TABLE`, parameterized `INSERT INTO ... VALUES (?, ?)`, `UPDATE`, and `DELETE FROM`.
+    - `db_shodho(db, sql, [params])` (`ડેટાબેઝ_શોધો`): Query tabular records with `WHERE` filtering, returned as native dictionaries.
+    - `db_count(db, table)` (`ડેટાબેઝ_ગણતરી`): Fast row counts.
+    - `db_bandh(db)` (`ડેટાબેઝ_બંધ`): Flushes dirty tables to disk and cleans up.
+  - **Pillar 3: Concurrency, Event Loop Timers & Worker Threads**:
+    - `samay_pachhi(ms, kary, [arg])` (`સમય_પછી`): Asynchronous timer delay (`setTimeout`).
+    - `samay_antare(ms, kary, count, [arg])` (`સમય_અંતરે`): Interval loop timer (`setInterval`).
+    - `async_chalao(kary, [arg])` (`અસિંક_ચલાવો`): True OS background worker thread execution.
+    - `async_parinam(handle, [timeout])` (`અસિંક_પરિણામ`): Thread join and return value resolver.
+    - `thread_id()` (`થ્રેડ_આઈડી`): Returns active thread ID.
+  - **Pillar 4: Gujarati NLP & Machine Learning Suite**:
+    - `nlp_gujarati_token(text)` (`એનએલપી_ગુજરાતી_ટોકન`): Gujarati Unicode block tokenizer respecting Indic punctuation (`।`, `॥`, `૰`).
+    - `nlp_matra_kadho(text)` (`એનએલપી_માત્રા_કાઢો`): Gujarati vowel sign / matra / diacritic stripper for stem normalization.
+    - `nlp_shabda_aavrutti(words)` (`એનએલપી_શબ્દ_આવૃત્તિ`): Bag of Words / word frequency counter.
+    - `ml_tfidf(documents)` (`એમએલ_ટીએફઆઈડીએફ`): Term Frequency - Inverse Document Frequency matrix.
+    - `ml_naive_bayes_train(features, labels)` (`એમએલ_નાઈવ_બેયસ_તાલીમ`): Multinomial Naive Bayes classifier with Laplace smoothing.
+    - `ml_naive_bayes_predict(model, test_doc)` (`એમએલ_નાઈવ_બેયસ_અનુમાન`): Log posterior class classification.
+  - **Pillar 5: Linear Algebra & Terminal Data Visualization**:
+    - `matrix_transpose(matrix)` (`મેટ્રિક્સ_ટ્રાન્સપોઝ`): 2D matrix transposition.
+    - `matrix_determinant(matrix)` (`મેટ્રિક્સ_નિશ્ચાયક`): Determinant computation via Gaussian elimination with partial pivoting.
+    - `matrix_identity(size)` (`મેટ્રિક્સ_એકમ`): Identity matrix generation.
+    - `chart_terminal_bar(labels, values, [max_w])` (`ચાર્ટ_સ્તંભ`): Beautiful Unicode terminal horizontal bar chart visualizer.
+  - **Pillar 6: Developer Tooling, Package Management & FFI**:
+    - `gujarati init [project_name]`: CLI command to initialize new project structure with `gujarati.json`, `src/mukhy.gj`, tests, and `.gitignore`.
+    - `gujarati test [directory]`: CLI test runner with automated discovery, test assertions, and timing summary.
+    - `gujarati --bench <file.gj>`: High-resolution benchmark CLI measuring wall-clock and CPU execution time.
+    - `ffi_call(dll_path, function_name, [args])` (`એફએફઆઈ_કૉલ`): Foreign Function Interface dynamically invoking native C shared libraries.
+
 ## 1.1.0
 
 - Major 30-Point Milestone Release with OOP, Machine Learning, Web APIs, and Tooling:

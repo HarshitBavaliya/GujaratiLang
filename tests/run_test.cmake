@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "1.1.0\n1\n")
+    set(expected_stdout "1.2.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3597,6 +3597,157 @@ aavjo
     set(expected_stdout "Program: ${source_path}\n  ProgramStart (line 1)\n  PrintStatement (line 2)\n  ProgramEnd (line 3)\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v120_version_cli")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[aavo
+chhapo 1;
+aavjo
+]=])
+    set(program_arguments "-v")
+    set(expected_stdout "1.2.0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
+    set(source [=[aavo
+u = url_banao("https://example.com/search", {"q": "gujarati", "page": 1});
+chhapo u;
+sf404 = web_static_file("non_existent_file.html");
+chhapo sf404["status"];
+file_lakho("test_page.html", "<h1>Hello</h1>");
+sf200 = web_static_file("test_page.html");
+chhapo sf200["status"];
+chhapo sf200["headers"]["Content-Type"];
+chhapo sf200["body"];
+aavjo
+]=])
+    set(expected_stdout "https://example.com/search?q=gujarati&page=1\n404\n200\ntext/html; charset=utf-8\n<h1>Hello</h1>\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v120_embedded_db")
+    set(source [=[aavo
+db = db_kholo(":memory:");
+db_chalao(db, "CREATE TABLE students (id, name, score)");
+db_chalao(db, "INSERT INTO students (id, name, score) VALUES (?, ?, ?)", [1, "Harshit", 98]);
+db_chalao(db, "INSERT INTO students (id, name, score) VALUES (?, ?, ?)", [2, "Amit", 85]);
+chhapo db_count(db, "students");
+high = db_shodho(db, "SELECT name, score FROM students WHERE score >= 90");
+chhapo lambai(high);
+chhapo high[0]["name"];
+chhapo high[0]["score"];
+db_chalao(db, "UPDATE students SET score = 90 WHERE name = Amit");
+updated = db_shodho(db, "SELECT score FROM students WHERE name = Amit");
+chhapo updated[0]["score"];
+db_chalao(db, "DELETE FROM students WHERE id = 1");
+chhapo db_count(db, "students");
+db_bandh(db);
+aavjo
+]=])
+    set(expected_stdout "2\n1\nHarshit\n98\n90\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v120_async_threading")
+    set(source [=[aavo
+kary worker(n) {
+    sum = 0;
+    darek (i ma 1..101) {
+        sum = sum + i;
+    }
+    parat sum;
+}
+h = async_chalao("worker", 100);
+ans = async_parinam(h);
+chhapo ans;
+tid = thread_id();
+chhapo (tid > 0);
+aavjo
+]=])
+    set(expected_stdout "5050\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v120_gujarati_nlp")
+    set(source [=[aavo
+toks = nlp_gujarati_token("નમસ્તે ભારત! ગુજરાતી ભાષા.");
+chhapo lambai(toks);
+chhapo nlp_matra_kadho("ગુજરાત");
+freq = nlp_shabda_aavrutti(["a", "b", "a", "c"]);
+chhapo freq["a"];
+chhapo freq["b"];
+aavjo
+]=])
+    set(expected_stdout "4\nગજરત\n2\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v120_ml_tfidf_bayes")
+    set(source [=[aavo
+docs = ["sarum pustak", "kharab pustak"];
+tfidf = ml_tfidf(docs);
+chhapo lambai(tfidf["vocabulary"]);
+model = ml_naive_bayes_train(
+    ["sarum pustak", "kharab pustak", "sarum ane sundar"],
+    ["dhan", "run", "dhan"]
+);
+pred = ml_naive_bayes_predict(model, "sarum");
+chhapo pred;
+aavjo
+]=])
+    set(expected_stdout "3\ndhan\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v120_matrix_and_charts")
+    set(source [=[aavo
+m = [[1, 2], [3, 4]];
+t = matrix_transpose(m);
+chhapo t[0][1];
+chhapo t[1][0];
+d = matrix_determinant([[1, 2], [3, 4]]);
+chhapo d;
+id = matrix_identity(2);
+chhapo id[0][0];
+chhapo id[0][1];
+c = chart_terminal_bar(["X", "Y"], [10, 20], 5);
+chhapo (lambai(c) > 0);
+aavjo
+]=])
+    set(expected_stdout "3\n2\n-2\n1\n0\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v120_ffi_call")
+    set(source [=[aavo
+sq = ffi_call("msvcrt", "sqrt", [25]);
+chhapo sq;
+aavjo
+]=])
+    set(expected_stdout "5\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v120_timers")
+    set(source [=[aavo
+kary echo(v) {
+    chhapo "timer: " + lakhan_rupantar(v);
+    parat 1;
+}
+samay_pachhi(5, "echo", 42);
+samay_antare(5, "echo", 2, "interval");
+aavjo
+]=])
+    set(expected_stdout "timer: 42\ntimer: interval\ntimer: interval\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v120_gujarati_native_syntax")
+    set(source [=[આવો
+દ = ડેટાબેઝ_ખોલો(":memory:");
+ડેટાબેઝ_ચલાવો(દ, "CREATE TABLE t (x)");
+ડેટાબેઝ_ચલાવો(દ, "INSERT INTO t (x) VALUES (?)", [10]);
+છાપો ડેટાબેઝ_ગણતરી(દ, "t");
+ડેટાબેઝ_બંધ(દ);
+છાપો એનએલપી_માત્રા_કાઢો("ભારત");
+છાપો મેટ્રિક્સ_નિશ્ચાયક([[2, 0], [0, 3]]);
+આવજો
+]=])
+    set(expected_stdout "1\nભરત\n6\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
 else()
     message(FATAL_ERROR "Unknown interpreter test case: ${TEST_CASE}")
 endif()

@@ -2,13 +2,16 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 1.1.0 LANGUAGES C)
+project(gujaratilang VERSION 1.2.0 LANGUAGES C)
 
 include(CTest)
 
 add_executable(gujarati src/main.c)
+if(WIN32)
+    target_link_libraries(gujarati PRIVATE ws2_32)
+endif()
 if(UNIX)
-    target_link_libraries(gujarati PRIVATE m)
+    target_link_libraries(gujarati PRIVATE m pthread)
 endif()
 target_compile_features(gujarati PRIVATE c_std_99)
 
@@ -369,7 +372,17 @@ if(BUILD_TESTING)
             builtin_ml_advanced
             builtin_binary_search_fuzzy
             builtin_safe_casts
-            cli_tooling)
+            cli_tooling
+            v120_version_cli
+            v120_url_and_static_web
+            v120_embedded_db
+            v120_async_threading
+            v120_gujarati_nlp
+            v120_ml_tfidf_bayes
+            v120_matrix_and_charts
+            v120_ffi_call
+            v120_timers
+            v120_gujarati_native_syntax)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"
