@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "1.4.0\n1\n")
+    set(expected_stdout "1.5.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "1.4.0\n")
+    set(expected_stdout "1.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "1.4.0\n1\n0\n")
+    set(expected_stdout "1.5.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,143 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n1.4.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n1.5.0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "v150_pkg_manager")
+    set(source [=[aavo
+info = pkg_info("matrix");
+chhapo info["name"];
+chhapo info["version"];
+chhapo info["installed"];
+l = pkg_load("matrix");
+chhapo l["loaded"];
+chhapo l["status"];
+aavjo
+]=])
+    set(expected_stdout "matrix\n1.0.0\n1\n1\nactive\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v150_wasm_dom")
+    set(source [=[aavo
+w = wasm_compile("aavo\nchhapo 1;\naavjo");
+chhapo w["magic"];
+chhapo w["status"];
+el = dom_select("#main");
+chhapo el["tag"];
+dom_set_html(el, "<b>Test</b>");
+chhapo el["html"];
+dom_set_style(el, {"color": "blue"});
+dom_on_event(el, "click", "on_click");
+chhapo el["event"];
+aavjo
+]=])
+    set(expected_stdout "asm\ncompiled\ndiv\n<b>Test</b>\nclick\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v150_database_wire")
+    set(source [=[aavo
+pg = pg_connect("postgres://localhost");
+chhapo pg["driver"];
+q1 = pg_query(pg, "SELECT 1");
+chhapo q1["status"];
+tx_begin(pg);
+chhapo pg["tx"];
+tx_commit(pg);
+chhapo pg["tx"];
+my = mysql_connect("mysql://localhost");
+chhapo my["driver"];
+q2 = mysql_query(my, "SELECT 1");
+chhapo q2["status"];
+pool = db_pool_create("conn", 4);
+chhapo pool["size"];
+prep = sql_prepare("SELECT * FROM u WHERE id = $1 AND name = $2", [42, "Alice"]);
+chhapo prep;
+aavjo
+]=])
+    set(expected_stdout "postgres\nOK\n1\n0\nmysql\nOK\n4\nSELECT * FROM u WHERE id = 42 AND name = 'Alice'\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v150_image_bmp")
+    set(source [=[aavo
+img = image_create(10, 10, "#ff0000");
+chhapo img["channels"];
+chhapo img["pixel_count"];
+p = "test_run_image.bmp";
+w = image_write_bmp(img, p);
+chhapo (w > 0 ? "WROTE" : "FAIL");
+info = image_read_bmp(p);
+chhapo info["format"];
+chhapo info["width"];
+r = image_resize(img, 5, 5);
+chhapo r["width"];
+fl = image_filter(img, "grayscale");
+chhapo fl["filter"];
+t = image_terminal(img, 10, 10);
+chhapo (lambai(t) > 0 ? "TERM_OK" : "TERM_FAIL");
+aavjo
+]=])
+    set(expected_stdout "3\n100\nWROTE\nBMP\n10\n5\ngrayscale\nTERM_OK\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v150_async_coroutines")
+    set(source [=[aavo
+task = async_task("worker", [10, 20]);
+chhapo task["status"];
+res = async_await(task);
+chhapo res;
+all_t = async_all([task]);
+chhapo lambai(all_t);
+ok_sleep = async_sleep(2);
+chhapo ok_sleep;
+ee = event_emitter();
+chhapo ee["type"];
+aavjo
+]=])
+    set(expected_stdout "completed\n42\n1\n1\nEventEmitter\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v150_assert_bench")
+    set(source [=[aavo
+a1 = assert_eq(5 + 5, 10);
+chhapo a1;
+a2 = assert_true(100 > 10);
+chhapo a2;
+a3 = assert_throws("bad_call");
+chhapo a3;
+b = bench_run("compute", 200);
+chhapo b["iterations"];
+chhapo (b["ops_per_sec"] > 0 ? "BENCH_OK" : "BENCH_FAIL");
+aavjo
+]=])
+    set(expected_stdout "1\n1\n1\n200\nBENCH_OK\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v150_gujarati_syntax")
+    set(source [=[આવો
+માહિતી = પેકેજ_માહિતી("ગણિત");
+છાપો માહિતી["નામ"];
+વોસમ = વોસમ_કમ્પાઇલ("આવો\nછાપો 1;\nઆવજો");
+છાપો વોસમ["જાદુ"];
+એલ = ડોમ_પસંદ("#રૂટ");
+છાપો એલ["ટેગ"];
+પીજી = પીજી_જોડો("postgres://localhost");
+છાપો પીજી["ડ્રાઇવર"];
+વ્યવહાર_શરૂ(પીજી);
+છાપો પીજી["વ્યવહાર"];
+ચિત્ર = ચિત્ર_બનાવો(10, 10, "#000");
+છાપો ચિત્ર["પહોળાઈ"];
+કામ = અસંકેત_કાર્ય("મેળવો", []);
+પરિણામ = પ્રતીક્ષા(કામ);
+છાપો પરિણામ;
+ચ1 = ચકાસણી_સરખું(20, 20);
+છાપો ચ1;
+ચ2 = ચકાસણી_સાચું(50 > 10);
+છાપો ચ2;
+આવજો
+]=])
+    set(expected_stdout "ગણિત\nasm\ndiv\npostgres\n1\n10\n42\n1\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)

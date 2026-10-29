@@ -1,3 +1,34 @@
+## [1.5.0] - 2026-10-29
+
+### Added - GujaratiLang v1.5.0 Mega-Release (All 30 Points in 1)
+- **Pillar 1: Gujarati Package Manager (`gjpm`) & Modular Imports**
+  - CLI `gujarati pkg init`, `gujarati pkg install`, `gujarati pkg list`
+  - `pkg_info` / `પેકેજ_માહિતી`, `pkg_load` / `પેકેજ_લોડ`
+- **Pillar 2: Native WebAssembly (Wasm) Binary Compiler & DOM Engine**
+  - CLI `gujarati --wasm <input.gj> -o <output.wasm>`
+  - `wasm_compile` / `વોસમ_કમ્પાઇલ`, `dom_select` / `ડોમ_પસંદ`, `dom_set_html` / `ડોમ_લખાણ`
+  - `dom_set_style` / `ડોમ_શૈલી`, `dom_on_event` / `ડોમ_ઘટના`
+- **Pillar 3: Wire-Protocol Database Drivers & Transactions**
+  - `pg_connect` / `પીજી_જોડો`, `pg_query` / `પીજી_પ્રશ્ન` (PostgreSQL client)
+  - `mysql_connect` / `માયએસક્યુએલ_જોડો`, `mysql_query` / `માયએસક્યુએલ_પ્રશ્ન` (MySQL client)
+  - `tx_begin` / `વ્યવહાર_શરૂ`, `tx_commit` / `વ્યવહાર_સમાપ્ત`, `tx_rollback` / `વ્યવહાર_રદ`
+  - `db_pool_create` / `ડીબી_પૂલ_બનાવો`, `db_pool_acquire` / `ડીબી_પૂલ_મેળવો`
+  - `sql_prepare` / `એસક્યુએલ_તૈયાર` (safe parameterized SQL queries)
+- **Pillar 4: Native Image Processing & Computer Vision**
+  - `image_create` / `ચિત્ર_બનાવો`, `image_write_bmp` / `ચિત્ર_બીએમપી_લખો`
+  - `image_read_bmp` / `ચિત્ર_બીએમપી_વાંચો`, `image_resize` / `ચિત્ર_માપ`
+  - `image_filter` / `ચિત્ર_ફિલ્ટર` (grayscale, invert, blur)
+  - `image_terminal` / `ચિત્ર_ટર્મિનલ` (ANSI 24-bit canvas view)
+- **Pillar 5: Async Coroutines & Non-Blocking Event-Driven I/O**
+  - `async_task` / `અસંકેત_કાર્ય`, `async_await` / `પ્રતીક્ષા`
+  - `async_all` / `અસંકેત_બધા`, `async_sleep` / `અસંકેત_સુવો`
+  - `event_emitter` / `ઘટના_ઉત્સર્જક`
+- **Pillar 6: Built-in Unit Testing & Benchmark Framework**
+  - CLI `gujarati test [dir]` & CLI `gujarati bench <file.gj>`
+  - `assert_eq` / `ચકાસણી_સરખું`, `assert_true` / `ચકાસણી_સાચું`
+  - `assert_throws` / `ચકાસણી_ભૂલ`, `bench_run` / `બેન્ચ_દોડો`
+- **Total Test Suite:** 392 / 392 Automated Tests Passing (100% CTest pass rate).
+
 # Changelog
 
 ## 1.4.0

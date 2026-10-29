@@ -397,7 +397,14 @@ if(BUILD_TESTING)
             v140_zip_archive
             v140_gui_mock
             v140_debug_memory
-            v140_gujarati_syntax)
+            v140_gujarati_syntax
+            v150_pkg_manager
+            v150_wasm_dom
+            v150_database_wire
+            v150_image_bmp
+            v150_async_coroutines
+            v150_assert_bench
+            v150_gujarati_syntax)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"
