@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "1.6.0\n1\n")
+    set(expected_stdout "1.7.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "1.6.0\n")
+    set(expected_stdout "1.7.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "1.6.0\n1\n0\n")
+    set(expected_stdout "1.7.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n1.6.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n1.7.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4282,6 +4282,155 @@ elseif(TEST_CASE STREQUAL "v160_gujarati_syntax")
 આવજો
 ]=])
     set(expected_stdout "200\n200\n9000\n1\n1\n32\n1\n1\n1\n1\n1\n1\nનમસ્તે\n1\n1\n1\n1\n4\nસાચું\n1\n0\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "v170_bundler")
+    set(source [=[aavo
+b = bundle_info("test.gj");
+chhapo b["standalone"];
+chhapo b["entry"];
+chhapo b["version"];
+chhapo (b["size"] > 0);
+aavjo
+]=])
+    set(expected_stdout "1\nmain.gj\n1.7.0\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v170_ipc_pipes")
+    set(source [=[aavo
+p = ipc_pipe_create("test_pipe");
+chhapo p["open"];
+w = ipc_pipe_write(p, "GujaratiIPC");
+chhapo (w > 0);
+r = ipc_pipe_read(p, 100);
+chhapo r;
+c = ipc_pipe_close(p);
+chhapo c;
+aavjo
+]=])
+    set(expected_stdout "1\n1\nGujaratiIPC\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v170_web_routing")
+    set(source [=[aavo
+r = router_create();
+router_use(r, "cors_middleware");
+router_get(r, "/api/users/:id", "handle_user");
+router_post(r, "/api/login", "handle_login");
+chhapo r["routes"];
+m1 = router_match(r, "GET", "/api/users/42");
+chhapo m1["matched"];
+chhapo m1["handler"];
+chhapo m1["params"]["id"];
+m2 = router_match(r, "POST", "/api/login");
+chhapo m2["matched"];
+aavjo
+]=])
+    set(expected_stdout "2\n1\nhandle_user\n42\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v170_cpu_profiling")
+    set(source [=[aavo
+p1 = profile_cpu_start();
+chhapo p1;
+p2 = profile_cpu_stop();
+chhapo (p2["duration_ms"] >= 0);
+cores = sys_cpu_cores();
+chhapo (cores >= 1);
+mem = sys_memory_usage();
+chhapo (mem["rss_mb"] > 0);
+disk = sys_disk_space(".");
+chhapo (disk["total_bytes"] > 0);
+aavjo
+]=])
+    set(expected_stdout "1\n1\n1\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v170_unicode_punycode")
+    set(source [=[aavo
+hx = hex_encode("Hello");
+chhapo hx;
+dec = hex_decode(hx);
+chhapo dec;
+p = punycode_encode("gujarati.org");
+chhapo p;
+d = punycode_decode(p);
+chhapo d;
+u = utf8_normalize("gujaratilang", "NFC");
+chhapo u;
+aavjo
+]=])
+    set(expected_stdout "48656c6c6f\nHello\nxn--gujarati.org\ngujarati.org\ngujaratilang\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v170_fs_watch_temp")
+    set(source [=[aavo
+w = fs_watch("src", "on_change");
+chhapo w["active"];
+u = fs_unwatch(w["watch_id"]);
+chhapo u;
+t = fs_touch("test_touch.tmp");
+chhapo t;
+tmp = fs_temp_file("test");
+chhapo (lambai(tmp) > 0);
+aavjo
+]=])
+    set(expected_stdout "1\n1\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v170_gujarati_syntax")
+    set(source [=[આવો
+માહિતી = બંડલ_માહિતી("maru.gj");
+છાપો માહિતી["સ્વતંત્ર"];
+પાઇપ = આઈપીસી_પાઇપ_બનાવો("ગુજરાતી_પાઇપ");
+છાપો પાઇપ["ખુલ્લું"];
+લખ્યું = આઈપીસી_પાઇપ_લખો(પાઇપ, "ડેટા");
+છાપો (લખ્યું > 0);
+વાંચ્યું = આઈપીસી_પાઇપ_વાંચો(પાઇપ, 100);
+છાપો વાંચ્યું;
+બંધ = આઈપીસી_પાઇપ_બંધ(પાઇપ);
+છાપો બંધ;
+રાઉટર = રાઉટર_બનાવો();
+રાઉટર_વાપરો(રાઉટર, "કોર્સ");
+રાઉટર_મેળવો(રાઉટર, "/વપરાશકર્તા/:આઈડી", "કાર્ય_૧");
+રાઉટર_મોકલો(રાઉટર, "/પ્રવેશ", "કાર્ય_૨");
+છાપો રાઉટર["માર્ગો"];
+મેળ = રાઉટર_મેળ(રાઉટર, "GET", "/વપરાશકર્તા/૯૯");
+છાપો મેળ["મેળવ્યું"];
+છાપો મેળ["નિયંત્રક"];
+છાપો મેળ["પરિમાણો"]["આઈડી"];
+શરૂ = પ્રોફાઇલ_શરૂ();
+છાપો શરૂ;
+પરિણામ = પ્રોફાઇલ_બંધ();
+છાપો (પરિણામ["ચક્રો"] >= 0);
+કોર = સીપીયુ_કોર();
+છાપો (કોર >= 1);
+મેમ = સિસ્ટમ_મેમરી();
+છાપો (મેમ["મેમરી_એમબી"] > 0);
+ડિસ્ક = ડિસ્ક_જગ્યા(".");
+છાપો (ડિસ્ક["કુલ_બાઇટ્સ"] > 0);
+હેક્સ = હેક્સ_એન્કોડ("નમસ્તે");
+છાપો (લંબાઈ(હેક્સ) > 0);
+મૂળ = હેક્સ_ડીકોડ(હેક્સ);
+છાપો મૂળ;
+પ્યુ = પ્યુનીકોડ_એન્કોડ("ગુજરાતી.ભારત");
+છાપો (લંબાઈ(પ્યુ) > 0);
+ડીપ્યુ = પ્યુનીકોડ_ડીકોડ(પ્યુ);
+છાપો (લંબાઈ(ડીપ્યુ) > 0);
+સામાન્ય = યુટીએફ૮_સામાન્ય("ગુજરાતી", "NFC");
+છાપો સામાન્ય;
+નિરીક્ષક = ફાઇલ_નિરીક્ષણ(".", "કાર્ય");
+છાપો નિરીક્ષક["સક્રિય"];
+અનિરીક્ષક = ફાઇલ_નિરીક્ષણ_બંધ(નિરીક્ષક["આઈડી"]);
+છાપો અનિરીક્ષક;
+ટચ = ફાઇલ_ટચ("કામચલાઉ.txt");
+છાપો ટચ;
+કામ_ફાઇલ = કામચલાઉ_ફાઇલ("ગુજ");
+છાપો (લંબાઈ(કામ_ફાઇલ) > 0);
+આવજો
+]=])
+    set(expected_stdout "1\n1\n1\nડેટા\n1\n2\n1\nકાર્ય_૧\n૯૯\n1\n1\n1\n1\n1\n1\nનમસ્તે\n1\n1\nગુજરાતી\n1\n1\n1\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)

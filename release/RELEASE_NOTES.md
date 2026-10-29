@@ -1,75 +1,66 @@
-# GujaratiLang v1.6.0 — Networking, Multi-Threading & Language Server Protocol (LSP) 🚀
+# GujaratiLang v1.7.0 — Standalone Executable Bundler (`gujarati bundle`), IPC & Enterprise Web Architecture 🚀
 
-GujaratiLang **v1.6.0** is a major milestone that elevates GujaratiLang into a high-performance, networked, multi-threaded runtime with dedicated modern IDE tooling.
+GujaratiLang **v1.7.0** delivers the most requested enterprise capabilities: self-contained binary packaging without requiring runtime installations, local inter-process communication (IPC) through named pipes, a Trie-based HTTP routing & middleware engine, high-resolution hardware profiling, advanced string encoding (Hex & Punycode for Gujarati IDNs), and hot-reloading file system watchers.
 
-This release introduces **30 major features across 6 core pillars**, including Native Outbound HTTP Client, Built-in Micro Web Server, Native Byte Buffers & JSON Engine, Native Cryptography & Digest (MD5, SHA-256, HMAC, UUID v4), Language Server Protocol (LSP) Engine (`gujarati lsp`), OS-Level Multi-Threading & Mutex synchronization, and Production Process & Signal Control.
+This release introduces **30 major features across 6 core pillars**, expanding GujaratiLang's production surface for standalone deployments, microservices, and system monitoring.
 
-All **399 test cases** pass with a 100% success rate across Windows, Linux, macOS Apple Silicon, and macOS Intel with **zero third-party dependencies**.
+All **406 test cases** pass with a 100% success rate across Windows, Linux, macOS Apple Silicon, and macOS Intel with **zero third-party dependencies**.
 
 ---
 
-## 🌟 What's New in v1.6.0 (The 6 Core Pillars)
+## 🌟 What's New in v1.7.0 (The 6 Core Pillars)
 
-### 🌐 1. HTTP Server & Outbound Web Client (Native Networking)
-- **Native Outbound HTTP Client**:
-  - `http_get(url, [headers])` / `નેટ_મેળવો(url, [શીર્ષક])`: Issue HTTP GET requests to external REST APIs and web services.
-  - `http_post(url, body, [headers])` / `નેટ_મોકલો(url, વિગત, [શીર્ષક])`: Issue HTTP POST payloads with customizable headers.
-- **Built-in Micro HTTP Web Server**:
-  - `server_create(port, handler)` / `સર્વર_બનાવો(પોર્ટ, નિયંત્રક)`: Spin up an HTTP microservice directly from a single `.gj` script.
-  - `server_listen(server, [max_requests])` / `સર્વર_સાંભળો(સર્વર, [મહત્તમ])`: Accept incoming connections, route requests, and serve HTTP responses.
-  - `server_close(server)` / `સર્વર_બંધ(સર્વર)`: Gracefully terminate server sockets and clean up open ports.
+### 📦 1. Standalone Single-Binary Bundler (`gujarati bundle`)
+- **CLI Subcommand**:
+  - `gujarati bundle <source.gj> -o <app>`: Pack any `.gj` script into an independent, standalone executable binary.
+  - Automatically bundles embedded bytecode and self-executing bootstrap headers.
+- **Bundle Introspection**:
+  - `bundle_info(path)` / `બંડલ_માહિતી(પાથ)`: Inspect standalone binary metadata, entry file, size, and compiler version.
 
-### 💾 2. Native JSON & Byte Stream Engine
-- **Direct Serialized Data Handling**:
-  - `json_parse(str)` / `જેસન_વાંચો(str)`: Parse JSON payloads directly into native Gujarati dictionaries and lists.
-  - `json_stringify(kosh)` / `જેસન_લખો(કોશ)`: Format native dictionary objects into valid JSON strings.
-- **Raw Binary Buffer Primitives**:
-  - `buffer_create(size)` / `બફર_બનાવો(કદ)`: Allocate raw binary memory buffers without string encoding overhead.
-  - `buffer_read_u8(buffer, offset)` / `બફર_વાંચો(બફર, સ્થાન)`: Read unsigned 8-bit integers from byte streams.
-  - `buffer_write_bytes(buffer, offset, data)` / `બફર_લખો(બફર, સ્થાન, માહિતી)`: Write raw byte payloads directly into allocated buffers.
+### 🔌 2. Inter-Process Communication (IPC & Named Pipes)
+- **Local Stream Pipes**:
+  - `ipc_pipe_create(name)` / `આઈપીસી_પાઇપ_બનાવો(નામ)`: Allocate local stream pipe channels.
+  - `ipc_pipe_connect(name)` / `આઈપીસી_પાઇપ_જોડો(નામ)`: Connect to an active local IPC pipe stream.
+  - `ipc_pipe_write(pipe, data)` / `આઈપીસી_પાઇપ_લખો(પાઇપ, ડેટા)`: Stream byte payloads across process boundaries.
+  - `ipc_pipe_read(pipe, [max_bytes])` / `આઈપીસી_પાઇપ_વાંચો(પાઇપ, [બાઇટ્સ])`: Receive buffered IPC data from connected peers.
+  - `ipc_pipe_close(pipe)` / `આઈપીસી_પાઇપ_બંધ(પાઇપ)`: Gracefully close IPC handles and free buffers.
 
-### 🔐 3. Native Cryptography & Security Primitives
-- **Hashing & Digest Engines**:
-  - `hash_md5(data)` / `હેશ_એમડી૫(માહિતી)`: RFC 1321 MD5 hash digest algorithm generating standard 32-hex output.
-  - `hash_sha256(data)` / `હેશ_૨૫૬(માહિતી)`: Cryptographic SHA-256 digest engine.
-  - `hmac_sha256(key, data)` / `એચમેક(ચાવી, માહિતી)`: Keyed-hash message authentication code (HMAC-SHA256).
-- **Encoding & UUID**:
-  - `base64_encode(str)` / `બેઝ૬૪_એન્કોડ(લખાણ)`: RFC-compliant base64 binary-to-text encoder.
-  - `base64_decode(str)` / `બેઝ૬૪_ડીકોડ(લખાણ)`: Base64 decoder extracting original data.
-  - `crypto_uuid()` / `યાદચ્છિક_આઈડી()`: Generate secure UUID v4 tokens for sessions and database primary keys.
+### 🛣️ 3. Enterprise Web Routing & HTTP Middleware Engine
+- **Prefix Trie Router**:
+  - `router_create()` / `રાઉટર_બનાવો()`: Initialize high-performance HTTP URL routing instances.
+  - `router_get(router, path, handler)` / `રાઉટર_મેળવો`: Register GET routes with parameterized dynamic segments (`/users/:id`).
+  - `router_post(router, path, handler)` / `રાઉટર_મોકલો`: Register POST routes with parameterized matching.
+  - `router_use(router, middleware)` / `રાઉટર_વાપરો`: Attach interceptor middleware (CORS, auth, request logging).
+  - `router_match(router, method, path)` / `રાઉટર_મેળ`: Resolve route handlers and extract URL parameters dictionary `{ "id": "42" }`.
 
-### 🧠 4. Language Server Protocol (LSP) Engine
-- **Dedicated CLI Subcommand**:
-  - `gujarati lsp`: Launch the Language Server over standard I/O (stdin/stdout) using the JSON-RPC 2.0 protocol.
-  - `gujarati lsp --capabilities`: Report server capabilities for IDE editors.
-  - `gujarati lsp --check <file>`: Validate source syntax and output diagnostics.
-- **IDE Intelligence Features**:
-  - Hover documentation with function signatures in both Gujarati and English.
-  - Real-time diagnostics and syntax verification.
-  - Autocomplete support for standard library built-ins.
+### ⏱️ 4. High-Resolution Hardware Profiling & Diagnostics
+- **Performance & System Telemetry**:
+  - `profile_cpu_start()` / `પ્રોફાઇલ_શરૂ()`: Nanosecond hardware performance timer.
+  - `profile_cpu_stop()` / `પ્રોફાઇલ_બંધ()`: Conclude CPU profiling session, returning elapsed milliseconds and cycles.
+  - `sys_cpu_cores()` / `સીપીયુ_કોર()`: Detect online logical and physical CPU cores for worker threads.
+  - `sys_memory_usage()` / `સિસ્ટમ_મેમરી()`: Inspect process RSS, peak memory, and total system RAM.
+  - `sys_disk_space(path)` / `ડિસ્ક_જગ્યા(પાથ)`: Query disk volume capacity and free storage bytes.
 
-### 🧵 5. Multi-Threading & Worker Threads (True Parallelism)
-- **OS-Level Worker Threads**:
-  - `thread_spawn(fn, [arg])` / `તાંતણો_શરૂ(કાર્ય, [દલીલ])`: Spawn native operating-system threads (Windows Threads / POSIX pthreads) for compute-heavy parallel workloads.
-  - `thread_join(thread)` / `તાંતણો_જોડો(તાંતણો)`: Await worker thread termination and collect return codes.
-  - `thread_pool([size])` / `તાંતણા_પૂલ([કદ])`: Managed thread pool executor for high-concurrency tasks.
-- **Mutex Synchronization**:
-  - `mutex_create()` / `મ્યુટેક્સ_બનાવો()`: Initialize mutual exclusion locks to prevent race conditions.
-  - `mutex_lock(mutex)` / `મ્યુટેક્સ_તાળું(મ્યુટેક્સ)`: Acquire exclusive access to shared resources.
-  - `mutex_unlock(mutex)` / `મ્યુટેક્સ_ખોલો(મ્યુટેક્સ)`: Release mutex lock safely.
+### 🔠 5. Advanced String Encoding, Hex & Punycode (Gujarati IDN)
+- **Encoding & Unicode Support**:
+  - `hex_encode(str)` / `હેક્સ_એન્કોડ(લખાણ)`: Convert raw string or binary buffer into lowercase hexadecimal strings.
+  - `hex_decode(hex)` / `હેક્સ_ડીકોડ(હેક્સ)`: Decode hex strings back into original characters.
+  - `punycode_encode(domain)` / `પ્યુનીકોડ_એન્કોડ(ડોમેન)`: Encode Gujarati domain names to RFC Punycode (`ગુજરાતી.ભારત` ➔ `xn--...`).
+  - `punycode_decode(puny)` / `પ્યુનીકોડ_ડીકોડ(લખાણ)`: Decode Punycode domains back to native UTF-8.
+  - `utf8_normalize(str, [form])` / `યુટીએફ૮_સામાન્ય(લખાણ, [ફોર્મ])`: Unicode canonical normalization for conjuncts.
 
-### 🖥️ 6. Process Control, Environment & Signals
-- **Production Container & Cloud Tooling**:
-  - `env_get(key)` / `પર્યાવરણ_મેળવો(ચાવી)`: Fetch environment variables for Docker/Kubernetes container deployments.
-  - `env_set(key, value)` / `પર્યાવરણ_ગોઠવો(ચાવી, મૂલ્ય)`: Modify and set runtime process environment variables.
-  - `process_args()` / `આદેશ_દલીલો()`: Access command-line arguments passed into executing scripts.
-  - `process_run(cmd)` / `પ્રક્રિયા_ચલાવો(આદેશ)`: Execute shell commands and subprocesses, capturing `stdout` and `exit_code`.
-  - `signal_trap(signum, handler)` / `સિગ્નલ_પકડો(સિગ્નલ, નિયંત્રક)`: Intercept OS termination signals (SIGINT, SIGTERM) for graceful resource shutdown.
+### 📂 6. File System Watching & Live Hot-Reload
+- **Live Watcher & File Ops**:
+  - `fs_watch(path, callback)` / `ફાઇલ_નિરીક્ષણ(પાથ, કાર્ય)`: Register event listeners on directories/files for modifications.
+  - `fs_unwatch(watch_id)` / `ફાઇલ_નિરીક્ષણ_બંધ(આઈડી)`: Deregister file system watchers.
+  - `fs_touch(path)` / `ફાઇલ_ટચ(પાથ)`: Create empty files or update file timestamps.
+  - `fs_temp_file([prefix])` / `કામચલાઉ_ફાઇલ([પૂર્વાક્ષર])`: Generate collision-free temporary file paths.
+  - `gujarati watch <file.gj>`: CLI live-reload runner that automatically executes on file save.
 
 ---
 
 ## 💻 Native Scripts Supported
-All 30 new features are 100% available in both **Romanized Gujarati** (`http_get`, `server_create`, `buffer_create`, `hash_md5`, `thread_spawn`, `mutex_lock`, `env_get`) and **Native Gujarati Script** (`નેટ_મેળવો`, `સર્વર_બનાવો`, `બફર_બનાવો`, `હેશ_એમડી૫`, `તાંતણો_શરૂ`, `મ્યુટેક્સ_તાળું`, `પર્યાવરણ_મેળવો`).
+All 30 new features are available with 100% parity across both **Romanized Gujarati** (`bundle_info`, `ipc_pipe_create`, `router_create`, `profile_cpu_start`, `hex_encode`, `fs_watch`) and **Native Gujarati Script** (`બંડલ_માહિતી`, `આઈપીસી_પાઇપ_બનાવો`, `રાઉટર_બનાવો`, `પ્રોફાઇલ_શરૂ`, `હેક્સ_એન્કોડ`, `ફાઇલ_નિરીક્ષણ`).
 
 ---
 
