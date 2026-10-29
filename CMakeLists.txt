@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 1.2.0 LANGUAGES C)
+project(gujaratilang VERSION 1.3.0 LANGUAGES C)
 
 include(CTest)
 
@@ -382,7 +382,15 @@ if(BUILD_TESTING)
             v120_matrix_and_charts
             v120_ffi_call
             v120_timers
-            v120_gujarati_native_syntax)
+            v120_gujarati_native_syntax
+            v130_sha1_and_templates
+            v130_jwt
+            v130_dataframe
+            v130_deep_learning
+            v130_statistics_charts
+            v130_math_eval
+            v130_bytecode
+            v130_gujarati_syntax)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

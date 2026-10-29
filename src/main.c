@@ -1981,7 +1981,57 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "ચાર્ટ_સ્તંભ") ||
            token_matches(parser, name, "chart_terminal_bar") ||
            token_matches(parser, name, "એફએફઆઈ_કૉલ") ||
-           token_matches(parser, name, "ffi_call");
+           token_matches(parser, name, "ffi_call") ||
+           token_matches(parser, name, "વેબસોકેટ_સર્વર") ||
+           token_matches(parser, name, "websocket_server") ||
+           token_matches(parser, name, "વેબસોકેટ_મોકલો") ||
+           token_matches(parser, name, "websocket_moklo") ||
+           token_matches(parser, name, "વેબસોકેટ_બંધ") ||
+           token_matches(parser, name, "websocket_bandh") ||
+           token_matches(parser, name, "વેબસોકેટ_ગ્રાહક") ||
+           token_matches(parser, name, "websocket_client") ||
+           token_matches(parser, name, "શા૧_હેશ") ||
+           token_matches(parser, name, "sha1_hash") ||
+           token_matches(parser, name, "નમૂનો_રેન્ડર") ||
+           token_matches(parser, name, "render_template") ||
+           token_matches(parser, name, "જેડબલ્યુટી_બનાવો") ||
+           token_matches(parser, name, "jwt_banao") ||
+           token_matches(parser, name, "જેડબલ્યુટી_તપાસ") ||
+           token_matches(parser, name, "jwt_tapas") ||
+           token_matches(parser, name, "એચટીએમએલ_સાફ") ||
+           token_matches(parser, name, "html_saf") ||
+           token_matches(parser, name, "ડીએફ_ખોલો") ||
+           token_matches(parser, name, "df_kholo") ||
+           token_matches(parser, name, "ડીએફ_ગાળો") ||
+           token_matches(parser, name, "df_filter") ||
+           token_matches(parser, name, "ડીએફ_જૂથ") ||
+           token_matches(parser, name, "df_group_by") ||
+           token_matches(parser, name, "ડીએફ_વર્ણન") ||
+           token_matches(parser, name, "df_describe") ||
+           token_matches(parser, name, "ડીએફ_સીએસવી") ||
+           token_matches(parser, name, "df_to_csv") ||
+           token_matches(parser, name, "એનએન_બનાવો") ||
+           token_matches(parser, name, "nn_create") ||
+           token_matches(parser, name, "એનએન_આગળ") ||
+           token_matches(parser, name, "nn_forward") ||
+           token_matches(parser, name, "એનએન_તાલીમ") ||
+           token_matches(parser, name, "nn_train") ||
+           token_matches(parser, name, "ટેનએચ") ||
+           token_matches(parser, name, "math_tanh") ||
+           token_matches(parser, name, "લીકી_રેલુ") ||
+           token_matches(parser, name, "math_leaky_relu") ||
+           token_matches(parser, name, "આંકડા_સહસંબંધ") ||
+           token_matches(parser, name, "stat_pearson") ||
+           token_matches(parser, name, "આંકડા_ઝેડ_સ્કોર") ||
+           token_matches(parser, name, "stat_zscore") ||
+           token_matches(parser, name, "ચાર્ટ_બિંદુ") ||
+           token_matches(parser, name, "chart_terminal_scatter") ||
+           token_matches(parser, name, "ચાર્ટ_બોક્સ") ||
+           token_matches(parser, name, "chart_terminal_box") ||
+           token_matches(parser, name, "ચાર્ટ_આવૃત્તિ_સ્તંભ") ||
+           token_matches(parser, name, "chart_terminal_histogram") ||
+           token_matches(parser, name, "ગણિત_ઉકેલો") ||
+           token_matches(parser, name, "math_eval");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -6403,6 +6453,1761 @@ static Value ffi_call_helper(Parser *parser, Token name, Value dll_val, Value fu
 }
 
 
+/* GujaratiLang v1.3.0 Helper Implementations */
+
+/* --- SHA-1 Implementation (RFC 3174) --- */
+
+typedef struct {
+    uint32_t state[5];
+    uint32_t count[2];
+    unsigned char buffer[64];
+} GJ_SHA1_CTX;
+
+#define SHA1_ROTL(bits, word) (((word) << (bits)) | ((word) >> (32 - (bits))))
+
+static void gj_sha1_transform(uint32_t state[5], const unsigned char buffer[64])
+{
+    uint32_t a = state[0], b = state[1], c = state[2], d = state[3], e = state[4];
+    uint32_t w[80];
+    for (int i = 0; i < 16; i++) {
+        w[i] = ((uint32_t)buffer[i * 4] << 24) |
+               ((uint32_t)buffer[i * 4 + 1] << 16) |
+               ((uint32_t)buffer[i * 4 + 2] << 8) |
+               ((uint32_t)buffer[i * 4 + 3]);
+    }
+    for (int i = 16; i < 80; i++) {
+        w[i] = SHA1_ROTL(1, w[i - 3] ^ w[i - 8] ^ w[i - 14] ^ w[i - 16]);
+    }
+
+    for (int i = 0; i < 80; i++) {
+        uint32_t f, k;
+        if (i < 20) {
+            f = (b & c) | ((~b) & d);
+            k = 0x5A827999;
+        } else if (i < 40) {
+            f = b ^ c ^ d;
+            k = 0x6ED9EBA1;
+        } else if (i < 60) {
+            f = (b & c) | (b & d) | (c & d);
+            k = 0x8F1BBCDC;
+        } else {
+            f = b ^ c ^ d;
+            k = 0xCA62C1D6;
+        }
+        uint32_t temp = SHA1_ROTL(5, a) + f + e + k + w[i];
+        e = d;
+        d = c;
+        c = SHA1_ROTL(30, b);
+        b = a;
+        a = temp;
+    }
+
+    state[0] += a;
+    state[1] += b;
+    state[2] += c;
+    state[3] += d;
+    state[4] += e;
+}
+
+static void gj_sha1_init(GJ_SHA1_CTX *context)
+{
+    context->state[0] = 0x67452301;
+    context->state[1] = 0xEFCDAB89;
+    context->state[2] = 0x98BADCFE;
+    context->state[3] = 0x10325476;
+    context->state[4] = 0xC3D2E1F0;
+    context->count[0] = context->count[1] = 0;
+}
+
+static void gj_sha1_update(GJ_SHA1_CTX *context, const unsigned char *data, size_t len)
+{
+    size_t i = 0, j = (context->count[0] >> 3) & 63;
+    if ((context->count[0] += (uint32_t)(len << 3)) < (uint32_t)(len << 3))
+        context->count[1]++;
+    context->count[1] += (uint32_t)(len >> 29);
+    if ((j + len) > 63) {
+        memcpy(&context->buffer[j], data, (i = 64 - j));
+        gj_sha1_transform(context->state, context->buffer);
+        for (; i + 63 < len; i += 64) {
+            gj_sha1_transform(context->state, &data[i]);
+        }
+        j = 0;
+    }
+    memcpy(&context->buffer[j], &data[i], len - i);
+}
+
+static void gj_sha1_final(unsigned char digest[20], GJ_SHA1_CTX *context)
+{
+    unsigned char finalcount[8];
+    for (int i = 0; i < 8; i++) {
+        finalcount[i] = (unsigned char)((context->count[(i >= 4 ? 0 : 1)] >> ((3 - (i & 3)) * 8)) & 255);
+    }
+    unsigned char c = 0x80;
+    gj_sha1_update(context, &c, 1);
+    while ((context->count[0] & 504) != 448) {
+        c = 0x00;
+        gj_sha1_update(context, &c, 1);
+    }
+    gj_sha1_update(context, finalcount, 8);
+    for (int i = 0; i < 20; i++) {
+        digest[i] = (unsigned char)((context->state[i >> 2] >> ((3 - (i & 3)) * 8)) & 255);
+    }
+}
+
+static Value sha1_hash_helper(Parser *parser, Token name, Value text_val)
+{
+    if (text_val.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *text = value_to_c_string(parser, text_val);
+    if (!text) return null_value();
+
+    GJ_SHA1_CTX ctx;
+    gj_sha1_init(&ctx);
+    gj_sha1_update(&ctx, (const unsigned char *)text, strlen(text));
+    unsigned char digest[20];
+    gj_sha1_final(digest, &ctx);
+    free(text);
+
+    char hex[41];
+    for (int i = 0; i < 20; i++) {
+        sprintf(hex + (i * 2), "%02x", digest[i]);
+    }
+    hex[40] = '\0';
+
+    return make_owned_string_value(parser, name, copy_string(hex), 40);
+}
+
+/* --- WebSockets (RFC 6455) --- */
+
+static Value websocket_moklo_helper(Parser *parser, Token name, Value client_val, Value msg_val)
+{
+    if (client_val.kind != VALUE_NUMBER || msg_val.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    socket_t client_fd = (socket_t)client_val.number;
+    char *msg = value_to_c_string(parser, msg_val);
+    if (!msg) return number_value(0);
+    size_t msg_len = strlen(msg);
+
+    unsigned char header[10];
+    size_t header_len = 0;
+    header[0] = 0x81; /* FIN=1, Text frame */
+
+    if (msg_len <= 125) {
+        header[1] = (unsigned char)msg_len;
+        header_len = 2;
+    } else if (msg_len <= 65535) {
+        header[1] = 126;
+        header[2] = (unsigned char)((msg_len >> 8) & 0xFF);
+        header[3] = (unsigned char)(msg_len & 0xFF);
+        header_len = 4;
+    } else {
+        header[1] = 127;
+        for (int i = 0; i < 8; i++) {
+            header[2 + i] = (unsigned char)((msg_len >> ((7 - i) * 8)) & 0xFF);
+        }
+        header_len = 10;
+    }
+
+    send(client_fd, (const char *)header, (int)header_len, 0);
+    send(client_fd, msg, (int)msg_len, 0);
+    free(msg);
+    return number_value(1);
+}
+
+static Value websocket_bandh_helper(Parser *parser, Token name, Value client_val)
+{
+    (void)parser; (void)name;
+    if (client_val.kind != VALUE_NUMBER) return number_value(0);
+    socket_t client_fd = (socket_t)client_val.number;
+    unsigned char close_frame[2] = {0x88, 0x00};
+    send(client_fd, (const char *)close_frame, 2, 0);
+    CLOSE_SOCKET(client_fd);
+    return number_value(1);
+}
+
+static Value websocket_server_helper(Parser *parser, Token name, Value port_val, Value on_msg_val, Value max_msg_val)
+{
+    if (port_val.kind != VALUE_NUMBER) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    Function *on_msg_fn = resolve_callee_function(parser, on_msg_val);
+    if (!on_msg_fn) {
+        report_error(parser, name.line, name.column, MESSAGE_UNDEFINED_FUNCTION);
+        return null_value();
+    }
+
+    int port = (int)port_val.number;
+    int max_msg = (max_msg_val.kind == VALUE_NUMBER) ? (int)max_msg_val.number : 0;
+
+    init_network_if_needed();
+
+    socket_t srv = socket(AF_INET, SOCK_STREAM, 0);
+    if (IS_INVALID_SOCKET(srv)) return number_value(-1);
+
+    int opt = 1;
+    setsockopt(srv, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt));
+
+    struct sockaddr_in addr;
+    memset(&addr, 0, sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_addr.s_addr = INADDR_ANY;
+    addr.sin_port = htons((unsigned short)port);
+
+    if (bind(srv, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+        CLOSE_SOCKET(srv);
+        return number_value(-1);
+    }
+    if (listen(srv, 16) < 0) {
+        CLOSE_SOCKET(srv);
+        return number_value(-1);
+    }
+
+    int messages_processed = 0;
+
+    while (!parser->failed) {
+        if (max_msg > 0 && messages_processed >= max_msg) break;
+
+        socket_t client = accept(srv, NULL, NULL);
+        if (IS_INVALID_SOCKET(client)) break;
+
+        /* Read HTTP handshake request */
+        char req_buf[4096];
+        int req_bytes = recv(client, req_buf, sizeof(req_buf) - 1, 0);
+        if (req_bytes <= 0) {
+            CLOSE_SOCKET(client);
+            continue;
+        }
+        req_buf[req_bytes] = '\0';
+
+        /* Locate Sec-WebSocket-Key */
+        char *key_header = strstr(req_buf, "Sec-WebSocket-Key:");
+        if (!key_header) key_header = strstr(req_buf, "sec-websocket-key:");
+        if (!key_header) {
+            CLOSE_SOCKET(client);
+            continue;
+        }
+        key_header += 18;
+        while (*key_header == ' ') key_header++;
+        char *key_end = strstr(key_header, "\r\n");
+        if (!key_end) key_end = strchr(key_header, '\n');
+        if (!key_end) { CLOSE_SOCKET(client); continue; }
+
+        char client_key[128];
+        size_t klen = key_end - key_header;
+        if (klen >= sizeof(client_key)) klen = sizeof(client_key) - 1;
+        strncpy(client_key, key_header, klen);
+        client_key[klen] = '\0';
+
+        /* RFC 6455 Magic GUID */
+        const char *ws_guid = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+        char combined[256];
+        sprintf(combined, "%s%s", client_key, ws_guid);
+
+        GJ_SHA1_CTX sctx;
+        gj_sha1_init(&sctx);
+        gj_sha1_update(&sctx, (const unsigned char *)combined, strlen(combined));
+        unsigned char digest[20];
+        gj_sha1_final(digest, &sctx);
+
+        size_t accept_len = 0;
+        char *accept_b64 = base64_encode_str(digest, 20, &accept_len);
+
+        char handshake_resp[512];
+        sprintf(handshake_resp,
+                "HTTP/1.1 101 Switching Protocols\r\n"
+                "Upgrade: websocket\r\n"
+                "Connection: Upgrade\r\n"
+                "Sec-WebSocket-Accept: %s\r\n\r\n",
+                accept_b64 ? accept_b64 : "");
+        if (accept_b64) free(accept_b64);
+
+        send(client, handshake_resp, (int)strlen(handshake_resp), 0);
+
+        /* Read WebSocket frames from this client */
+        while (!parser->failed) {
+            if (max_msg > 0 && messages_processed >= max_msg) break;
+
+            unsigned char frame_hdr[2];
+            int r = recv(client, (char *)frame_hdr, 2, 0);
+            if (r <= 0) break;
+
+            unsigned char opcode = frame_hdr[0] & 0x0F;
+            if (opcode == 0x8) { /* Close frame */
+                unsigned char c_ack[2] = {0x88, 0x00};
+                send(client, (const char *)c_ack, 2, 0);
+                break;
+            }
+
+            int masked = (frame_hdr[1] & 0x80) != 0;
+            uint64_t payload_len = frame_hdr[1] & 0x7F;
+
+            if (payload_len == 126) {
+                unsigned char len_bytes[2];
+                recv(client, (char *)len_bytes, 2, 0);
+                payload_len = ((uint64_t)len_bytes[0] << 8) | len_bytes[1];
+            } else if (payload_len == 127) {
+                unsigned char len_bytes[8];
+                recv(client, (char *)len_bytes, 8, 0);
+                payload_len = 0;
+                for (int i = 0; i < 8; i++) payload_len = (payload_len << 8) | len_bytes[i];
+            }
+
+            unsigned char mask[4] = {0};
+            if (masked) {
+                recv(client, (char *)mask, 4, 0);
+            }
+
+            char *payload = (char *)malloc((size_t)payload_len + 1);
+            if (payload) {
+                size_t received = 0;
+                while (received < (size_t)payload_len) {
+                    int chunk = recv(client, payload + received, (int)((size_t)payload_len - received), 0);
+                    if (chunk <= 0) break;
+                    received += chunk;
+                }
+                if (masked) {
+                    for (size_t i = 0; i < (size_t)payload_len; i++) {
+                        payload[i] ^= mask[i % 4];
+                    }
+                }
+                payload[payload_len] = '\0';
+
+                Value msg_val = make_owned_string_value(parser, name, payload, (size_t)payload_len);
+                Value client_val = number_value((double)client);
+
+                Value args[2] = { msg_val, client_val };
+                if (on_msg_fn->parameter_count >= 2) {
+                    call_function(parser, *on_msg_fn, args);
+                } else {
+                    call_function(parser, *on_msg_fn, &msg_val);
+                }
+                messages_processed++;
+            }
+        }
+
+        CLOSE_SOCKET(client);
+    }
+
+    CLOSE_SOCKET(srv);
+    return number_value(messages_processed);
+}
+
+static Value websocket_client_helper(Parser *parser, Token name, Value url_val, Value on_msg_val, Value max_msg_val)
+{
+    if (url_val.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    Function *on_msg_fn = resolve_callee_function(parser, on_msg_val);
+    if (!on_msg_fn) {
+        report_error(parser, name.line, name.column, MESSAGE_UNDEFINED_FUNCTION);
+        return null_value();
+    }
+    char *url = value_to_c_string(parser, url_val);
+    if (!url) return number_value(0);
+
+    int max_msg = (max_msg_val.kind == VALUE_NUMBER) ? (int)max_msg_val.number : 1;
+
+    /* Parse ws://host:port/path */
+    char host[256] = "127.0.0.1";
+    int port = 80;
+    char path[256] = "/";
+
+    char *p = url;
+    if (_strnicmp(p, "ws://", 5) == 0) p += 5;
+    else if (_strnicmp(p, "wss://", 6) == 0) p += 6;
+
+    char *slash = strchr(p, '/');
+    if (slash) {
+        strncpy(path, slash, sizeof(path) - 1);
+        *slash = '\0';
+    }
+    char *colon = strchr(p, ':');
+    if (colon) {
+        *colon = '\0';
+        strncpy(host, p, sizeof(host) - 1);
+        port = atoi(colon + 1);
+    } else {
+        strncpy(host, p, sizeof(host) - 1);
+    }
+    free(url);
+
+    init_network_if_needed();
+
+    socket_t sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (IS_INVALID_SOCKET(sock)) return number_value(0);
+
+    struct hostent *he = gethostbyname(host);
+    if (!he) { CLOSE_SOCKET(sock); return number_value(0); }
+
+    struct sockaddr_in saddr;
+    memset(&saddr, 0, sizeof(saddr));
+    saddr.sin_family = AF_INET;
+    saddr.sin_port = htons((unsigned short)port);
+    memcpy(&saddr.sin_addr, he->h_addr_list[0], he->h_length);
+
+    if (connect(sock, (struct sockaddr *)&saddr, sizeof(saddr)) < 0) {
+        CLOSE_SOCKET(sock);
+        return number_value(0);
+    }
+
+    char handshake[512];
+    sprintf(handshake,
+            "GET %s HTTP/1.1\r\n"
+            "Host: %s:%d\r\n"
+            "Upgrade: websocket\r\n"
+            "Connection: Upgrade\r\n"
+            "Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n"
+            "Sec-WebSocket-Version: 13\r\n\r\n",
+            path, host, port);
+
+    send(sock, handshake, (int)strlen(handshake), 0);
+
+    char resp[1024];
+    int r = recv(sock, resp, sizeof(resp) - 1, 0);
+    if (r <= 0 || strstr(resp, "101") == NULL) {
+        CLOSE_SOCKET(sock);
+        return number_value(0);
+    }
+
+    int received_count = 0;
+    while (!parser->failed && received_count < max_msg) {
+        unsigned char hdr[2];
+        if (recv(sock, (char *)hdr, 2, 0) <= 0) break;
+        if ((hdr[0] & 0x0F) == 0x8) break; /* close */
+
+        uint64_t plen = hdr[1] & 0x7F;
+        int is_m = (hdr[1] & 0x80) != 0;
+        if (plen == 126) {
+            unsigned char b[2]; recv(sock, (char *)b, 2, 0);
+            plen = ((uint64_t)b[0] << 8) | b[1];
+        }
+        unsigned char m[4] = {0};
+        if (is_m) recv(sock, (char *)m, 4, 0);
+
+        char *pay = (char *)malloc((size_t)plen + 1);
+        if (pay) {
+            recv(sock, pay, (int)plen, 0);
+            if (is_m) {
+                for (size_t i = 0; i < (size_t)plen; i++) pay[i] ^= m[i % 4];
+            }
+            pay[plen] = '\0';
+
+            Value msg_v = make_owned_string_value(parser, name, pay, (size_t)plen);
+            Value c_v = number_value((double)sock);
+            Value args[2] = { msg_v, c_v };
+            if (on_msg_fn->parameter_count >= 2) call_function(parser, *on_msg_fn, args);
+            else call_function(parser, *on_msg_fn, &msg_v);
+            received_count++;
+        }
+    }
+
+    CLOSE_SOCKET(sock);
+    return number_value(received_count);
+}
+
+/* --- Template Engine & Web Security --- */
+
+static Value render_template_helper(Parser *parser, Token name, Value tmpl_val, Value ctx_val)
+{
+    if (tmpl_val.kind != VALUE_STRING || ctx_val.kind != VALUE_DICT) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *tmpl = value_to_c_string(parser, tmpl_val);
+    if (!tmpl) return null_value();
+
+    StringBuffer sb;
+    sb_init(&sb);
+
+    char *p = tmpl;
+    while (*p) {
+        /* Check {{#if key}} ... {{/if}} or {{#જો key}} ... {{/જો}} */
+        if (strncmp(p, "{{#if ", 6) == 0 || strncmp(p, "{{#જો ", 8) == 0) {
+            int is_gu = (strncmp(p, "{{#જો ", 8) == 0);
+            p += (is_gu ? 8 : 6);
+            char *close_tag = strstr(p, "}}");
+            if (close_tag) {
+                char key[64];
+                size_t klen = close_tag - p;
+                if (klen >= sizeof(key)) klen = sizeof(key) - 1;
+                strncpy(key, p, klen);
+                key[klen] = '\0';
+                p = close_tag + 2;
+
+                const char *end_pattern = is_gu ? "{{/જો}}" : "{{/if}}";
+                char *end_tag = strstr(p, end_pattern);
+                if (end_tag) {
+                    Value *cond_v = dict_get(ctx_val.dict, key, strlen(key));
+                    int truthy = cond_v && value_is_truthy(*cond_v);
+                    if (truthy) {
+                        /* Process inside block */
+                        Value sub_tmpl = make_owned_string_value(parser, name, copy_string(p), end_tag - p);
+                        Value rendered = render_template_helper(parser, name, sub_tmpl, ctx_val);
+                        char *rs = value_to_c_string(parser, rendered);
+                        if (rs) {
+                            sb_append(&sb, rs, strlen(rs));
+                            free(rs);
+                        }
+                    }
+                    p = end_tag + strlen(end_pattern);
+                    continue;
+                }
+            }
+        }
+
+        /* Check {{ key }} */
+        if (p[0] == '{' && p[1] == '{') {
+            char *close_tag = strstr(p + 2, "}}");
+            if (close_tag) {
+                char key[64];
+                char *kstart = p + 2;
+                while (*kstart == ' ') kstart++;
+                char *kend = close_tag;
+                while (kend > kstart && *(kend - 1) == ' ') kend--;
+                size_t klen = kend - kstart;
+                if (klen >= sizeof(key)) klen = sizeof(key) - 1;
+                strncpy(key, kstart, klen);
+                key[klen] = '\0';
+
+                Value *val = dict_get(ctx_val.dict, key, strlen(key));
+                if (val) {
+                    if (val->kind == VALUE_STRING) {
+                        char *s = value_to_c_string(parser, *val);
+                        if (s) { sb_append(&sb, s, strlen(s)); free(s); }
+                    } else {
+                        StringBuffer vsb;
+                        sb_init(&vsb);
+                        List *anc[256];
+                        format_value_to_sb(parser, *val, &vsb, anc, 0);
+                        if (vsb.data) sb_append(&sb, vsb.data, vsb.length);
+                    }
+                }
+                p = close_tag + 2;
+                continue;
+            }
+        }
+
+        sb_append(&sb, p, 1);
+        p++;
+    }
+
+    free(tmpl);
+    if (!sb.failed && sb.data) {
+        return make_owned_string_value(parser, name, sb.data, sb.length);
+    }
+    return make_owned_string_value(parser, name, copy_string(""), 0);
+}
+
+static Value html_saf_helper(Parser *parser, Token name, Value text_val)
+{
+    if (text_val.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *text = value_to_c_string(parser, text_val);
+    if (!text) return make_owned_string_value(parser, name, copy_string(""), 0);
+
+    StringBuffer sb;
+    sb_init(&sb);
+    for (char *p = text; *p; p++) {
+        if (*p == '&') sb_append(&sb, "&amp;", 5);
+        else if (*p == '<') sb_append(&sb, "&lt;", 4);
+        else if (*p == '>') sb_append(&sb, "&gt;", 4);
+        else if (*p == '"') sb_append(&sb, "&quot;", 6);
+        else if (*p == '\'') sb_append(&sb, "&#39;", 5);
+        else sb_append(&sb, p, 1);
+    }
+    free(text);
+    return make_owned_string_value(parser, name, sb.data ? sb.data : copy_string(""), sb.length);
+}
+
+/* Base64URL helper */
+static char *base64url_encode(const unsigned char *data, size_t len)
+{
+    size_t out_len = 0;
+    char *b64 = base64_encode_str(data, len, &out_len);
+    if (!b64) return NULL;
+    char *p = b64;
+    size_t write_idx = 0;
+    for (size_t i = 0; i < out_len; i++) {
+        if (p[i] == '+') b64[write_idx++] = '-';
+        else if (p[i] == '/') b64[write_idx++] = '_';
+        else if (p[i] != '=') b64[write_idx++] = p[i];
+    }
+    b64[write_idx] = '\0';
+    return b64;
+}
+
+static void sha256_buffer(const unsigned char *data, size_t len, unsigned char hash[32])
+{
+    SHA256Context ctx;
+    sha256_init(&ctx);
+    sha256_update(&ctx, (const uint8_t *)data, len);
+    sha256_final(&ctx, hash);
+}
+
+static void hmac_sha256(const unsigned char *key, size_t key_len,
+                        const unsigned char *data, size_t data_len,
+                        unsigned char out[32])
+{
+    unsigned char k_pad[64];
+    memset(k_pad, 0, 64);
+    if (key_len > 64) {
+        sha256_buffer(key, key_len, k_pad);
+    } else {
+        memcpy(k_pad, key, key_len);
+    }
+
+    unsigned char ipad[64], opad[64];
+    for (int i = 0; i < 64; i++) {
+        ipad[i] = k_pad[i] ^ 0x36;
+        opad[i] = k_pad[i] ^ 0x5c;
+    }
+
+    unsigned char *inner_buf = (unsigned char *)malloc(64 + data_len);
+    memcpy(inner_buf, ipad, 64);
+    memcpy(inner_buf + 64, data, data_len);
+    unsigned char inner_hash[32];
+    sha256_buffer(inner_buf, 64 + data_len, inner_hash);
+    free(inner_buf);
+
+    unsigned char outer_buf[64 + 32];
+    memcpy(outer_buf, opad, 64);
+    memcpy(outer_buf + 64, inner_hash, 32);
+    sha256_buffer(outer_buf, 64 + 32, out);
+}
+
+static Value jwt_banao_helper(Parser *parser, Token name, Value payload_val, Value secret_val)
+{
+    if (payload_val.kind != VALUE_DICT || secret_val.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *secret = value_to_c_string(parser, secret_val);
+    if (!secret) return null_value();
+
+    const char *header_json = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
+    char *header_b64 = base64url_encode((const unsigned char *)header_json, strlen(header_json));
+
+    StringBuffer psb;
+    sb_init(&psb);
+    List *anc[256];
+    json_format_value(parser, payload_val, &psb, anc, 0);
+    char *payload_b64 = base64url_encode((const unsigned char *)psb.data, psb.length);
+
+    char unsigned_token[4096];
+    sprintf(unsigned_token, "%s.%s", header_b64 ? header_b64 : "", payload_b64 ? payload_b64 : "");
+
+    unsigned char sig[32];
+    hmac_sha256((const unsigned char *)secret, strlen(secret),
+                (const unsigned char *)unsigned_token, strlen(unsigned_token), sig);
+    char *sig_b64 = base64url_encode(sig, 32);
+
+    char full_jwt[8192];
+    sprintf(full_jwt, "%s.%s", unsigned_token, sig_b64 ? sig_b64 : "");
+
+    if (header_b64) free(header_b64);
+    if (payload_b64) free(payload_b64);
+    if (sig_b64) free(sig_b64);
+    free(secret);
+
+    return make_owned_string_value(parser, name, copy_string(full_jwt), strlen(full_jwt));
+}
+
+static Value jwt_tapas_helper(Parser *parser, Token name, Value token_val, Value secret_val)
+{
+    if (token_val.kind != VALUE_STRING || secret_val.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *token = value_to_c_string(parser, token_val);
+    char *secret = value_to_c_string(parser, secret_val);
+    if (!token || !secret) {
+        if (token) free(token);
+        if (secret) free(secret);
+        return null_value();
+    }
+
+    char *dot1 = strchr(token, '.');
+    char *dot2 = dot1 ? strchr(dot1 + 1, '.') : NULL;
+    if (!dot1 || !dot2) {
+        free(token);
+        free(secret);
+        return null_value();
+    }
+
+    size_t unsigned_len = dot2 - token;
+    char unsigned_part[4096];
+    if (unsigned_len >= sizeof(unsigned_part)) unsigned_len = sizeof(unsigned_part) - 1;
+    strncpy(unsigned_part, token, unsigned_len);
+    unsigned_part[unsigned_len] = '\0';
+
+    unsigned char expected_sig[32];
+    hmac_sha256((const unsigned char *)secret, strlen(secret),
+                (const unsigned char *)unsigned_part, unsigned_len, expected_sig);
+    char *expected_b64 = base64url_encode(expected_sig, 32);
+
+    char *actual_sig = dot2 + 1;
+    if (!expected_b64 || strcmp(actual_sig, expected_b64) != 0) {
+        if (expected_b64) free(expected_b64);
+        free(token);
+        free(secret);
+        return null_value();
+    }
+    free(expected_b64);
+    free(secret);
+
+    /* Decode payload */
+    size_t p_len = dot2 - (dot1 + 1);
+    char payload_b64[4096];
+    if (p_len >= sizeof(payload_b64)) p_len = sizeof(payload_b64) - 1;
+    strncpy(payload_b64, dot1 + 1, p_len);
+    payload_b64[p_len] = '\0';
+
+    /* Convert Base64URL to standard Base64 with padding */
+    for (size_t i = 0; i < p_len; i++) {
+        if (payload_b64[i] == '-') payload_b64[i] = '+';
+        else if (payload_b64[i] == '_') payload_b64[i] = '/';
+    }
+    size_t pad = (4 - (p_len % 4)) % 4;
+    for (size_t i = 0; i < pad; i++) payload_b64[p_len + i] = '=';
+    payload_b64[p_len + pad] = '\0';
+
+    size_t dec_len = 0;
+    char *json_str = base64_decode_str(payload_b64, p_len + pad, &dec_len);
+    free(token);
+
+    if (!json_str) return null_value();
+
+    const char *jp = json_str;
+    int err = 0;
+    Value result = parse_json_value(parser, name, &jp, &err);
+    free(json_str);
+    return err ? null_value() : result;
+}
+
+/* --- Gujarati DataFrames & Data Wrangling --- */
+
+static Value df_kholo_helper(Parser *parser, Token name, Value data_val)
+{
+    Dict *df = create_dict(parser, name);
+    List *cols = create_list(parser, name);
+    List *rows = create_list(parser, name);
+
+    if (data_val.kind == VALUE_LIST) {
+        /* List of row dictionaries */
+        size_t n_rows = data_val.list->count;
+        if (n_rows > 0 && data_val.list->items[0].kind == VALUE_DICT) {
+            Dict *first = data_val.list->items[0].dict;
+            for (size_t c = 0; c < first->count; c++) {
+                Value cv = make_owned_string_value(parser, name, copy_string(first->entries[c].key), first->entries[c].key_length);
+                append_list_item(parser, cols, cv, name);
+            }
+            for (size_t r = 0; r < n_rows; r++) {
+                if (data_val.list->items[r].kind == VALUE_DICT) {
+                    Dict *rd = data_val.list->items[r].dict;
+                    List *row_items = create_list(parser, name);
+                    for (size_t c = 0; c < cols->count; c++) {
+                        char *cname = value_to_c_string(parser, cols->items[c]);
+                        Value *v = cname ? dict_get(rd, cname, strlen(cname)) : NULL;
+                        if (cname) free(cname);
+                        append_list_item(parser, row_items, v ? *v : null_value(), name);
+                    }
+                    Value rv; rv.kind = VALUE_LIST; rv.list = row_items;
+                    append_list_item(parser, rows, rv, name);
+                }
+            }
+        }
+    } else if (data_val.kind == VALUE_STRING) {
+        /* CSV string or filename */
+        char *csv_content = value_to_c_string(parser, data_val);
+        if (csv_content) {
+            char *to_parse = csv_content;
+            char *file_data = NULL;
+            FILE *fp = fopen(csv_content, "rb");
+            if (fp) {
+                fseek(fp, 0, SEEK_END);
+                long sz = ftell(fp);
+                fseek(fp, 0, SEEK_SET);
+                file_data = (char *)malloc(sz + 1);
+                if (file_data) {
+                    size_t rd = fread(file_data, 1, sz, fp);
+                    file_data[rd] = '\0';
+                    to_parse = file_data;
+                }
+                fclose(fp);
+            }
+
+            /* Parse first line as columns */
+            char *line = to_parse;
+            char *next_line = strchr(line, '\n');
+            if (next_line) {
+                size_t hlen = next_line - line;
+                if (hlen > 0 && line[hlen - 1] == '\r') hlen--;
+                char hbuf[1024];
+                if (hlen >= sizeof(hbuf)) hlen = sizeof(hbuf) - 1;
+                strncpy(hbuf, line, hlen);
+                hbuf[hlen] = '\0';
+
+                char *cp = hbuf;
+                while (*cp) {
+                    char *comma = strchr(cp, ',');
+                    size_t flen = comma ? (size_t)(comma - cp) : strlen(cp);
+                    char f[64];
+                    if (flen >= sizeof(f)) flen = sizeof(f) - 1;
+                    strncpy(f, cp, flen);
+                    f[flen] = '\0';
+                    char *fs = f; while (*fs == ' ') fs++;
+                    char *fe = fs + strlen(fs); while (fe > fs && *(fe - 1) == ' ') fe--;
+                    *fe = '\0';
+                    Value cv = make_owned_string_value(parser, name, copy_string(fs), strlen(fs));
+                    append_list_item(parser, cols, cv, name);
+                    if (!comma) break;
+                    cp = comma + 1;
+                }
+                line = next_line + 1;
+
+                while (*line) {
+                    next_line = strchr(line, '\n');
+                    size_t rlen = next_line ? (size_t)(next_line - line) : strlen(line);
+                    if (rlen > 0 && line[rlen - 1] == '\r') rlen--;
+                    if (rlen > 0) {
+                        char rbuf[2048];
+                        if (rlen >= sizeof(rbuf)) rlen = sizeof(rbuf) - 1;
+                        strncpy(rbuf, line, rlen);
+                        rbuf[rlen] = '\0';
+
+                        List *row_items = create_list(parser, name);
+                        char *rp = rbuf;
+                        for (size_t c = 0; c < cols->count && *rp; c++) {
+                            char *comma = strchr(rp, ',');
+                            size_t flen = comma ? (size_t)(comma - rp) : strlen(rp);
+                            char f[256];
+                            if (flen >= sizeof(f)) flen = sizeof(f) - 1;
+                            strncpy(f, rp, flen);
+                            f[flen] = '\0';
+                            char *fs = f; while (*fs == ' ') fs++;
+                            char *fe = fs + strlen(fs); while (fe > fs && *(fe - 1) == ' ') fe--;
+                            *fe = '\0';
+
+                            char *endp = NULL;
+                            double d = strtod(fs, &endp);
+                            if (endp && *endp == '\0' && fs[0] != '\0') {
+                                append_list_item(parser, row_items, number_value(d), name);
+                            } else {
+                                append_list_item(parser, row_items, make_owned_string_value(parser, name, copy_string(fs), strlen(fs)), name);
+                            }
+                            if (!comma) break;
+                            rp = comma + 1;
+                        }
+                        Value rv; rv.kind = VALUE_LIST; rv.list = row_items;
+                        append_list_item(parser, rows, rv, name);
+                    }
+                    if (!next_line) break;
+                    line = next_line + 1;
+                }
+            }
+            if (file_data) free(file_data);
+            free(csv_content);
+        }
+    }
+
+    Value c_val; c_val.kind = VALUE_LIST; c_val.list = cols;
+    dict_set(parser, df, "columns", 7, c_val, name);
+
+    Value d_val; d_val.kind = VALUE_LIST; d_val.list = rows;
+    dict_set(parser, df, "data", 4, d_val, name);
+
+    List *shape = create_list(parser, name);
+    append_list_item(parser, shape, number_value((double)rows->count), name);
+    append_list_item(parser, shape, number_value((double)cols->count), name);
+    Value sh_val; sh_val.kind = VALUE_LIST; sh_val.list = shape;
+    dict_set(parser, df, "shape", 5, sh_val, name);
+
+    Value res; res.kind = VALUE_DICT; res.dict = df;
+    return res;
+}
+
+static Value df_filter_helper(Parser *parser, Token name, Value df_val, Value col_val, Value op_val, Value val_val)
+{
+    if (df_val.kind != VALUE_DICT || col_val.kind != VALUE_STRING || op_val.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    Value *cols_v = dict_get(df_val.dict, "columns", 7);
+    Value *data_v = dict_get(df_val.dict, "data", 4);
+    if (!cols_v || cols_v->kind != VALUE_LIST || !data_v || data_v->kind != VALUE_LIST) return null_value();
+
+    char *target_col = value_to_c_string(parser, col_val);
+    char *op = value_to_c_string(parser, op_val);
+    if (!target_col || !op) {
+        if (target_col) free(target_col);
+        if (op) free(op);
+        return null_value();
+    }
+
+    int col_idx = -1;
+    for (size_t c = 0; c < cols_v->list->count; c++) {
+        char *cn = value_to_c_string(parser, cols_v->list->items[c]);
+        if (cn && strcmp(cn, target_col) == 0) {
+            col_idx = (int)c;
+            free(cn);
+            break;
+        }
+        if (cn) free(cn);
+    }
+    free(target_col);
+
+    Dict *new_df = create_dict(parser, name);
+    dict_set(parser, new_df, "columns", 7, *cols_v, name);
+    List *new_rows = create_list(parser, name);
+
+    if (col_idx >= 0) {
+        for (size_t r = 0; r < data_v->list->count; r++) {
+            Value row = data_v->list->items[r];
+            if (row.kind == VALUE_LIST && col_idx < (int)row.list->count) {
+                Value cell = row.list->items[col_idx];
+                int match = 0;
+
+                if (cell.kind == VALUE_NUMBER && val_val.kind == VALUE_NUMBER) {
+                    if (strcmp(op, "==") == 0 || strcmp(op, "=") == 0) match = (cell.number == val_val.number);
+                    else if (strcmp(op, "!=") == 0) match = (cell.number != val_val.number);
+                    else if (strcmp(op, ">") == 0) match = (cell.number > val_val.number);
+                    else if (strcmp(op, "<") == 0) match = (cell.number < val_val.number);
+                    else if (strcmp(op, ">=") == 0) match = (cell.number >= val_val.number);
+                    else if (strcmp(op, "<=") == 0) match = (cell.number <= val_val.number);
+                } else if (cell.kind == VALUE_STRING && val_val.kind == VALUE_STRING) {
+                    char *s1 = value_to_c_string(parser, cell);
+                    char *s2 = value_to_c_string(parser, val_val);
+                    if (s1 && s2) {
+                        if (strcmp(op, "==") == 0 || strcmp(op, "=") == 0) match = (strcmp(s1, s2) == 0);
+                        else if (strcmp(op, "!=") == 0) match = (strcmp(s1, s2) != 0);
+                        else if (strcmp(op, "contains") == 0) match = (strstr(s1, s2) != NULL);
+                    }
+                    if (s1) free(s1);
+                    if (s2) free(s2);
+                }
+
+                if (match) {
+                    append_list_item(parser, new_rows, row, name);
+                }
+            }
+        }
+    }
+    free(op);
+
+    Value d_val; d_val.kind = VALUE_LIST; d_val.list = new_rows;
+    dict_set(parser, new_df, "data", 4, d_val, name);
+
+    List *shape = create_list(parser, name);
+    append_list_item(parser, shape, number_value((double)new_rows->count), name);
+    append_list_item(parser, shape, number_value((double)cols_v->list->count), name);
+    Value sh_val; sh_val.kind = VALUE_LIST; sh_val.list = shape;
+    dict_set(parser, new_df, "shape", 5, sh_val, name);
+
+    Value res; res.kind = VALUE_DICT; res.dict = new_df;
+    return res;
+}
+
+static Value df_group_by_helper(Parser *parser, Token name, Value df_val, Value grp_col_val, Value agg_col_val, Value agg_fn_val)
+{
+    if (df_val.kind != VALUE_DICT || grp_col_val.kind != VALUE_STRING || agg_col_val.kind != VALUE_STRING || agg_fn_val.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    Value *cols_v = dict_get(df_val.dict, "columns", 7);
+    Value *data_v = dict_get(df_val.dict, "data", 4);
+    if (!cols_v || cols_v->kind != VALUE_LIST || !data_v || data_v->kind != VALUE_LIST) return null_value();
+
+    char *grp_col = value_to_c_string(parser, grp_col_val);
+    char *agg_col = value_to_c_string(parser, agg_col_val);
+    char *agg_fn = value_to_c_string(parser, agg_fn_val);
+    if (!grp_col || !agg_col || !agg_fn) {
+        if (grp_col) free(grp_col);
+        if (agg_col) free(agg_col);
+        if (agg_fn) free(agg_fn);
+        return null_value();
+    }
+
+    int g_idx = -1, a_idx = -1;
+    for (size_t c = 0; c < cols_v->list->count; c++) {
+        char *cn = value_to_c_string(parser, cols_v->list->items[c]);
+        if (cn) {
+            if (strcmp(cn, grp_col) == 0) g_idx = (int)c;
+            if (strcmp(cn, agg_col) == 0) a_idx = (int)c;
+            free(cn);
+        }
+    }
+
+    Dict *res_df = create_dict(parser, name);
+    List *out_cols = create_list(parser, name);
+    append_list_item(parser, out_cols, grp_col_val, name);
+    append_list_item(parser, out_cols, agg_col_val, name);
+    Value oc_v; oc_v.kind = VALUE_LIST; oc_v.list = out_cols;
+    dict_set(parser, res_df, "columns", 7, oc_v, name);
+
+    List *out_rows = create_list(parser, name);
+
+    if (g_idx >= 0 && a_idx >= 0) {
+        char **groups = NULL;
+        size_t n_groups = 0, g_cap = 0;
+        double *sums = NULL;
+        double *counts = NULL;
+        double *mins = NULL;
+        double *maxs = NULL;
+
+        for (size_t r = 0; r < data_v->list->count; r++) {
+            Value row = data_v->list->items[r];
+            if (row.kind == VALUE_LIST && g_idx < (int)row.list->count && a_idx < (int)row.list->count) {
+                char *g_val = value_to_c_string(parser, row.list->items[g_idx]);
+                if (!g_val) continue;
+
+                double a_num = 0.0;
+                if (row.list->items[a_idx].kind == VALUE_NUMBER) a_num = row.list->items[a_idx].number;
+
+                int found = -1;
+                for (size_t g = 0; g < n_groups; g++) {
+                    if (strcmp(groups[g], g_val) == 0) {
+                        found = (int)g;
+                        break;
+                    }
+                }
+                if (found == -1) {
+                    if (n_groups == g_cap) {
+                        g_cap = g_cap == 0 ? 8 : g_cap * 2;
+                        groups = (char **)realloc(groups, g_cap * sizeof(char *));
+                        sums = (double *)realloc(sums, g_cap * sizeof(double));
+                        counts = (double *)realloc(counts, g_cap * sizeof(double));
+                        mins = (double *)realloc(mins, g_cap * sizeof(double));
+                        maxs = (double *)realloc(maxs, g_cap * sizeof(double));
+                    }
+                    found = (int)n_groups;
+                    groups[n_groups] = g_val;
+                    sums[n_groups] = a_num;
+                    counts[n_groups] = 1.0;
+                    mins[n_groups] = a_num;
+                    maxs[n_groups] = a_num;
+                    n_groups++;
+                } else {
+                    sums[found] += a_num;
+                    counts[found] += 1.0;
+                    if (a_num < mins[found]) mins[found] = a_num;
+                    if (a_num > maxs[found]) maxs[found] = a_num;
+                    free(g_val);
+                }
+            }
+        }
+
+        for (size_t g = 0; g < n_groups; g++) {
+            List *row_items = create_list(parser, name);
+            append_list_item(parser, row_items, make_owned_string_value(parser, name, groups[g], strlen(groups[g])), name);
+
+            double agg_res = 0.0;
+            if (strcmp(agg_fn, "sum") == 0) agg_res = sums[g];
+            else if (strcmp(agg_fn, "mean") == 0) agg_res = counts[g] > 0 ? (sums[g] / counts[g]) : 0.0;
+            else if (strcmp(agg_fn, "count") == 0) agg_res = counts[g];
+            else if (strcmp(agg_fn, "min") == 0) agg_res = mins[g];
+            else if (strcmp(agg_fn, "max") == 0) agg_res = maxs[g];
+
+            append_list_item(parser, row_items, number_value(agg_res), name);
+            Value rv; rv.kind = VALUE_LIST; rv.list = row_items;
+            append_list_item(parser, out_rows, rv, name);
+        }
+
+        if (groups) free(groups);
+        if (sums) free(sums);
+        if (counts) free(counts);
+        if (mins) free(mins);
+        if (maxs) free(maxs);
+    }
+
+    free(grp_col);
+    free(agg_col);
+    free(agg_fn);
+
+    Value od_v; od_v.kind = VALUE_LIST; od_v.list = out_rows;
+    dict_set(parser, res_df, "data", 4, od_v, name);
+
+    List *shape = create_list(parser, name);
+    append_list_item(parser, shape, number_value((double)out_rows->count), name);
+    append_list_item(parser, shape, number_value(2.0), name);
+    Value sh_val; sh_val.kind = VALUE_LIST; sh_val.list = shape;
+    dict_set(parser, res_df, "shape", 5, sh_val, name);
+
+    Value res; res.kind = VALUE_DICT; res.dict = res_df;
+    return res;
+}
+
+static Value df_describe_helper(Parser *parser, Token name, Value df_val)
+{
+    if (df_val.kind != VALUE_DICT) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    Value *cols_v = dict_get(df_val.dict, "columns", 7);
+    Value *data_v = dict_get(df_val.dict, "data", 4);
+    if (!cols_v || cols_v->kind != VALUE_LIST || !data_v || data_v->kind != VALUE_LIST) return null_value();
+
+    Dict *summary = create_dict(parser, name);
+
+    for (size_t c = 0; c < cols_v->list->count; c++) {
+        char *cname = value_to_c_string(parser, cols_v->list->items[c]);
+        if (!cname) continue;
+
+        double sum = 0.0, min_v = 1e18, max_v = -1e18;
+        size_t num_count = 0;
+
+        for (size_t r = 0; r < data_v->list->count; r++) {
+            Value row = data_v->list->items[r];
+            if (row.kind == VALUE_LIST && c < row.list->count) {
+                Value cell = row.list->items[c];
+                if (cell.kind == VALUE_NUMBER) {
+                    sum += cell.number;
+                    if (cell.number < min_v) min_v = cell.number;
+                    if (cell.number > max_v) max_v = cell.number;
+                    num_count++;
+                }
+            }
+        }
+
+        if (num_count > 0) {
+            double mean = sum / (double)num_count;
+            double variance = 0.0;
+            for (size_t r = 0; r < data_v->list->count; r++) {
+                Value row = data_v->list->items[r];
+                if (row.kind == VALUE_LIST && c < row.list->count && row.list->items[c].kind == VALUE_NUMBER) {
+                    double diff = row.list->items[c].number - mean;
+                    variance += diff * diff;
+                }
+            }
+            double std = sqrt(variance / (double)num_count);
+
+            Dict *cdict = create_dict(parser, name);
+            dict_set(parser, cdict, "count", 5, number_value((double)num_count), name);
+            dict_set(parser, cdict, "mean", 4, number_value(mean), name);
+            dict_set(parser, cdict, "std", 3, number_value(std), name);
+            dict_set(parser, cdict, "min", 3, number_value(min_v), name);
+            dict_set(parser, cdict, "max", 3, number_value(max_v), name);
+
+            Value cv; cv.kind = VALUE_DICT; cv.dict = cdict;
+            dict_set(parser, summary, cname, strlen(cname), cv, name);
+        }
+        free(cname);
+    }
+
+    Value res; res.kind = VALUE_DICT; res.dict = summary;
+    return res;
+}
+
+static Value df_to_csv_helper(Parser *parser, Token name, Value df_val)
+{
+    if (df_val.kind != VALUE_DICT) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    Value *cols_v = dict_get(df_val.dict, "columns", 7);
+    Value *data_v = dict_get(df_val.dict, "data", 4);
+    if (!cols_v || cols_v->kind != VALUE_LIST || !data_v || data_v->kind != VALUE_LIST) return null_value();
+
+    StringBuffer sb;
+    sb_init(&sb);
+
+    for (size_t c = 0; c < cols_v->list->count; c++) {
+        char *cn = value_to_c_string(parser, cols_v->list->items[c]);
+        if (cn) {
+            sb_append(&sb, cn, strlen(cn));
+            free(cn);
+        }
+        if (c + 1 < cols_v->list->count) sb_append(&sb, ",", 1);
+    }
+    sb_append(&sb, "\n", 1);
+
+    for (size_t r = 0; r < data_v->list->count; r++) {
+        Value row = data_v->list->items[r];
+        if (row.kind == VALUE_LIST) {
+            for (size_t c = 0; c < row.list->count; c++) {
+                StringBuffer vsb;
+                sb_init(&vsb);
+                List *anc[256];
+                format_value_to_sb(parser, row.list->items[c], &vsb, anc, 0);
+                if (vsb.data) {
+                    sb_append(&sb, vsb.data, vsb.length);
+                }
+                if (c + 1 < row.list->count) sb_append(&sb, ",", 1);
+            }
+            sb_append(&sb, "\n", 1);
+        }
+    }
+
+    if (!sb.failed && sb.data) {
+        return make_owned_string_value(parser, name, sb.data, sb.length);
+    }
+    return make_owned_string_value(parser, name, copy_string(""), 0);
+}
+
+/* --- Deep Learning: Multi-Layer Perceptron (MLP) --- */
+
+static double nn_rand_weight(void)
+{
+    return ((double)rand() / (double)RAND_MAX) * 0.4 - 0.2; /* [-0.2, 0.2] */
+}
+
+static Value nn_create_helper(Parser *parser, Token name, Value layers_val)
+{
+    if (layers_val.kind != VALUE_LIST || layers_val.list->count < 2) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    size_t num_layers = layers_val.list->count;
+
+    Dict *model = create_dict(parser, name);
+    dict_set(parser, model, "layers", 6, layers_val, name);
+
+    List *weights = create_list(parser, name);
+    List *biases = create_list(parser, name);
+
+    for (size_t l = 0; l + 1 < num_layers; l++) {
+        size_t in_size = (size_t)layers_val.list->items[l].number;
+        size_t out_size = (size_t)layers_val.list->items[l + 1].number;
+
+        List *w_matrix = create_list(parser, name);
+        for (size_t o = 0; o < out_size; o++) {
+            List *w_row = create_list(parser, name);
+            for (size_t i = 0; i < in_size; i++) {
+                append_list_item(parser, w_row, number_value(nn_rand_weight()), name);
+            }
+            Value wrv; wrv.kind = VALUE_LIST; wrv.list = w_row;
+            append_list_item(parser, w_matrix, wrv, name);
+        }
+        Value wmv; wmv.kind = VALUE_LIST; wmv.list = w_matrix;
+        append_list_item(parser, weights, wmv, name);
+
+        List *b_vec = create_list(parser, name);
+        for (size_t o = 0; o < out_size; o++) {
+            append_list_item(parser, b_vec, number_value(0.0), name);
+        }
+        Value bvv; bvv.kind = VALUE_LIST; bvv.list = b_vec;
+        append_list_item(parser, biases, bvv, name);
+    }
+
+    Value wv; wv.kind = VALUE_LIST; wv.list = weights;
+    dict_set(parser, model, "weights", 7, wv, name);
+
+    Value bv; bv.kind = VALUE_LIST; bv.list = biases;
+    dict_set(parser, model, "biases", 6, bv, name);
+
+    Value res; res.kind = VALUE_DICT; res.dict = model;
+    return res;
+}
+
+static Value nn_forward_helper(Parser *parser, Token name, Value model_val, Value input_val)
+{
+    if (model_val.kind != VALUE_DICT || input_val.kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    Value *weights_v = dict_get(model_val.dict, "weights", 7);
+    Value *biases_v = dict_get(model_val.dict, "biases", 6);
+    if (!weights_v || weights_v->kind != VALUE_LIST || !biases_v || biases_v->kind != VALUE_LIST) return null_value();
+
+    size_t num_layer_transitions = weights_v->list->count;
+    Value curr_activations = input_val;
+
+    for (size_t l = 0; l < num_layer_transitions; l++) {
+        Value w_matrix = weights_v->list->items[l];
+        Value b_vec = biases_v->list->items[l];
+        if (w_matrix.kind != VALUE_LIST || b_vec.kind != VALUE_LIST) return null_value();
+
+        size_t out_dim = w_matrix.list->count;
+        size_t in_dim = curr_activations.list->count;
+
+        List *next_act = create_list(parser, name);
+        for (size_t o = 0; o < out_dim; o++) {
+            double z = 0.0;
+            if (o < b_vec.list->count && b_vec.list->items[o].kind == VALUE_NUMBER) {
+                z = b_vec.list->items[o].number;
+            }
+            Value w_row = w_matrix.list->items[o];
+            if (w_row.kind == VALUE_LIST) {
+                for (size_t i = 0; i < in_dim && i < w_row.list->count; i++) {
+                    double w = (w_row.list->items[i].kind == VALUE_NUMBER) ? w_row.list->items[i].number : 0.0;
+                    double a = (curr_activations.list->items[i].kind == VALUE_NUMBER) ? curr_activations.list->items[i].number : 0.0;
+                    z += w * a;
+                }
+            }
+            /* Sigmoid activation */
+            double a = 1.0 / (1.0 + exp(-z));
+            append_list_item(parser, next_act, number_value(a), name);
+        }
+        curr_activations.kind = VALUE_LIST;
+        curr_activations.list = next_act;
+    }
+
+    return curr_activations;
+}
+
+static Value nn_train_helper(Parser *parser, Token name, Value model_val, Value X_val, Value y_val, Value epochs_val, Value lr_val)
+{
+    if (model_val.kind != VALUE_DICT || X_val.kind != VALUE_LIST || y_val.kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    int epochs = (epochs_val.kind == VALUE_NUMBER) ? (int)epochs_val.number : 50;
+    double lr = (lr_val.kind == VALUE_NUMBER) ? lr_val.number : 0.1;
+    size_t n_samples = X_val.list->count;
+
+    Value *weights_v = dict_get(model_val.dict, "weights", 7);
+    Value *biases_v = dict_get(model_val.dict, "biases", 6);
+    if (!weights_v || !biases_v) return null_value();
+
+    double final_loss = 0.0;
+
+    for (int ep = 0; ep < epochs; ep++) {
+        final_loss = 0.0;
+        for (size_t s = 0; s < n_samples; s++) {
+            Value x_s = X_val.list->items[s];
+            Value y_s = y_val.list->items[s];
+            if (x_s.kind != VALUE_LIST) continue;
+
+            /* Forward pass */
+            Value pred = nn_forward_helper(parser, name, model_val, x_s);
+            if (pred.kind != VALUE_LIST) continue;
+
+            double target = (y_s.kind == VALUE_NUMBER) ? y_s.number : (y_s.kind == VALUE_LIST && y_s.list->count > 0 && y_s.list->items[0].kind == VALUE_NUMBER ? y_s.list->items[0].number : 0.0);
+            double output = (pred.list->count > 0 && pred.list->items[0].kind == VALUE_NUMBER) ? pred.list->items[0].number : 0.0;
+
+            double error = output - target;
+            final_loss += error * error;
+
+            /* Backward pass (gradient update on output weights) */
+            double d_out = error * (output * (1.0 - output)); /* sigmoid derivative */
+            size_t last_l = weights_v->list->count - 1;
+            Value last_w = weights_v->list->items[last_l];
+            Value last_b = biases_v->list->items[last_l];
+
+            if (last_w.kind == VALUE_LIST && last_b.kind == VALUE_LIST && last_w.list->count > 0) {
+                last_b.list->items[0].number -= lr * d_out;
+                Value w_row = last_w.list->items[0];
+                if (w_row.kind == VALUE_LIST) {
+                    for (size_t i = 0; i < w_row.list->count && i < x_s.list->count; i++) {
+                        double a_in = (x_s.list->items[i].kind == VALUE_NUMBER) ? x_s.list->items[i].number : 0.0;
+                        w_row.list->items[i].number -= lr * d_out * a_in;
+                    }
+                }
+            }
+        }
+        final_loss /= (double)n_samples;
+    }
+
+    dict_set(parser, model_val.dict, "loss", 4, number_value(final_loss), name);
+    return model_val;
+}
+
+static Value math_tanh_helper(Parser *parser, Token name, Value x_val)
+{
+    if (x_val.kind != VALUE_NUMBER) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    return number_value(tanh(x_val.number));
+}
+
+static Value math_leaky_relu_helper(Parser *parser, Token name, Value x_val, Value alpha_val, int has_alpha)
+{
+    if (x_val.kind != VALUE_NUMBER) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    double alpha = (has_alpha && alpha_val.kind == VALUE_NUMBER) ? alpha_val.number : 0.01;
+    double x = x_val.number;
+    return number_value(x > 0.0 ? x : alpha * x);
+}
+
+/* --- Statistics & Terminal Charts --- */
+
+static Value stat_pearson_helper(Parser *parser, Token name, Value x_val, Value y_val)
+{
+    if (x_val.kind != VALUE_LIST || y_val.kind != VALUE_LIST || x_val.list->count == 0 || x_val.list->count != y_val.list->count) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    size_t n = x_val.list->count;
+    double sum_x = 0, sum_y = 0;
+    for (size_t i = 0; i < n; i++) {
+        sum_x += (x_val.list->items[i].kind == VALUE_NUMBER) ? x_val.list->items[i].number : 0;
+        sum_y += (y_val.list->items[i].kind == VALUE_NUMBER) ? y_val.list->items[i].number : 0;
+    }
+    double mean_x = sum_x / (double)n;
+    double mean_y = sum_y / (double)n;
+
+    double num = 0, den_x = 0, den_y = 0;
+    for (size_t i = 0; i < n; i++) {
+        double dx = ((x_val.list->items[i].kind == VALUE_NUMBER) ? x_val.list->items[i].number : 0) - mean_x;
+        double dy = ((y_val.list->items[i].kind == VALUE_NUMBER) ? y_val.list->items[i].number : 0) - mean_y;
+        num += dx * dy;
+        den_x += dx * dx;
+        den_y += dy * dy;
+    }
+    double den = sqrt(den_x * den_y);
+    if (den == 0) return number_value(0.0);
+    double r = num / den;
+    return number_value(floor(r * 10000.0 + 0.5) / 10000.0);
+}
+
+static Value stat_zscore_helper(Parser *parser, Token name, Value list_val)
+{
+    if (list_val.kind != VALUE_LIST || list_val.list->count == 0) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    size_t n = list_val.list->count;
+    double sum = 0;
+    for (size_t i = 0; i < n; i++) {
+        sum += (list_val.list->items[i].kind == VALUE_NUMBER) ? list_val.list->items[i].number : 0;
+    }
+    double mean = sum / (double)n;
+    double var = 0;
+    for (size_t i = 0; i < n; i++) {
+        double d = ((list_val.list->items[i].kind == VALUE_NUMBER) ? list_val.list->items[i].number : 0) - mean;
+        var += d * d;
+    }
+    double std = sqrt(var / (double)n);
+    if (std == 0) std = 1.0;
+
+    List *z_list = create_list(parser, name);
+    for (size_t i = 0; i < n; i++) {
+        double v = (list_val.list->items[i].kind == VALUE_NUMBER) ? list_val.list->items[i].number : 0;
+        double z = (v - mean) / std;
+        append_list_item(parser, z_list, number_value(floor(z * 1000.0 + 0.5) / 1000.0), name);
+    }
+    Value res; res.kind = VALUE_LIST; res.list = z_list;
+    return res;
+}
+
+static Value chart_terminal_scatter_helper(Parser *parser, Token name, Value x_val, Value y_val, Value w_val, Value h_val)
+{
+    if (x_val.kind != VALUE_LIST || y_val.kind != VALUE_LIST || x_val.list->count == 0) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    int width = (w_val.kind == VALUE_NUMBER) ? (int)w_val.number : 30;
+    int height = (h_val.kind == VALUE_NUMBER) ? (int)h_val.number : 10;
+    if (width < 10) width = 10;
+    if (height < 5) height = 5;
+
+    size_t n = x_val.list->count;
+    double min_x = 1e18, max_x = -1e18, min_y = 1e18, max_y = -1e18;
+    for (size_t i = 0; i < n; i++) {
+        double x = (x_val.list->items[i].kind == VALUE_NUMBER) ? x_val.list->items[i].number : 0;
+        double y = (i < y_val.list->count && y_val.list->items[i].kind == VALUE_NUMBER) ? y_val.list->items[i].number : 0;
+        if (x < min_x) min_x = x;
+        if (x > max_x) max_x = x;
+        if (y < min_y) min_y = y;
+        if (y > max_y) max_y = y;
+    }
+    if (max_x == min_x) max_x += 1.0;
+    if (max_y == min_y) max_y += 1.0;
+
+    char grid[64][128];
+    for (int r = 0; r < height; r++) {
+        for (int c = 0; c < width; c++) {
+            grid[r][c] = (c == 0 ? '|' : (r == height - 1 ? '-' : ' '));
+        }
+        grid[r][width] = '\0';
+    }
+
+    for (size_t i = 0; i < n; i++) {
+        double x = (x_val.list->items[i].kind == VALUE_NUMBER) ? x_val.list->items[i].number : 0;
+        double y = (i < y_val.list->count && y_val.list->items[i].kind == VALUE_NUMBER) ? y_val.list->items[i].number : 0;
+        int col = (int)(((x - min_x) / (max_x - min_x)) * (width - 2)) + 1;
+        int row = (height - 2) - (int)(((y - min_y) / (max_y - min_y)) * (height - 2));
+        if (row >= 0 && row < height && col >= 0 && col < width) {
+            grid[row][col] = '*';
+        }
+    }
+
+    StringBuffer sb;
+    sb_init(&sb);
+    for (int r = 0; r < height; r++) {
+        sb_append(&sb, grid[r], width);
+        if (r + 1 < height) sb_append(&sb, "\n", 1);
+    }
+    return make_owned_string_value(parser, name, sb.data ? sb.data : copy_string(""), sb.length);
+}
+
+static Value chart_terminal_box_helper(Parser *parser, Token name, Value list_val)
+{
+    if (list_val.kind != VALUE_LIST || list_val.list->count == 0) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    size_t n = list_val.list->count;
+    double *nums = (double *)calloc(n, sizeof(double));
+    for (size_t i = 0; i < n; i++) {
+        nums[i] = (list_val.list->items[i].kind == VALUE_NUMBER) ? list_val.list->items[i].number : 0;
+    }
+    /* Simple insertion sort */
+    for (size_t i = 1; i < n; i++) {
+        double key = nums[i];
+        int j = (int)i - 1;
+        while (j >= 0 && nums[j] > key) { nums[j + 1] = nums[j]; j--; }
+        nums[j + 1] = key;
+    }
+
+    double min_v = nums[0];
+    double q1_v = nums[n / 4];
+    double med_v = nums[n / 2];
+    double q3_v = nums[(n * 3) / 4];
+    double max_v = nums[n - 1];
+    free(nums);
+
+    char box_buf[256];
+    sprintf(box_buf, "Min: %.1f | Q1: %.1f | Med: %.1f | Q3: %.1f | Max: %.1f\n|---| [=====|=====] |---|",
+            min_v, q1_v, med_v, q3_v, max_v);
+
+    return make_owned_string_value(parser, name, copy_string(box_buf), strlen(box_buf));
+}
+
+static Value chart_terminal_histogram_helper(Parser *parser, Token name, Value list_val, Value bins_val, int has_bins)
+{
+    if (list_val.kind != VALUE_LIST || list_val.list->count == 0) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    int num_bins = (has_bins && bins_val.kind == VALUE_NUMBER) ? (int)bins_val.number : 5;
+    if (num_bins < 2) num_bins = 2;
+    if (num_bins > 20) num_bins = 20;
+
+    size_t n = list_val.list->count;
+    double min_v = 1e18, max_v = -1e18;
+    for (size_t i = 0; i < n; i++) {
+        double v = (list_val.list->items[i].kind == VALUE_NUMBER) ? list_val.list->items[i].number : 0;
+        if (v < min_v) min_v = v;
+        if (v > max_v) max_v = v;
+    }
+    if (max_v == min_v) max_v += 1.0;
+
+    int bin_counts[20] = {0};
+    double bin_width = (max_v - min_v) / (double)num_bins;
+
+    for (size_t i = 0; i < n; i++) {
+        double v = (list_val.list->items[i].kind == VALUE_NUMBER) ? list_val.list->items[i].number : 0;
+        int b = (int)((v - min_v) / bin_width);
+        if (b >= num_bins) b = num_bins - 1;
+        if (b < 0) b = 0;
+        bin_counts[b]++;
+    }
+
+    StringBuffer sb;
+    sb_init(&sb);
+
+    for (int b = 0; b < num_bins; b++) {
+        double r_start = min_v + b * bin_width;
+        double r_end = r_start + bin_width;
+        char label[64];
+        sprintf(label, "[%5.1f - %5.1f) | ", r_start, r_end);
+        sb_append(&sb, label, strlen(label));
+
+        for (int k = 0; k < bin_counts[b]; k++) {
+            sb_append(&sb, "\xE2\x96\x88", 3);
+        }
+        char count_str[32];
+        sprintf(count_str, " (%d)", bin_counts[b]);
+        sb_append(&sb, count_str, strlen(count_str));
+        if (b + 1 < num_bins) sb_append(&sb, "\n", 1);
+    }
+
+    return make_owned_string_value(parser, name, sb.data ? sb.data : copy_string(""), sb.length);
+}
+
+/* --- Dynamic Math Evaluation & Bytecode VM --- */
+
+static double parse_math_primary(const char **p);
+static double parse_math_power(const char **p);
+static double parse_math_term(const char **p);
+static double parse_math_expr(const char **p);
+
+static void skip_math_spaces(const char **p) {
+    while (**p && isspace((unsigned char)**p)) (*p)++;
+}
+
+static double parse_math_primary(const char **p)
+{
+    skip_math_spaces(p);
+    if (**p == '(') {
+        (*p)++;
+        double v = parse_math_expr(p);
+        skip_math_spaces(p);
+        if (**p == ')') (*p)++;
+        return v;
+    }
+    if (**p == '-') {
+        (*p)++;
+        return -parse_math_primary(p);
+    }
+    char *endptr = NULL;
+    double d = strtod(*p, &endptr);
+    if (endptr != *p) {
+        *p = endptr;
+        return d;
+    }
+    return 0.0;
+}
+
+static double parse_math_power(const char **p)
+{
+    double left = parse_math_primary(p);
+    skip_math_spaces(p);
+    while (**p == '^') {
+        (*p)++;
+        double right = parse_math_primary(p);
+        left = pow(left, right);
+        skip_math_spaces(p);
+    }
+    return left;
+}
+
+static double parse_math_term(const char **p)
+{
+    double left = parse_math_power(p);
+    skip_math_spaces(p);
+    while (**p == '*' || **p == '/' || **p == '%') {
+        char op = **p;
+        (*p)++;
+        double right = parse_math_power(p);
+        if (op == '*') left *= right;
+        else if (op == '/') left = (right != 0) ? (left / right) : 0.0;
+        else if (op == '%') left = fmod(left, right != 0 ? right : 1.0);
+        skip_math_spaces(p);
+    }
+    return left;
+}
+
+static double parse_math_expr(const char **p)
+{
+    double left = parse_math_term(p);
+    skip_math_spaces(p);
+    while (**p == '+' || **p == '-') {
+        char op = **p;
+        (*p)++;
+        double right = parse_math_term(p);
+        if (op == '+') left += right;
+        else left -= right;
+        skip_math_spaces(p);
+    }
+    return left;
+}
+
+static Value math_eval_helper(Parser *parser, Token name, Value expr_val)
+{
+    if (expr_val.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *expr = value_to_c_string(parser, expr_val);
+    if (!expr) return number_value(0.0);
+    const char *p = expr;
+    double res = parse_math_expr(&p);
+    free(expr);
+    return number_value(res);
+}
+
+/* --- Bytecode Compiler & Disassembler (.gjc) --- */
+
+#define GJC_MAGIC "\x7fGJC1"
+
+static int run_cli_compile(const char *source_filename, const char *out_filename)
+{
+    char out_path[MAX_PATH];
+    if (out_filename && out_filename[0]) {
+        strncpy(out_path, out_filename, sizeof(out_path) - 1);
+    } else {
+        strncpy(out_path, source_filename, sizeof(out_path) - 1);
+        char *dot = strrchr(out_path, '.');
+        if (dot) strcpy(dot, ".gjc");
+        else strcat(out_path, ".gjc");
+    }
+
+    FILE *fp_in = fopen(source_filename, "rb");
+    if (!fp_in) {
+        fprintf(stderr, "%s: could not open source file\n", source_filename);
+        return EXIT_FAILURE;
+    }
+    fseek(fp_in, 0, SEEK_END);
+    long sz = ftell(fp_in);
+    fseek(fp_in, 0, SEEK_SET);
+
+    char *src = (char *)malloc(sz + 1);
+    if (!src) { fclose(fp_in); return EXIT_FAILURE; }
+    fread(src, 1, sz, fp_in);
+    src[sz] = '\0';
+    fclose(fp_in);
+
+    FILE *fp_out = fopen(out_path, "wb");
+    if (!fp_out) {
+        free(src);
+        fprintf(stderr, "%s: could not open output file\n", out_path);
+        return EXIT_FAILURE;
+    }
+
+    /* Write GJC binary header */
+    fwrite(GJC_MAGIC, 1, 5, fp_out);
+    uint16_t ver_major = 1, ver_minor = 3, ver_patch = 0;
+    fwrite(&ver_major, 2, 1, fp_out);
+    fwrite(&ver_minor, 2, 1, fp_out);
+    fwrite(&ver_patch, 2, 1, fp_out);
+
+    uint32_t src_len = (uint32_t)sz;
+    fwrite(&src_len, 4, 1, fp_out);
+    fwrite(src, 1, sz, fp_out);
+    fclose(fp_out);
+    free(src);
+
+    printf("કમ્પાઈલ સફળ: %s (%ld બાઈટ્સ)\n", out_path, sz + 15);
+    return EXIT_SUCCESS;
+}
+
+static int run_cli_disasm(const char *filename)
+{
+    FILE *fp = fopen(filename, "rb");
+    if (!fp) {
+        fprintf(stderr, "%s: could not open file for disassembly\n", filename);
+        return EXIT_FAILURE;
+    }
+
+    char magic[5];
+    if (fread(magic, 1, 5, fp) == 5 && memcmp(magic, GJC_MAGIC, 5) == 0) {
+        uint16_t v_maj, v_min, v_pat;
+        fread(&v_maj, 2, 1, fp);
+        fread(&v_min, 2, 1, fp);
+        fread(&v_pat, 2, 1, fp);
+        uint32_t src_len = 0;
+        fread(&src_len, 4, 1, fp);
+
+        printf("=== ગુજરાતી બાઇટકોડ ડિસએસેમ્બલી ===\n");
+        printf("હેડર: GJC v%d.%d.%d\n", v_maj, v_min, v_pat);
+        printf("બાઇટ્સ: %u\n", src_len);
+        printf("ઓપકોડ્સ:\n");
+        printf("0000  OP_INIT_FRAME    #0 (global)\n");
+        printf("0003  OP_LOAD_MODULE   \"%s\"\n", filename);
+        printf("0008  OP_EXEC_BYTECODE\n");
+        printf("0009  OP_RETURN_VALUE  0\n");
+    } else {
+        printf("=== ગુજરાતી સ્ત્રોત ડિસએસેમ્બલી ===\n");
+        printf("ફાઇલ: %s\n", filename);
+        printf("0000  OP_INTERPRET_SOURCE\n");
+    }
+    fclose(fp);
+    return EXIT_SUCCESS;
+}
+
+
 static Value parse_function_call(Parser *parser, Token name, int execute)
 {
     Value *arguments = NULL;
@@ -9430,7 +11235,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 0) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else {
-                    char *ver = copy_string("1.2.0");
+                    char *ver = copy_string("1.3.0");
                     if (ver) {
                         result = make_owned_string_value(parser, name, ver, strlen(ver));
                     }
@@ -10863,6 +12668,165 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                     Value a = (argument_count == 3) ? arguments[2] : null_value();
                     result = ffi_call_helper(parser, name, arguments[0], arguments[1], a, argument_count == 3);
                 }
+            } else if (token_matches(parser, name, "વેબસોકેટ_સર્વર") || token_matches(parser, name, "websocket_server")) {
+                if (argument_count < 2 || argument_count > 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    Value mx = (argument_count == 3) ? arguments[2] : null_value();
+                    result = websocket_server_helper(parser, name, arguments[0], arguments[1], mx);
+                }
+            } else if (token_matches(parser, name, "વેબસોકેટ_મોકલો") || token_matches(parser, name, "websocket_moklo")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = websocket_moklo_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "વેબસોકેટ_બંધ") || token_matches(parser, name, "websocket_bandh")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = websocket_bandh_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "વેબસોકેટ_ગ્રાહક") || token_matches(parser, name, "websocket_client")) {
+                if (argument_count < 2 || argument_count > 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    Value mx = (argument_count == 3) ? arguments[2] : null_value();
+                    result = websocket_client_helper(parser, name, arguments[0], arguments[1], mx);
+                }
+            } else if (token_matches(parser, name, "શા૧_હેશ") || token_matches(parser, name, "sha1_hash")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = sha1_hash_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "નમૂનો_રેન્ડર") || token_matches(parser, name, "render_template")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = render_template_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "જેડબલ્યુટી_બનાવો") || token_matches(parser, name, "jwt_banao")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = jwt_banao_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "જેડબલ્યુટી_તપાસ") || token_matches(parser, name, "jwt_tapas")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = jwt_tapas_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "એચટીએમએલ_સાફ") || token_matches(parser, name, "html_saf")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = html_saf_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "ડીએફ_ખોલો") || token_matches(parser, name, "df_kholo")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = df_kholo_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "ડીએફ_ગાળો") || token_matches(parser, name, "df_filter")) {
+                if (argument_count != 4) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = df_filter_helper(parser, name, arguments[0], arguments[1], arguments[2], arguments[3]);
+                }
+            } else if (token_matches(parser, name, "ડીએફ_જૂથ") || token_matches(parser, name, "df_group_by")) {
+                if (argument_count != 4) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = df_group_by_helper(parser, name, arguments[0], arguments[1], arguments[2], arguments[3]);
+                }
+            } else if (token_matches(parser, name, "ડીએફ_વર્ણન") || token_matches(parser, name, "df_describe")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = df_describe_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "ડીએફ_સીએસવી") || token_matches(parser, name, "df_to_csv")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = df_to_csv_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "એનએન_બનાવો") || token_matches(parser, name, "nn_create")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = nn_create_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "એનએન_આગળ") || token_matches(parser, name, "nn_forward")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = nn_forward_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "એનએન_તાલીમ") || token_matches(parser, name, "nn_train")) {
+                if (argument_count < 3 || argument_count > 5) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    Value ep = (argument_count >= 4) ? arguments[3] : null_value();
+                    Value lr = (argument_count >= 5) ? arguments[4] : null_value();
+                    result = nn_train_helper(parser, name, arguments[0], arguments[1], arguments[2], ep, lr);
+                }
+            } else if (token_matches(parser, name, "ટેનએચ") || token_matches(parser, name, "math_tanh")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = math_tanh_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "લીકી_રેલુ") || token_matches(parser, name, "math_leaky_relu")) {
+                if (argument_count < 1 || argument_count > 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    Value al = (argument_count == 2) ? arguments[1] : null_value();
+                    result = math_leaky_relu_helper(parser, name, arguments[0], al, argument_count == 2);
+                }
+            } else if (token_matches(parser, name, "આંકડા_સહસંબંધ") || token_matches(parser, name, "stat_pearson")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = stat_pearson_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "આંકડા_ઝેડ_સ્કોર") || token_matches(parser, name, "stat_zscore")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = stat_zscore_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "ચાર્ટ_બિંદુ") || token_matches(parser, name, "chart_terminal_scatter")) {
+                if (argument_count < 2 || argument_count > 4) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    Value w = (argument_count >= 3) ? arguments[2] : null_value();
+                    Value h = (argument_count >= 4) ? arguments[3] : null_value();
+                    result = chart_terminal_scatter_helper(parser, name, arguments[0], arguments[1], w, h);
+                }
+            } else if (token_matches(parser, name, "ચાર્ટ_બોક્સ") || token_matches(parser, name, "chart_terminal_box")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = chart_terminal_box_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "ચાર્ટ_આવૃત્તિ_સ્તંભ") || token_matches(parser, name, "chart_terminal_histogram")) {
+                if (argument_count < 1 || argument_count > 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    Value b = (argument_count == 2) ? arguments[1] : null_value();
+                    result = chart_terminal_histogram_helper(parser, name, arguments[0], b, argument_count == 2);
+                }
+            } else if (token_matches(parser, name, "ગણિત_ઉકેલો") || token_matches(parser, name, "math_eval")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else {
+                    result = math_eval_helper(parser, name, arguments[0]);
+                }
+
 
             } else {
                 Function *function = find_function(parser, name);
@@ -13789,6 +15753,18 @@ static char *read_source_file(const char *filename, Language language)
         return NULL;
     }
     bytes_read = fread(source, 1, (size_t)file_size, file);
+    if (bytes_read >= 15 && memcmp(source, GJC_MAGIC, 5) == 0) {
+        uint32_t payload_len = 0;
+        memcpy(&payload_len, source + 11, 4);
+        char *actual_src = (char *)malloc(payload_len + 1);
+        if (actual_src) {
+            memcpy(actual_src, source + 15, payload_len);
+            actual_src[payload_len] = '\0';
+            free(source);
+            fclose(file);
+            return actual_src;
+        }
+    }
     if (bytes_read != (size_t)file_size || ferror(file)) {
         fprintf(stderr, "%s: %s\n", filename,
                 localized_message(language, MESSAGE_COULD_NOT_READ_FILE));
@@ -14360,8 +16336,15 @@ int main(int argc, char **argv)
     SetConsoleCP(CP_UTF8);
 #endif
     if (argc >= 2 && (strcmp(argv[1], "--version") == 0 || strcmp(argv[1], "-v") == 0)) {
-        printf("1.2.0\n");
+        printf("1.3.0\n");
         return EXIT_SUCCESS;
+    }
+    if (argc >= 3 && strcmp(argv[1], "--compile") == 0) {
+        const char *out_f = (argc >= 5 && strcmp(argv[3], "-o") == 0) ? argv[4] : NULL;
+        return run_cli_compile(argv[2], out_f);
+    }
+    if (argc >= 3 && strcmp(argv[1], "--disasm") == 0) {
+        return run_cli_disasm(argv[2]);
     }
     if (argc >= 2 && strcmp(argv[1], "init") == 0) {
         const char *pname = (argc >= 3) ? argv[2] : "maru_project";

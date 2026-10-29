@@ -1,5 +1,43 @@
 # Changelog
 
+## 1.3.0
+
+- Major 30-Point Milestone Release with WebSockets, Template Engine, DataFrames, Deep Learning MLP, Statistics & Bytecode Compiler:
+  - **Pillar 1: Full-Duplex WebSockets & Real-Time Communications**:
+    - `websocket_server(port, on_msg, [max_req])` (`વેબસોકેટ_સર્વર`): RFC 6455 compliant WebSocket server with SHA-1 handshake and masking/framing.
+    - `websocket_moklo(client_fd, msg)` (`વેબસોકેટ_મોકલો`): Transmit framed UTF-8 messages across active WebSocket client sockets.
+    - `websocket_bandh(server_id)` (`વેબસોકેટ_બંધ`): Cleanly terminates WebSocket servers and active connections.
+    - `websocket_client(url, on_msg)` (`વેબસોકેટ_ગ્રાહક`): Real-time client connecting to remote WebSocket endpoints.
+    - `sha1_hash(text)` (`શા૧_હેશ`): RFC 3174 compliant 160-bit cryptographic SHA-1 digest generator.
+  - **Pillar 2: Template Engine, In-Browser Playground & Security**:
+    - `render_template(template, data_dict)` (`નમૂનો_રેન્ડર`): Mustache-style templating engine supporting `{{var}}` variable interpolation and `{{#if key}}...{{/if}}` conditionals.
+    - `jwt_banao(payload_dict, secret)` (`જેડબલ્યુટી_બનાવો`): Cryptographic JSON Web Token (JWT) generator using HMAC-SHA256 signature verification.
+    - `jwt_tapas(token, secret)` (`જેડબલ્યુટી_તપાસ`): Validates and decodes JWT tokens, ensuring tamper resistance.
+    - `html_saf(text)` (`એચટીએમએલ_સાફ`): High-performance HTML sanitizer escaping XSS injection characters (`&`, `<`, `>`, `"`, `'`).
+  - **Pillar 3: Gujarati DataFrames & Data Wrangling**:
+    - `df_kholo(data_or_csv)` (`ડીએફ_ખોલો`): Parses lists of dictionaries or CSV data into tabular Gujarati DataFrame objects.
+    - `df_filter(df, col, op, val)` (`ડીએફ_ગાળો`): Filters DataFrame rows using comparison operators (`==`, `!=`, `>`, `<`, `>=`, `<=`).
+    - `df_group_by(df, group_col, agg_col, agg_fn)` (`ડીએફ_જૂથ`): Group-by aggregation supporting `sum`, `mean`, `count`, `min`, `max`.
+    - `df_describe(df)` (`ડીએફ_વર્ણન`): Computes statistical summaries (count, mean, min, max) for tabular numeric columns.
+    - `df_to_csv(df)` (`ડીએફ_સીએસવી`): Serializes DataFrame objects back into structured CSV string format.
+  - **Pillar 4: Deep Learning Multi-Layer Perceptron & Advanced Math**:
+    - `nn_create(layer_sizes, [lr])` (`એનએન_બનાવો`): Multi-Layer Perceptron neural network architecture initialized with Xavier/Glorot weights.
+    - `nn_forward(nn, input_vector)` (`એનએન_આગળ`): Forward propagation calculating activations through hidden and output layers.
+    - `nn_train(nn, x_train, y_train, epochs, [lr])` (`એનએન_તાલીમ`): Supervised backpropagation training minimizing Mean Squared Error loss.
+    - `math_tanh(x)` (`ટેનએચ`): Hyperbolic tangent activation function.
+    - `math_leaky_relu(x, [alpha])` (`લીકી_રેલુ`): Leaky Rectified Linear Unit activation function preventing dying neurons.
+  - **Pillar 5: Statistical Analysis & Terminal Visualizations**:
+    - `stat_pearson(x, y)` (`આંકડા_સહસંબંધ`): Pearson correlation coefficient between two numeric distributions.
+    - `stat_zscore(array)` (`આંકડા_ઝેડ_સ્કોર`): Computes Z-scores (standard scores) for anomaly and outlier detection.
+    - `chart_terminal_scatter(x, y, [width], [height])` (`ચાર્ટ_બિંદુ`): Unicode terminal 2D scatter plot generator.
+    - `chart_terminal_box(data, [width])` (`ચાર્ટ_બોક્સ`): Five-number summary box-and-whisker plot in Unicode terminal art.
+    - `chart_terminal_histogram(data, [bins], [height])` (`ચાર્ટ_આવૃત્તિ_સ્તંભ`): Distribution histogram visualizer directly in the terminal.
+  - **Pillar 6: Bytecode Compiler, Virtual Machine & CLI Tooling**:
+    - `math_eval(expression_str)` (`ગણિત_ઉકેલો`): Dynamic mathematical expression evaluator with operator precedence, parentheses, and power exponentiation (`^`).
+    - `gujarati --compile <file.gj> [-o <out.gjc>]`: Compiles GujaratiLang source code into portable binary `.gjc` bytecode files with `\x7fGJC1` header.
+    - `gujarati --disasm <file.gjc>`: Disassembles compiled `.gjc` bytecode files into human-readable Gujarati instruction dumps.
+    - Transparent binary execution: Run compiled bytecode `.gjc` files directly via `gujarati <file.gjc>`.
+
 ## 1.2.0
 
 - Major 30-Point Milestone Release with Micro Web Server, Embedded SQL Database, Concurrency, Gujarati NLP & Machine Learning Suite:

@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "1.2.0\n1\n")
+    set(expected_stdout "1.3.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "1.2.0\n")
+    set(expected_stdout "1.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3745,6 +3745,125 @@ elseif(TEST_CASE STREQUAL "v120_gujarati_native_syntax")
 આવજો
 ]=])
     set(expected_stdout "1\nભરત\n6\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "v130_sha1_and_templates")
+    set(source [=[aavo
+sha = sha1_hash("Hello Gujarati");
+chhapo (lambai(sha) == 40);
+tpl = render_template("Halo {{naam}}, score: {{ank}}!", {"naam": "Harshit", "ank": 100});
+chhapo tpl;
+san = html_saf("<script>alert(1)</script><b>Halo</b>");
+chhapo san;
+aavjo
+]=])
+    set(expected_stdout "1\nHalo Harshit, score: 100!\n&lt;script&gt;alert(1)&lt;/script&gt;&lt;b&gt;Halo&lt;/b&gt;\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v130_jwt")
+    set(source [=[aavo
+token = jwt_banao({"user": "admin", "role": "creator"}, "secret_key");
+chhapo (lambai(token) > 20);
+payload = jwt_tapas(token, "secret_key");
+chhapo payload["user"];
+chhapo payload["role"];
+bad = jwt_tapas(token + "tamper", "secret_key");
+chhapo bad;
+aavjo
+]=])
+    set(expected_stdout "1\nadmin\ncreator\nનકામો\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v130_dataframe")
+    set(source [=[aavo
+data = [{"nam": "A", "val": 10}, {"nam": "B", "val": 20}, {"nam": "A", "val": 30}];
+df = df_kholo(data);
+f = df_filter(df, "val", ">=", 20);
+chhapo f["shape"][0];
+grp = df_group_by(df, "nam", "val", "sum");
+chhapo grp["shape"][0];
+csv_out = df_to_csv(df);
+chhapo (lambai(csv_out) > 0);
+aavjo
+]=])
+    set(expected_stdout "2\n2\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v130_deep_learning")
+    set(source [=[aavo
+nn = nn_create([2, 4, 1]);
+out_act = nn_forward(nn, [0.5, 0.8]);
+chhapo lambai(out_act);
+trained_nn = nn_train(nn, [[0, 0], [0, 1], [1, 0], [1, 1]], [0, 1, 1, 0], 10, 0.2);
+chhapo (trained_nn["loss"] >= 0);
+chhapo (math_tanh(0) == 0);
+chhapo math_leaky_relu(-10, 0.1);
+aavjo
+]=])
+    set(expected_stdout "1\n1\n1\n-1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v130_statistics_charts")
+    set(source [=[aavo
+r = stat_pearson([1, 2, 3, 4, 5], [2, 4, 6, 8, 10]);
+chhapo r;
+z = stat_zscore([10, 20, 30]);
+chhapo lambai(z);
+box = chart_terminal_box([10, 20, 30, 40, 50]);
+chhapo (lambai(box) > 0);
+hist = chart_terminal_histogram([1, 2, 2, 3, 3, 3, 4, 5], 3);
+chhapo (lambai(hist) > 0);
+scatter = chart_terminal_scatter([1, 2, 3], [1, 4, 9], 15, 6);
+chhapo (lambai(scatter) > 0);
+aavjo
+]=])
+    set(expected_stdout "1\n3\n1\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v130_math_eval")
+    set(source [=[aavo
+calc = math_eval("(10 - 2) * 3 + 2^3");
+chhapo calc;
+aavjo
+]=])
+    set(expected_stdout "32\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v130_bytecode")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(gjc_path "${TEST_BINARY_DIR}/${TEST_CASE}.gjc")
+    set(source [=[aavo
+chhapo 42;
+aavjo
+]=])
+    file(WRITE "${source_path}" "${source}")
+    execute_process(
+        COMMAND "${PROGRAM}" "--compile" "${source_path}" "-o" "${gjc_path}"
+    )
+    set(program_arguments "${gjc_path}")
+    set(expected_stdout "42\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v130_gujarati_syntax")
+    set(source [=[આવો
+શા = શા૧_હેશ("hello world");
+છાપો શા;
+ઢાં = નમૂનો_રેન્ડર("નમસ્તે {{નામ}}!", {"નામ": "ગુજરાતી"});
+છાપો ઢાં;
+સાફ = એચટીએમએલ_સાફ("<tag>");
+છાપો સાફ;
+ટોકન = જેડબલ્યુટી_બનાવો({"user": "harshit"}, "key");
+ચકાસણી = જેડબલ્યુટી_તપાસ(ટોકન, "key");
+છાપો ચકાસણી["user"];
+ગ = ગણિત_ઉકેલો("5 * 4 + 2");
+છાપો ગ;
+છાપો ટેનએચ(0);
+છાપો લીકી_રેલુ(-5, 0.2);
+છાપો આંકડા_સહસંબંધ([1, 2], [2, 4]);
+આવજો
+]=])
+    set(expected_stdout "2aae6c35c94fcfb415dbe95f408b9ce91ee846ed\nનમસ્તે ગુજરાતી!\n&lt;tag&gt;\nharshit\n22\n0\n-1\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
