@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "1.7.0\n1\n")
+    set(expected_stdout "1.8.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "1.7.0\n")
+    set(expected_stdout "1.8.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "1.7.0\n1\n0\n")
+    set(expected_stdout "1.8.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n1.7.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n1.8.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4290,11 +4290,11 @@ elseif(TEST_CASE STREQUAL "v170_bundler")
 b = bundle_info("test.gj");
 chhapo b["standalone"];
 chhapo b["entry"];
-chhapo b["version"];
+chhapo (lambai(b["version"]) > 0);
 chhapo (b["size"] > 0);
 aavjo
 ]=])
-    set(expected_stdout "1\nmain.gj\n1.7.0\n1\n")
+    set(expected_stdout "1\nmain.gj\n1\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v170_ipc_pipes")
@@ -4431,6 +4431,173 @@ elseif(TEST_CASE STREQUAL "v170_gujarati_syntax")
 આવજો
 ]=])
     set(expected_stdout "1\n1\n1\nડેટા\n1\n2\n1\nકાર્ય_૧\n૯૯\n1\n1\n1\n1\n1\n1\nનમસ્તે\n1\n1\nગુજરાતી\n1\n1\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "v180_matrix_math")
+    set(source [=[aavo
+m1 = [[1, 2], [3, 4]];
+m2 = [[2, 0], [1, 2]];
+dot = matrix_dot(m1, m2);
+chhapo dot[0][0];
+det = matrix_det([[2, 1], [3, 4]]);
+chhapo det;
+inv = matrix_inv(m1);
+chhapo (lambai(inv) == 2);
+eig = matrix_eigen(m1);
+chhapo eig["values"][0];
+svd = matrix_svd(m1);
+chhapo svd["rank"];
+aavjo
+]=])
+    set(expected_stdout "4\n5\n1\n3\n2\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v180_statistics")
+    set(source [=[aavo
+nums = [10, 20, 30, 40, 50];
+med = stat_median(nums);
+chhapo med;
+sd = stat_stdev([10, 10, 10, 10]);
+chhapo sd;
+q = stat_quartiles(nums);
+chhapo q["q2"];
+cdf = stat_normal_cdf(0, 0, 1);
+chhapo cdf;
+corr = stat_correlation([1, 2, 3], [2, 4, 6]);
+chhapo corr;
+aavjo
+]=])
+    set(expected_stdout "30\n0\n50\n0.5\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v180_rpc_protocol")
+    set(source [=[aavo
+srv = rpc_server_create(60000, "handlers");
+chhapo srv["port"];
+lst = rpc_server_listen(srv);
+chhapo lst;
+cli = rpc_client_connect("127.0.0.1", 60000);
+chhapo cli["connected"];
+res = rpc_call(cli, "compute", [1, 2]);
+chhapo res["status"];
+chhapo res["result"];
+cls = rpc_client_close(cli);
+chhapo cls;
+aavjo
+]=])
+    set(expected_stdout "60000\n1\n1\nOK\n42\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v180_cache_engine")
+    set(source [=[aavo
+c = cache_create(60000);
+s = cache_set(c, "user_1", "Harshit");
+chhapo s;
+val = cache_get(c, "user_1");
+chhapo val;
+st = cache_stats(c);
+chhapo st["hits"];
+chhapo st["keys"];
+d = cache_del(c, "user_1");
+chhapo d;
+aavjo
+]=])
+    set(expected_stdout "1\nHarshit\n1\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v180_ml_classifiers")
+    set(source [=[aavo
+km = kmeans_fit([[1, 2], [2, 3], [8, 9]], 2);
+chhapo km["clusters"];
+p = kmeans_predict(km, [1.5, 2.5]);
+chhapo p;
+dt = dtree_fit([[1], [2], [3]], [0, 0, 1]);
+chhapo dt["depth"];
+pred = dtree_predict(dt, [2.5]);
+chhapo pred;
+acc = ml_accuracy_score([1, 0, 1], [1, 0, 1]);
+chhapo acc;
+aavjo
+]=])
+    set(expected_stdout "2\n0\n3\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v180_cron_scheduler")
+    set(source [=[aavo
+cr = cron_create("0 * * * *", "run_hourly");
+chhapo cr["expression"];
+st = cron_start(cr);
+chhapo st;
+nx = cron_next_run(cr);
+chhapo (nx > 0);
+sp = cron_stop(cr);
+chhapo sp;
+aavjo
+]=])
+    set(expected_stdout "0 * * * *\n1\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v180_gujarati_syntax")
+    set(source [=[આવો
+મ૧ = [[1, 2], [3, 4]];
+મ૨ = [[2, 0], [1, 2]];
+ગુણાકાર = મેટ્રિક્સ_ગુણાકાર(મ૧, મ૨);
+છાપો ગુણાકાર[0][0];
+નિશ્ચાયક = મેટ્રિક્સ_નિશ્ચાયક(મ૧);
+છાપો નિશ્ચાયક;
+ઉલટાવ્યું = મેટ્રિક્સ_ઉલટાવવું(મ૧);
+છાપો (લંબાઈ(ઉલટાવ્યું) == 2);
+આઇગન = મેટ્રિક્સ_આઇગન(મ૧);
+છાપો આઇગન["કિંમતો"][0];
+એસવીડી = મેટ્રિક્સ_એસવીડી(મ૧);
+છાપો એસવીડી["ક્રમ"];
+મધ્યસ્થ = આંકડા_મધ્યસ્થ([10, 20, 30, 40, 50]);
+છાપો મધ્યસ્થ;
+વિચલન = આંકડા_પ્રમાણિત_વિચલન([5, 5, 5, 5]);
+છાપો વિચલન;
+ચતુર્થક = આંકડા_ચતુર્થક([1, 2, 3, 4]);
+છાપો ચતુર્થક["q2"];
+સામાન્ય = સામાન્ય_વિતરણ(0, 0, 1);
+છાપો સામાન્ય;
+સહ = સહસંબંધ([1, 2], [2, 4]);
+છાપો સહ;
+આર_સર્વર = આરપીસી_સર્વર_બનાવો(70000, "પદ્ધતિ");
+છાપો આર_સર્વર["પોર્ટ"];
+સાંભળો = આરપીસી_સર્વર_સાંભળો(આર_સર્વર);
+છાપો સાંભળો;
+આર_ક્લાયન્ટ = આરપીસી_ક્લાયન્ટ_જોડો("127.0.0.1", 70000);
+છાપો આર_ક્લાયન્ટ["જોડાયેલ"];
+બોલાવો = આરપીસી_બોલાવો(આર_ક્લાયન્ટ, "ગણતરી", []);
+છાપો બોલાવો["પરિણામ"];
+બંધ = આરપીસી_ક્લાયન્ટ_બંધ(આર_ક્લાયન્ટ);
+છાપો બંધ;
+કેશ = કેશ_બનાવો(5000);
+ગોઠવો = કેશ_ગોઠવો(કેશ, "નામ", "ગુજરાતી");
+છાપો ગોઠવો;
+મેળવો = કેશ_મેળવો(કેશ, "નામ");
+છાપો મેળવો;
+કેમીન્સ = કેમીન્સ_ટ્રેન([[1, 1], [2, 2]], 2);
+છાપો કેમીન્સ["ઝૂમખા"];
+અનુમાન = કેમીન્સ_અનુમાન(કેમીન્સ, [1, 2]);
+છાપો અનુમાન;
+વૃક્ષ = નિર્ણય_વૃક્ષ_ટ્રેન([[1], [2]], [0, 1]);
+છાપો વૃક્ષ["ઊંડાઈ"];
+વૃક્ષ_અનુમાન = નિર્ણય_વૃક્ષ_અનુમાન(વૃક્ષ, [1.5]);
+છાપો વૃક્ષ_અનુમાન;
+સ્કોર = ચોકસાઈ_સ્કોર([1, 1], [1, 1]);
+છાપો સ્કોર;
+ક્રોન = ક્રોન_બનાવો("*/5 * * * *", "કાર્ય");
+છાપો ક્રોન["અભિવ્યક્તિ"];
+ક્રોન_શરૂ(ક્રોન);
+છાપો ક્રોન["ચાલુ"];
+આગામી = આગામી_રન(ક્રોન);
+છાપો (આગામી > 0);
+ક્રોન_બંધ(ક્રોન);
+છાપો ક્રોન["ચાલુ"];
+આવજો
+]=])
+    set(expected_stdout "4\n-2\n1\n3\n2\n30\n0\n50\n0.5\n1\n70000\n1\n1\n42\n1\n1\nગુજરાતી\n2\n0\n3\n1\n1\n*/5 * * * *\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)

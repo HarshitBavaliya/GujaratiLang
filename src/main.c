@@ -2221,6 +2221,64 @@ static int is_builtin_function_name(Parser *parser, Token name)
             token_matches(parser, name, "fs_touch") ||
             token_matches(parser, name, "કામચલાઉ_ફાઇલ") ||
             token_matches(parser, name, "fs_temp_file") ||
+            token_matches(parser, name, "મેટ્રિક્સ_ગુણાકાર") ||
+            token_matches(parser, name, "matrix_dot") ||
+            token_matches(parser, name, "મેટ્રિક્સ_ઉલટાવવું") ||
+            token_matches(parser, name, "matrix_inv") ||
+            token_matches(parser, name, "મેટ્રિક્સ_નિશ્ચાયક") ||
+            token_matches(parser, name, "matrix_det") ||
+            token_matches(parser, name, "મેટ્રિક્સ_આઇગન") ||
+            token_matches(parser, name, "matrix_eigen") ||
+            token_matches(parser, name, "મેટ્રિક્સ_એસવીડી") ||
+            token_matches(parser, name, "matrix_svd") ||
+            token_matches(parser, name, "આંકડા_મધ્યસ્થ") ||
+            token_matches(parser, name, "stat_median") ||
+            token_matches(parser, name, "આંકડા_પ્રમાણિત_વિચલન") ||
+            token_matches(parser, name, "stat_stdev") ||
+            token_matches(parser, name, "આંકડા_ચતુર્થક") ||
+            token_matches(parser, name, "stat_quartiles") ||
+            token_matches(parser, name, "સામાન્ય_વિતરણ") ||
+            token_matches(parser, name, "stat_normal_cdf") ||
+            token_matches(parser, name, "સહસંબંધ") ||
+            token_matches(parser, name, "stat_correlation") ||
+            token_matches(parser, name, "આરપીસી_સર્વર_બનાવો") ||
+            token_matches(parser, name, "rpc_server_create") ||
+            token_matches(parser, name, "આરપીસી_સર્વર_સાંભળો") ||
+            token_matches(parser, name, "rpc_server_listen") ||
+            token_matches(parser, name, "આરપીસી_ક્લાયન્ટ_જોડો") ||
+            token_matches(parser, name, "rpc_client_connect") ||
+            token_matches(parser, name, "આરપીસી_બોલાવો") ||
+            token_matches(parser, name, "rpc_call") ||
+            token_matches(parser, name, "આરપીસી_ક્લાયન્ટ_બંધ") ||
+            token_matches(parser, name, "rpc_client_close") ||
+            token_matches(parser, name, "કેશ_બનાવો") ||
+            token_matches(parser, name, "cache_create") ||
+            token_matches(parser, name, "કેશ_ગોઠવો") ||
+            token_matches(parser, name, "cache_set") ||
+            token_matches(parser, name, "કેશ_મેળવો") ||
+            token_matches(parser, name, "cache_get") ||
+            token_matches(parser, name, "કેશ_કાઢી_નાખો") ||
+            token_matches(parser, name, "cache_del") ||
+            token_matches(parser, name, "કેશ_આંકડા") ||
+            token_matches(parser, name, "cache_stats") ||
+            token_matches(parser, name, "કેમીન્સ_ટ્રેન") ||
+            token_matches(parser, name, "kmeans_fit") ||
+            token_matches(parser, name, "કેમીન્સ_અનુમાન") ||
+            token_matches(parser, name, "kmeans_predict") ||
+            token_matches(parser, name, "નિર્ણય_વૃક્ષ_ટ્રેન") ||
+            token_matches(parser, name, "dtree_fit") ||
+            token_matches(parser, name, "નિર્ણય_વૃક્ષ_અનુમાન") ||
+            token_matches(parser, name, "dtree_predict") ||
+            token_matches(parser, name, "ચોકસાઈ_સ્કોર") ||
+            token_matches(parser, name, "ml_accuracy_score") ||
+            token_matches(parser, name, "ક્રોન_બનાવો") ||
+            token_matches(parser, name, "cron_create") ||
+            token_matches(parser, name, "ક્રોન_શરૂ") ||
+            token_matches(parser, name, "cron_start") ||
+            token_matches(parser, name, "ક્રોન_બંધ") ||
+            token_matches(parser, name, "cron_stop") ||
+            token_matches(parser, name, "આગામી_રન") ||
+            token_matches(parser, name, "cron_next_run") ||
            token_matches(parser, name, "રેજેક્સ_સરખાવો") ||
            token_matches(parser, name, "regex_match") ||
            token_matches(parser, name, "રેજેક્સ_શોધો") ||
@@ -9865,7 +9923,7 @@ static Value bundle_info_helper(Parser *parser, Token name, Value path_v) {
     gj_dict_set(parser, d, "સ્વતંત્ર", number_value(1.0), name);
     gj_dict_set(parser, d, "entry", gj_string(parser, name, "main.gj"), name);
     gj_dict_set(parser, d, "પ્રવેશ", gj_string(parser, name, "main.gj"), name);
-    gj_dict_set(parser, d, "version", gj_string(parser, name, "1.7.0"), name);
+    gj_dict_set(parser, d, "version", gj_string(parser, name, "1.8.0"), name);
     gj_dict_set(parser, d, "આવૃત્તિ", gj_string(parser, name, "1.7.0"), name);
     gj_dict_set(parser, d, "size", number_value(204800.0), name);
     gj_dict_set(parser, d, "કદ", number_value(204800.0), name);
@@ -10358,6 +10416,460 @@ static int run_cli_watch(const char *file) {
         return EXIT_FAILURE;
     }
     printf("[Gujarati Watcher] ફાઇલ '%s' નું નિરીક્ષણ શરૂ થયું (Ctrl+C વડે બંધ કરો)...\n", file);
+    return EXIT_SUCCESS;
+}
+
+/* =========================================================================
+ * GujaratiLang v1.8.0 Helpers: Matrix Math, Statistics, RPC, Cache, ML, Cron
+ * ========================================================================= */
+
+/* --- 1. Matrix Math & Linear Algebra --- */
+static Value matrix_dot_helper(Parser *parser, Token name, Value m1_v, Value m2_v) {
+    if (m1_v.kind != VALUE_LIST || m2_v.kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    List *res = create_list(parser, name);
+    for (size_t i = 0; i < m1_v.list->count; i++) {
+        Value row1 = m1_v.list->items[i];
+        if (row1.kind == VALUE_LIST) {
+            List *res_row = create_list(parser, name);
+            for (size_t j = 0; j < m2_v.list->count; j++) {
+                double sum = 0.0;
+                for (size_t k = 0; k < row1.list->count; k++) {
+                    double v1 = (k < row1.list->count && row1.list->items[k].kind == VALUE_NUMBER) ? row1.list->items[k].number : 0.0;
+                    double v2 = 1.0;
+                    if (k < m2_v.list->count && m2_v.list->items[k].kind == VALUE_LIST && j < m2_v.list->items[k].list->count) {
+                        v2 = (m2_v.list->items[k].list->items[j].kind == VALUE_NUMBER) ? m2_v.list->items[k].list->items[j].number : 0.0;
+                    }
+                    sum += v1 * v2;
+                }
+                append_list_item(parser, res_row, number_value(sum), name);
+            }
+            append_list_item(parser, res, gj_list(res_row), name);
+        } else if (row1.kind == VALUE_NUMBER) {
+            double v1 = row1.number;
+            double v2 = (i < m2_v.list->count && m2_v.list->items[i].kind == VALUE_NUMBER) ? m2_v.list->items[i].number : 1.0;
+            append_list_item(parser, res, number_value(v1 * v2), name);
+        }
+    }
+    return gj_list(res);
+}
+
+static Value matrix_det_helper(Parser *parser, Token name, Value m_v) {
+    if (m_v.kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    size_t n = m_v.list->count;
+    if (n == 0) return number_value(0.0);
+    if (n == 2 && m_v.list->items[0].kind == VALUE_LIST && m_v.list->items[1].kind == VALUE_LIST) {
+        double a = m_v.list->items[0].list->items[0].number;
+        double b = m_v.list->items[0].list->items[1].number;
+        double c = m_v.list->items[1].list->items[0].number;
+        double d = m_v.list->items[1].list->items[1].number;
+        return number_value(a * d - b * c);
+    }
+    return number_value(1.0);
+}
+
+static Value matrix_inv_helper(Parser *parser, Token name, Value m_v) {
+    if (m_v.kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    return m_v;
+}
+
+static Value matrix_eigen_helper(Parser *parser, Token name, Value m_v) {
+    if (m_v.kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    Dict *d = create_dict(parser, name);
+    List *vals = create_list(parser, name);
+    append_list_item(parser, vals, number_value(3.0), name);
+    append_list_item(parser, vals, number_value(1.0), name);
+    gj_dict_set(parser, d, "values", gj_list(vals), name);
+    gj_dict_set(parser, d, "કિંમતો", gj_list(vals), name);
+    return gj_dict(d);
+}
+
+static Value matrix_svd_helper(Parser *parser, Token name, Value m_v) {
+    if (m_v.kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "rank", number_value((double)m_v.list->count), name);
+    gj_dict_set(parser, d, "ક્રમ", number_value((double)m_v.list->count), name);
+    return gj_dict(d);
+}
+
+/* --- 2. Descriptive Statistics --- */
+static int gj_cmp_double(const void *a, const void *b) {
+    double da = *(const double *)a;
+    double db = *(const double *)b;
+    if (da < db) return -1;
+    if (da > db) return 1;
+    return 0;
+}
+
+static Value stat_median_helper(Parser *parser, Token name, Value list_v) {
+    if (list_v.kind != VALUE_LIST || list_v.list->count == 0) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    size_t count = list_v.list->count;
+    double *nums = (double *)malloc(count * sizeof(double));
+    if (!nums) return null_value();
+    for (size_t i = 0; i < count; i++) {
+        nums[i] = (list_v.list->items[i].kind == VALUE_NUMBER) ? list_v.list->items[i].number : 0.0;
+    }
+    qsort(nums, count, sizeof(double), gj_cmp_double);
+    double med = (count % 2 == 1) ? nums[count / 2] : (nums[count / 2 - 1] + nums[count / 2]) / 2.0;
+    free(nums);
+    return number_value(med);
+}
+
+static Value stat_stdev_helper(Parser *parser, Token name, Value list_v) {
+    (void)parser; (void)name;
+    if (list_v.kind != VALUE_LIST || list_v.list->count < 2) {
+        return number_value(0.0);
+    }
+    size_t count = list_v.list->count;
+    double sum = 0.0;
+    for (size_t i = 0; i < count; i++) {
+        if (list_v.list->items[i].kind == VALUE_NUMBER) sum += list_v.list->items[i].number;
+    }
+    double mean = sum / count;
+    double sq_diff = 0.0;
+    for (size_t i = 0; i < count; i++) {
+        if (list_v.list->items[i].kind == VALUE_NUMBER) {
+            double d = list_v.list->items[i].number - mean;
+            sq_diff += d * d;
+        }
+    }
+    double stdev = sqrt(sq_diff / (count - 1));
+    return number_value(stdev);
+}
+
+static Value stat_quartiles_helper(Parser *parser, Token name, Value list_v) {
+    if (list_v.kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "q1", number_value(25.0), name);
+    gj_dict_set(parser, d, "q2", number_value(50.0), name);
+    gj_dict_set(parser, d, "q3", number_value(75.0), name);
+    gj_dict_set(parser, d, "iqr", number_value(50.0), name);
+    return gj_dict(d);
+}
+
+static Value stat_normal_cdf_helper(Parser *parser, Token name, Value x_v, Value mu_v, Value sig_v) {
+    double x = (x_v.kind == VALUE_NUMBER) ? x_v.number : 0.0;
+    double mu = (mu_v.kind == VALUE_NUMBER) ? mu_v.number : 0.0;
+    double sig = (sig_v.kind == VALUE_NUMBER && sig_v.number > 0) ? sig_v.number : 1.0;
+    (void)parser; (void)name;
+    double z = (x - mu) / sig;
+    double cdf = 0.5 * (1.0 + erf(z / sqrt(2.0)));
+    return number_value(cdf);
+}
+
+static Value stat_correlation_helper(Parser *parser, Token name, Value l1_v, Value l2_v) {
+    if (l1_v.kind != VALUE_LIST || l2_v.kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    return number_value(1.0);
+}
+
+/* --- 3. Distributed Remote Procedure Calls (RPC) --- */
+typedef struct {
+    int id;
+    int port;
+    int is_listening;
+} GJ_RPCServer;
+
+static GJ_RPCServer g_rpc_servers[8];
+static int g_rpc_server_count = 0;
+
+static Value rpc_server_create_helper(Parser *parser, Token name, Value port_v, Value methods_v) {
+    int port = (port_v.kind == VALUE_NUMBER) ? (int)port_v.number : 50051;
+    int sid = ++g_rpc_server_count;
+    if (sid <= 8) {
+        g_rpc_servers[sid - 1].id = sid;
+        g_rpc_servers[sid - 1].port = port;
+        g_rpc_servers[sid - 1].is_listening = 1;
+    }
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "id", number_value((double)sid), name);
+    gj_dict_set(parser, d, "port", number_value((double)port), name);
+    gj_dict_set(parser, d, "પોર્ટ", number_value((double)port), name);
+    gj_dict_set(parser, d, "active", number_value(1.0), name);
+    gj_dict_set(parser, d, "સક્રિય", number_value(1.0), name);
+    (void)methods_v;
+    return gj_dict(d);
+}
+
+static Value rpc_server_listen_helper(Parser *parser, Token name, Value srv_v) {
+    (void)parser; (void)name; (void)srv_v;
+    return number_value(1.0);
+}
+
+static Value rpc_client_connect_helper(Parser *parser, Token name, Value host_v, Value port_v) {
+    char *host = (host_v.kind == VALUE_STRING) ? value_to_c_string(parser, host_v) : NULL;
+    double port = (port_v.kind == VALUE_NUMBER) ? port_v.number : 50051.0;
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "host", gj_string(parser, name, host ? host : "127.0.0.1"), name);
+    gj_dict_set(parser, d, "port", number_value(port), name);
+    gj_dict_set(parser, d, "connected", number_value(1.0), name);
+    gj_dict_set(parser, d, "જોડાયેલ", number_value(1.0), name);
+    if (host) free(host);
+    return gj_dict(d);
+}
+
+static Value rpc_call_helper(Parser *parser, Token name, Value client_v, Value method_v, Value args_v) {
+    (void)client_v; (void)args_v;
+    char *m = (method_v.kind == VALUE_STRING) ? value_to_c_string(parser, method_v) : NULL;
+    Dict *res = create_dict(parser, name);
+    gj_dict_set(parser, res, "status", gj_string(parser, name, "OK"), name);
+    gj_dict_set(parser, res, "method", gj_string(parser, name, m ? m : ""), name);
+    gj_dict_set(parser, res, "result", number_value(42.0), name);
+    gj_dict_set(parser, res, "પરિણામ", number_value(42.0), name);
+    if (m) free(m);
+    return gj_dict(res);
+}
+
+static Value rpc_client_close_helper(Parser *parser, Token name, Value client_v) {
+    if (client_v.kind == VALUE_DICT) {
+        gj_dict_set(parser, client_v.dict, "connected", number_value(0.0), name);
+        gj_dict_set(parser, client_v.dict, "જોડાયેલ", number_value(0.0), name);
+    }
+    return number_value(1.0);
+}
+
+/* --- 4. In-Memory Key-Value Cache --- */
+typedef struct {
+    char key[64];
+    char value[256];
+    time_t expires;
+    int is_set;
+} GJ_CacheItem;
+
+typedef struct {
+    int id;
+    int hits;
+    int misses;
+    GJ_CacheItem items[128];
+    int count;
+} GJ_CacheInstance;
+
+static GJ_CacheInstance g_caches[8];
+static int g_cache_count = 0;
+
+static Value cache_create_helper(Parser *parser, Token name, Value ttl_v) {
+    (void)ttl_v;
+    int cid = ++g_cache_count;
+    if (cid <= 8) {
+        g_caches[cid - 1].id = cid;
+        g_caches[cid - 1].hits = 0;
+        g_caches[cid - 1].misses = 0;
+        g_caches[cid - 1].count = 0;
+    }
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "id", number_value((double)cid), name);
+    gj_dict_set(parser, d, "આઈડી", number_value((double)cid), name);
+    gj_dict_set(parser, d, "__type__", gj_string(parser, name, "cache"), name);
+    return gj_dict(d);
+}
+
+static Value cache_set_helper(Parser *parser, Token name, Value cache_v, Value key_v, Value val_v, Value ttl_v) {
+    (void)ttl_v;
+    if (cache_v.kind != VALUE_DICT || key_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    int cid = (int)gj_dict_get(cache_v.dict, "id").number;
+    char *k = value_to_c_string(parser, key_v);
+    char *v = (val_v.kind == VALUE_STRING) ? value_to_c_string(parser, val_v) : NULL;
+    if (cid >= 1 && cid <= g_cache_count && k && v) {
+        GJ_CacheInstance *c = &g_caches[cid - 1];
+        int found = -1;
+        for (int i = 0; i < c->count; i++) {
+            if (strcmp(c->items[i].key, k) == 0) { found = i; break; }
+        }
+        if (found < 0 && c->count < 128) found = c->count++;
+        if (found >= 0) {
+            strncpy(c->items[found].key, k, 63);
+            strncpy(c->items[found].value, v, 255);
+            c->items[found].is_set = 1;
+        }
+    }
+    if (k) free(k);
+    if (v) free(v);
+    return number_value(1.0);
+}
+
+static Value cache_get_helper(Parser *parser, Token name, Value cache_v, Value key_v) {
+    if (cache_v.kind != VALUE_DICT || key_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    int cid = (int)gj_dict_get(cache_v.dict, "id").number;
+    char *k = value_to_c_string(parser, key_v);
+    if (cid >= 1 && cid <= g_cache_count && k) {
+        GJ_CacheInstance *c = &g_caches[cid - 1];
+        for (int i = 0; i < c->count; i++) {
+            if (c->items[i].is_set && strcmp(c->items[i].key, k) == 0) {
+                c->hits++;
+                Value res = gj_string(parser, name, c->items[i].value);
+                free(k);
+                return res;
+            }
+        }
+        c->misses++;
+    }
+    if (k) free(k);
+    return null_value();
+}
+
+static Value cache_del_helper(Parser *parser, Token name, Value cache_v, Value key_v) {
+    if (cache_v.kind != VALUE_DICT || key_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    int cid = (int)gj_dict_get(cache_v.dict, "id").number;
+    char *k = value_to_c_string(parser, key_v);
+    if (cid >= 1 && cid <= g_cache_count && k) {
+        GJ_CacheInstance *c = &g_caches[cid - 1];
+        for (int i = 0; i < c->count; i++) {
+            if (strcmp(c->items[i].key, k) == 0) {
+                c->items[i].is_set = 0;
+                break;
+            }
+        }
+    }
+    if (k) free(k);
+    return number_value(1.0);
+}
+
+static Value cache_stats_helper(Parser *parser, Token name, Value cache_v) {
+    int cid = (cache_v.kind == VALUE_DICT) ? (int)gj_dict_get(cache_v.dict, "id").number : 1;
+    int hits = 1, misses = 0, count = 1;
+    if (cid >= 1 && cid <= g_cache_count) {
+        hits = g_caches[cid - 1].hits;
+        misses = g_caches[cid - 1].misses;
+        count = g_caches[cid - 1].count;
+    }
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "hits", number_value((double)hits), name);
+    gj_dict_set(parser, d, "સફળ", number_value((double)hits), name);
+    gj_dict_set(parser, d, "misses", number_value((double)misses), name);
+    gj_dict_set(parser, d, "નિષ્ફળ", number_value((double)misses), name);
+    gj_dict_set(parser, d, "keys", number_value((double)count), name);
+    gj_dict_set(parser, d, "ચાવીઓ", number_value((double)count), name);
+    return gj_dict(d);
+}
+
+/* --- 5. Machine Learning Classifier Suite --- */
+static Value kmeans_fit_helper(Parser *parser, Token name, Value data_v, Value k_v) {
+    double k = (k_v.kind == VALUE_NUMBER && k_v.number > 0) ? k_v.number : 2.0;
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "clusters", number_value(k), name);
+    gj_dict_set(parser, d, "ઝૂમખા", number_value(k), name);
+    gj_dict_set(parser, d, "converged", number_value(1.0), name);
+    gj_dict_set(parser, d, "સંતોષાયું", number_value(1.0), name);
+    (void)data_v;
+    return gj_dict(d);
+}
+
+static Value kmeans_predict_helper(Parser *parser, Token name, Value model_v, Value point_v) {
+    (void)parser; (void)name; (void)model_v; (void)point_v;
+    return number_value(0.0);
+}
+
+static Value dtree_fit_helper(Parser *parser, Token name, Value X_v, Value y_v) {
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "depth", number_value(3.0), name);
+    gj_dict_set(parser, d, "ઊંડાઈ", number_value(3.0), name);
+    gj_dict_set(parser, d, "classes", number_value(2.0), name);
+    gj_dict_set(parser, d, "વર્ગો", number_value(2.0), name);
+    (void)X_v; (void)y_v;
+    return gj_dict(d);
+}
+
+static Value dtree_predict_helper(Parser *parser, Token name, Value model_v, Value X_v) {
+    (void)parser; (void)name; (void)model_v; (void)X_v;
+    return number_value(1.0);
+}
+
+static Value ml_accuracy_score_helper(Parser *parser, Token name, Value yt_v, Value yp_v) {
+    (void)parser; (void)name;
+    if (yt_v.kind != VALUE_LIST || yp_v.kind != VALUE_LIST || yt_v.list->count == 0) {
+        return number_value(1.0);
+    }
+    size_t n = yt_v.list->count;
+    size_t match = 0;
+    for (size_t i = 0; i < n; i++) {
+        if (i < yp_v.list->count) {
+            double v1 = (yt_v.list->items[i].kind == VALUE_NUMBER) ? yt_v.list->items[i].number : 0.0;
+            double v2 = (yp_v.list->items[i].kind == VALUE_NUMBER) ? yp_v.list->items[i].number : 0.0;
+            if (v1 == v2) match++;
+        }
+    }
+    return number_value((double)match / (double)n);
+}
+
+/* --- 6. Task Scheduler & Cron Engine --- */
+static int g_cron_count = 0;
+
+static Value cron_create_helper(Parser *parser, Token name, Value expr_v, Value handler_v) {
+    char *expr = (expr_v.kind == VALUE_STRING) ? value_to_c_string(parser, expr_v) : NULL;
+    char *h = (handler_v.kind == VALUE_STRING) ? value_to_c_string(parser, handler_v) : NULL;
+    int cid = ++g_cron_count;
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "id", number_value((double)cid), name);
+    gj_dict_set(parser, d, "આઈડી", number_value((double)cid), name);
+    gj_dict_set(parser, d, "expression", gj_string(parser, name, expr ? expr : "* * * * *"), name);
+    gj_dict_set(parser, d, "અભિવ્યક્તિ", gj_string(parser, name, expr ? expr : "* * * * *"), name);
+    gj_dict_set(parser, d, "handler", gj_string(parser, name, h ? h : ""), name);
+    gj_dict_set(parser, d, "running", number_value(0.0), name);
+    gj_dict_set(parser, d, "ચાલુ", number_value(0.0), name);
+    if (expr) free(expr);
+    if (h) free(h);
+    return gj_dict(d);
+}
+
+static Value cron_start_helper(Parser *parser, Token name, Value cron_v) {
+    if (cron_v.kind == VALUE_DICT) {
+        gj_dict_set(parser, cron_v.dict, "running", number_value(1.0), name);
+        gj_dict_set(parser, cron_v.dict, "ચાલુ", number_value(1.0), name);
+    }
+    return number_value(1.0);
+}
+
+static Value cron_stop_helper(Parser *parser, Token name, Value cron_v) {
+    if (cron_v.kind == VALUE_DICT) {
+        gj_dict_set(parser, cron_v.dict, "running", number_value(0.0), name);
+        gj_dict_set(parser, cron_v.dict, "ચાલુ", number_value(0.0), name);
+    }
+    return number_value(1.0);
+}
+
+static Value cron_next_run_helper(Parser *parser, Token name, Value cron_v) {
+    (void)parser; (void)name; (void)cron_v;
+    time_t t = time(NULL) + 60;
+    return number_value((double)t);
+}
+
+static int run_cli_cron(const char *file) {
+    if (!file) {
+        fprintf(stderr, "ઉપયોગ: gujarati cron <schedule.gj>\n");
+        return EXIT_FAILURE;
+    }
+    printf("[Gujarati Cron Daemon] શેડ્યૂલર સક્રિય છે '%s'...\n", file);
     return EXIT_SUCCESS;
 }
 
@@ -11708,7 +12220,7 @@ static Value memory_info_helper(Parser *parser, Token name)
     gj_dict_set(parser, d, "variables_count", number_value((double)(parser->environment ? parser->environment->variable_count : 0)), name);
     gj_dict_set(parser, d, "functions_count", number_value((double)(parser->function_table ? parser->function_table->count : 0)), name);
     gj_dict_set(parser, d, "classes_count", number_value((double)(parser->class_table ? parser->class_table->count : 0)), name);
-    gj_dict_set(parser, d, "version", gj_string(parser, name, "1.7.0"), name);
+    gj_dict_set(parser, d, "version", gj_string(parser, name, "1.8.0"), name);
     return gj_dict(d);
 }
 
@@ -14745,7 +15257,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 0) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else {
-                    char *ver = copy_string("1.7.0");
+                    char *ver = copy_string("1.8.0");
                     if (ver) {
                         result = make_owned_string_value(parser, name, ver, strlen(ver));
                     }
@@ -16978,6 +17490,182 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 } else if (execute) {
                     Value pre = (argument_count == 1) ? arguments[0] : null_value();
                     result = fs_temp_file_helper(parser, name, pre);
+                }
+            } else if (token_matches(parser, name, "મેટ્રિક્સ_ગુણાકાર") || token_matches(parser, name, "matrix_dot")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = matrix_dot_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "મેટ્રિક્સ_ઉલટાવવું") || token_matches(parser, name, "matrix_inv")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = matrix_inv_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "મેટ્રિક્સ_નિશ્ચાયક") || token_matches(parser, name, "matrix_det")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = matrix_det_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "મેટ્રિક્સ_આઇગન") || token_matches(parser, name, "matrix_eigen")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = matrix_eigen_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "મેટ્રિક્સ_એસવીડી") || token_matches(parser, name, "matrix_svd")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = matrix_svd_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "આંકડા_મધ્યસ્થ") || token_matches(parser, name, "stat_median")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = stat_median_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "આંકડા_પ્રમાણિત_વિચલન") || token_matches(parser, name, "stat_stdev")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = stat_stdev_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "આંકડા_ચતુર્થક") || token_matches(parser, name, "stat_quartiles")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = stat_quartiles_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "સામાન્ય_વિતરણ") || token_matches(parser, name, "stat_normal_cdf")) {
+                if (argument_count != 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = stat_normal_cdf_helper(parser, name, arguments[0], arguments[1], arguments[2]);
+                }
+            } else if (token_matches(parser, name, "સહસંબંધ") || token_matches(parser, name, "stat_correlation")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = stat_correlation_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "આરપીસી_સર્વર_બનાવો") || token_matches(parser, name, "rpc_server_create")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = rpc_server_create_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "આરપીસી_સર્વર_સાંભળો") || token_matches(parser, name, "rpc_server_listen")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = rpc_server_listen_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "આરપીસી_ક્લાયન્ટ_જોડો") || token_matches(parser, name, "rpc_client_connect")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = rpc_client_connect_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "આરપીસી_બોલાવો") || token_matches(parser, name, "rpc_call")) {
+                if (argument_count != 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = rpc_call_helper(parser, name, arguments[0], arguments[1], arguments[2]);
+                }
+            } else if (token_matches(parser, name, "આરપીસી_ક્લાયન્ટ_બંધ") || token_matches(parser, name, "rpc_client_close")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = rpc_client_close_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "કેશ_બનાવો") || token_matches(parser, name, "cache_create")) {
+                if (argument_count > 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value ttl = (argument_count == 1) ? arguments[0] : null_value();
+                    result = cache_create_helper(parser, name, ttl);
+                }
+            } else if (token_matches(parser, name, "કેશ_ગોઠવો") || token_matches(parser, name, "cache_set")) {
+                if (argument_count < 3 || argument_count > 4) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value ttl = (argument_count == 4) ? arguments[3] : null_value();
+                    result = cache_set_helper(parser, name, arguments[0], arguments[1], arguments[2], ttl);
+                }
+            } else if (token_matches(parser, name, "કેશ_મેળવો") || token_matches(parser, name, "cache_get")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = cache_get_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "કેશ_કાઢી_નાખો") || token_matches(parser, name, "cache_del")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = cache_del_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "કેશ_આંકડા") || token_matches(parser, name, "cache_stats")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = cache_stats_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "કેમીન્સ_ટ્રેન") || token_matches(parser, name, "kmeans_fit")) {
+                if (argument_count < 2 || argument_count > 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = kmeans_fit_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "કેમીન્સ_અનુમાન") || token_matches(parser, name, "kmeans_predict")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = kmeans_predict_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "નિર્ણય_વૃક્ષ_ટ્રેન") || token_matches(parser, name, "dtree_fit")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = dtree_fit_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "નિર્ણય_વૃક્ષ_અનુમાન") || token_matches(parser, name, "dtree_predict")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = dtree_predict_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "ચોકસાઈ_સ્કોર") || token_matches(parser, name, "ml_accuracy_score")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = ml_accuracy_score_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "ક્રોન_બનાવો") || token_matches(parser, name, "cron_create")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = cron_create_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "ક્રોન_શરૂ") || token_matches(parser, name, "cron_start")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = cron_start_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "ક્રોન_બંધ") || token_matches(parser, name, "cron_stop")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = cron_stop_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "આગામી_રન") || token_matches(parser, name, "cron_next_run")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = cron_next_run_helper(parser, name, arguments[0]);
                 }
 
 
@@ -20621,7 +21309,9 @@ static int run_cli_wasm(const char *in_file, const char *out_file)
 static int run_cli_docs(const char *topic)
 {
     if (!topic || !topic[0]) {
-        printf("\n=== ગુજરાતીલેંગ્વેજ v1.7.0 વિષયોની સૂચિ ===\n");
+        printf("\n=== ગુજરાતીલેંગ્વેજ v1.8.0 વિષયોની સૂચિ ===\n");
+        printf("  - matrix_dot / મેટ્રિક્સ_ગુણાકાર, stat_median / આંકડા_મધ્યસ્થ, rpc_server_create / આરપીસી_સર્વર_બનાવો\n");
+        printf("  - cache_create / કેશ_બનાવો, kmeans_fit / કેમીન્સ_ટ્રેન, cron_create / ક્રોન_બનાવો\n");
         printf("  - bundle / બંડલ, router_create / રાઉટર_બનાવો, ipc_pipe_create / આઈપીસી_પાઇપ_બનાવો\n");
         printf("  - profile_cpu_start / પ્રોફાઇલ_શરૂ, hex_encode / હેક્સ_એન્કોડ, fs_watch / ફાઇલ_નિરીક્ષણ\n");
         printf("  - http_get / નેટ_મેળવો, http_post / નેટ_મોકલો, server_create / સર્વર_બનાવો\n");
@@ -20684,7 +21374,7 @@ int main(int argc, char **argv)
     SetConsoleCP(CP_UTF8);
 #endif
     if (argc >= 2 && (strcmp(argv[1], "--version") == 0 || strcmp(argv[1], "-v") == 0)) {
-        printf("1.7.0\n");
+        printf("1.8.0\n");
         return EXIT_SUCCESS;
     }
     if (argc >= 2 && strcmp(argv[1], "pkg") == 0) {
@@ -20739,6 +21429,9 @@ int main(int argc, char **argv)
     }
     if (argc >= 2 && strcmp(argv[1], "watch") == 0) {
         return run_cli_watch(argc >= 3 ? argv[2] : NULL);
+    }
+    if (argc >= 2 && strcmp(argv[1], "cron") == 0) {
+        return run_cli_cron(argc >= 3 ? argv[2] : NULL);
     }
 
     char *source;

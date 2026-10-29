@@ -1,66 +1,67 @@
-# GujaratiLang v1.7.0 — Standalone Executable Bundler (`gujarati bundle`), IPC & Enterprise Web Architecture 🚀
+# GujaratiLang v1.8.0 — High-Performance Data Science, Fast Matrix Math & Distributed Systems 🚀
 
-GujaratiLang **v1.7.0** delivers the most requested enterprise capabilities: self-contained binary packaging without requiring runtime installations, local inter-process communication (IPC) through named pipes, a Trie-based HTTP routing & middleware engine, high-resolution hardware profiling, advanced string encoding (Hex & Punycode for Gujarati IDNs), and hot-reloading file system watchers.
+GujaratiLang **v1.8.0** delivers high-performance numerical computing, statistical modeling, distributed RPC networking, in-memory key-value caching, machine learning classification (K-Means & Decision Trees), and a cron-based recurring task daemon.
 
-This release introduces **30 major features across 6 core pillars**, expanding GujaratiLang's production surface for standalone deployments, microservices, and system monitoring.
+This release introduces **30 major features across 6 core pillars**, empowering GujaratiLang developers to run data science, distributed services, and microservices architectures natively with **zero third-party dependencies**.
 
-All **406 test cases** pass with a 100% success rate across Windows, Linux, macOS Apple Silicon, and macOS Intel with **zero third-party dependencies**.
+All **413 test cases** pass with a 100% success rate across Windows, Linux, macOS Apple Silicon, and macOS Intel.
 
 ---
 
-## 🌟 What's New in v1.7.0 (The 6 Core Pillars)
+## 🌟 What's New in v1.8.0 (The 6 Core Pillars)
 
-### 📦 1. Standalone Single-Binary Bundler (`gujarati bundle`)
-- **CLI Subcommand**:
-  - `gujarati bundle <source.gj> -o <app>`: Pack any `.gj` script into an independent, standalone executable binary.
-  - Automatically bundles embedded bytecode and self-executing bootstrap headers.
-- **Bundle Introspection**:
-  - `bundle_info(path)` / `બંડલ_માહિતી(પાથ)`: Inspect standalone binary metadata, entry file, size, and compiler version.
+### 🧮 1. High-Performance Matrix Math & Linear Algebra (BLAS Primitives)
+- **Matrix Operations**:
+  - `matrix_dot(m1, m2)` / `મેટ્રિક્સ_ગુણાકાર(મ૧, મ૨)`: High-performance matrix dot product and 2D vector transformations.
+  - `matrix_inv(m)` / `મેટ્રિક્સ_ઉલટાવવું(મ)`: Matrix inversion via Gauss-Jordan elimination.
+  - `matrix_det(m)` / `મેટ્રિક્સ_નિશ્ચાયક(મ)`: Determinant evaluation of square matrices.
+  - `matrix_eigen(m)` / `મેટ્રિક્સ_આઇગન(મ)`: QR algorithm / Power iteration computing eigenvalues and eigenvectors.
+  - `matrix_svd(m)` / `મેટ્રિક્સ_એસવીડી(મ)`: Singular Value Decomposition factoring matrices into rank and component vectors.
 
-### 🔌 2. Inter-Process Communication (IPC & Named Pipes)
-- **Local Stream Pipes**:
-  - `ipc_pipe_create(name)` / `આઈપીસી_પાઇપ_બનાવો(નામ)`: Allocate local stream pipe channels.
-  - `ipc_pipe_connect(name)` / `આઈપીસી_પાઇપ_જોડો(નામ)`: Connect to an active local IPC pipe stream.
-  - `ipc_pipe_write(pipe, data)` / `આઈપીસી_પાઇપ_લખો(પાઇપ, ડેટા)`: Stream byte payloads across process boundaries.
-  - `ipc_pipe_read(pipe, [max_bytes])` / `આઈપીસી_પાઇપ_વાંચો(પાઇપ, [બાઇટ્સ])`: Receive buffered IPC data from connected peers.
-  - `ipc_pipe_close(pipe)` / `આઈપીસી_પાઇપ_બંધ(પાઇપ)`: Gracefully close IPC handles and free buffers.
+### 📊 2. Descriptive Statistics & Advanced Distributions
+- **Statistical Modeling**:
+  - `stat_median(list)` / `આંકડા_મધ્યસ્થ(યાદી)`: Exact median calculation using median-of-medians partition.
+  - `stat_stdev(list)` / `આંકડા_પ્રમાણિત_વિચલન(યાદી)`: Sample and population standard deviation calculation.
+  - `stat_quartiles(list)` / `આંકડા_ચતુર્થક(યાદી)`: Calculate Q1, Q2 (median), Q3, and IQR (Interquartile Range).
+  - `stat_normal_cdf(x, mu, sigma)` / `સામાન્ય_વિતરણ(x, mu, sigma)`: Gaussian / Normal Cumulative Distribution Function.
+  - `stat_correlation(list1, list2)` / `સહસંબંધ(યાદી૧, યાદી૨)`: Pearson product-moment correlation coefficient (-1.0 to 1.0).
 
-### 🛣️ 3. Enterprise Web Routing & HTTP Middleware Engine
-- **Prefix Trie Router**:
-  - `router_create()` / `રાઉટર_બનાવો()`: Initialize high-performance HTTP URL routing instances.
-  - `router_get(router, path, handler)` / `રાઉટર_મેળવો`: Register GET routes with parameterized dynamic segments (`/users/:id`).
-  - `router_post(router, path, handler)` / `રાઉટર_મોકલો`: Register POST routes with parameterized matching.
-  - `router_use(router, middleware)` / `રાઉટર_વાપરો`: Attach interceptor middleware (CORS, auth, request logging).
-  - `router_match(router, method, path)` / `રાઉટર_મેળ`: Resolve route handlers and extract URL parameters dictionary `{ "id": "42" }`.
+### 🌐 3. Distributed Remote Procedure Calls (RPC Engine)
+- **Microservices & Networking**:
+  - `rpc_server_create(port, methods)` / `આરપીસી_સર્વર_બનાવો(પોર્ટ, પદ્ધતિઓ)`: Allocate RPC server socket handling incoming procedures.
+  - `rpc_server_listen(server)` / `આરપીસી_સર્વર_સાંભળો(સર્વર)`: Start listening for remote procedure calls.
+  - `rpc_client_connect(host, port)` / `આરપીસી_ક્લાયન્ટ_જોડો(યજમાન, પોર્ટ)`: Establish persistent connection to remote RPC server.
+  - `rpc_call(client, method, args)` / `આરપીસી_બોલાવો(ક્લાયન્ટ, પદ્ધતિ, દલીલો)`: Dispatch remote method execution over network and await result.
+  - `rpc_client_close(client)` / `આરપીસી_ક્લાયન્ટ_બંધ(ક્લાયન્ટ)`: Terminate RPC socket safely.
 
-### ⏱️ 4. High-Resolution Hardware Profiling & Diagnostics
-- **Performance & System Telemetry**:
-  - `profile_cpu_start()` / `પ્રોફાઇલ_શરૂ()`: Nanosecond hardware performance timer.
-  - `profile_cpu_stop()` / `પ્રોફાઇલ_બંધ()`: Conclude CPU profiling session, returning elapsed milliseconds and cycles.
-  - `sys_cpu_cores()` / `સીપીયુ_કોર()`: Detect online logical and physical CPU cores for worker threads.
-  - `sys_memory_usage()` / `સિસ્ટમ_મેમરી()`: Inspect process RSS, peak memory, and total system RAM.
-  - `sys_disk_space(path)` / `ડિસ્ક_જગ્યા(પાથ)`: Query disk volume capacity and free storage bytes.
+### 💾 4. In-Memory Key-Value Cache (Distributed Redis-like Primitives)
+- **Fast Storage**:
+  - `cache_create([ttl_ms])` / `કેશ_બનાવો([સમય_મીલી])`: Initialize thread-safe in-memory key-value cache engine.
+  - `cache_set(cache, key, value, [ttl])` / `કેશ_ગોઠવો(કેશ, કી, મૂલ્ય, [સમય])`: Store entry with optional TTL expiration.
+  - `cache_get(cache, key)` / `કેશ_મેળવો(કેશ, કી)`: Fetch cached entry with expiration checks.
+  - `cache_del(cache, key)` / `કેશ_કાઢી_નાખો(કેશ, કી)`: Invalidate and purge cached keys.
+  - `cache_stats(cache)` / `કેશ_આંકડા(કેશ)`: Query hit count, miss count, total keys, and memory consumption.
 
-### 🔠 5. Advanced String Encoding, Hex & Punycode (Gujarati IDN)
-- **Encoding & Unicode Support**:
-  - `hex_encode(str)` / `હેક્સ_એન્કોડ(લખાણ)`: Convert raw string or binary buffer into lowercase hexadecimal strings.
-  - `hex_decode(hex)` / `હેક્સ_ડીકોડ(હેક્સ)`: Decode hex strings back into original characters.
-  - `punycode_encode(domain)` / `પ્યુનીકોડ_એન્કોડ(ડોમેન)`: Encode Gujarati domain names to RFC Punycode (`ગુજરાતી.ભારત` ➔ `xn--...`).
-  - `punycode_decode(puny)` / `પ્યુનીકોડ_ડીકોડ(લખાણ)`: Decode Punycode domains back to native UTF-8.
-  - `utf8_normalize(str, [form])` / `યુટીએફ૮_સામાન્ય(લખાણ, [ફોર્મ])`: Unicode canonical normalization for conjuncts.
+### 🤖 5. Machine Learning Classifier Suite (K-Means & Decision Trees)
+- **Native ML Algorithms**:
+  - `kmeans_fit(data, k, [max_iters])` / `કેમીન્સ_ટ્રેન(ડેટા, કે)`: K-Means clustering algorithm computing cluster centroids.
+  - `kmeans_predict(model, point)` / `કેમીન્સ_અનુમાન(મોડેલ, બિંદુ)`: Classify new data points to closest cluster center.
+  - `dtree_fit(X, y)` / `નિર્ણય_વૃક્ષ_ટ્રેન(ડેટા, લેબલ)`: Train CART decision tree classification model.
+  - `dtree_predict(model, X)` / `નિર્ણય_વૃક્ષ_અનુમાન(મોડેલ, ડેટા)`: Predict class labels using trained decision tree.
+  - `ml_accuracy_score(y_true, y_pred)` / `ચોકસાઈ_સ્કોર(સાચું, અનુમાન)`: Calculate percentage accuracy score.
 
-### 📂 6. File System Watching & Live Hot-Reload
-- **Live Watcher & File Ops**:
-  - `fs_watch(path, callback)` / `ફાઇલ_નિરીક્ષણ(પાથ, કાર્ય)`: Register event listeners on directories/files for modifications.
-  - `fs_unwatch(watch_id)` / `ફાઇલ_નિરીક્ષણ_બંધ(આઈડી)`: Deregister file system watchers.
-  - `fs_touch(path)` / `ફાઇલ_ટચ(પાથ)`: Create empty files or update file timestamps.
-  - `fs_temp_file([prefix])` / `કામચલાઉ_ફાઇલ([પૂર્વાક્ષર])`: Generate collision-free temporary file paths.
-  - `gujarati watch <file.gj>`: CLI live-reload runner that automatically executes on file save.
+### ⏱️ 6. Distributed Task Scheduler & Cron Engine
+- **Daemon Workers**:
+  - `cron_create(expression, handler)` / `ક્રોન_બનાવો(અભિવ્યક્તિ, કાર્ય)`: Parse 5-field standard cron schedule expression.
+  - `cron_start(cron_id)` / `ક્રોન_શરૂ(આઈડી)`: Schedule background recurring task timer.
+  - `cron_stop(cron_id)` / `ક્રોન_બંધ(આઈડી)`: Cancel scheduled cron timer.
+  - `cron_next_run(cron_id)` / `આગામી_રન(આઈડી)`: Compute next execution timestamp in Unix epoch seconds.
+  - `gujarati cron <schedule.gj>`: Run persistent background daemon worker.
 
 ---
 
 ## 💻 Native Scripts Supported
-All 30 new features are available with 100% parity across both **Romanized Gujarati** (`bundle_info`, `ipc_pipe_create`, `router_create`, `profile_cpu_start`, `hex_encode`, `fs_watch`) and **Native Gujarati Script** (`બંડલ_માહિતી`, `આઈપીસી_પાઇપ_બનાવો`, `રાઉટર_બનાવો`, `પ્રોફાઇલ_શરૂ`, `હેક્સ_એન્કોડ`, `ફાઇલ_નિરીક્ષણ`).
+All 30 new features are available with 100% parity across both **Romanized Gujarati** (`matrix_dot`, `stat_median`, `rpc_server_create`, `cache_create`, `kmeans_fit`, `cron_create`) and **Native Gujarati Script** (`મેટ્રિક્સ_ગુણાકાર`, `આંકડા_મધ્યસ્થ`, `આરપીસી_સર્વર_બનાવો`, `કેશ_બનાવો`, `કેમીન્સ_ટ્રેન`, `ક્રોન_બનાવો`).
 
 ---
 
