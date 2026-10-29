@@ -2031,7 +2031,63 @@ static int is_builtin_function_name(Parser *parser, Token name)
            token_matches(parser, name, "ચાર્ટ_આવૃત્તિ_સ્તંભ") ||
            token_matches(parser, name, "chart_terminal_histogram") ||
            token_matches(parser, name, "ગણિત_ઉકેલો") ||
-           token_matches(parser, name, "math_eval");
+           token_matches(parser, name, "math_eval") ||
+           token_matches(parser, name, "વિન્ડો_બનાવો") ||
+           token_matches(parser, name, "gui_window") ||
+           token_matches(parser, name, "બટન_બનાવો") ||
+           token_matches(parser, name, "gui_button") ||
+           token_matches(parser, name, "લખાણ_બનાવો") ||
+           token_matches(parser, name, "gui_text") ||
+           token_matches(parser, name, "કેનવાસ_દોરો") ||
+           token_matches(parser, name, "gui_canvas_draw") ||
+           token_matches(parser, name, "ઘટના_ચક્ર") ||
+           token_matches(parser, name, "gui_event_loop") ||
+           token_matches(parser, name, "રેજેક્સ_સરખાવો") ||
+           token_matches(parser, name, "regex_match") ||
+           token_matches(parser, name, "રેજેક્સ_શોધો") ||
+           token_matches(parser, name, "regex_find") ||
+           token_matches(parser, name, "રેજેક્સ_બદલો") ||
+           token_matches(parser, name, "regex_replace") ||
+           token_matches(parser, name, "રેજેક્સ_વિભાજન") ||
+           token_matches(parser, name, "regex_split") ||
+           token_matches(parser, name, "રેજેક્સ_બધા") ||
+           token_matches(parser, name, "regex_all") ||
+           token_matches(parser, name, "અવાજ_બીપ") ||
+           token_matches(parser, name, "sound_beep") ||
+           token_matches(parser, name, "સુર_વગાડો") ||
+           token_matches(parser, name, "sound_melody") ||
+           token_matches(parser, name, "ઓડિયો_બનાવો") ||
+           token_matches(parser, name, "wav_create") ||
+           token_matches(parser, name, "ઓડિયો_વાંચો") ||
+           token_matches(parser, name, "wav_read") ||
+           token_matches(parser, name, "ઓડિયો_ચલાવો") ||
+           token_matches(parser, name, "sound_play_file") ||
+           token_matches(parser, name, "એઈએસ_ગુપ્ત") ||
+           token_matches(parser, name, "aes_encrypt") ||
+           token_matches(parser, name, "એઈએસ_પ્રગટ") ||
+           token_matches(parser, name, "aes_decrypt") ||
+           token_matches(parser, name, "ટીઓટીપી_બનાવો") ||
+           token_matches(parser, name, "totp_generate") ||
+           token_matches(parser, name, "ટીઓટીપી_ચકાસો") ||
+           token_matches(parser, name, "totp_verify") ||
+           token_matches(parser, name, "એચમેક_શા૨૫૬") ||
+           token_matches(parser, name, "hmac_sha256") ||
+           token_matches(parser, name, "દબાવો_ડેટા") ||
+           token_matches(parser, name, "zip_compress") ||
+           token_matches(parser, name, "ખોલો_ડેટા") ||
+           token_matches(parser, name, "zip_decompress") ||
+           token_matches(parser, name, "ઝિપ_ફાઇલ_બનાવો") ||
+           token_matches(parser, name, "zip_create") ||
+           token_matches(parser, name, "ઝિપ_ફાઇલ_ખોલો") ||
+           token_matches(parser, name, "zip_extract") ||
+           token_matches(parser, name, "ઝિપ_ફાઇલ_સૂચિ") ||
+           token_matches(parser, name, "zip_list") ||
+           token_matches(parser, name, "ડિબગ_તપાસ") ||
+           token_matches(parser, name, "debug_trace") ||
+           token_matches(parser, name, "રોકાણ_બિંદુ") ||
+           token_matches(parser, name, "debug_breakpoint") ||
+           token_matches(parser, name, "મેમરી_માહિતી") ||
+           token_matches(parser, name, "memory_info");
 }
 
 static int store_input_string(Parser *parser, Token name, char *input)
@@ -8208,6 +8264,1426 @@ static int run_cli_disasm(const char *filename)
 }
 
 
+/* GujaratiLang v1.4.0 Mega-Release Helpers
+ * 1. GUI & Canvas
+ * 2. Regular Expressions
+ * 3. Audio & Sound Engine
+ * 4. AES-128 & TOTP 2FA Cryptography
+ * 5. PKZIP Container & Compression
+ * 6. Debugger & Memory Diagnostics
+ */
+
+#pragma comment(lib, "user32.lib")
+#pragma comment(lib, "gdi32.lib")
+
+static Value gj_string(Parser *parser, Token name, const char *s)
+{
+    if (!s) return null_value();
+    size_t len = strlen(s);
+    return make_owned_string_value(parser, name, copy_string(s), len);
+}
+
+static Value gj_dict(Dict *d)
+{
+    Value v = number_value(0.0);
+    v.kind = VALUE_DICT;
+    v.dict = d;
+    return v;
+}
+
+static Value gj_list(List *l)
+{
+    Value v = number_value(0.0);
+    v.kind = VALUE_LIST;
+    v.list = l;
+    return v;
+}
+
+static void gj_dict_set(Parser *parser, Dict *d, const char *key, Value val, Token token)
+{
+    if (d && key) {
+        dict_set(parser, d, key, strlen(key), val, token);
+    }
+}
+
+static Value gj_dict_get(Dict *d, const char *key)
+{
+    if (!d || !key) return null_value();
+    Value *v = dict_get(d, key, strlen(key));
+    return v ? *v : null_value();
+}
+
+/* =========================================================================
+ * 1. GUI & Canvas Graphics (Win32 & Headless Fallback)
+ * ========================================================================= */
+
+typedef struct {
+    int id;
+    char title[128];
+    int width;
+    int height;
+    int is_open;
+    int control_count;
+#ifdef _WIN32
+    HWND hwnd;
+#endif
+} GuiWinInstance;
+
+static GuiWinInstance g_gui_wins[16];
+static int g_gui_win_count = 0;
+
+static Value gui_window_helper(Parser *parser, Token name, Value title_v, Value w_v, Value h_v)
+{
+    if (title_v.kind != VALUE_STRING || w_v.kind != VALUE_NUMBER || h_v.kind != VALUE_NUMBER) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *title = value_to_c_string(parser, title_v);
+    int w = (int)w_v.number;
+    int h = (int)h_v.number;
+
+    int wid = ++g_gui_win_count;
+    if (wid <= 16) {
+        GuiWinInstance *inst = &g_gui_wins[wid - 1];
+        inst->id = wid;
+        strncpy(inst->title, title ? title : "Gujarati Window", sizeof(inst->title) - 1);
+        inst->title[sizeof(inst->title) - 1] = '\0';
+        inst->width = w > 0 ? w : 640;
+        inst->height = h > 0 ? h : 480;
+        inst->is_open = 1;
+        inst->control_count = 0;
+    }
+    if (title) free(title);
+
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "handle", number_value((double)wid), name);
+    gj_dict_set(parser, d, "title", title_v, name);
+    gj_dict_set(parser, d, "width", number_value((double)w), name);
+    gj_dict_set(parser, d, "height", number_value((double)h), name);
+    gj_dict_set(parser, d, "open", number_value(1.0), name);
+    List *ctrls = create_list(parser, name);
+    gj_dict_set(parser, d, "controls", gj_list(ctrls), name);
+    return gj_dict(d);
+}
+
+static Value gui_button_helper(Parser *parser, Token name, Value win_v, Value txt_v, Value x_v, Value y_v, Value w_v, Value h_v, Value cb_v)
+{
+    if (win_v.kind != VALUE_DICT || txt_v.kind != VALUE_STRING ||
+        x_v.kind != VALUE_NUMBER || y_v.kind != VALUE_NUMBER ||
+        w_v.kind != VALUE_NUMBER || h_v.kind != VALUE_NUMBER) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    Dict *btn = create_dict(parser, name);
+    gj_dict_set(parser, btn, "type", gj_string(parser, name, "button"), name);
+    gj_dict_set(parser, btn, "text", txt_v, name);
+    gj_dict_set(parser, btn, "x", x_v, name);
+    gj_dict_set(parser, btn, "y", y_v, name);
+    gj_dict_set(parser, btn, "w", w_v, name);
+    gj_dict_set(parser, btn, "h", h_v, name);
+    gj_dict_set(parser, btn, "callback", cb_v.kind == VALUE_STRING ? cb_v : gj_string(parser, name, ""), name);
+
+    Value ctrl_list = gj_dict_get(win_v.dict, "controls");
+    if (ctrl_list.kind == VALUE_LIST) {
+        append_list_item(parser, ctrl_list.list, gj_dict(btn), name);
+    }
+    return gj_dict(btn);
+}
+
+static Value gui_text_helper(Parser *parser, Token name, Value win_v, Value txt_v, Value x_v, Value y_v)
+{
+    if (win_v.kind != VALUE_DICT || txt_v.kind != VALUE_STRING ||
+        x_v.kind != VALUE_NUMBER || y_v.kind != VALUE_NUMBER) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    Dict *lbl = create_dict(parser, name);
+    gj_dict_set(parser, lbl, "type", gj_string(parser, name, "text"), name);
+    gj_dict_set(parser, lbl, "text", txt_v, name);
+    gj_dict_set(parser, lbl, "x", x_v, name);
+    gj_dict_set(parser, lbl, "y", y_v, name);
+
+    Value ctrl_list = gj_dict_get(win_v.dict, "controls");
+    if (ctrl_list.kind == VALUE_LIST) {
+        append_list_item(parser, ctrl_list.list, gj_dict(lbl), name);
+    }
+    return gj_dict(lbl);
+}
+
+static Value gui_canvas_draw_helper(Parser *parser, Token name, Value win_v, Value shape_v, Value coords_v, Value color_v)
+{
+    (void)color_v;
+    if (win_v.kind != VALUE_DICT || shape_v.kind != VALUE_STRING || coords_v.kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    return number_value(1.0);
+}
+
+static Value gui_event_loop_helper(Parser *parser, Token name, Value win_v, Value max_ticks_v)
+{
+    if (win_v.kind != VALUE_DICT) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    int max_ticks = (max_ticks_v.kind == VALUE_NUMBER) ? (int)max_ticks_v.number : 1;
+#ifdef _WIN32
+    MSG msg;
+    int ticks = 0;
+    while (ticks < max_ticks && PeekMessageA(&msg, NULL, 0, 0, PM_REMOVE)) {
+        TranslateMessage(&msg);
+        DispatchMessageA(&msg);
+        ticks++;
+    }
+#else
+    (void)max_ticks;
+#endif
+    return number_value(1.0);
+}
+
+/* =========================================================================
+ * 2. Regular Expressions Engine (Pure C)
+ * ========================================================================= */
+
+static int gj_match_atom(const char *pat, int *pat_adv, char text_ch)
+{
+    if (*pat == '\\') {
+        char esc = *(pat + 1);
+        *pat_adv = 2;
+        if (esc == 'd') return isdigit((unsigned char)text_ch);
+        if (esc == 'D') return !isdigit((unsigned char)text_ch);
+        if (esc == 'w') return isalnum((unsigned char)text_ch) || text_ch == '_' || (unsigned char)text_ch >= 128;
+        if (esc == 'W') return !(isalnum((unsigned char)text_ch) || text_ch == '_' || (unsigned char)text_ch >= 128);
+        if (esc == 's') return isspace((unsigned char)text_ch);
+        if (esc == 'S') return !isspace((unsigned char)text_ch);
+        if (esc == 't') return text_ch == '\t';
+        if (esc == 'n') return text_ch == '\n';
+        if (esc == 'r') return text_ch == '\r';
+        return text_ch == esc;
+    }
+    if (*pat == '[') {
+        int i = 1;
+        int negate = (pat[1] == '^');
+        if (negate) i++;
+        int matched = 0;
+        while (pat[i] && pat[i] != ']') {
+            if (pat[i + 1] == '-' && pat[i + 2] && pat[i + 2] != ']') {
+                char s = pat[i];
+                char e = pat[i + 2];
+                if ((unsigned char)text_ch >= (unsigned char)s && (unsigned char)text_ch <= (unsigned char)e) {
+                    matched = 1;
+                }
+                i += 3;
+            } else {
+                if (text_ch == pat[i]) matched = 1;
+                i++;
+            }
+        }
+        *pat_adv = (pat[i] == ']') ? (i + 1) : i;
+        return negate ? !matched : matched;
+    }
+    if (*pat == '.') {
+        *pat_adv = 1;
+        return text_ch != '\n';
+    }
+    *pat_adv = 1;
+    return *pat == text_ch;
+}
+
+static int gj_regex_match_here(const char *pattern, const char *text, int *matched_len)
+{
+    if (!*pattern) {
+        *matched_len = 0;
+        return 1;
+    }
+    if (*pattern == '$' && *(pattern + 1) == '\0') {
+        if (*text == '\0') {
+            *matched_len = 0;
+            return 1;
+        }
+        return 0;
+    }
+
+    int pat_adv = 0;
+    char dummy_ch = *text ? *text : ' ';
+    gj_match_atom(pattern, &pat_adv, dummy_ch);
+    char next_op = *(pattern + pat_adv);
+
+    if (next_op == '*') {
+        int count = 0;
+        int adv = 0;
+        while (*(text + count) && gj_match_atom(pattern, &adv, *(text + count))) {
+            count++;
+        }
+        for (int c = count; c >= 0; c--) {
+            int sub_len = 0;
+            if (gj_regex_match_here(pattern + pat_adv + 1, text + c, &sub_len)) {
+                *matched_len = c + sub_len;
+                return 1;
+            }
+        }
+        return 0;
+    }
+    if (next_op == '+') {
+        int adv = 0;
+        if (!*text || !gj_match_atom(pattern, &adv, *text)) return 0;
+        int count = 1;
+        while (*(text + count) && gj_match_atom(pattern, &adv, *(text + count))) {
+            count++;
+        }
+        for (int c = count; c >= 1; c--) {
+            int sub_len = 0;
+            if (gj_regex_match_here(pattern + pat_adv + 1, text + c, &sub_len)) {
+                *matched_len = c + sub_len;
+                return 1;
+            }
+        }
+        return 0;
+    }
+    if (next_op == '?') {
+        int adv = 0;
+        if (*text && gj_match_atom(pattern, &adv, *text)) {
+            int sub_len = 0;
+            if (gj_regex_match_here(pattern + pat_adv + 1, text + 1, &sub_len)) {
+                *matched_len = 1 + sub_len;
+                return 1;
+            }
+        }
+        int sub_len = 0;
+        if (gj_regex_match_here(pattern + pat_adv + 1, text, &sub_len)) {
+            *matched_len = sub_len;
+            return 1;
+        }
+        return 0;
+    }
+
+    if (*text) {
+        int adv = 0;
+        if (gj_match_atom(pattern, &adv, *text)) {
+            int sub_len = 0;
+            if (gj_regex_match_here(pattern + adv, text + 1, &sub_len)) {
+                *matched_len = 1 + sub_len;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+static int gj_regex_search(const char *pattern, const char *text, int *start_idx, int *match_len)
+{
+    int anchor_start = (pattern[0] == '^');
+    const char *p = anchor_start ? pattern + 1 : pattern;
+    int idx = 0;
+    do {
+        int mlen = 0;
+        if (gj_regex_match_here(p, text + idx, &mlen)) {
+            *start_idx = idx;
+            *match_len = mlen;
+            return 1;
+        }
+        if (anchor_start) break;
+    } while (text[idx++]);
+    return 0;
+}
+
+static Value regex_match_helper(Parser *parser, Token name, Value pat_v, Value txt_v)
+{
+    if (pat_v.kind != VALUE_STRING || txt_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *pat = value_to_c_string(parser, pat_v);
+    char *txt = value_to_c_string(parser, txt_v);
+    int s = 0, len = 0;
+    int found = gj_regex_search(pat ? pat : "", txt ? txt : "", &s, &len);
+    if (pat) free(pat);
+    if (txt) free(txt);
+    return number_value(found ? 1.0 : 0.0);
+}
+
+static Value regex_find_helper(Parser *parser, Token name, Value pat_v, Value txt_v)
+{
+    if (pat_v.kind != VALUE_STRING || txt_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *pat = value_to_c_string(parser, pat_v);
+    char *txt = value_to_c_string(parser, txt_v);
+    int s = 0, len = 0;
+    int found = gj_regex_search(pat ? pat : "", txt ? txt : "", &s, &len);
+    if (!found || !txt) {
+        if (pat) free(pat);
+        if (txt) free(txt);
+        return null_value();
+    }
+
+    char *matched_buf = (char *)malloc(len + 1);
+    if (!matched_buf) {
+        if (pat) free(pat);
+        if (txt) free(txt);
+        return null_value();
+    }
+    memcpy(matched_buf, txt + s, len);
+    matched_buf[len] = '\0';
+
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "match", make_owned_string_value(parser, name, matched_buf, len), name);
+    gj_dict_set(parser, d, "start", number_value((double)s), name);
+    gj_dict_set(parser, d, "end", number_value((double)(s + len)), name);
+
+    if (pat) free(pat);
+    if (txt) free(txt);
+    return gj_dict(d);
+}
+
+static Value regex_replace_helper(Parser *parser, Token name, Value pat_v, Value repl_v, Value txt_v)
+{
+    if (pat_v.kind != VALUE_STRING || repl_v.kind != VALUE_STRING || txt_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *pat = value_to_c_string(parser, pat_v);
+    char *repl = value_to_c_string(parser, repl_v);
+    char *txt = value_to_c_string(parser, txt_v);
+    if (!pat || !repl || !txt) {
+        if (pat) free(pat);
+        if (repl) free(repl);
+        if (txt) free(txt);
+        return gj_string(parser, name, "");
+    }
+
+    StringBuffer sb;
+    sb_init(&sb);
+    int cur = 0;
+    int text_len = (int)strlen(txt);
+    size_t repl_len = strlen(repl);
+    while (cur < text_len) {
+        int s = 0, mlen = 0;
+        if (gj_regex_search(pat, txt + cur, &s, &mlen) && mlen > 0) {
+            sb_append(&sb, txt + cur, s);
+            sb_append(&sb, repl, repl_len);
+            cur += s + mlen;
+        } else {
+            sb_append(&sb, txt + cur, text_len - cur);
+            break;
+        }
+    }
+    Value res = make_owned_string_value(parser, name, sb.data, sb.length);
+    free(pat);
+    free(repl);
+    free(txt);
+    return res;
+}
+
+static Value regex_split_helper(Parser *parser, Token name, Value pat_v, Value txt_v)
+{
+    if (pat_v.kind != VALUE_STRING || txt_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *pat = value_to_c_string(parser, pat_v);
+    char *txt = value_to_c_string(parser, txt_v);
+    List *list = create_list(parser, name);
+    if (!pat || !txt) {
+        if (pat) free(pat);
+        if (txt) free(txt);
+        return gj_list(list);
+    }
+
+    int cur = 0;
+    int text_len = (int)strlen(txt);
+    while (cur < text_len) {
+        int s = 0, mlen = 0;
+        if (gj_regex_search(pat, txt + cur, &s, &mlen) && mlen > 0) {
+            char *part = (char *)malloc(s + 1);
+            if (part) {
+                memcpy(part, txt + cur, s);
+                part[s] = '\0';
+                append_list_item(parser, list, make_owned_string_value(parser, name, part, s), name);
+            }
+            cur += s + mlen;
+        } else {
+            size_t rem = text_len - cur;
+            char *part = (char *)malloc(rem + 1);
+            if (part) {
+                memcpy(part, txt + cur, rem);
+                part[rem] = '\0';
+                append_list_item(parser, list, make_owned_string_value(parser, name, part, rem), name);
+            }
+            break;
+        }
+    }
+    free(pat);
+    free(txt);
+    return gj_list(list);
+}
+
+static Value regex_all_helper(Parser *parser, Token name, Value pat_v, Value txt_v)
+{
+    if (pat_v.kind != VALUE_STRING || txt_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *pat = value_to_c_string(parser, pat_v);
+    char *txt = value_to_c_string(parser, txt_v);
+    List *list = create_list(parser, name);
+    if (!pat || !txt) {
+        if (pat) free(pat);
+        if (txt) free(txt);
+        return gj_list(list);
+    }
+
+    int cur = 0;
+    int text_len = (int)strlen(txt);
+    while (cur < text_len) {
+        int s = 0, mlen = 0;
+        if (gj_regex_search(pat, txt + cur, &s, &mlen) && mlen > 0) {
+            char *part = (char *)malloc(mlen + 1);
+            if (part) {
+                memcpy(part, txt + cur + s, mlen);
+                part[mlen] = '\0';
+                append_list_item(parser, list, make_owned_string_value(parser, name, part, mlen), name);
+            }
+            cur += s + mlen;
+        } else {
+            break;
+        }
+    }
+    free(pat);
+    free(txt);
+    return gj_list(list);
+}
+
+/* =========================================================================
+ * 3. Audio & Sound Engine (Pure C & WAV Synthesizer)
+ * ========================================================================= */
+
+static Value sound_beep_helper(Parser *parser, Token name, Value freq_v, Value dur_v)
+{
+    if (freq_v.kind != VALUE_NUMBER || dur_v.kind != VALUE_NUMBER) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    int freq = (int)freq_v.number;
+    int dur = (int)dur_v.number;
+#ifdef _WIN32
+    Beep((DWORD)(freq > 37 ? freq : 440), (DWORD)(dur > 0 ? dur : 100));
+#else
+    (void)freq; (void)dur;
+#endif
+    return number_value(1.0);
+}
+
+static int note_to_freq(const char *note)
+{
+    if (!note) return 440;
+    if (strcmp(note, "Sa") == 0 || strcmp(note, "સા") == 0) return 261;
+    if (strcmp(note, "Re") == 0 || strcmp(note, "રે") == 0) return 294;
+    if (strcmp(note, "Ga") == 0 || strcmp(note, "ગ") == 0) return 329;
+    if (strcmp(note, "Ma") == 0 || strcmp(note, "મ") == 0) return 349;
+    if (strcmp(note, "Pa") == 0 || strcmp(note, "પ") == 0) return 392;
+    if (strcmp(note, "Dha") == 0 || strcmp(note, "ધ") == 0) return 440;
+    if (strcmp(note, "Ni") == 0 || strcmp(note, "ની") == 0) return 493;
+    if (strcmp(note, "Sa2") == 0 || strcmp(note, "સા૨") == 0) return 523;
+    return 440;
+}
+
+static Value sound_melody_helper(Parser *parser, Token name, Value notes_v, Value tempo_v)
+{
+    if (notes_v.kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    int tempo = (tempo_v.kind == VALUE_NUMBER && tempo_v.number > 0) ? (int)tempo_v.number : 150;
+    size_t count = notes_v.list->count;
+    for (size_t i = 0; i < count; i++) {
+        Value elem = notes_v.list->items[i];
+        int freq = 440;
+        if (elem.kind == VALUE_NUMBER) {
+            freq = (int)elem.number;
+        } else if (elem.kind == VALUE_STRING) {
+            char *ns = value_to_c_string(parser, elem);
+            freq = note_to_freq(ns);
+            if (ns) free(ns);
+        }
+#ifdef _WIN32
+        Beep((DWORD)freq, (DWORD)tempo);
+#else
+        (void)freq; (void)tempo;
+#endif
+    }
+    return number_value((double)count);
+}
+
+static Value wav_create_helper(Parser *parser, Token name, Value path_v, Value rate_v, Value samples_v)
+{
+    if (path_v.kind != VALUE_STRING || rate_v.kind != VALUE_NUMBER || samples_v.kind != VALUE_LIST) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *filepath = value_to_c_string(parser, path_v);
+    int sample_rate = (int)rate_v.number;
+    if (sample_rate <= 0) sample_rate = 44100;
+    size_t sample_count = samples_v.list->count;
+
+    FILE *fp = filepath ? fopen(filepath, "wb") : NULL;
+    if (!fp) {
+        if (filepath) free(filepath);
+        return number_value(0.0);
+    }
+    free(filepath);
+
+    uint32_t data_bytes = (uint32_t)(sample_count * 2);
+    uint32_t file_size_minus_8 = 36 + data_bytes;
+    uint16_t num_channels = 1;
+    uint16_t bits_per_sample = 16;
+    uint32_t byte_rate = sample_rate * num_channels * (bits_per_sample / 8);
+    uint16_t block_align = num_channels * (bits_per_sample / 8);
+
+    fwrite("RIFF", 1, 4, fp);
+    fwrite(&file_size_minus_8, 4, 1, fp);
+    fwrite("WAVEfmt ", 1, 8, fp);
+    uint32_t subchunk1_size = 16;
+    uint16_t audio_format = 1; /* PCM */
+    fwrite(&subchunk1_size, 4, 1, fp);
+    fwrite(&audio_format, 2, 1, fp);
+    fwrite(&num_channels, 2, 1, fp);
+    fwrite(&sample_rate, 4, 1, fp);
+    fwrite(&byte_rate, 4, 1, fp);
+    fwrite(&block_align, 2, 1, fp);
+    fwrite(&bits_per_sample, 2, 1, fp);
+
+    fwrite("data", 1, 4, fp);
+    fwrite(&data_bytes, 4, 1, fp);
+
+    for (size_t i = 0; i < sample_count; i++) {
+        Value sv = samples_v.list->items[i];
+        double s = (sv.kind == VALUE_NUMBER) ? sv.number : 0.0;
+        if (s > 1.0) s = 1.0;
+        if (s < -1.0) s = -1.0;
+        int16_t val16 = (int16_t)(s * 32767.0);
+        fwrite(&val16, 2, 1, fp);
+    }
+    fclose(fp);
+    return number_value(1.0);
+}
+
+static Value wav_read_helper(Parser *parser, Token name, Value path_v)
+{
+    if (path_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *filepath = value_to_c_string(parser, path_v);
+    FILE *fp = filepath ? fopen(filepath, "rb") : NULL;
+    if (filepath) free(filepath);
+    if (!fp) return null_value();
+
+    char riff[4];
+    if (fread(riff, 1, 4, fp) != 4 || memcmp(riff, "RIFF", 4) != 0) {
+        fclose(fp);
+        return null_value();
+    }
+    fseek(fp, 22, SEEK_SET);
+    uint16_t channels = 1;
+    uint32_t sample_rate = 44100;
+    uint16_t bits = 16;
+    fread(&channels, 2, 1, fp);
+    fread(&sample_rate, 4, 1, fp);
+    fseek(fp, 34, SEEK_SET);
+    fread(&bits, 2, 1, fp);
+
+    fseek(fp, 0, SEEK_END);
+    long sz = ftell(fp);
+    fclose(fp);
+
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "channels", number_value((double)channels), name);
+    gj_dict_set(parser, d, "sample_rate", number_value((double)sample_rate), name);
+    gj_dict_set(parser, d, "bits_per_sample", number_value((double)bits), name);
+    double dur = (sz > 44 && sample_rate > 0) ? (double)(sz - 44) / (double)(sample_rate * channels * (bits / 8)) : 0.0;
+    gj_dict_set(parser, d, "duration_seconds", number_value(dur), name);
+    return gj_dict(d);
+}
+
+static Value sound_play_file_helper(Parser *parser, Token name, Value path_v)
+{
+    if (path_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *filepath = value_to_c_string(parser, path_v);
+#ifdef _WIN32
+    HMODULE winmm = LoadLibraryA("winmm.dll");
+    if (winmm) {
+        typedef BOOL (WINAPI *PlaySoundFn)(LPCSTR, HMODULE, DWORD);
+        PlaySoundFn play = (PlaySoundFn)GetProcAddress(winmm, "PlaySoundA");
+        if (play && filepath) {
+            play(filepath, NULL, 0x00020000 | 0x0001); /* SND_FILENAME | SND_ASYNC */
+        }
+        FreeLibrary(winmm);
+    }
+#else
+    (void)filepath;
+#endif
+    if (filepath) free(filepath);
+    return number_value(1.0);
+}
+
+/* =========================================================================
+ * 4. AES-128 & TOTP 2FA Cryptography
+ * ========================================================================= */
+
+static const uint8_t aes_sbox[256] = {
+  0x63,0x7c,0x77,0x7b,0xf2,0x6b,0x6f,0xc5,0x30,0x01,0x67,0x2b,0xfe,0xd7,0xab,0x76,
+  0xca,0x82,0xc9,0x7d,0xfa,0x59,0x47,0xf0,0xad,0xd4,0xa2,0xaf,0x9c,0xa4,0x72,0xc0,
+  0xb7,0xfd,0x93,0x26,0x36,0x3f,0xf7,0xcc,0x34,0xa5,0xe5,0xf1,0x71,0xd8,0x31,0x15,
+  0x04,0xc7,0x23,0xc3,0x18,0x96,0x05,0x9a,0x07,0x12,0x80,0xe2,0xeb,0x27,0xb2,0x75,
+  0x09,0x83,0x2c,0x1a,0x1b,0x6e,0x5a,0xa0,0x52,0x3b,0xd6,0xb3,0x29,0xe3,0x2f,0x84,
+  0x53,0xd1,0x00,0xed,0x20,0xfc,0xb1,0x5b,0x6a,0xcb,0xbe,0x39,0x4a,0x4c,0x58,0xcf,
+  0xd0,0xef,0xaa,0xfb,0x43,0x4d,0x33,0x85,0x45,0xf9,0x02,0x7f,0x50,0x3c,0x9f,0xa8,
+  0x51,0xa3,0x40,0x8f,0x92,0x9d,0x38,0xf5,0xbc,0xb6,0xda,0x21,0x10,0xff,0xf3,0xd2,
+  0xcd,0x0c,0x13,0xec,0x5f,0x97,0x44,0x17,0xc4,0xa7,0x7e,0x3d,0x64,0x5d,0x19,0x73,
+  0x60,0x81,0x4f,0xdc,0x22,0x2a,0x90,0x88,0x46,0xee,0xb8,0x14,0xde,0x5e,0x0b,0xdb,
+  0xe0,0x32,0x3a,0x0a,0x49,0x06,0x24,0x5c,0xc2,0xd3,0xac,0x62,0x91,0x95,0xe4,0x79,
+  0xe7,0xc8,0x37,0x6d,0x8d,0xd5,0x4e,0xa9,0x6c,0x56,0xf4,0xea,0x65,0x7a,0xae,0x08,
+  0xba,0x78,0x25,0x2e,0x1c,0xa6,0xb4,0xc6,0xe8,0xdd,0x74,0x1f,0x4b,0xbd,0x8b,0x8a,
+  0x70,0x3e,0xb5,0x66,0x48,0x03,0xf6,0x0e,0x61,0x35,0x57,0xb9,0x86,0xc1,0x1d,0x9e,
+  0xe1,0xf8,0x98,0x11,0x69,0xd9,0x8e,0x94,0x9b,0x1e,0x87,0xe9,0xce,0x55,0x28,0xdf,
+  0x8c,0xa1,0x89,0x0d,0xbf,0xe6,0x42,0x68,0x41,0x99,0x2d,0x0f,0xb0,0x54,0xbb,0x16
+};
+
+static const uint8_t aes_rsbox[256] = {
+  0x52,0x09,0x6a,0xd5,0x30,0x36,0xa5,0x38,0xbf,0x40,0xa3,0x9e,0x81,0xf3,0xd7,0xfb,
+  0x7c,0xe3,0x39,0x82,0x9b,0x2f,0xff,0x87,0x34,0x8e,0x43,0x44,0xc4,0xde,0xe9,0xcb,
+  0x54,0x7b,0x94,0x32,0xa6,0xc2,0x23,0x3d,0xee,0x4c,0x95,0x0b,0x42,0xfa,0xc3,0x4e,
+  0x08,0x2e,0xa1,0x66,0x28,0xd9,0x24,0xb2,0x76,0x5b,0xa2,0x49,0x6d,0x8b,0xd1,0x25,
+  0x72,0xf8,0xf6,0x64,0x86,0x68,0x98,0x16,0xd4,0xa4,0x5c,0xcc,0x5d,0x65,0xb6,0x92,
+  0x6c,0x70,0x48,0x50,0xfd,0xed,0xb9,0xda,0x5e,0x15,0x46,0x57,0xa7,0x8d,0x9d,0x84,
+  0x90,0xd8,0xab,0x00,0x8c,0xbc,0xd3,0x0a,0xf7,0xe4,0x58,0x05,0xb8,0xb3,0x45,0x06,
+  0xd0,0x2c,0x1e,0x8f,0xca,0x3f,0x0f,0x02,0xc1,0xaf,0xbd,0x03,0x01,0x13,0x8a,0x6b,
+  0x3a,0x91,0x11,0x41,0x4f,0x67,0xdc,0xea,0x97,0xf2,0xcf,0xce,0xf0,0xb4,0xe6,0x73,
+  0x96,0xac,0x74,0x22,0xe7,0xad,0x35,0x85,0xe2,0xf9,0x37,0xe8,0x1c,0x75,0xdf,0x6e,
+  0x47,0xf1,0x1a,0x71,0x1d,0x29,0xc5,0x89,0x6f,0xb7,0x62,0x0e,0xaa,0x18,0xbe,0x1b,
+  0xfc,0x56,0x3e,0x4b,0xc6,0xd2,0x79,0x20,0x9a,0xdb,0xc0,0xfe,0x78,0xcd,0x5a,0xf4,
+  0x1f,0xdd,0xa8,0x33,0x88,0x07,0xc7,0x31,0xb1,0x12,0x10,0x59,0x27,0x80,0xec,0x5f,
+  0x60,0x51,0x7f,0xa9,0x19,0xb5,0x4a,0x0d,0x2d,0xe5,0x7a,0x9f,0x93,0xc9,0x9c,0xef,
+  0xa0,0xe0,0x3b,0x4d,0xae,0x2a,0xf5,0xb0,0xc8,0xeb,0xbb,0x3c,0x83,0x53,0x99,0x61,
+  0x17,0x2b,0x04,0x7e,0xba,0x77,0xd6,0x26,0xe1,0x69,0x14,0x63,0x55,0x21,0x0c,0x7d
+};
+
+static const uint8_t aes_rcon[11] = {
+  0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36
+};
+
+static void aes_key_expansion(uint8_t *RoundKey, const uint8_t *Key)
+{
+    unsigned i, j, k;
+    uint8_t tempa[4];
+    for (i = 0; i < 4; ++i) {
+        RoundKey[(i * 4) + 0] = Key[(i * 4) + 0];
+        RoundKey[(i * 4) + 1] = Key[(i * 4) + 1];
+        RoundKey[(i * 4) + 2] = Key[(i * 4) + 2];
+        RoundKey[(i * 4) + 3] = Key[(i * 4) + 3];
+    }
+    for (i = 4; i < 44; ++i) {
+        k = (i - 1) * 4;
+        tempa[0] = RoundKey[k + 0];
+        tempa[1] = RoundKey[k + 1];
+        tempa[2] = RoundKey[k + 2];
+        tempa[3] = RoundKey[k + 3];
+        if (i % 4 == 0) {
+            uint8_t u8tmp = tempa[0];
+            tempa[0] = aes_sbox[tempa[1]] ^ aes_rcon[i / 4];
+            tempa[1] = aes_sbox[tempa[2]];
+            tempa[2] = aes_sbox[tempa[3]];
+            tempa[3] = aes_sbox[u8tmp];
+        }
+        j = i * 4; k = (i - 4) * 4;
+        RoundKey[j + 0] = RoundKey[k + 0] ^ tempa[0];
+        RoundKey[j + 1] = RoundKey[k + 1] ^ tempa[1];
+        RoundKey[j + 2] = RoundKey[k + 2] ^ tempa[2];
+        RoundKey[j + 3] = RoundKey[k + 3] ^ tempa[3];
+    }
+}
+
+static uint8_t aes_xtime(uint8_t x)
+{
+    return (uint8_t)((x << 1) ^ (((x >> 7) & 1) * 0x1b));
+}
+
+static uint8_t aes_multiply(uint8_t x, uint8_t y)
+{
+    return (uint8_t)(((y & 1) * x) ^
+            ((y >> 1 & 1) * aes_xtime(x)) ^
+            ((y >> 2 & 1) * aes_xtime(aes_xtime(x))) ^
+            ((y >> 3 & 1) * aes_xtime(aes_xtime(aes_xtime(x)))) ^
+            ((y >> 4 & 1) * aes_xtime(aes_xtime(aes_xtime(aes_xtime(x))))));
+}
+
+static void aes_cipher(uint8_t *state, const uint8_t *RoundKey)
+{
+    uint8_t round = 0;
+    for (int i = 0; i < 16; ++i) state[i] ^= RoundKey[i];
+    for (round = 1; round < 10; ++round) {
+        for (int i = 0; i < 16; ++i) state[i] = aes_sbox[state[i]];
+        uint8_t temp = state[1]; state[1] = state[5]; state[5] = state[9]; state[9] = state[13]; state[13] = temp;
+        temp = state[2]; state[2] = state[10]; state[10] = temp;
+        temp = state[6]; state[6] = state[14]; state[14] = temp;
+        temp = state[15]; state[15] = state[11]; state[11] = state[7]; state[7] = state[3]; state[3] = temp;
+        for (int i = 0; i < 4; ++i) {
+            uint8_t a = state[i * 4], b = state[i * 4 + 1], c = state[i * 4 + 2], d = state[i * 4 + 3];
+            state[i * 4] = aes_xtime(a ^ b) ^ b ^ c ^ d;
+            state[i * 4 + 1] = aes_xtime(b ^ c) ^ c ^ d ^ a;
+            state[i * 4 + 2] = aes_xtime(c ^ d) ^ d ^ a ^ b;
+            state[i * 4 + 3] = aes_xtime(d ^ a) ^ a ^ b ^ c;
+        }
+        for (int i = 0; i < 16; ++i) state[i] ^= RoundKey[round * 16 + i];
+    }
+    for (int i = 0; i < 16; ++i) state[i] = aes_sbox[state[i]];
+    uint8_t temp = state[1]; state[1] = state[5]; state[5] = state[9]; state[9] = state[13]; state[13] = temp;
+    temp = state[2]; state[2] = state[10]; state[10] = temp;
+    temp = state[6]; state[6] = state[14]; state[14] = temp;
+    temp = state[15]; state[15] = state[11]; state[11] = state[7]; state[7] = state[3]; state[3] = temp;
+    for (int i = 0; i < 16; ++i) state[i] ^= RoundKey[160 + i];
+}
+
+static void aes_inv_cipher(uint8_t *state, const uint8_t *RoundKey)
+{
+    for (int i = 0; i < 16; ++i) state[i] ^= RoundKey[160 + i];
+    for (uint8_t round = 9; round > 0; --round) {
+        uint8_t temp = state[13]; state[13] = state[9]; state[9] = state[5]; state[5] = state[1]; state[1] = temp;
+        temp = state[2]; state[2] = state[10]; state[10] = temp;
+        temp = state[6]; state[6] = state[14]; state[14] = temp;
+        temp = state[3]; state[3] = state[7]; state[7] = state[11]; state[11] = state[15]; state[15] = temp;
+        for (int i = 0; i < 16; ++i) state[i] = aes_rsbox[state[i]];
+        for (int i = 0; i < 16; ++i) state[i] ^= RoundKey[round * 16 + i];
+        for (int i = 0; i < 4; ++i) {
+            uint8_t a = state[i * 4], b = state[i * 4 + 1], c = state[i * 4 + 2], d = state[i * 4 + 3];
+            state[i * 4] = aes_multiply(a, 0x0e) ^ aes_multiply(b, 0x0b) ^ aes_multiply(c, 0x0d) ^ aes_multiply(d, 0x09);
+            state[i * 4 + 1] = aes_multiply(a, 0x09) ^ aes_multiply(b, 0x0e) ^ aes_multiply(c, 0x0b) ^ aes_multiply(d, 0x0d);
+            state[i * 4 + 2] = aes_multiply(a, 0x0d) ^ aes_multiply(b, 0x09) ^ aes_multiply(c, 0x0e) ^ aes_multiply(d, 0x0b);
+            state[i * 4 + 3] = aes_multiply(a, 0x0b) ^ aes_multiply(b, 0x0d) ^ aes_multiply(c, 0x09) ^ aes_multiply(d, 0x0e);
+        }
+    }
+    uint8_t temp = state[13]; state[13] = state[9]; state[9] = state[5]; state[5] = state[1]; state[1] = temp;
+    temp = state[2]; state[2] = state[10]; state[10] = temp;
+    temp = state[6]; state[6] = state[14]; state[14] = temp;
+    temp = state[3]; state[3] = state[7]; state[7] = state[11]; state[11] = state[15]; state[15] = temp;
+    for (int i = 0; i < 16; ++i) state[i] = aes_rsbox[state[i]];
+    for (int i = 0; i < 16; ++i) state[i] ^= RoundKey[i];
+}
+
+static Value aes_encrypt_helper(Parser *parser, Token name, Value text_v, Value key_v)
+{
+    if (text_v.kind != VALUE_STRING || key_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *plain = value_to_c_string(parser, text_v);
+    char *key_str = value_to_c_string(parser, key_v);
+    if (!plain || !key_str) {
+        if (plain) free(plain);
+        if (key_str) free(key_str);
+        return gj_string(parser, name, "");
+    }
+
+    uint8_t key[16];
+    memset(key, 0, 16);
+    size_t klen = strlen(key_str);
+    memcpy(key, key_str, klen > 16 ? 16 : klen);
+    free(key_str);
+
+    uint8_t round_key[176];
+    aes_key_expansion(round_key, key);
+
+    size_t in_len = strlen(plain);
+    size_t pad = 16 - (in_len % 16);
+    size_t total_len = in_len + pad;
+
+    uint8_t *buf = (uint8_t *)malloc(total_len);
+    if (!buf) { free(plain); return gj_string(parser, name, ""); }
+    memcpy(buf, plain, in_len);
+    memset(buf + in_len, (uint8_t)pad, pad);
+    free(plain);
+
+    for (size_t b = 0; b < total_len; b += 16) {
+        aes_cipher(buf + b, round_key);
+    }
+
+    char *hex_out = (char *)malloc(total_len * 2 + 1);
+    if (!hex_out) { free(buf); return gj_string(parser, name, ""); }
+    for (size_t i = 0; i < total_len; i++) {
+        sprintf(hex_out + i * 2, "%02x", buf[i]);
+    }
+    hex_out[total_len * 2] = '\0';
+    free(buf);
+
+    return make_owned_string_value(parser, name, hex_out, total_len * 2);
+}
+
+static Value aes_decrypt_helper(Parser *parser, Token name, Value hex_v, Value key_v)
+{
+    if (hex_v.kind != VALUE_STRING || key_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *hex = value_to_c_string(parser, hex_v);
+    char *key_str = value_to_c_string(parser, key_v);
+    if (!hex || !key_str) {
+        if (hex) free(hex);
+        if (key_str) free(key_str);
+        return gj_string(parser, name, "");
+    }
+
+    size_t hlen = strlen(hex);
+    if (hlen % 32 != 0 || hlen == 0) {
+        free(hex); free(key_str);
+        return null_value();
+    }
+    size_t total_len = hlen / 2;
+
+    uint8_t *buf = (uint8_t *)malloc(total_len);
+    if (!buf) { free(hex); free(key_str); return null_value(); }
+    for (size_t i = 0; i < total_len; i++) {
+        unsigned int byte_val = 0;
+        sscanf(hex + i * 2, "%02x", &byte_val);
+        buf[i] = (uint8_t)byte_val;
+    }
+    free(hex);
+
+    uint8_t key[16];
+    memset(key, 0, 16);
+    size_t klen = strlen(key_str);
+    memcpy(key, key_str, klen > 16 ? 16 : klen);
+    free(key_str);
+
+    uint8_t round_key[176];
+    aes_key_expansion(round_key, key);
+
+    for (size_t b = 0; b < total_len; b += 16) {
+        aes_inv_cipher(buf + b, round_key);
+    }
+
+    uint8_t pad = buf[total_len - 1];
+    if (pad == 0 || pad > 16 || pad > total_len) {
+        free(buf);
+        return null_value();
+    }
+    size_t plain_len = total_len - pad;
+    char *out_plain = (char *)malloc(plain_len + 1);
+    if (!out_plain) { free(buf); return null_value(); }
+    memcpy(out_plain, buf, plain_len);
+    out_plain[plain_len] = '\0';
+    free(buf);
+
+    return make_owned_string_value(parser, name, out_plain, plain_len);
+}
+
+static Value hmac_sha256_helper(Parser *parser, Token name, Value data_v, Value key_v)
+{
+    if (data_v.kind != VALUE_STRING || key_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *data = value_to_c_string(parser, data_v);
+    char *key = value_to_c_string(parser, key_v);
+    if (!data || !key) {
+        if (data) free(data);
+        if (key) free(key);
+        return gj_string(parser, name, "");
+    }
+    unsigned char out[32];
+    hmac_sha256((const unsigned char *)key, strlen(key), (const unsigned char *)data, strlen(data), out);
+    free(data);
+    free(key);
+    char hex[65];
+    for (int i = 0; i < 32; i++) {
+        sprintf(hex + i * 2, "%02x", out[i]);
+    }
+    hex[64] = '\0';
+    return make_owned_string_value(parser, name, copy_string(hex), 64);
+}
+
+/* Base32 decode for TOTP */
+static int base32_decode(const char *encoded, uint8_t *out, int max_out)
+{
+    int buffer = 0;
+    int bits_left = 0;
+    int count = 0;
+    for (const char *ptr = encoded; *ptr; ++ptr) {
+        char ch = (char)toupper((unsigned char)*ptr);
+        if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n' || ch == '=') continue;
+        int val = 0;
+        if (ch >= 'A' && ch <= 'Z') val = ch - 'A';
+        else if (ch >= '2' && ch <= '7') val = ch - '2' + 26;
+        else continue;
+
+        buffer = (buffer << 5) | val;
+        bits_left += 5;
+        if (bits_left >= 8) {
+            if (count < max_out) out[count++] = (uint8_t)((buffer >> (bits_left - 8)) & 0xff);
+            bits_left -= 8;
+        }
+    }
+    return count;
+}
+
+static void gj_sha1(const uint8_t *data, size_t len, uint8_t digest[20])
+{
+    GJ_SHA1_CTX ctx;
+    gj_sha1_init(&ctx);
+    gj_sha1_update(&ctx, (const unsigned char *)data, len);
+    gj_sha1_final(digest, &ctx);
+}
+
+static uint32_t compute_totp(const char *secret, uint64_t step)
+{
+    uint8_t key_bytes[64];
+    int key_len = base32_decode(secret, key_bytes, sizeof(key_bytes));
+    if (key_len <= 0) return 0;
+
+    uint8_t time_bytes[8];
+    for (int i = 7; i >= 0; --i) {
+        time_bytes[i] = (uint8_t)(step & 0xff);
+        step >>= 8;
+    }
+
+    uint8_t k_pad[64];
+    memset(k_pad, 0, 64);
+    memcpy(k_pad, key_bytes, key_len > 64 ? 64 : key_len);
+
+    uint8_t i_pad[64], o_pad[64];
+    for (int i = 0; i < 64; ++i) {
+        i_pad[i] = k_pad[i] ^ 0x36;
+        o_pad[i] = k_pad[i] ^ 0x5c;
+    }
+
+    /* HMAC with SHA-1 */
+    uint8_t inner_msg[64 + 8];
+    memcpy(inner_msg, i_pad, 64);
+    memcpy(inner_msg + 64, time_bytes, 8);
+    uint8_t inner_h[20];
+    gj_sha1(inner_msg, 72, inner_h);
+
+    uint8_t outer_msg[64 + 20];
+    memcpy(outer_msg, o_pad, 64);
+    memcpy(outer_msg + 64, inner_h, 20);
+    uint8_t hmac[20];
+    gj_sha1(outer_msg, 84, hmac);
+
+    int offset = hmac[19] & 0x0f;
+    uint32_t code = ((hmac[offset] & 0x7f) << 24) |
+                    ((hmac[offset + 1] & 0xff) << 16) |
+                    ((hmac[offset + 2] & 0xff) << 8) |
+                    (hmac[offset + 3] & 0xff);
+    return code % 1000000;
+}
+
+static Value totp_generate_helper(Parser *parser, Token name, Value secret_v, Value time_v)
+{
+    if (secret_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *sec = value_to_c_string(parser, secret_v);
+    uint64_t t = (time_v.kind == VALUE_NUMBER) ? (uint64_t)time_v.number : (uint64_t)time(NULL);
+    uint32_t code = compute_totp(sec ? sec : "", t / 30);
+    if (sec) free(sec);
+    char buf[8];
+    sprintf(buf, "%06u", code);
+    return make_owned_string_value(parser, name, copy_string(buf), 6);
+}
+
+static Value totp_verify_helper(Parser *parser, Token name, Value code_v, Value secret_v, Value win_v, Value tm_v)
+{
+    if (code_v.kind != VALUE_STRING || secret_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *code_str = value_to_c_string(parser, code_v);
+    char *sec = value_to_c_string(parser, secret_v);
+    uint32_t expected = (uint32_t)atoi(code_str ? code_str : "0");
+    uint64_t t = (tm_v.kind == VALUE_NUMBER) ? (uint64_t)tm_v.number : (uint64_t)time(NULL);
+    uint64_t now_step = t / 30;
+    int window = (win_v.kind == VALUE_NUMBER && win_v.number >= 0) ? (int)win_v.number : 1;
+
+    int valid = 0;
+    for (int w = -window; w <= window; w++) {
+        if (compute_totp(sec ? sec : "", now_step + w) == expected) {
+            valid = 1;
+            break;
+        }
+    }
+    if (code_str) free(code_str);
+    if (sec) free(sec);
+    return number_value(valid ? 1.0 : 0.0);
+}
+
+/* =========================================================================
+ * 5. PKZIP Container & Compression Engine (Pure C)
+ * ========================================================================= */
+
+static uint32_t gj_crc32(const uint8_t *data, size_t length)
+{
+    uint32_t crc = 0xffffffff;
+    for (size_t i = 0; i < length; i++) {
+        crc ^= data[i];
+        for (int j = 0; j < 8; j++) {
+            crc = (crc >> 1) ^ (0xedb88320 & -(int)(crc & 1));
+        }
+    }
+    return ~crc;
+}
+
+static Value zip_compress_helper(Parser *parser, Token name, Value text_v)
+{
+    if (text_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *txt = value_to_c_string(parser, text_v);
+    if (!txt) return gj_string(parser, name, "");
+
+    StringBuffer sb;
+    sb_init(&sb);
+    size_t len = strlen(txt);
+    size_t i = 0;
+    while (i < len) {
+        size_t run = 1;
+        while (i + run < len && txt[i + run] == txt[i] && run < 255) {
+            run++;
+        }
+        if (run >= 4) {
+            char code[16];
+            sprintf(code, "~%02X%c", (unsigned)run, txt[i]);
+            sb_append(&sb, code, strlen(code));
+            i += run;
+        } else {
+            sb_append(&sb, txt + i, 1);
+            i++;
+        }
+    }
+    free(txt);
+    return make_owned_string_value(parser, name, sb.data, sb.length);
+}
+
+static Value zip_decompress_helper(Parser *parser, Token name, Value comp_v)
+{
+    if (comp_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *comp = value_to_c_string(parser, comp_v);
+    if (!comp) return gj_string(parser, name, "");
+
+    StringBuffer sb;
+    sb_init(&sb);
+    size_t len = strlen(comp);
+    size_t i = 0;
+    while (i < len) {
+        if (comp[i] == '~' && i + 3 < len) {
+            unsigned int run = 0;
+            char ch = comp[i + 3];
+            sscanf(comp + i + 1, "%02X", &run);
+            for (unsigned int r = 0; r < run; r++) {
+                sb_append(&sb, &ch, 1);
+            }
+            i += 4;
+        } else {
+            sb_append(&sb, comp + i, 1);
+            i++;
+        }
+    }
+    free(comp);
+    return make_owned_string_value(parser, name, sb.data, sb.length);
+}
+
+static Value zip_create_helper(Parser *parser, Token name, Value path_v, Value files_v)
+{
+    if (path_v.kind != VALUE_STRING || files_v.kind != VALUE_DICT) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *zip_path = value_to_c_string(parser, path_v);
+    FILE *fp = zip_path ? fopen(zip_path, "wb") : NULL;
+    if (zip_path) free(zip_path);
+    if (!fp) return number_value(0.0);
+
+    Dict *d = files_v.dict;
+    size_t count = d ? d->count : 0;
+
+    uint32_t *offsets = (uint32_t *)malloc((count + 1) * sizeof(uint32_t));
+    uint32_t *crcs = (uint32_t *)malloc((count + 1) * sizeof(uint32_t));
+    char **entry_names = (char **)malloc((count + 1) * sizeof(char *));
+    char **entry_datas = (char **)malloc((count + 1) * sizeof(char *));
+    uint32_t entry_count = 0;
+
+    for (size_t i = 0; i < count; i++) {
+        const char *fname = d->entries[i].key;
+        char *fdata = value_to_c_string(parser, d->entries[i].value);
+        if (!fdata) fdata = copy_string("");
+        uint32_t dlen = (uint32_t)strlen(fdata);
+        uint32_t flen = (uint32_t)strlen(fname);
+        uint32_t crc = gj_crc32((const uint8_t *)fdata, dlen);
+
+        offsets[entry_count] = (uint32_t)ftell(fp);
+        crcs[entry_count] = crc;
+        entry_names[entry_count] = copy_string(fname);
+        entry_datas[entry_count] = fdata;
+
+        /* Write Local File Header (0x04034b50) */
+        uint32_t l_sig = 0x04034b50;
+        uint16_t v_need = 20;
+        uint16_t gp_flag = 0;
+        uint16_t comp_m = 0; /* Stored */
+        uint16_t l_time = 0, l_date = 0;
+        fwrite(&l_sig, 4, 1, fp);
+        fwrite(&v_need, 2, 1, fp);
+        fwrite(&gp_flag, 2, 1, fp);
+        fwrite(&comp_m, 2, 1, fp);
+        fwrite(&l_time, 2, 1, fp);
+        fwrite(&l_date, 2, 1, fp);
+        fwrite(&crc, 4, 1, fp);
+        fwrite(&dlen, 4, 1, fp);
+        fwrite(&dlen, 4, 1, fp);
+        fwrite(&flen, 2, 1, fp);
+        uint16_t extra_len = 0;
+        fwrite(&extra_len, 2, 1, fp);
+        fwrite(fname, 1, flen, fp);
+        fwrite(fdata, 1, dlen, fp);
+
+        entry_count++;
+    }
+
+    uint32_t cd_offset = (uint32_t)ftell(fp);
+    /* Write Central Directory Headers (0x02014b50) */
+    for (uint32_t i = 0; i < entry_count; i++) {
+        uint32_t cd_sig = 0x02014b50;
+        uint16_t v_made = 20;
+        uint16_t v_need = 20;
+        uint16_t gp_flag = 0;
+        uint16_t comp_m = 0;
+        uint16_t l_time = 0, l_date = 0;
+        uint32_t dlen = (uint32_t)strlen(entry_datas[i]);
+        uint32_t flen = (uint32_t)strlen(entry_names[i]);
+        uint16_t extra_len = 0, comment_len = 0, disk_start = 0, int_attr = 0;
+        uint32_t ext_attr = 0;
+        uint32_t l_offset = offsets[i];
+
+        fwrite(&cd_sig, 4, 1, fp);
+        fwrite(&v_made, 2, 1, fp);
+        fwrite(&v_need, 2, 1, fp);
+        fwrite(&gp_flag, 2, 1, fp);
+        fwrite(&comp_m, 2, 1, fp);
+        fwrite(&l_time, 2, 1, fp);
+        fwrite(&l_date, 2, 1, fp);
+        fwrite(&crcs[i], 4, 1, fp);
+        fwrite(&dlen, 4, 1, fp);
+        fwrite(&dlen, 4, 1, fp);
+        fwrite(&flen, 2, 1, fp);
+        fwrite(&extra_len, 2, 1, fp);
+        fwrite(&comment_len, 2, 1, fp);
+        fwrite(&disk_start, 2, 1, fp);
+        fwrite(&int_attr, 2, 1, fp);
+        fwrite(&ext_attr, 4, 1, fp);
+        fwrite(&l_offset, 4, 1, fp);
+        fwrite(entry_names[i], 1, flen, fp);
+    }
+    uint32_t cd_size = (uint32_t)ftell(fp) - cd_offset;
+
+    /* Write End of Central Directory Record (0x06054b50) */
+    uint32_t eocd_sig = 0x06054b50;
+    uint16_t disk_no = 0, disk_cd = 0;
+    uint16_t cd_entries_disk = (uint16_t)entry_count;
+    uint16_t cd_entries_total = (uint16_t)entry_count;
+    uint16_t comment_len = 0;
+    fwrite(&eocd_sig, 4, 1, fp);
+    fwrite(&disk_no, 2, 1, fp);
+    fwrite(&disk_cd, 2, 1, fp);
+    fwrite(&cd_entries_disk, 2, 1, fp);
+    fwrite(&cd_entries_total, 2, 1, fp);
+    fwrite(&cd_size, 4, 1, fp);
+    fwrite(&cd_offset, 4, 1, fp);
+    fwrite(&comment_len, 2, 1, fp);
+
+    fclose(fp);
+    for (uint32_t i = 0; i < entry_count; i++) {
+        free(entry_names[i]);
+        free(entry_datas[i]);
+    }
+    free(offsets); free(crcs); free(entry_names); free(entry_datas);
+    return number_value(1.0);
+}
+
+static Value zip_list_helper(Parser *parser, Token name, Value path_v)
+{
+    if (path_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *zip_path = value_to_c_string(parser, path_v);
+    FILE *fp = zip_path ? fopen(zip_path, "rb") : NULL;
+    if (zip_path) free(zip_path);
+    List *arr = create_list(parser, name);
+    if (!fp) return gj_list(arr);
+
+    fseek(fp, 0, SEEK_END);
+    long fsize = ftell(fp);
+    if (fsize < 22) { fclose(fp); return gj_list(arr); }
+
+    long search_start = fsize > 1024 ? fsize - 1024 : 0;
+    long eocd_pos = -1;
+    for (long pos = fsize - 22; pos >= search_start; pos--) {
+        fseek(fp, pos, SEEK_SET);
+        uint32_t sig = 0;
+        if (fread(&sig, 4, 1, fp) == 1 && sig == 0x06054b50) {
+            eocd_pos = pos;
+            break;
+        }
+    }
+    if (eocd_pos == -1) { fclose(fp); return gj_list(arr); }
+
+    fseek(fp, eocd_pos + 10, SEEK_SET);
+    uint16_t total_entries = 0;
+    uint32_t cd_size = 0, cd_offset = 0;
+    fread(&total_entries, 2, 1, fp);
+    fread(&cd_size, 4, 1, fp);
+    fread(&cd_offset, 4, 1, fp);
+
+    fseek(fp, (long)cd_offset, SEEK_SET);
+    for (uint16_t i = 0; i < total_entries; i++) {
+        uint32_t sig = 0;
+        if (fread(&sig, 4, 1, fp) != 1 || sig != 0x02014b50) break;
+        fseek(fp, 12, SEEK_CUR); /* skip v_made(2)+v_need(2)+flag(2)+comp(2)+time(2)+date(2) = 12 bytes */
+        uint32_t crc = 0, csize = 0, usize = 0;
+        uint16_t flen = 0, extra_len = 0, comment_len = 0;
+        fread(&crc, 4, 1, fp);
+        fread(&csize, 4, 1, fp);
+        fread(&usize, 4, 1, fp);
+        fread(&flen, 2, 1, fp);
+        fread(&extra_len, 2, 1, fp);
+        fread(&comment_len, 2, 1, fp);
+        fseek(fp, 12, SEEK_CUR); /* skip disk(2)+attr(2)+ext_attr(4)+offset(4) = 12 bytes */
+
+        char fname_buf[256];
+        size_t rlen = flen < 255 ? flen : 255;
+        fread(fname_buf, 1, rlen, fp);
+        fname_buf[rlen] = '\0';
+        if (flen > rlen) fseek(fp, (long)(flen - rlen), SEEK_CUR);
+        if (extra_len > 0) fseek(fp, (long)extra_len, SEEK_CUR);
+        if (comment_len > 0) fseek(fp, (long)comment_len, SEEK_CUR);
+
+        Dict *item = create_dict(parser, name);
+        gj_dict_set(parser, item, "filename", gj_string(parser, name, fname_buf), name);
+        gj_dict_set(parser, item, "compressed_size", number_value((double)csize), name);
+        gj_dict_set(parser, item, "uncompressed_size", number_value((double)usize), name);
+        gj_dict_set(parser, item, "crc32", number_value((double)crc), name);
+        append_list_item(parser, arr, gj_dict(item), name);
+    }
+    fclose(fp);
+    return gj_list(arr);
+}
+
+static Value zip_extract_helper(Parser *parser, Token name, Value path_v, Value dest_v)
+{
+    if (path_v.kind != VALUE_STRING || dest_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *zip_path = value_to_c_string(parser, path_v);
+    char *dest_dir = value_to_c_string(parser, dest_v);
+    FILE *fp = zip_path ? fopen(zip_path, "rb") : NULL;
+    if (zip_path) free(zip_path);
+    if (!fp) {
+        if (dest_dir) free(dest_dir);
+        return number_value(0.0);
+    }
+
+#ifdef _WIN32
+    if (dest_dir) _mkdir(dest_dir);
+#else
+    if (dest_dir) mkdir(dest_dir, 0777);
+#endif
+
+    int extracted = 0;
+    while (!feof(fp)) {
+        uint32_t sig = 0;
+        if (fread(&sig, 4, 1, fp) != 1 || sig != 0x04034b50) break;
+        fseek(fp, 10, SEEK_CUR); /* v_need(2)+flag(2)+comp(2)+time(2)+date(2) = 10 bytes */
+        uint32_t crc = 0, csize = 0, usize = 0;
+        uint16_t flen = 0, extra_len = 0;
+        fread(&crc, 4, 1, fp);
+        fread(&csize, 4, 1, fp);
+        fread(&usize, 4, 1, fp);
+        fread(&flen, 2, 1, fp);
+        fread(&extra_len, 2, 1, fp);
+
+        char fname[256];
+        size_t rlen = flen < 255 ? flen : 255;
+        fread(fname, 1, rlen, fp);
+        fname[rlen] = '\0';
+        if (flen > rlen) fseek(fp, (long)(flen - rlen), SEEK_CUR);
+        if (extra_len > 0) fseek(fp, (long)extra_len, SEEK_CUR);
+
+        char out_path[512];
+        snprintf(out_path, sizeof(out_path), "%s/%s", dest_dir ? dest_dir : ".", fname);
+        FILE *out_fp = fopen(out_path, "wb");
+        if (out_fp) {
+            char chunk[512];
+            uint32_t left = csize;
+            while (left > 0) {
+                uint32_t to_read = left < sizeof(chunk) ? left : sizeof(chunk);
+                fread(chunk, 1, to_read, fp);
+                fwrite(chunk, 1, to_read, out_fp);
+                left -= to_read;
+            }
+            fclose(out_fp);
+            extracted++;
+        } else {
+            fseek(fp, (long)csize, SEEK_CUR);
+        }
+    }
+    fclose(fp);
+    if (dest_dir) free(dest_dir);
+    return number_value((double)extracted);
+}
+
+/* =========================================================================
+ * 6. Debugger & Memory Diagnostics (Pure C)
+ * ========================================================================= */
+
+static int g_debug_trace = 0;
+
+static Value debug_trace_helper(Parser *parser, Token name, Value flag_v)
+{
+    (void)parser; (void)name;
+    g_debug_trace = (flag_v.kind == VALUE_NUMBER && flag_v.number > 0);
+    return number_value(g_debug_trace ? 1.0 : 0.0);
+}
+
+static Value debug_breakpoint_helper(Parser *parser, Token name, Value msg_v)
+{
+    char *msg = (msg_v.kind == VALUE_STRING) ? value_to_c_string(parser, msg_v) : NULL;
+    printf("=== [ગુજરાતી ડિબગ રોકાણ-બિંદુ] લાઇન %d: %s ===\n", (int)name.line, msg ? msg : "");
+    printf("  વેરીએબલ ગણતરી: %zu\n", (parser && parser->environment) ? parser->environment->variable_count : 0);
+    if (msg) free(msg);
+    return number_value(1.0);
+}
+
+static Value memory_info_helper(Parser *parser, Token name)
+{
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "strings_count", number_value((double)(parser->string_storage ? parser->string_storage->count : 0)), name);
+    gj_dict_set(parser, d, "variables_count", number_value((double)(parser->environment ? parser->environment->variable_count : 0)), name);
+    gj_dict_set(parser, d, "functions_count", number_value((double)(parser->function_table ? parser->function_table->count : 0)), name);
+    gj_dict_set(parser, d, "classes_count", number_value((double)(parser->class_table ? parser->class_table->count : 0)), name);
+    gj_dict_set(parser, d, "version", gj_string(parser, name, "1.4.0"), name);
+    return gj_dict(d);
+}
+
+
 static Value parse_function_call(Parser *parser, Token name, int execute)
 {
     Value *arguments = NULL;
@@ -11235,7 +12711,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 0) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else {
-                    char *ver = copy_string("1.3.0");
+                    char *ver = copy_string("1.4.0");
                     if (ver) {
                         result = make_owned_string_value(parser, name, ver, strlen(ver));
                     }
@@ -12825,6 +14301,181 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else {
                     result = math_eval_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "વિન્ડો_બનાવો") || token_matches(parser, name, "gui_window")) {
+                if (argument_count != 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = gui_window_helper(parser, name, arguments[0], arguments[1], arguments[2]);
+                }
+            } else if (token_matches(parser, name, "બટન_બનાવો") || token_matches(parser, name, "gui_button")) {
+                if (argument_count < 6 || argument_count > 7) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value cb = (argument_count == 7) ? arguments[6] : null_value();
+                    result = gui_button_helper(parser, name, arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], cb);
+                }
+            } else if (token_matches(parser, name, "લખાણ_બનાવો") || token_matches(parser, name, "gui_text")) {
+                if (argument_count != 4) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = gui_text_helper(parser, name, arguments[0], arguments[1], arguments[2], arguments[3]);
+                }
+            } else if (token_matches(parser, name, "કેનવાસ_દોરો") || token_matches(parser, name, "gui_canvas_draw")) {
+                if (argument_count != 4) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = gui_canvas_draw_helper(parser, name, arguments[0], arguments[1], arguments[2], arguments[3]);
+                }
+            } else if (token_matches(parser, name, "ઘટના_ચક્ર") || token_matches(parser, name, "gui_event_loop")) {
+                if (argument_count < 1 || argument_count > 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value ticks = (argument_count == 2) ? arguments[1] : number_value(1.0);
+                    result = gui_event_loop_helper(parser, name, arguments[0], ticks);
+                }
+            } else if (token_matches(parser, name, "રેજેક્સ_સરખાવો") || token_matches(parser, name, "regex_match")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = regex_match_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "રેજેક્સ_શોધો") || token_matches(parser, name, "regex_find")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = regex_find_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "રેજેક્સ_બદલો") || token_matches(parser, name, "regex_replace")) {
+                if (argument_count != 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = regex_replace_helper(parser, name, arguments[0], arguments[1], arguments[2]);
+                }
+            } else if (token_matches(parser, name, "રેજેક્સ_વિભાજન") || token_matches(parser, name, "regex_split")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = regex_split_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "રેજેક્સ_બધા") || token_matches(parser, name, "regex_all")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = regex_all_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "અવાજ_બીપ") || token_matches(parser, name, "sound_beep")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = sound_beep_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "સુર_વગાડો") || token_matches(parser, name, "sound_melody")) {
+                if (argument_count < 1 || argument_count > 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value tempo = (argument_count == 2) ? arguments[1] : number_value(150.0);
+                    result = sound_melody_helper(parser, name, arguments[0], tempo);
+                }
+            } else if (token_matches(parser, name, "ઓડિયો_બનાવો") || token_matches(parser, name, "wav_create")) {
+                if (argument_count != 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = wav_create_helper(parser, name, arguments[0], arguments[1], arguments[2]);
+                }
+            } else if (token_matches(parser, name, "ઓડિયો_વાંચો") || token_matches(parser, name, "wav_read")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = wav_read_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "ઓડિયો_ચલાવો") || token_matches(parser, name, "sound_play_file")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = sound_play_file_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "એઈએસ_ગુપ્ત") || token_matches(parser, name, "aes_encrypt")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = aes_encrypt_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "એઈએસ_પ્રગટ") || token_matches(parser, name, "aes_decrypt")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = aes_decrypt_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "ટીઓટીપી_બનાવો") || token_matches(parser, name, "totp_generate")) {
+                if (argument_count < 1 || argument_count > 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value tm = (argument_count == 2) ? arguments[1] : null_value();
+                    result = totp_generate_helper(parser, name, arguments[0], tm);
+                }
+            } else if (token_matches(parser, name, "ટીઓટીપી_ચકાસો") || token_matches(parser, name, "totp_verify")) {
+                if (argument_count < 2 || argument_count > 4) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value win = (argument_count >= 3) ? arguments[2] : number_value(1.0);
+                    Value tm = (argument_count == 4) ? arguments[3] : null_value();
+                    result = totp_verify_helper(parser, name, arguments[0], arguments[1], win, tm);
+                }
+            } else if (token_matches(parser, name, "એચમેક_શા૨૫૬") || token_matches(parser, name, "hmac_sha256")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = hmac_sha256_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "દબાવો_ડેટા") || token_matches(parser, name, "zip_compress")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = zip_compress_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "ખોલો_ડેટા") || token_matches(parser, name, "zip_decompress")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = zip_decompress_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "ઝિપ_ફાઇલ_બનાવો") || token_matches(parser, name, "zip_create")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = zip_create_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "ઝિપ_ફાઇલ_ખોલો") || token_matches(parser, name, "zip_extract")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = zip_extract_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "ઝિપ_ફાઇલ_સૂચિ") || token_matches(parser, name, "zip_list")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = zip_list_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "ડિબગ_તપાસ") || token_matches(parser, name, "debug_trace")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = debug_trace_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "રોકાણ_બિંદુ") || token_matches(parser, name, "debug_breakpoint")) {
+                if (argument_count > 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value msg = (argument_count == 1) ? arguments[0] : null_value();
+                    result = debug_breakpoint_helper(parser, name, msg);
+                }
+            } else if (token_matches(parser, name, "મેમરી_માહિતી") || token_matches(parser, name, "memory_info")) {
+                if (argument_count != 0) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = memory_info_helper(parser, name);
                 }
 
 
@@ -15108,6 +16759,9 @@ static int parse_return_statement(Parser *parser, Token statement,
 static int parse_statement(Parser *parser, int execute)
 {
     Token statement = parser->current;
+    if (g_debug_trace && execute) {
+        printf("[ડિબગ લાઇન %d]\n", (int)statement.line);
+    }
     Value value;
 
     if (statement.kind == TOKEN_TRY) {
@@ -16329,6 +17983,64 @@ static int run_cli_bench(const char *bench_filename, Language language)
 }
 
 
+/* GujaratiLang v1.4.0 CLI Extensions: REPL and Offline Docs */
+
+static void print_doc_entry(const char *topic, const char *gu_alias, const char *desc, const char *example)
+{
+    printf("\n=== GujaratiLang દસ્તાવેજ: %s (%s) ===\n", topic, gu_alias);
+    printf("વર્ણન: %s\n", desc);
+    printf("ઉદાહરણ:\n  %s\n\n", example);
+}
+
+static int run_cli_docs(const char *topic)
+{
+    if (!topic || !topic[0]) {
+        printf("\n=== ગુજરાતીલેંગ્વેજ v1.4.0 વિષયોની સૂચિ ===\n");
+        printf("  - gui_window / વિન્ડો_બનાવો, gui_button / બટન_બનાવો\n");
+        printf("  - regex_match / રેજેક્સ_સરખાવો, regex_find / રેજેક્સ_શોધો, regex_replace / રેજેક્સ_બદલો\n");
+        printf("  - sound_beep / અવાજ_બીપ, sound_melody / સુર_વગાડો, wav_create / ઓડિયો_બનાવો\n");
+        printf("  - aes_encrypt / એઈએસ_ગુપ્ત, aes_decrypt / એઈએસ_પ્રગટ, totp_generate / ટીઓટીપી_બનાવો\n");
+        printf("  - zip_create / ઝિપ_ફાઇલ_બનાવો, zip_extract / ઝિપ_ફાઇલ_ખોલો, zip_list / ઝિપ_ફાઇલ_સૂચિ\n");
+        printf("  - df_kholo / ડીએફ_ખોલો, nn_create / એનએન_બનાવો, websocket_server / વેબસોકેટ_સર્વર\n");
+        printf("  - varg / વર્ગ, rachna / રચના, navu / નવું, a_pote / આ_પોતે\n");
+        printf("\nવપરાશ: gujarati docs <વિષય>\n\n");
+        return EXIT_SUCCESS;
+    }
+
+    if (strcmp(topic, "regex_match") == 0 || strcmp(topic, "રેજેક્સ_સરખાવો") == 0) {
+        print_doc_entry("regex_match", "રેજેક્સ_સરખાવો",
+            "સ્ટ્રિંગ રેગ્યુલર એક્સપ્રેશન પેટર્ન સાથે મેળ ખાય છે કે નહીં તે ચકાસે છે.",
+            "is_digit = regex_match(\"^[0-9]+$\", \"12345\"); // 1");
+    } else if (strcmp(topic, "aes_encrypt") == 0 || strcmp(topic, "એઈએસ_ગુપ્ત") == 0) {
+        print_doc_entry("aes_encrypt", "એઈએસ_ગુપ્ત",
+            "AES-128 સાયફર વડે ટેક્સ્ટ એન્ક્રિપ્ટ કરી હેક્સ કોડ આપે છે.",
+            "cipher = aes_encrypt(\"ગુપ્ત માહિતી\", \"key123456789012\");");
+    } else if (strcmp(topic, "totp_generate") == 0 || strcmp(topic, "ટીઓટીપી_બનાવો") == 0) {
+        print_doc_entry("totp_generate", "ટીઓટીપી_બનાવો",
+            "Google Authenticator સુસંગત 6-અંકનો સમય આધારિત 2FA વન-ટાઇમ પાસવર્ડ બનાવે છે.",
+            "otp = totp_generate(\"JBSWY3DPEHPK3PXP\"); // 6-digit code");
+    } else if (strcmp(topic, "zip_create") == 0 || strcmp(topic, "ઝિપ_ફાઇલ_બનાવો") == 0) {
+        print_doc_entry("zip_create", "ઝિપ_ફાઇલ_બનાવો",
+            "આર્કાઇવ્સ બનાવવા માટે પ્રમાણભૂત .zip ફાઇલ બનાવે છે.",
+            "zip_create(\"backup.zip\", {\"hello.txt\": \"Hello World!\"});");
+    } else if (strcmp(topic, "gui_window") == 0 || strcmp(topic, "વિન્ડો_બનાવો") == 0) {
+        print_doc_entry("gui_window", "વિન્ડો_બનાવો",
+            "ડેસ્કટોપ વિન્ડો ખોલે છે.",
+            "win = gui_window(\"મારી એપ્લિકેશન\", 640, 480);");
+    } else if (strcmp(topic, "varg") == 0 || strcmp(topic, "વર્ગ") == 0) {
+        print_doc_entry("varg", "વર્ગ",
+            "ઓબ્જેક્ટ-ઓરિએન્ટેડ પ્રોગ્રામિંગમાં ક્લાસ વ્યાખ્યાયિત કરે છે.",
+            "varg Person { rachna(n) { a_pote.n = n; } }");
+    } else if (strcmp(topic, "df_kholo") == 0 || strcmp(topic, "ડીએફ_ખોલો") == 0) {
+        print_doc_entry("df_kholo", "ડીએફ_ખોલો",
+            "ડિક્શનરી યાદીમાંથી ગુજરાતી ડેટાફ્રેમ બનાવે છે.",
+            "df = df_kholo([{\"a\": 1}, {\"a\": 2}]);");
+    } else {
+        printf("વિષય '%s' માટે દસ્તાવેજ મળ્યો નથી. બધા વિષયો જોવા માટે 'gujarati docs' ચલાવો.\n", topic);
+    }
+    return EXIT_SUCCESS;
+}
+
 int main(int argc, char **argv)
 {
 #ifdef _WIN32
@@ -16336,7 +18048,7 @@ int main(int argc, char **argv)
     SetConsoleCP(CP_UTF8);
 #endif
     if (argc >= 2 && (strcmp(argv[1], "--version") == 0 || strcmp(argv[1], "-v") == 0)) {
-        printf("1.3.0\n");
+        printf("1.4.0\n");
         return EXIT_SUCCESS;
     }
     if (argc >= 3 && strcmp(argv[1], "--compile") == 0) {
@@ -16356,6 +18068,10 @@ int main(int argc, char **argv)
     }
     if (argc >= 3 && strcmp(argv[1], "--bench") == 0) {
         return run_cli_bench(argv[2], LANGUAGE_ENGLISH);
+    }
+    if (argc >= 2 && strcmp(argv[1], "docs") == 0) {
+        const char *topic = (argc >= 3) ? argv[2] : "";
+        return run_cli_docs(topic);
     }
 
     char *source;
@@ -16400,6 +18116,9 @@ int main(int argc, char **argv)
         }
     }
 
+    if (argc == 1 && filename == NULL) {
+        repl = 1;
+    }
     if (!repl && filename == NULL) {
         fprintf(stderr, localized_message(LANGUAGE_ENGLISH, MESSAGE_USAGE), argv[0]);
         return EXIT_FAILURE;

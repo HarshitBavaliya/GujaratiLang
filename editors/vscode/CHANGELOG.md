@@ -1,5 +1,45 @@
 # Changelog
 
+## 1.4.0
+
+- Major 30-Point Milestone Release with Native GUI, Regular Expressions, Audio Synthesis, AES-128 & TOTP Cryptography, PKZIP Container & Interactive REPL:
+  - **Pillar 1: Native Desktop GUI & 2D Canvas Graphics**:
+    - `gui_window(title, width, height)` (`વિન્ડો_બનાવો`): Creates native desktop GUI windows with custom title, dimensions, and control hierarchy.
+    - `gui_button(win, text, x, y, width, height, [callback])` (`બટન_બનાવો`): Adds interactive button controls with event handler callbacks.
+    - `gui_text(win, text, x, y)` (`લખાણ_બનાવો`): Adds static text labels to GUI forms.
+    - `gui_canvas_draw(win, shape, coords, color)` (`કેનવાસ_દોરો`): 2D canvas drawing supporting lines, rectangles, and shapes.
+    - `gui_event_loop(win, [max_ticks])` (`ઘટના_ચક્ર`): Event loop dispatcher supporting interactive message dispatching and headless test automation.
+  - **Pillar 2: Regular Expressions Engine**:
+    - `regex_match(pattern, text)` (`રેજેક્સ_સરખાવો`): Matches regex patterns against input strings with full Unicode support.
+    - `regex_find(pattern, text)` (`રેજેક્સ_શોધો`): Finds substring matches returning dictionary with matched text, start index, and end index.
+    - `regex_replace(pattern, repl, text)` (`રેજેક્સ_બદલો`): Replaces pattern occurrences across text with replacement strings.
+    - `regex_split(pattern, text)` (`રેજેક્સ_વિભાજન`): Splits text by regular expression delimiters into lists of strings.
+    - `regex_all(pattern, text)` (`રેજેક્સ_બધા`): Extracts all pattern matches into an array of strings.
+  - **Pillar 3: Audio Synthesis & Sound Engine**:
+    - `sound_beep(frequency, duration_ms)` (`અવાજ_બીપ`): Produces audible tone frequencies via system speaker.
+    - `sound_melody(notes_list, [tempo_ms])` (`સુર_વગાડો`): Plays musical note melodies supporting western note frequencies and Indian Classical Swaras (`Sa`, `Re`, `Ga`, `Ma`, `Pa`, `Dha`, `Ni`, `Sa2` / `સા`, `રે`, `ગ`, `મ`, `પ`, `ધ`, `ની`, `સા૨`).
+    - `wav_create(filepath, sample_rate, samples_list)` (`ઓડિયો_બનાવો`): Synthesizes valid 16-bit mono PCM RIFF WAVE audio files from sample data.
+    - `wav_read(filepath)` (`ઓડિયો_વાંચો`): Inspects WAVE audio file headers returning sample rate, channels, bits per sample, and duration.
+    - `sound_play_file(filepath)` (`ઓડિયો_ચલાવો`): Plays audio files asynchronously in the background.
+  - **Pillar 4: Advanced Cryptography & 2FA**:
+    - `aes_encrypt(text, key)` (`એઈએસ_ગુપ્ત`): AES-128 cryptographic cipher encryption with PKCS7 padding returning hex ciphertext.
+    - `aes_decrypt(hex_cipher, key)` (`એઈએસ_પ્રગટ`): AES-128 decryption recovering original plaintext.
+    - `totp_generate(base32_secret, [timestamp])` (`ટીઓટીપી_બનાવો`): RFC 6238 compliant 6-digit Time-Based One-Time Password generator (Google Authenticator compatible).
+    - `totp_verify(code, base32_secret, [window], [timestamp])` (`ટીઓટીપી_ચકાસો`): Validates 2FA TOTP codes with configurable time window drift.
+    - `hmac_sha256(data, key)` (`એચમેક_શા૨૫૬`): Cryptographic HMAC-SHA256 hash returning 64-character lowercase hex digest.
+  - **Pillar 5: Data Compression & PKZIP Archives**:
+    - `zip_compress(text)` (`દબાવો_ડેટા`): In-memory prefix/run-length data compression.
+    - `zip_decompress(compressed_str)` (`ખોલો_ડેટા`): Decompresses data back to original text.
+    - `zip_create(zip_path, files_dict)` (`ઝિપ_ફાઇલ_બનાવો`): Standard PKZIP archive creator (`0x04034b50` & `0x02014b50`) with IEEE 802.3 CRC32 verification.
+    - `zip_list(zip_path)` (`ઝિપ_ફાઇલ_સૂચિ`): Inspects ZIP central directory returning filename, compressed size, uncompressed size, and CRC32.
+    - `zip_extract(zip_path, output_dir)` (`ઝિપ_ફાઇલ_ખોલો`): Extracts archived files directly into destination directory.
+  - **Pillar 6: Interactive Terminal REPL, Debugger & Offline Docs**:
+    - `gujarati docs [topic]`: Interactive CLI offline documentation browser in Gujarati and English.
+    - `gujarati` (or `gujarati --repl`): Stateful interactive terminal REPL with multi-line input and variable persistence.
+    - `debug_trace(flag)` (`ડિબગ_તપાસ`): Statement-level step tracing visualizer.
+    - `debug_breakpoint([msg])` (`રોકાણ_બિંદુ`): Emits diagnostic breakpoint reports displaying current line and symbol table count.
+    - `memory_info()` (`મેમરી_માહિતી`): Returns runtime engine diagnostic metrics (strings, variables, functions, classes, and version).
+
 ## 1.3.0
 
 - Major 30-Point Milestone Release with WebSockets, Template Engine, DataFrames, Deep Learning MLP, Statistics & Bytecode Compiler:

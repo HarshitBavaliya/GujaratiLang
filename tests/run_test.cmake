@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "1.3.0\n1\n")
+    set(expected_stdout "1.4.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "1.3.0\n")
+    set(expected_stdout "1.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3864,6 +3864,130 @@ elseif(TEST_CASE STREQUAL "v130_gujarati_syntax")
 આવજો
 ]=])
     set(expected_stdout "2aae6c35c94fcfb415dbe95f408b9ce91ee846ed\nનમસ્તે ગુજરાતી!\n&lt;tag&gt;\nharshit\n22\n0\n-1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "v140_regex")
+    set(source [=[aavo
+m1 = regex_match("^[0-9]+$", "12345");
+chhapo m1;
+m2 = regex_match("^[0-9]+$", "abc");
+chhapo m2;
+f = regex_find("\\d+", "Item 42 found");
+chhapo f["match"];
+chhapo f["start"];
+rep = regex_replace("\\d+", "99", "A1B2C");
+chhapo rep;
+sp = regex_split(",", "x,y,z");
+chhapo sp[1];
+all_w = regex_all("\\w+", "Hello 2026 World");
+chhapo all_w[0];
+chhapo all_w[1];
+aavjo
+]=])
+    set(expected_stdout "1\n0\n42\n5\nA99B99C\ny\nHello\n2026\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v140_audio_wav")
+    set(source [=[aavo
+p = "test_run_audio.wav";
+ok = wav_create(p, 44100, [0.0, 0.5, 0.0, -0.5]);
+chhapo ok;
+info = wav_read(p);
+chhapo info["sample_rate"];
+chhapo info["channels"];
+mel = sound_melody([261, 294], 10);
+chhapo mel;
+aavjo
+]=])
+    set(expected_stdout "1\n44100\n1\n2\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v140_crypto_aes_totp")
+    set(source [=[aavo
+c = aes_encrypt("GujaratiLang 1.4", "my_secret_key_16");
+p = aes_decrypt(c, "my_secret_key_16");
+chhapo p;
+h = hmac_sha256("test_data", "test_key");
+chhapo (lambai(h) == 64);
+otp = totp_generate("JBSWY3DPEHPK3PXP", 1000000);
+chhapo otp;
+v = totp_verify(otp, "JBSWY3DPEHPK3PXP", 1, 1000000);
+chhapo v;
+aavjo
+]=])
+    set(expected_stdout "GujaratiLang 1.4\n1\n346137\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v140_zip_archive")
+    set(source [=[aavo
+comp = zip_compress("AAAAABBB");
+chhapo comp;
+uncomp = zip_decompress(comp);
+chhapo uncomp;
+zp = "test_run_archive.zip";
+ok = zip_create(zp, {"file.txt": "content123"});
+chhapo ok;
+lst = zip_list(zp);
+chhapo lst[0]["filename"];
+chhapo lst[0]["uncompressed_size"];
+aavjo
+]=])
+    set(expected_stdout "~05ABBB\nAAAAABBB\n1\nfile.txt\n10\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v140_gui_mock")
+    set(source [=[aavo
+win = gui_window("Test App", 400, 300);
+chhapo win["title"];
+chhapo win["width"];
+btn = gui_button(win, "OK", 10, 10, 80, 30);
+chhapo btn["type"];
+txt = gui_text(win, "Ready", 10, 50);
+chhapo txt["text"];
+d = gui_canvas_draw(win, "rect", [0, 0, 50, 50], "blue");
+chhapo d;
+l = gui_event_loop(win, 1);
+chhapo l;
+aavjo
+]=])
+    set(expected_stdout "Test App\n400\nbutton\nReady\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v140_debug_memory")
+    set(source [=[aavo
+mem = memory_info();
+chhapo mem["version"];
+chhapo (mem["variables_count"] >= 0);
+tr = debug_trace(0);
+chhapo tr;
+aavjo
+]=])
+    set(expected_stdout "1.4.0\n1\n0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
+    set(source [=[આવો
+મેળ = રેજેક્સ_સરખાવો("^[0-9]+$", "999");
+છાપો મેળ;
+ગુપ્ત = એઈએસ_ગુપ્ત("સુરક્ષિત", "key123456789012");
+પ્રગટ = એઈએસ_પ્રગટ(ગુપ્ત, "key123456789012");
+છાપો પ્રગટ;
+દબાવો = દબાવો_ડેટા("XXXXX");
+છાપો દબાવો;
+ખોલો = ખોલો_ડેટા(દબાવો);
+છાપો ખોલો;
+ઓટીપી = ટીઓટીપી_બનાવો("JBSWY3DPEHPK3PXP", 1000000);
+છાપો ઓટીપી;
+શા = એચમેક_શા૨૫૬("ડેટા", "કી");
+છાપો (લંબાઈ(શા) == 64);
+વિન્ડો = વિન્ડો_બનાવો("ગુજરાતી", 500, 400);
+છાપો વિન્ડો["title"];
+મેમ = મેમરી_માહિતી();
+છાપો મેમ["version"];
+આવજો
+]=])
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n1.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)

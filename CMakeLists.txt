@@ -2,13 +2,13 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 1.3.0 LANGUAGES C)
+project(gujaratilang VERSION 1.4.0 LANGUAGES C)
 
 include(CTest)
 
 add_executable(gujarati src/main.c)
 if(WIN32)
-    target_link_libraries(gujarati PRIVATE ws2_32)
+    target_link_libraries(gujarati PRIVATE ws2_32 user32 gdi32)
 endif()
 if(UNIX)
     target_link_libraries(gujarati PRIVATE m pthread)
@@ -390,7 +390,14 @@ if(BUILD_TESTING)
             v130_statistics_charts
             v130_math_eval
             v130_bytecode
-            v130_gujarati_syntax)
+            v130_gujarati_syntax
+            v140_regex
+            v140_audio_wav
+            v140_crypto_aes_totp
+            v140_zip_archive
+            v140_gui_mock
+            v140_debug_memory
+            v140_gujarati_syntax)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"
