@@ -10,7 +10,55 @@ you use Visual Studio Code, install the
 
 ## Current features
 
-The initial interpreter supports:
+### What's New in v1.1.0
+
+GujaratiLang v1.1.0 delivers 30 major enhancements spanning Object-Oriented Programming, Machine Learning, Web APIs, Persistent Storage, System Process Control, and Developer CLI Tooling:
+
+- **Object-Oriented Programming (OOP)**:
+  - `varg` / `વર્ગ`: Define classes with state and behaviors
+  - `rachna` / `રચના` & `navu` / `નવું`: Constructors and object instantiation (`navu ClassName(args)`)
+  - `a_pote` / `આ_પોતે` / `this`: Instance self-reference inside methods and constructors
+  - `anukaran` / `અનુકરણ`: Single inheritance (`varg Dog anukaran Animal { ... }`)
+  - Dot notation: Access properties (`obj.name`) and invoke instance methods (`obj.greet()`)
+- **Machine Learning & Linear Algebra**:
+  - `ml_rekhiya_sambandh(x, y)`: Linear Regression ($y = mx + c$) computing slope, intercept, and $R^2$
+  - `ml_kmeans(data, k[, max_iters])`: K-Means clustering for 1D and multi-dimensional numeric points
+  - `ml_sigmoid(x)`: Sigmoid activation function supporting scalars and lists
+  - `ml_relu(x)`: Rectified Linear Unit ($ReLU$) activation
+  - `ml_softmax(list)`: Softmax probability distribution calculation
+  - `ml_mse(y_true, y_pred)`: Mean Squared Error loss calculation
+  - `ml_minmax_scaling(list)`: Feature scaling normalized to $[0, 1]$
+  - `vector_bindu(v1, v2)`: Vector dot product
+  - `vector_maan(v)`: Euclidean vector magnitude/norm
+  - `cosine_samanata(v1, v2)`: Cosine similarity between vectors
+  - `antar_euclidean(p1, p2)`: Euclidean distance between multi-dimensional points
+- **Web & Networking**:
+  - `http_melvo(url)`: HTTP GET request returning the response body as text
+  - `http_moklo(url, json_data)`: HTTP POST request with JSON payload
+  - `url_prashno(url)`: Parse URL query string into a key-value dictionary
+- **Data Persistence & Configuration**:
+  - `sangrah_lakho([filepath, ]key, value)`: Persistent key-value storage backed by JSON file
+  - `sangrah_vancho([filepath, ]key)`: Retrieve values from persistent JSON storage
+  - `ini_vancho(path_or_string)`: Parse INI configuration into structured dictionaries
+  - `paryavaran_vistaran(template)`: Template expansion of environment variables (`${VAR}`)
+- **System & Process Control**:
+  - `suvo(ms)` / `vilamb(ms)`: Millisecond execution delay
+  - `nikal([code])`: Terminate process with exit code (default `0`)
+  - `sthanak_folder()`: Get current working directory
+  - `folder_badlo(path)`: Change current working directory
+- **Algorithms & Type Safety**:
+  - `shodho_dvimukhi(sorted_list, target)`: Binary search returning index or `-1`
+  - `shodho_sarshu(target, candidate_list)`: Fuzzy string matcher via Levenshtein distance
+  - `sankhya_rupantar(val[, default])`: Safe conversion to numeric value without halting
+  - `lakhan_rupantar(val)`: Safe string conversion of any data structure (numbers, lists, dicts)
+- **Developer CLI Tooling**:
+  - `gujarati --tokens <source.gj>`: Inspect lexer token stream
+  - `gujarati --ast <source.gj>`: Dump program syntax tree
+  - `gujarati --format <source.gj>` / `--fmt <source.gj>` (optional `-w`): Automatic code formatter
+
+### Core Language Features
+
+The interpreter supports:
 
 - Programs delimited by `આવો` (start) and `આવજો` (end)
 - UTF-8 source files and the Gujarati `છાપો` (print) keyword

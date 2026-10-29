@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.1.0
+
+- Major 30-Point Milestone Release with OOP, Machine Learning, Web APIs, and Tooling:
+  - Object-Oriented Programming (OOP): `varg` (`વર્ગ`), `rachna` (`રચના`), `navu` (`નવું`), `a_pote` (`આ_પોતે`), `anukaran` (`અનુકરણ`), dot-notation properties (`obj.prop`) and dynamic method invocation (`obj.method()`).
+  - Single-Letter Snippet Triggers: Type `v` / `વ` for class `varg`, `r` / `ર` for constructor `rachna`, `n` / `ન` for `navu` instantiation, `k` / `ક` for `kary`, `j` / `જ` for `jo`, etc.
+  - Networking & Web APIs: `http_melvo` (`http_મેળવો`), `http_moklo` (`http_મોકલો`), `url_prashno` (`url_પ્રશ્નો`).
+  - Linear Algebra & Vector Mathematics: `vector_bindu` (`વેક્ટર_બિંદu`), `vector_maan` (`વેક્ટર_માન`), `cosine_samanata` (`કોસાઇન_સમાનતા`), `antar_euclidean` (`અંતર_યુક્લિડિયન`).
+  - Machine Learning Primitives: `ml_rekhiya_sambandh` (`ml_રેખીય_સંબંધ`), `ml_kmeans` (`ml_kmeans`), `ml_sigmoid` (`ml_સિગ્મોઇડ`), `ml_relu` (`ml_relu`), `ml_softmax` (`ml_સોફ્ટમેક્સ`), `ml_mse` (`ml_mse`), `ml_minmax_scaling` (`ml_સ્કેલિંગ`).
+  - System, Storage & Config: `sangrah_lakho` (`સંગ્રહ_લખો`), `sangrah_vancho` (`સંગ્રહ_વાંચો`), `ini_vancho` (`ini_વાંચો`), `paryavaran_vistaran` (`પર્યાવરણ_વિસ્તરણ`), `suvo` (`સુવો`), `nikal` (`નિકાલ`), `sthanak_folder` (`સ્થાનક_ફોલ્ડર`), `folder_badlo` (`ફોલ્ડર_બદલો`).
+  - Algorithms & Safe Casts: `shodho_dvimukhi` (`શોધો_દ્વિમુખી`), `shodho_sarshu` (`શોધો_સરખું`), `sankhya_rupantar` (`સંખ્યા_રૂપાંતર`), `lakhan_rupantar` (`લખાણ_રૂપાંતર`).
+  - Developer CLI Tooling: Support for `--tokens`, `--ast`, and code formatter `--format` / `--fmt` (`-w`).
+
 ## 1.0.1
 
 - Major 50-Point Milestone Release with Instant Single-Letter Auto-Completion Snippets:

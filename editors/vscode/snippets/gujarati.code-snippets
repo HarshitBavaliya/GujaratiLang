@@ -2043,5 +2043,316 @@
       "nakamo_chhe(${1:value})"
     ],
     "description": "Check if value is null"
+  },
+  "GujaratiLang Class": {
+    "prefix": [
+      "v",
+      "varg",
+      "class",
+      "gj-class"
+    ],
+    "body": [
+      "varg ${1:ClassName} {",
+      "\trachna(${2:params}) {",
+      "\t\ta_pote.${3:prop} = ${4:value};",
+      "\t}",
+      "",
+      "\tkary ${5:methodName}() {",
+      "\t\t$0",
+      "\t}",
+      "}"
+    ],
+    "description": "Declare a class in GujaratiLang"
+  },
+  "GujaratiLang Class Gujarati": {
+    "prefix": [
+      "વ",
+      "વર્ગ",
+      "gj-class-gu"
+    ],
+    "body": [
+      "વર્ગ ${1:ClassName} {",
+      "\tરચના(${2:params}) {",
+      "\t\tઆ_પોતે.${3:prop} = ${4:value};",
+      "\t}",
+      "",
+      "\tકાર્ય ${5:methodName}() {",
+      "\t\t$0",
+      "\t}",
+      "}"
+    ],
+    "description": "Declare a class in Gujarati script"
+  },
+  "GujaratiLang Class Inheritance": {
+    "prefix": [
+      "anukaran",
+      "extends",
+      "gj-extends"
+    ],
+    "body": [
+      "varg ${1:ChildClass} anukaran ${2:ParentClass} {",
+      "\trachna(${3:params}) {",
+      "\t\ta_pote.${4:prop} = ${5:value};",
+      "\t}",
+      "\t$0",
+      "}"
+    ],
+    "description": "Declare an inherited class in GujaratiLang"
+  },
+  "GujaratiLang New Instance": {
+    "prefix": [
+      "n",
+      "navu",
+      "new",
+      "gj-new"
+    ],
+    "body": [
+      "navu ${1:ClassName}(${2:arguments})"
+    ],
+    "description": "Instantiate a class in GujaratiLang"
+  },
+  "GujaratiLang Sleep": {
+    "prefix": [
+      "s",
+      "suvo",
+      "vilamb",
+      "sleep"
+    ],
+    "body": [
+      "suvo(${1:milliseconds});"
+    ],
+    "description": "Sleep execution for specified milliseconds"
+  },
+  "GujaratiLang Exit": {
+    "prefix": [
+      "nikal",
+      "exit"
+    ],
+    "body": [
+      "nikal(${1:0});"
+    ],
+    "description": "Exit process with code"
+  },
+  "GujaratiLang Sangrah Write": {
+    "prefix": [
+      "sangrah_lakho",
+      "store-write"
+    ],
+    "body": [
+      "sangrah_lakho(\"${1:filepath.json}\", \"${2:key}\", ${3:value});"
+    ],
+    "description": "Write persistent key-value store entry"
+  },
+  "GujaratiLang Sangrah Read": {
+    "prefix": [
+      "sangrah_vancho",
+      "store-read"
+    ],
+    "body": [
+      "sangrah_vancho(\"${1:filepath.json}\", \"${2:key}\")"
+    ],
+    "description": "Read persistent key-value store entry"
+  },
+  "GujaratiLang INI Read": {
+    "prefix": [
+      "ini",
+      "ini_vancho"
+    ],
+    "body": [
+      "ini_vancho(${1:filepath_or_content})"
+    ],
+    "description": "Parse INI configuration"
+  },
+  "GujaratiLang Env Expand": {
+    "prefix": [
+      "env_expand",
+      "paryavaran_vistaran"
+    ],
+    "body": [
+      "paryavaran_vistaran(\"${1:Hello \\${USER}}\")"
+    ],
+    "description": "Expand environment variables in template"
+  },
+  "GujaratiLang HTTP GET": {
+    "prefix": [
+      "http",
+      "http_melvo",
+      "get"
+    ],
+    "body": [
+      "http_melvo(\"${1:https://api.example.com/data}\")"
+    ],
+    "description": "Send HTTP GET request"
+  },
+  "GujaratiLang HTTP POST": {
+    "prefix": [
+      "http_moklo",
+      "post"
+    ],
+    "body": [
+      "http_moklo(\"${1:https://api.example.com/data}\", ${2:payload_json_string})"
+    ],
+    "description": "Send HTTP POST request"
+  },
+  "GujaratiLang URL Params": {
+    "prefix": [
+      "url_prashno",
+      "query_params"
+    ],
+    "body": [
+      "url_prashno(${1:url_string})"
+    ],
+    "description": "Parse URL query parameters into dictionary"
+  },
+  "GujaratiLang Vector Dot": {
+    "prefix": [
+      "vector_bindu",
+      "dot_product"
+    ],
+    "body": [
+      "vector_bindu(${1:vector1}, ${2:vector2})"
+    ],
+    "description": "Calculate dot product of two vectors"
+  },
+  "GujaratiLang Vector Norm": {
+    "prefix": [
+      "vector_maan",
+      "magnitude"
+    ],
+    "body": [
+      "vector_maan(${1:vector})"
+    ],
+    "description": "Calculate Euclidean magnitude of a vector"
+  },
+  "GujaratiLang Cosine Similarity": {
+    "prefix": [
+      "cosine_samanata",
+      "cosine_similarity"
+    ],
+    "body": [
+      "cosine_samanata(${1:vector1}, ${2:vector2})"
+    ],
+    "description": "Calculate cosine similarity between two vectors"
+  },
+  "GujaratiLang Euclidean Distance": {
+    "prefix": [
+      "antar_euclidean",
+      "euclidean_distance"
+    ],
+    "body": [
+      "antar_euclidean(${1:point1}, ${2:point2})"
+    ],
+    "description": "Calculate Euclidean distance between two points"
+  },
+  "GujaratiLang Linear Regression": {
+    "prefix": [
+      "ml",
+      "ml_rekhiya_sambandh",
+      "linear_regression"
+    ],
+    "body": [
+      "ml_rekhiya_sambandh(${1:x_list}, ${2:y_list})"
+    ],
+    "description": "Compute linear regression slope, intercept, and R^2"
+  },
+  "GujaratiLang KMeans": {
+    "prefix": [
+      "kmeans",
+      "ml_kmeans"
+    ],
+    "body": [
+      "ml_kmeans(${1:data_points}, ${2:k_clusters}, ${3:50})"
+    ],
+    "description": "Perform K-Means clustering"
+  },
+  "GujaratiLang Sigmoid": {
+    "prefix": [
+      "sigmoid",
+      "ml_sigmoid"
+    ],
+    "body": [
+      "ml_sigmoid(${1:value_or_list})"
+    ],
+    "description": "Sigmoid activation function"
+  },
+  "GujaratiLang ReLU": {
+    "prefix": [
+      "relu",
+      "ml_relu"
+    ],
+    "body": [
+      "ml_relu(${1:value_or_list})"
+    ],
+    "description": "ReLU activation function"
+  },
+  "GujaratiLang Softmax": {
+    "prefix": [
+      "softmax",
+      "ml_softmax"
+    ],
+    "body": [
+      "ml_softmax(${1:numeric_list})"
+    ],
+    "description": "Softmax probability distribution"
+  },
+  "GujaratiLang MSE": {
+    "prefix": [
+      "mse",
+      "ml_mse"
+    ],
+    "body": [
+      "ml_mse(${1:y_true}, ${2:y_pred})"
+    ],
+    "description": "Mean Squared Error"
+  },
+  "GujaratiLang MinMax Scaling": {
+    "prefix": [
+      "scale",
+      "ml_minmax_scaling"
+    ],
+    "body": [
+      "ml_minmax_scaling(${1:numeric_list})"
+    ],
+    "description": "Min-Max normalization of a list to [0, 1]"
+  },
+  "GujaratiLang Binary Search": {
+    "prefix": [
+      "bsearch",
+      "shodho_dvimukhi"
+    ],
+    "body": [
+      "shodho_dvimukhi(${1:sorted_list}, ${2:target})"
+    ],
+    "description": "Binary search in sorted list (-1 if not found)"
+  },
+  "GujaratiLang Fuzzy Match": {
+    "prefix": [
+      "fuzzy",
+      "shodho_sarshu"
+    ],
+    "body": [
+      "shodho_sarshu(\"${1:target_string}\", ${2:candidate_list})"
+    ],
+    "description": "Fuzzy string matcher via Levenshtein similarity"
+  },
+  "GujaratiLang Safe Number Cast": {
+    "prefix": [
+      "to_num",
+      "sankhya_rupantar"
+    ],
+    "body": [
+      "sankhya_rupantar(${1:value}, ${2:0})"
+    ],
+    "description": "Safely convert value to number with default fallback"
+  },
+  "GujaratiLang Safe String Cast": {
+    "prefix": [
+      "to_str",
+      "lakhan_rupantar"
+    ],
+    "body": [
+      "lakhan_rupantar(${1:value})"
+    ],
+    "description": "Safely convert any value to string"
   }
 }

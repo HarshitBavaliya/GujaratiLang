@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 1.0.0 LANGUAGES C)
+project(gujaratilang VERSION 1.1.0 LANGUAGES C)
 
 include(CTest)
 
@@ -355,7 +355,21 @@ if(BUILD_TESTING)
             builtin_file_lines
             builtin_hex_to_string
             builtin_csv
-            builtin_type_predicates)
+            builtin_type_predicates
+            oop_class_and_methods
+            oop_inheritance
+            oop_gujarati_syntax
+            builtin_sleep_exit_cwd
+            builtin_sangrah
+            builtin_ini
+            builtin_env_expand
+            builtin_url_prashno
+            builtin_vector_math
+            builtin_ml_primitives
+            builtin_ml_advanced
+            builtin_binary_search_fuzzy
+            builtin_safe_casts
+            cli_tooling)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

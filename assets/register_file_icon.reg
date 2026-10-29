@@ -1,0 +1,21 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Classes\.gj]
+@="GujaratiLang.File"
+"Content Type"="text/plain"
+"PerceivedType"="text"
+
+[HKEY_CURRENT_USER\Software\Classes\GujaratiLang.File]
+@="GujaratiLang Source File"
+
+[HKEY_CURRENT_USER\Software\Classes\GujaratiLang.File\DefaultIcon]
+@="D:\\gujaratilang\\assets\\gujarati.ico,0"
+
+[HKEY_CURRENT_USER\Software\Classes\GujaratiLang.File\shell]
+@="open"
+
+[HKEY_CURRENT_USER\Software\Classes\GujaratiLang.File\shell\open]
+@="Open with VS Code"
+
+[HKEY_CURRENT_USER\Software\Classes\GujaratiLang.File\shell\open\command]
+@="code \"%1\""

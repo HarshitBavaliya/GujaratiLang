@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "1.0.0\n1\n")
+    set(expected_stdout "1.1.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3396,6 +3396,205 @@ chhapo nakamo_chhe(nakamo);
 aavjo
 ]=])
     set(expected_stdout "1\n1\n1\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "oop_class_and_methods")
+    set(source [=[aavo
+varg Person {
+    rachna(name, age) {
+        a_pote.name = name;
+        a_pote.age = age;
+    }
+    kary greet() {
+        chhapo a_pote.name;
+        chhapo a_pote.age;
+    }
+}
+p = navu Person("Harsh", 24);
+p.greet();
+aavjo
+]=])
+    set(expected_stdout "Harsh\n24\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "oop_inheritance")
+    set(source [=[aavo
+varg Animal {
+    rachna(name) {
+        a_pote.name = name;
+    }
+    kary speak() {
+        chhapo a_pote.name;
+    }
+}
+varg Dog anukaran Animal {
+    rachna(name, breed) {
+        a_pote.name = name;
+        a_pote.breed = breed;
+    }
+    kary bark() {
+        chhapo a_pote.breed;
+    }
+}
+d = navu Dog("Buddy", "Golden");
+d.speak();
+d.bark();
+aavjo
+]=])
+    set(expected_stdout "Buddy\nGolden\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "oop_gujarati_syntax")
+    set(language_args "--language" "gu")
+    set(source [=[આવો
+વર્ગ બિલાડી {
+    રચના(નામ) {
+        આ_પોતે.નામ = નામ;
+    }
+    કાર્ય અવાજ() {
+        છાપો આ_પોતે.નામ;
+    }
+}
+બ = નવું બિલાડી("મીની");
+બ.અવાજ();
+આવજો
+]=])
+    set(expected_stdout "મીની\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_sleep_exit_cwd")
+    set(source [=[aavo
+suvo(1);
+folder = sthanak_folder();
+chhapo lakhan_chhe(folder);
+ok = folder_badlo(folder);
+chhapo ok;
+aavjo
+]=])
+    set(expected_stdout "1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_sangrah")
+    set(source [=[aavo
+sangrah_lakho("test_store.json", "theme", "dark");
+val = sangrah_vancho("test_store.json", "theme");
+chhapo val;
+sangrah_lakho("test_store.json", "count", 42);
+chhapo sangrah_vancho("test_store.json", "count");
+aavjo
+]=])
+    set(expected_stdout "dark\n42\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_ini")
+    set(source [=[aavo
+ini_text = "[app]\nname = GujaratiLang\nversion = 1.1\n[db]\nport = 5432";
+cfg = ini_vancho(ini_text);
+chhapo cfg["app"]["name"];
+chhapo cfg["app"]["version"];
+chhapo cfg["db"]["port"];
+aavjo
+]=])
+    set(expected_stdout "GujaratiLang\n1.1\n5432\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_env_expand")
+    set(source [=[aavo
+paryavaran_lakho("GJ_TEST_VAR", "Antigravity");
+msg = paryavaran_vistaran("Hello ${GJ_TEST_VAR}!");
+chhapo msg;
+aavjo
+]=])
+    set(expected_stdout "Hello Antigravity!\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_url_prashno")
+    set(source [=[aavo
+params = url_prashno("https://example.com/api?search=gujarati&page=2");
+chhapo params["search"];
+chhapo params["page"];
+aavjo
+]=])
+    set(expected_stdout "gujarati\n2\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_vector_math")
+    set(source [=[aavo
+v1 = [1, 2, 3];
+v2 = [4, 5, 6];
+chhapo vector_bindu(v1, v2);
+chhapo vector_maan([3, 4]);
+chhapo antar_euclidean([0, 0], [3, 4]);
+chhapo (cosine_samanata([1, 0], [1, 0]) > 0.99);
+aavjo
+]=])
+    set(expected_stdout "32\n5\n5\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_ml_primitives")
+    set(source [=[aavo
+x = [1, 2, 3, 4, 5];
+y = [2, 4, 6, 8, 10];
+reg = ml_rekhiya_sambandh(x, y);
+chhapo reg["dhal"];
+chhapo reg["antarched"];
+chhapo reg["r2"];
+chhapo ml_relu(-10);
+chhapo ml_relu(15);
+chhapo (ml_sigmoid(0) > 0.49 && ml_sigmoid(0) < 0.51);
+aavjo
+]=])
+    set(expected_stdout "2\n0\n1\n0\n15\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_ml_advanced")
+    set(source [=[aavo
+chhapo ml_mse([1, 2, 3], [1, 2, 3]);
+chhapo ml_mse([1, 2], [2, 4]);
+scaled = ml_minmax_scaling([10, 20, 30]);
+chhapo scaled[0];
+chhapo scaled[2];
+data = [1.0, 2.0, 10.0, 11.0];
+km = ml_kmeans(data, 2, 10);
+chhapo yadi_chhe(km["clusters"]);
+chhapo yadi_chhe(km["centroids"]);
+aavjo
+]=])
+    set(expected_stdout "0\n2.5\n0\n1\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_binary_search_fuzzy")
+    set(source [=[aavo
+arr = [10, 20, 30, 40, 50];
+chhapo shodho_dvimukhi(arr, 30);
+chhapo shodho_dvimukhi(arr, 99);
+f = shodho_sarshu("apple", ["apply", "banana", "orange"]);
+chhapo f["match"];
+chhapo (f["score"] > 0.7);
+aavjo
+]=])
+    set(expected_stdout "2\n-1\napply\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "builtin_safe_casts")
+    set(source [=[aavo
+chhapo sankhya_rupantar("123.45", 0);
+chhapo sankhya_rupantar("invalid", 999);
+chhapo lakhan_rupantar(100);
+chhapo lakhan_rupantar([1, 2]);
+aavjo
+]=])
+    set(expected_stdout "123.45\n999\n100\n[1, 2]\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "cli_tooling")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[aavo
+chhapo 42;
+aavjo
+]=])
+    set(program_arguments "--ast" "${source_path}")
+    set(expected_stdout "Program: ${source_path}\n  ProgramStart (line 1)\n  PrintStatement (line 2)\n  ProgramEnd (line 3)\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 else()
