@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "1.9.0\n1\n")
+    set(expected_stdout "2.0.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "1.9.0\n")
+    set(expected_stdout "2.0.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "1.9.0\n1\n0\n")
+    set(expected_stdout "2.0.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n1.9.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.0.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4777,6 +4777,185 @@ elseif(TEST_CASE STREQUAL "v190_gujarati_syntax")
 આવજો
 ]=])
     set(expected_stdout "echo safe bad\n0\n\"test\"\n1\n1\n1\n1\na/c\n1\nbase/file.txt\n1\nખરાબ\n1\nખરાબ\n1\nકિંમત\n1\n####56\n3421780262\n1\n1\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "v200_english_keywords")
+    set(source [=[start
+function add(a, b) {
+    return a + b;
+}
+res = add(10, 20);
+print res;
+
+if (true and not false) {
+    print "condition_passed";
+} else {
+    print "failed";
+}
+
+total = 0;
+for (x in [1, 2, 3]) {
+    total = total + x;
+}
+print total;
+
+val = null;
+print val;
+
+count = 0;
+while (count < 3) {
+    count = count + 1;
+    if (count == 2) {
+        continue;
+    }
+}
+print count;
+end
+]=])
+    set(expected_stdout "30\ncondition_passed\n6\nનકામો\n3\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v200_wasm_exporter")
+    set(source [=[start
+html = wasm_export_html("TestApp", "start print 42; end");
+print (lambai(html) > 50);
+
+bind = wasm_dom_bind("#btn", "click", "handler");
+print bind;
+
+mem = wasm_memory_grow(2);
+print mem;
+
+wat = wasm_inspect_wat("wasm_binary_bytes");
+print (lambai(wat) > 20);
+end
+]=])
+    set(expected_stdout "1\n1\n3\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v200_jit_optimizer")
+    set(source [=[start
+fold1 = opt_constant_fold("2 + 3 * 4");
+print fold1;
+
+fold2 = opt_constant_fold("10 * 5");
+print fold2;
+
+code_with_dead = "start print 1; if (false) { print 999; } print 2; end";
+stripped = opt_dead_code_strip(code_with_dead);
+print (shodho(stripped, "999") == -1);
+
+peep = opt_peephole("PUSH 1 PUSH 2 POP");
+print peep["reduction_percent"];
+
+inl = opt_inline_heuristic("simple_add");
+print inl["should_inline"];
+end
+]=])
+    set(expected_stdout "14\n50\n1\n30\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v200_ai_llm_sdk")
+    set(source [=[start
+comp = ai_completion("Hello AI", "gpt-4o");
+print comp["success"];
+print comp["model"];
+
+chat = ai_chat([{"role": "user", "content": "Hi"}], "gpt-4o");
+print chat["success"];
+
+emb1 = ai_embedding("apple", "text-embedding-3");
+print (lambai(emb1) == 4);
+
+emb2 = ai_embedding("orange", "text-embedding-3");
+sim = ai_cosine_similarity(emb1, emb2);
+print (sim >= -1.0 and sim <= 1.0);
+
+toks = ai_tokenize_estimate("This is a test prompt with several tokens.");
+print (toks > 0);
+
+tmpl = ai_prompt_template("Hello {name}, your score is {score}!", {"name": "Harshit", "score": 100});
+print tmpl;
+end
+]=])
+    set(expected_stdout "1\ngpt-4o\n1\n1\n1\n1\nHello Harshit, your score is 100!\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v200_lsp_diagnostics")
+    set(source [=[start
+diags = lsp_lint_code("print 42;");
+print (lambai(diags) > 0);
+
+doc = lsp_hover_doc("matrix_dot");
+print doc["symbol"];
+
+tokens = lsp_semantic_tokens("start print 1; end");
+print (lambai(tokens) > 0);
+end
+]=])
+    set(expected_stdout "1\nmatrix_dot\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v200_lts_guarantees")
+    set(source [=[start
+info = sys_lts_info();
+print info["version"];
+print info["is_lts"];
+print info["zero_dependency"];
+ver = bhasha_avrutti();
+print ver;
+end
+]=])
+    set(expected_stdout "2.0.0\n1\n1\n2.0.0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
+    set(source [=[આવો
+એચટીએમએલ = વોસમ_એચટીએમએલ_નિકાસ("શીર્ષક", "કોડ");
+છાપો (લંબાઈ(એચટીએમએલ) > 20);
+
+મેમ = વોસમ_મેમરી_વધારો(1);
+છાપો મેમ;
+
+ગણતરી = ઓપ્ટ_અચળ_ગણતરી("10 * 5");
+છાપો ગણતરી;
+
+ઇનલાઇન = ઓપ્ટ_ઇનલાઇન("કાર્ય");
+છાપો ઇનલાઇન["should_inline"];
+
+જવાબ = એઆઈ_સંપૂર્ણ("પ્રશ્ન", "મોડેલ");
+છાપો જવાબ["સફળ"];
+
+સંવાદ = એઆઈ_સંવાદ([], "મોડેલ");
+છાપો સંવાદ["success"];
+
+એમ્બેડ = એઆઈ_એમ્બેડિંગ("શબ્દ");
+છાપો (લંબાઈ(એમ્બેડ) == 4);
+
+સમાનતા = એઆઈ_કોસાઇન_સમાનતા([1, 0], [1, 0]);
+છાપો સમાનતા;
+
+ટોકન = એઆઈ_ટોકન_અંદાજ("વાક્ય");
+છાપો (ટોકન > 0);
+
+નમૂનો = એઆઈ_પ્રોમ્પ્ટ_નમૂનો("નમસ્તે {નામ}!", {"નામ": "ગુજરાત"});
+છાપો નમૂનો;
+
+દસ્તાવેજ = એલએસપી_દસ્તાવેજ("matrix_dot");
+છાપો દસ્તાવેજ["symbol"];
+
+માહિતી = સિસ્ટમ_એલટીએસ_માહિતી();
+છાપો માહિતી["વર્ઝન"];
+છાપો માહિતી["એલટીએસ"];
+
+સાચું_મૂલ્ય = સત્ય;
+ખોટું_મૂલ્ય = અસત્ય;
+છાપો સાચું_મૂલ્ય;
+છાપો ખોટું_મૂલ્ય;
+આવજો
+]=])
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.0.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
