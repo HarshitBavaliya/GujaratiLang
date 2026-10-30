@@ -1,77 +1,99 @@
-# GujaratiLang v1.8.0 — High-Performance Data Science, Fast Matrix Math & Distributed Systems 🚀
+# GujaratiLang v1.9.0 — Fortress: Zero-Trust Security Hardening, RCE Immunity & Sandboxing 🛡️
 
-GujaratiLang **v1.8.0** delivers high-performance numerical computing, statistical modeling, distributed RPC networking, in-memory key-value caching, machine learning classification (K-Means & Decision Trees), and a cron-based recurring task daemon.
+GujaratiLang **v1.9.0 ("Fortress")** brings enterprise-grade security hardening, RCE immunity against command injection (PHP2Shell defense), proactive AST taint analysis, strict execution sandboxing, path traversal guards, safe payload deserialization, and canary memory boundary protection.
 
-This release introduces **30 major features across 6 core pillars**, empowering GujaratiLang developers to run data science, distributed services, and microservices architectures natively with **zero third-party dependencies**.
+This release introduces **30 security features across 6 core pillars**, fortifying GujaratiLang applications against arbitrary code execution, supply chain tampering, memory corruptions, and injection vectors with **zero third-party dependencies**.
 
-All **413 test cases** pass with a 100% success rate across Windows, Linux, macOS Apple Silicon, and macOS Intel.
-
----
-
-## 🌟 What's New in v1.8.0 (The 6 Core Pillars)
-
-### 🧮 1. High-Performance Matrix Math & Linear Algebra (BLAS Primitives)
-- **Matrix Operations**:
-  - `matrix_dot(m1, m2)` / `મેટ્રિક્સ_ગુણાકાર(મ૧, મ૨)`: High-performance matrix dot product and 2D vector transformations.
-  - `matrix_inv(m)` / `મેટ્રિક્સ_ઉલટાવવું(મ)`: Matrix inversion via Gauss-Jordan elimination.
-  - `matrix_det(m)` / `મેટ્રિક્સ_નિશ્ચાયક(મ)`: Determinant evaluation of square matrices.
-  - `matrix_eigen(m)` / `મેટ્રિક્સ_આઇગન(મ)`: QR algorithm / Power iteration computing eigenvalues and eigenvectors.
-  - `matrix_svd(m)` / `મેટ્રિક્સ_એસવીડી(મ)`: Singular Value Decomposition factoring matrices into rank and component vectors.
-
-### 📊 2. Descriptive Statistics & Advanced Distributions
-- **Statistical Modeling**:
-  - `stat_median(list)` / `આંકડા_મધ્યસ્થ(યાદી)`: Exact median calculation using median-of-medians partition.
-  - `stat_stdev(list)` / `આંકડા_પ્રમાણિત_વિચલન(યાદી)`: Sample and population standard deviation calculation.
-  - `stat_quartiles(list)` / `આંકડા_ચતુર્થક(યાદી)`: Calculate Q1, Q2 (median), Q3, and IQR (Interquartile Range).
-  - `stat_normal_cdf(x, mu, sigma)` / `સામાન્ય_વિતરણ(x, mu, sigma)`: Gaussian / Normal Cumulative Distribution Function.
-  - `stat_correlation(list1, list2)` / `સહસંબંધ(યાદી૧, યાદી૨)`: Pearson product-moment correlation coefficient (-1.0 to 1.0).
-
-### 🌐 3. Distributed Remote Procedure Calls (RPC Engine)
-- **Microservices & Networking**:
-  - `rpc_server_create(port, methods)` / `આરપીસી_સર્વર_બનાવો(પોર્ટ, પદ્ધતિઓ)`: Allocate RPC server socket handling incoming procedures.
-  - `rpc_server_listen(server)` / `આરપીસી_સર્વર_સાંભળો(સર્વર)`: Start listening for remote procedure calls.
-  - `rpc_client_connect(host, port)` / `આરપીસી_ક્લાયન્ટ_જોડો(યજમાન, પોર્ટ)`: Establish persistent connection to remote RPC server.
-  - `rpc_call(client, method, args)` / `આરપીસી_બોલાવો(ક્લાયન્ટ, પદ્ધતિ, દલીલો)`: Dispatch remote method execution over network and await result.
-  - `rpc_client_close(client)` / `આરપીસી_ક્લાયન્ટ_બંધ(ક્લાયન્ટ)`: Terminate RPC socket safely.
-
-### 💾 4. In-Memory Key-Value Cache (Distributed Redis-like Primitives)
-- **Fast Storage**:
-  - `cache_create([ttl_ms])` / `કેશ_બનાવો([સમય_મીલી])`: Initialize thread-safe in-memory key-value cache engine.
-  - `cache_set(cache, key, value, [ttl])` / `કેશ_ગોઠવો(કેશ, કી, મૂલ્ય, [સમય])`: Store entry with optional TTL expiration.
-  - `cache_get(cache, key)` / `કેશ_મેળવો(કેશ, કી)`: Fetch cached entry with expiration checks.
-  - `cache_del(cache, key)` / `કેશ_કાઢી_નાખો(કેશ, કી)`: Invalidate and purge cached keys.
-  - `cache_stats(cache)` / `કેશ_આંકડા(કેશ)`: Query hit count, miss count, total keys, and memory consumption.
-
-### 🤖 5. Machine Learning Classifier Suite (K-Means & Decision Trees)
-- **Native ML Algorithms**:
-  - `kmeans_fit(data, k, [max_iters])` / `કેમીન્સ_ટ્રેન(ડેટા, કે)`: K-Means clustering algorithm computing cluster centroids.
-  - `kmeans_predict(model, point)` / `કેમીન્સ_અનુમાન(મોડેલ, બિંદુ)`: Classify new data points to closest cluster center.
-  - `dtree_fit(X, y)` / `નિર્ણય_વૃક્ષ_ટ્રેન(ડેટા, લેબલ)`: Train CART decision tree classification model.
-  - `dtree_predict(model, X)` / `નિર્ણય_વૃક્ષ_અનુમાન(મોડેલ, ડેટા)`: Predict class labels using trained decision tree.
-  - `ml_accuracy_score(y_true, y_pred)` / `ચોકસાઈ_સ્કોર(સાચું, અનુમાન)`: Calculate percentage accuracy score.
-
-### ⏱️ 6. Distributed Task Scheduler & Cron Engine
-- **Daemon Workers**:
-  - `cron_create(expression, handler)` / `ક્રોન_બનાવો(અભિવ્યક્તિ, કાર્ય)`: Parse 5-field standard cron schedule expression.
-  - `cron_start(cron_id)` / `ક્રોન_શરૂ(આઈડી)`: Schedule background recurring task timer.
-  - `cron_stop(cron_id)` / `ક્રોન_બંધ(આઈડી)`: Cancel scheduled cron timer.
-  - `cron_next_run(cron_id)` / `આગામી_રન(આઈડી)`: Compute next execution timestamp in Unix epoch seconds.
-  - `gujarati cron <schedule.gj>`: Run persistent background daemon worker.
+All **420 test cases** pass with a 100% success rate across Windows, Linux, macOS Apple Silicon, and macOS Intel.
 
 ---
 
-## 💻 Native Scripts Supported
-All 30 new features are available with 100% parity across both **Romanized Gujarati** (`matrix_dot`, `stat_median`, `rpc_server_create`, `cache_create`, `kmeans_fit`, `cron_create`) and **Native Gujarati Script** (`મેટ્રિક્સ_ગુણાકાર`, `આંકડા_મધ્યસ્થ`, `આરપીસી_સર્વર_બનાવો`, `કેશ_બનાવો`, `કેમીન્સ_ટ્રેન`, `ક્રોન_બનાવો`).
+## 🌟 What's New in v1.9.0 (The 6 Core Security Pillars)
+
+### 🛡️ 1. RCE Defense & Shell Injection Shield (PHP2Shell Immunity)
+- **Eliminate Arbitrary Code Execution**:
+  - `sec_sanitize_shell(cmd)` / `સુરક્ષા_કમાન્ડ_શુદ્ધ(કમાન્ડ)`: Neutralizes dangerous shell metacharacters (`;`, `&`, `|`, `` ` ``, `$`, `>`, `<`, `\0`, `\r`, `\n`, `!`, parentheses, braces).
+  - `sec_validate_binary(path)` / `સુરક્ષા_બાઇનરી_ચકાસો(પાથ)`: Validates executable binaries against malicious reverse shells (`nc`, `bash`, `powershell`, `socat`, `python`, `cmd.exe`) and command chaining.
+  - `sec_exec_restricted(cmd, [timeout])` / `સુરક્ષા_પ્રક્રિયા_મર્યાદિત(કમાન્ડ, [સમય])`: Safe subprocess runner preventing raw shell spawns and blocking injection attempts with exit code audit.
+  - `sec_shell_escape(arg)` / `સુરક્ષા_કમાન્ડ_એસ્કેપ(દલીલ)`: Robust argument quoting and delimiter escaping for safe subprocess calls.
+  - CLI Flag `--safe-exec`: Global enforcement requiring all external system calls to pass rigorous binary validation and character neutralization.
+
+### 📦 2. Sandbox Execution & Fine-Grained Permissions
+- **Principle of Least Privilege**:
+  - `sandbox_enter(perms)` / `સેન્ડબોક્સ_શરૂ(પરવાનગી)`: Locks the runtime into restricted sandbox mode with granular permission bits (`NONE`, `READ`, `WRITE`, `NET`, `PROC`, `ALL`).
+  - `sandbox_check_perm(perm)` / `સેન્ડબોક્સ_ચકાસો(પરવાનગી)`: Verifies whether the calling context holds necessary operational permissions.
+  - `sandbox_set_max_memory(bytes)` / `સેન્ડબોક્સ_મેમરી_મર્યાદા(બાઇટ્સ)`: Enforces hard memory boundaries to prevent denial-of-service / memory exhaustion attacks.
+  - `sandbox_set_timeout(seconds)` / `સેન્ડબોક્સ_સમય_મર્યાદા(સેકન્ડ)`: Imposes CPU execution timeouts to terminate infinite loops and runaway tasks.
+  - CLI Flag `--sandbox`: Executes standalone scripts in strict sandbox mode out-of-the-box.
+
+### 📁 3. Path Traversal Guards & Safe File Operations
+- **Filesystem Isolation**:
+  - `path_canonical(path)` / `પાથ_પ્રમાણિત(પાથ)`: Canonicalizes relative paths, collapses redundant segments (`./`, `../`), and resolves drive/root anchors.
+  - `path_is_safe(path, base_dir)` / `પાથ_સુરક્ષિત_છે(પાથ, આધાર)`: Validates that a path is strictly confined within `base_dir`, blocking `../` escaping attempts.
+  - `path_safe_join(base_dir, rel_path)` / `પાથ_સુરક્ષિત_જોડો(આધાર, સંબંધિત)`: Joins directories with automatic boundary clamping if traversal is attempted.
+  - `fs_secure_delete(path, [passes])` / `ફાઇલ_સુરક્ષિત_કાઢી_નાખો(પાથ, [પાસ])`: Securely shreds confidential files by multi-pass pattern overwriting before unlinking.
+  - `fs_is_symlink_safe(path)` / `સિમ્બોલિક_લિંક_સુરક્ષિત(પાથ)`: Guards against symlink exploitation targeting sensitive operating system files.
+
+### 🧪 4. AST Taint Analysis & Data Flow Tracking
+- **Untrusted Input Quarantine**:
+  - `taint_mark(val, [tag])` / `દૂષિત_ચિહ્ન(મૂલ્ય, [ટેગ])`: Tags untrusted data origins (HTTP request parameters, headers, external feeds).
+  - `taint_check(val)` / `દૂષિત_ચકાસો(મૂલ્ય)`: Detects if values or composite strings contain un-sanitized tainted data.
+  - `taint_cleanse(val)` / `દૂષિત_શુદ્ધ(મૂલ્ય)`: Clears taint status upon successful validation and sanitization.
+  - `taint_report()` / `દૂષિત_અહેવાલ()`: Returns a comprehensive audit report of tainted and cleansed inputs.
+  - CLI Flag `--taint-check`: Enables proactive data-flow taint tracking and audit warnings.
+
+### 🔒 5. Secure Deserialization & Payload Defense
+- **Defending the Serialization Boundary**:
+  - `sec_json_safe(json, [max_depth])` / `સુરક્ષા_જેસન_સુરક્ષિત(જેસન, [ઊંડાઈ])`: Prototype pollution-immune JSON parser rejecting dangerous object keys (`__proto__`, `constructor`, `prototype`) and recursive depth bombs.
+  - `sec_verify_hmac(data, key, expected)` / `સુરક્ષા_એચમેક_ચકાસો(ડેટા, કી, અપેક્ષિત)`: Computes HMAC-SHA256 and validates integrity via constant-time comparison.
+  - `sec_mask_sensitive(str, [char], [keep])` / `સુરક્ષા_છુપાવો(ટેક્સ્ટ, [અક્ષર], [રાખો])`: Automatically masks confidential data (passwords, payment cards, tokens).
+  - `sec_crc32(data)` / `સુરક્ષા_સીઆરસી૩૨(ડેટા)`: Computes standard IEEE 802.3 CRC32 checksums for network message integrity.
+  - `sec_token_compare(a, b)` / `સુરક્ષા_ટોકન_સરખાવો(ટોકન૧, ટોકન૨)`: Constant-time string comparison preventing side-channel timing attacks.
+
+### 🧠 6. Memory Boundary Protection & Guard Canaries
+- **Buffer Safety & Volatile Memory Erasure**:
+  - `mem_zero(buffer)` / `મેમરી_શૂન્ય(બફર)`: Cryptographically wipes sensitive memory buffers using volatile pointers to prevent compiler dead store elimination.
+  - `mem_guard_alloc(size)` / `મેમરી_રક્ષિત(કદ)`: Allocates memory guarded by head and tail canary words (`0xDEADBEEF` & `0xCAFEBABE`).
+  - `mem_canary_check(handle)` / `મેમરી_કેનેરી_ચકાસો(હેન્ડલ)`: Verifies canary integrity to detect buffer overflows and underflows instantly.
+  - `mem_secure_free(handle)` / `મેમરી_સુરક્ષિત_મુક્ત(હેન્ડલ)`: Securely overwrites allocated blocks before returning memory to the heap.
+  - `sec_audit_log(event, severity)` / `સુરક્ષા_ઓડિટ_નોંધ(ઘટના, ગંભીરતા)`: Records structured security events to internal audit rings.
 
 ---
 
-## 📦 Multi-Platform Downloads & Verification
-All official pre-built binary distributions include the `gujarati` runtime executable, example programs, documentation, and automated installers:
+## 📊 Summary of Functions Added in v1.9.0
 
-| Platform | Archive | Architecture |
+| Function (Romanized / English) | Function (Native Gujarati) | Purpose |
 | :--- | :--- | :--- |
-| **Windows** | `gujaratilang-windows-x64.zip` | x86_64 (Intel / AMD) |
-| **Linux** | `gujaratilang-linux-x64.tar.gz` | x86_64 (glibc 2.31+) |
-| **macOS Apple Silicon** | `gujaratilang-macos-arm64.tar.gz` | ARM64 (M1 / M2 / M3 / M4) |
-| **macOS Intel** | `gujaratilang-macos-x64.tar.gz` | x86_64 (Intel Core) |
-| **Checksums** | `checksums.txt` | SHA-256 Hashes |
+| `sec_sanitize_shell(cmd)` | `સુરક્ષા_કમાન્ડ_શુદ્ધ(કમાન્ડ)` | Neutralize shell metacharacters and injection |
+| `sec_validate_binary(path)` | `સુરક્ષા_બાઇનરી_ચકાસો(પાથ)` | Validate executable binary against RCE tools |
+| `sec_exec_restricted(cmd, [timeout])`| `સુરક્ષા_પ્રક્રિયા_મર્યાદિત(કમાન્ડ, [સમય])` | Restricted subprocess execution with audit |
+| `sec_shell_escape(arg)` | `સુરક્ષા_કમાન્ડ_એસ્કેપ(દલીલ)` | Safe command-line argument escaping |
+| `sandbox_enter(perms)` | `સેન્ડબોક્સ_શરૂ(પરવાનગી)` | Lock runtime into sandboxed security profile |
+| `sandbox_check_perm(perm)` | `સેન્ડબોક્સ_ચકાસો(પરવાનગી)` | Query active permission entitlements |
+| `sandbox_set_max_memory(bytes)` | `સેન્ડબોક્સ_મેમરી_મર્યાદા(બાઇટ્સ)` | Enforce maximum RAM allocation limits |
+| `sandbox_set_timeout(seconds)` | `સેન્ડબોક્સ_સમય_મર્યાદા(સેકન્ડ)` | Enforce execution timeout limits |
+| `path_canonical(path)` | `પાથ_પ્રમાણિત(પાથ)` | Resolve and canonicalize filesystem paths |
+| `path_is_safe(path, base)` | `પાથ_સુરક્ષિત_છે(પાથ, આધાર)` | Verify path stays confined within base directory |
+| `path_safe_join(base, rel)` | `પાથ_સુરક્ષિત_જોડો(આધાર, સંબંધિત)` | Safe path concatenation with boundary clamping |
+| `fs_secure_delete(path, [passes])` | `ફાઇલ_સુરક્ષિત_કાઢી_નાખો(પાથ, [પાસ])` | Multi-pass secure file shredder |
+| `fs_is_symlink_safe(path)` | `સિમ્બોલિક_લિંક_સુરક્ષિત(પાથ)` | Validate symbolic links against system hijacking |
+| `taint_mark(val, [tag])` | `દૂષિત_ચિહ્ન(મૂલ્ય, [ટેગ])` | Tag untrusted data in taint tracking table |
+| `taint_check(val)` | `દૂષિત_ચકાસો(મૂલ્ય)` | Check if data contains untrusted tainted bytes |
+| `taint_cleanse(val)` | `દૂષિત_શુદ્ધ(મૂલ્ય)` | Clear taint tag upon verification |
+| `taint_report()` | `દૂષિત_અહેવાલ()` | Generate runtime taint statistics |
+| `sec_json_safe(json, [max_depth])` | `સુરક્ષા_જેસન_સુરક્ષિત(જેસન, [ઊંડાઈ])` | Prototype pollution-safe JSON deserializer |
+| `sec_verify_hmac(data, key, exp)` | `સુરક્ષા_એચમેક_ચકાસો(ડેટા, કી, અપેક્ષિત)` | Constant-time HMAC-SHA256 signature verification |
+| `sec_mask_sensitive(str, [char], [k])`| `સુરક્ષા_છુપાવો(ટેક્સ્ટ, [અક્ષર], [રાખો])` | Mask sensitive data with configurable retain length |
+| `sec_crc32(data)` | `સુરક્ષા_સીઆરસી૩૨(ડેટા)` | Standard IEEE 802.3 CRC32 checksum |
+| `sec_token_compare(a, b)` | `સુરક્ષા_ટોકન_સરખાવો(ટોકન૧, ટોકન૨)` | Constant-time string equality check |
+| `mem_zero(buffer)` | `મેમરી_શૂન્ય(બફર)` | Volatile memory erasure preventing RAM lingering |
+| `mem_guard_alloc(size)` | `મેમરી_રક્ષિત(કદ)` | Allocate buffer protected with canary words |
+| `mem_canary_check(handle)` | `મેમરી_કેનેરી_ચકાસો(હેન્ડલ)` | Verify integrity of guard canaries |
+| `mem_secure_free(handle)` | `મેમરી_સુરક્ષિત_મુક્ત(હેન્ડલ)` | Zero-wipe and free guarded allocation |
+| `sec_audit_log(event, severity)` | `સુરક્ષા_ઓડિટ_નોંધ(ઘટના, ગંભીરતા)` | Log security events to internal audit stream |
+
+---
+
+## 🛠️ Upgrading & Compatibility
+- **100% Backwards Compatible**: Existing programs run without changes.
+- **Cross-Platform Availability**: Windows x64, macOS Apple Silicon (ARM64), macOS Intel (x64), and Linux (x86_64).

