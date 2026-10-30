@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "2.0.0\n1\n")
+    set(expected_stdout "2.1.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "2.0.0\n")
+    set(expected_stdout "2.1.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "2.0.0\n1\n0\n")
+    set(expected_stdout "2.1.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.0.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.1.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "2.0.0\n1\n1\n2.0.0\n")
+    set(expected_stdout "2.1.0\n1\n1\n2.1.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,265 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.0.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.1.0\n1\n1\n0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "v210_package_manager")
+    set(source [=[aavo
+pi = pkg_init("sample_app", "1.0.0");
+chhapo pi["name"];
+chhapo pi["status"];
+ins = pkg_install("logger");
+chhapo ins;
+lck = pkg_lock();
+chhapo lck;
+ver = pkg_version("logger");
+chhapo ver;
+pl = pkg_list();
+chhapo pl[0];
+meta = pkg_metadata();
+chhapo meta["version"];
+aavjo
+]=])
+    set(expected_stdout "sample_app
+initialized
+1
+1
+2.1.0
+core
+2.1.0
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v210_async_channels")
+    set(source [=[aavo
+ch = channel_create(5);
+chhapo ch["capacity"];
+s1 = channel_send(ch, "message_1");
+s2 = channel_send(ch, "message_2");
+chhapo s1;
+chhapo s2;
+p1 = channel_poll(ch);
+chhapo p1;
+m1 = channel_recv(ch);
+chhapo m1;
+p2 = channel_poll(ch);
+chhapo p2;
+m2 = channel_recv(ch);
+chhapo m2;
+cls = channel_close(ch);
+chhapo cls;
+t = async_task_spawn("task_fn", "done");
+chhapo t["status"];
+chhapo t["result"];
+aavjo
+]=])
+    set(expected_stdout "5
+1
+1
+2
+message_1
+1
+message_2
+1
+completed
+done
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v210_eloquent_orm")
+    set(source [=[aavo
+conn = db_connect("sqlite::memory:");
+chhapo conn["status"];
+id1 = db_insert("users", {"name": "Harshit", "role": "admin"});
+chhapo id1;
+id2 = db_insert("users", {"name": "Alice", "role": "editor"});
+chhapo id2;
+c = db_count("users");
+chhapo c;
+all_u = db_get("users");
+chhapo all_u[0]["name"];
+chhapo all_u[1]["name"];
+f1 = db_find("users", 1);
+chhapo f1["name"];
+chhapo f1["role"];
+up = db_update("users", {"role": "superadmin"}, {"id": 1});
+chhapo up;
+f1_after = db_find("users", 1);
+chhapo f1_after["role"];
+del = db_delete("users", {"id": 2});
+chhapo del;
+c_after = db_count("users");
+chhapo c_after;
+User = db_model("users");
+chhapo User["table"];
+all_elo = User.all();
+chhapo all_elo[0]["name"];
+pg = pg_connect("postgres://postgres:secret@localhost:5432/mydb");
+chhapo pg["protocol"];
+my = mysql_connect("mysql://root:pass@localhost:3306/mydb");
+chhapo my["protocol"];
+pool = db_pool_create("mydb", 20);
+chhapo pool["size"];
+aavjo
+]=])
+    set(expected_stdout "connected
+1
+2
+2
+Harshit
+Alice
+Harshit
+admin
+1
+superadmin
+1
+1
+users
+Harshit
+v3.0
+v10
+20
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v210_streaming_ai_nn")
+    set(source [=[aavo
+stream_res = ai_chat_stream([{"role": "user", "content": "Hello"}], "callback_fn");
+chhapo stream_res;
+X = [1.0, 2.0];
+W = [[0.5, 0.5], [1.0, -1.0]];
+B = [0.1, -0.1];
+Y = nn_dense(X, W, B);
+chhapo Y[0];
+chhapo Y[1];
+grad = nn_backward([1.0, 1.0], W);
+chhapo grad[0];
+chhapo grad[1];
+adam = nn_optimizer_adam([1.0], [0.1], 0.001, [0.0], [0.0], 1);
+chhapo (adam["weights"][0] < 1.0);
+loss = nn_loss_cross_entropy([1.0, 0.0], [0.9, 0.1]);
+chhapo (loss > 0.0);
+T = tensor_create([2, 3], 0.0);
+chhapo T["shape"][0];
+chhapo T["shape"][1];
+aavjo
+]=])
+    set(expected_stdout "GujaratiLang AI Streaming Active
+1.6
+-1.1
+1.5
+-0.5
+1
+1
+2
+3
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v210_debugger_repl")
+    set(source [=[aavo
+brk = debug_break();
+chhapo brk;
+st = debug_stack_trace();
+chhapo (લંબાઈ(st) >= 0);
+insp = debug_inspect("brk");
+chhapo insp["symbol"];
+chhapo insp["status"];
+aavjo
+]=])
+    set(expected_stdout "1
+1
+brk
+inspected
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v210_blade_template_cgi")
+    set(source [=[aavo
+tmpl1 = "<h1>Hello, {{ name }}!</h1><p>{!! raw_html !!}</p>";
+res1 = blade_render(tmpl1, {"name": "Harshit <script>", "raw_html": "<b>Bold</b>"});
+chhapo res1;
+tmpl2 = "@if(is_admin)Admin Access@elseUser Access@endif";
+res2_a = blade_render(tmpl2, {"is_admin": 1});
+chhapo res2_a;
+res2_b = blade_render(tmpl2, {"is_admin": 0});
+chhapo res2_b;
+tmpl3 = "@foreach(items as item)[{{ item }}]@endforeach";
+res3 = blade_render(tmpl3, {"items": ["apple", "banana"]});
+chhapo res3;
+tmpl4 = "@extends('main')\n@section('content')Hello from Section@endsection";
+res4 = blade_render(tmpl4, {});
+chhapo res4;
+req = cgi_request();
+chhapo req["method"];
+c_hdr = cookie_set("", "session", "xyz123");
+chhapo (શોધો(c_hdr, "session=xyz123") >= 0);
+c_dict = cookie_parse("session=xyz123; user=harshit");
+chhapo c_dict["user"];
+csrf = csrf_token_generate();
+chhapo (લંબાઈ(csrf) == 32);
+valid_csrf = csrf_token_verify(csrf, csrf);
+chhapo valid_csrf;
+invalid_csrf = csrf_token_verify(csrf, "wrong_token");
+chhapo invalid_csrf;
+aavjo
+]=])
+    set(expected_stdout "<h1>Hello, Harshit &lt;script&gt;!</h1><p><b>Bold</b></p>
+Admin Access
+User Access
+[apple][banana]
+Hello from Section
+GET
+1
+harshit
+1
+1
+0
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v210_gujarati_syntax")
+    set(source [=[આવો
+પેકેજ = પેકેજ_શરૂ("એપ", "૨.૧.૦");
+છાપો પેકેજ["નામ"];
+ચેનલ = ચેનલ_બનાવો(3);
+મોકલો = ચેનલ_મોકલો(ચેનલ, "સંદેશ");
+છાપો મોકલો;
+મેળવો = ચેનલ_મેળવો(ચેનલ);
+છાપો મેળવો;
+જોડાણ = ડીબી_જોડાણ("sqlite::memory:");
+છાપો જોડાણ["સ્થિતિ"];
+આઈડી = ડીબી_ઉમેરો("ખાતા", {"નામ": "હર્ષિત"});
+છાપો આઈડી;
+ગણતરી = ડીબી_ગણતરી("ખાતા");
+છાપો ગણતરી;
+મેળવો_બધા = ડીબી_મેળવો("ખાતા");
+છાપો મેળવો_બધા[0]["નામ"];
+શોધો_એક = ડીબી_શોધો("ખાતા", 1);
+છાપો શોધો_એક["નામ"];
+મોડેલ = ડીબી_મોડેલ("ખાતા");
+છાપો મોડેલ["ટેબલ"];
+ટેમ્પલેટ = "નમસ્તે, {{ નામ }}!";
+પરિણામ = બ્લેડ_રેન્ડર(ટેમ્પલેટ, {"નામ": "ગુજરાતી"});
+છાપો પરિણામ;
+આવૃત્તિ = ભાષા_આવૃત્તિ();
+છાપો આવૃત્તિ;
+આવજો
+]=])
+    set(expected_stdout "એપ
+1
+સંદેશ
+connected
+1
+1
+હર્ષિત
+હર્ષિત
+ખાતા
+નમસ્તે, ગુજરાતી!
+2.1.0
+")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
