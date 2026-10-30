@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "2.1.0\n1\n")
+    set(expected_stdout "2.2.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "2.1.0\n")
+    set(expected_stdout "2.2.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "2.1.0\n1\n0\n")
+    set(expected_stdout "2.2.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.1.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.2.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "2.1.0\n1\n1\n2.1.0\n")
+    set(expected_stdout "2.2.0\n1\n1\n2.2.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.1.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.2.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,149 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-2.1.0
+2.2.0
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "v220_android_apis")
+    set(source [=[aavo
+t = android_toast("Hello Android!");
+chhapo t["action"];
+chhapo t["message"];
+d = android_dialog("Confirmation", "Are you sure?");
+chhapo d["action"];
+chhapo d["title"];
+n = android_notify("Update", "GujaratiLang v2.2.0 ready");
+chhapo n["action"];
+chhapo n["title"];
+v = android_vibrate(250);
+chhapo v["action"];
+chhapo v["duration"];
+s = android_pref_set("username", "Harshit");
+chhapo s;
+g = android_pref_get("username");
+chhapo g;
+aavjo
+]=])
+    set(expected_stdout "toast
+Hello Android!
+dialog
+Confirmation
+notification
+Update
+vibrate
+250
+1
+Harshit
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v220_android_hardware")
+    set(source [=[aavo
+b = android_battery();
+chhapo b["level"];
+chhapo b["charging"];
+loc = android_location();
+chhapo loc["city"];
+chhapo loc["state"];
+dev = android_device_info();
+chhapo dev["os"];
+chhapo dev["sdk"];
+net = android_network_status();
+chhapo net["connected"];
+chhapo net["type"];
+aavjo
+]=])
+    set(expected_stdout "100
+1
+Ahmedabad
+Gujarat
+Android
+34
+1
+wifi
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v220_mobile_ui")
+    set(source [=[aavo
+txt = ui_text("Welcome to Mobile App", "headline");
+chhapo txt["type"];
+chhapo txt["text"];
+btn = ui_button("Submit", "onUserClick");
+chhapo btn["type"];
+chhapo btn["label"];
+inp = ui_input("Enter your name");
+chhapo inp["type"];
+chhapo inp["placeholder"];
+crd = ui_card(btn);
+chhapo crd["type"];
+col = ui_column([txt, crd, inp]);
+chhapo col["type"];
+chhapo col["count"];
+row = ui_row([btn, inp]);
+chhapo row["type"];
+chhapo row["count"];
+aavjo
+]=])
+    set(expected_stdout "text
+Welcome to Mobile App
+button
+Submit
+input
+Enter your name
+card
+column
+3
+row
+2
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v220_android_cli")
+    set(program_arguments android init TestApp)
+    set(expected_stdout "[GujaratiLang Android v2.2.0] Initialized Android project 'TestApp' successfully!
+Created AndroidManifest.xml, build.gradle.kts, and src/mukhy.gj
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v220_gujarati_syntax")
+    set(source [=[આવો
+ટોસ્ટ = એન્ડ્રોઇડ_ટોસ્ટ("મોબાઇલ સ્વાગત");
+છાપો ટોસ્ટ["સંદેશ"];
+છાપો ટોસ્ટ["સ્થિતિ"];
+સૂચના = એન્ડ્રોઇડ_સૂચના("અપડેટ", "નવી આવૃત્તિ ઉપલબ્ધ");
+છાપો સૂચના["શીર્ષક"];
+બેટરી = એન્ડ્રોઇડ_બેટરી();
+છાપો બેટરી["સ્તર"];
+સ્થાન = એન્ડ્રોઇડ_સ્થાન();
+છાપો સ્થાન["શહેર"];
+સાધન = એન્ડ્રોઇડ_સાધન_માહિતી();
+છાપો સાધન["ઓએસ"];
+પસંદગી = એન્ડ્રોઇડ_પસંદગી_લખો("વપરાશકર્તા", "હર્ષિત");
+છાપો પસંદગી;
+મેળવો = એન્ડ્રોઇડ_પસંદગી_મેળવો("વપરાશકર્તા");
+છાપો મેળવો;
+લખાણ = યુઆઈ_લખાણ("નમસ્તે ભારત");
+છાપો લખાણ["લખાણ"];
+બટન = યુઆઈ_બટન("દબાવો", "ક્લિક");
+છાપો બટન["લેબલ"];
+આવૃત્તિ = ભાષા_આવૃત્તિ();
+છાપો આવૃત્તિ;
+આવજો
+]=])
+    set(expected_stdout "મોબાઇલ સ્વાગત
+પ્રદર્શિત
+અપડેટ
+100
+અમદાવાદ
+Android
+1
+હર્ષિત
+નમસ્તે ભારત
+દબાવો
+2.2.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
