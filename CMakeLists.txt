@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 2.3.0 LANGUAGES C)
+project(gujaratilang VERSION 2.4.0 LANGUAGES C)
 
 include(CTest)
 
@@ -456,7 +456,12 @@ if(BUILD_TESTING)
             v230_desktop_multimedia
             v230_mobile_reactive_ui
             v230_desktop_cli
-            v230_gujarati_syntax)
+            v230_gujarati_syntax
+            v240_cloud_kv_cache
+            v240_pubsub_binary_pack
+            v240_android_hardware_sqlite
+            v240_cloud_service_cli
+            v240_gujarati_syntax)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

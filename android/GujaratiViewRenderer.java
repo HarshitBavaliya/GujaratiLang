@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * GujaratiViewRenderer: Classic Android View / ViewGroup layout renderer for GujaratiLang.
+ * GujaratiViewRenderer: Classic Android View / ViewGroup layout renderer for GujaratiLang v2.4.0.
  */
 public class GujaratiViewRenderer {
 
@@ -71,6 +71,12 @@ public class GujaratiViewRenderer {
                 String placeholder = (String) node.get("placeholder");
                 et.setHint(placeholder != null ? placeholder : "");
                 return et;
+            }
+            case "ui_webview": {
+                TextView webLabel = new TextView(context);
+                String url = (String) node.get("url");
+                webLabel.setText("🌐 WebView: " + (url != null ? url : "about:blank"));
+                return webLabel;
             }
             default:
                 return null;

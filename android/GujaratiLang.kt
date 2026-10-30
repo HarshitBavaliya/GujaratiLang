@@ -1,8 +1,9 @@
 package org.gujaratilang
 
 /**
- * GujaratiLang v2.3.0 Native Android JNI Bridge
- * Provides high-performance in-process evaluation of GujaratiLang scripts on Android.
+ * GujaratiLang v2.4.0 Native Android JNI Bridge
+ * Provides high-performance in-process evaluation of GujaratiLang scripts on Android,
+ * reactive UI dispatching, and hardware sensor/media integrations.
  */
 object GujaratiLang {
     init {
@@ -40,4 +41,39 @@ object GujaratiLang {
      * @return Event handling result string.
      */
     external fun dispatchEvent(componentId: String, eventType: String, eventData: String = ""): String
+
+    /**
+     * GujaratiLang v2.4.0 Android Hardware: Captures a photo using the system Camera.
+     * @param options Camera configuration options (JSON or comma-separated).
+     * @return File URI of the captured image.
+     */
+    external fun cameraCapture(options: String = ""): String
+
+    /**
+     * GujaratiLang v2.4.0 Android Hardware: Opens the system photo gallery picker.
+     * @return File URI of the selected image.
+     */
+    external fun pickImage(): String
+
+    /**
+     * GujaratiLang v2.4.0 Android Hardware: Reads device motion or environmental sensors.
+     * @param sensorType "accelerometer", "gyroscope", "step_counter", or "light".
+     * @return JSON string of sensor vector and magnitude.
+     */
+    external fun sensorRead(sensorType: String): String
+
+    /**
+     * GujaratiLang v2.4.0 Android Hardware: Controls native voice audio recording.
+     * @param action "start" or "stop".
+     * @param path Target audio file path.
+     * @return Output audio path or status string.
+     */
+    external fun audioRecord(action: String, path: String = ""): String
+
+    /**
+     * GujaratiLang v2.4.0 Android Hardware: Resolves the local sandboxed SQLite database file path.
+     * @param dbName Name of database.
+     * @return Absolute path on the Android filesystem.
+     */
+    external fun getDatabasePath(dbName: String = "app"): String
 }

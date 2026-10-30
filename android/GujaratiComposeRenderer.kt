@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 /**
- * GujaratiComposeRenderer: Native Jetpack Compose renderer for GujaratiLang.
- * Traverses declarative UI dictionary trees (ui_column, ui_row, ui_text, ui_button, ui_card, ui_input)
+ * GujaratiComposeRenderer: Native Jetpack Compose renderer for GujaratiLang v2.4.0.
+ * Traverses declarative UI dictionary trees (ui_column, ui_row, ui_text, ui_button, ui_card, ui_input, ui_webview)
  * and dispatches touch events back to the GujaratiLang engine across JNI.
  */
 object GujaratiComposeRenderer {
@@ -80,6 +80,20 @@ object GujaratiComposeRenderer {
                     label = { Text(placeholder) },
                     modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
                 )
+            }
+            "ui_webview" -> {
+                val url = node["url"] as? String ?: "https://gujaratilang.hp-square.com"
+                val title = node["title"] as? String ?: "Web View"
+                Card(
+                    modifier = Modifier.fillMaxWidth().height(250.dp).padding(vertical = 6.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                ) {
+                    Column(modifier = Modifier.padding(8.dp)) {
+                        Text(text = title, style = MaterialTheme.typography.labelSmall)
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(text = "🌐 Browsing: $url", style = MaterialTheme.typography.bodySmall)
+                    }
+                }
             }
         }
     }

@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "2.3.0\n1\n")
+    set(expected_stdout "2.4.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "2.3.0\n")
+    set(expected_stdout "2.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "2.3.0\n1\n0\n")
+    set(expected_stdout "2.4.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.3.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "2.3.0\n1\n1\n2.3.0\n")
+    set(expected_stdout "2.4.0\n1\n1\n2.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.3.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.4.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-2.3.0
+2.4.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5314,7 +5314,7 @@ row
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v220_android_cli")
     set(program_arguments android init TestApp)
-    set(expected_stdout "[GujaratiLang Android v2.3.0] Initialized Android project 'TestApp' successfully!
+    set(expected_stdout "[GujaratiLang Android v2.4.0] Initialized Android project 'TestApp' successfully!
 Created AndroidManifest.xml, build.gradle.kts, and src/mukhy.gj
 ")
     set(expected_stderr "")
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-2.3.0
+2.4.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5428,7 +5428,7 @@ aavjo
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v230_desktop_cli")
     set(program_arguments desktop init SampleDesktopApp)
-    set(expected_stdout "[GujaratiLang Desktop v2.3.0] Initialized desktop application 'SampleDesktopApp' successfully!
+    set(expected_stdout "[GujaratiLang Desktop v2.4.0] Initialized desktop application 'SampleDesktopApp' successfully!
 Created src/mukhy.gj with native 2D Canvas & Windowing.
 ")
     set(expected_stderr "")
@@ -5453,7 +5453,117 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n2.3.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n2.4.0\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "v240_cloud_kv_cache")
+    set(source [=[
+start
+set_res = cache_set("session_user", "Harshit", 3600);
+print set_res;
+user = cache_get("session_user");
+print user;
+has_user = cache_has("session_user");
+print has_user;
+counter = cache_incr("page_views", 5);
+print counter;
+counter2 = cache_decr("page_views", 2);
+print counter2;
+del_res = cache_delete("session_user");
+print del_res;
+has_after = cache_has("session_user");
+print has_after;
+info = cache_info();
+print info["capacity"];
+exit
+]=])
+    set(expected_stdout "1\nHarshit\n1\n5\n3\n1\n0\n1024\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v240_pubsub_binary_pack")
+    set(source [=[
+start
+topic = pubsub_topic("notifications");
+print topic["topic"];
+sub_count = pubsub_subscribe(topic, "on_notification");
+print sub_count;
+pub_count = pubsub_publish("notifications", "New update available!");
+print pub_count;
+qlen1 = queue_push("orders", "ORD-101");
+qlen2 = queue_push("orders", "ORD-102");
+print qlen2;
+popped = queue_pop("orders");
+print popped;
+qsz = queue_size("orders");
+print qsz;
+packed = binary_pack("i32", 42);
+print packed;
+unpacked = binary_unpack("i32", packed);
+print unpacked;
+exit
+]=])
+    set(expected_stdout "notifications\n1\n1\n2\nORD-101\n1\n0000002a\n42\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v240_android_hardware_sqlite")
+    set(source [=[
+start
+cam = android_camera_capture();
+print cam["action"];
+print cam["status"];
+gal = android_pick_image();
+print gal["status"];
+sensor = android_sensor_read("accelerometer");
+print sensor["sensor"];
+print sensor["status"];
+audio = android_audio_record("start", "sample.m4a");
+print audio["action"];
+print audio["recording"];
+wv = ui_webview("https://gujaratilang.hp-square.com", "Official Portal");
+print wv["type"];
+print wv["open"];
+dbpath = android_sqlite_path("production");
+print dbpath;
+exit
+]=])
+    set(expected_stdout "camera_capture\ncaptured\nselected\naccelerometer\nactive\nstart\n1\nui_webview\n1\n/data/data/org.gujaratilang.app/databases/production.db\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v240_cloud_service_cli")
+    set(program_arguments service status)
+    set(expected_stdout "[Gujarati Service v2.4.0 Status]
+Cluster Status: Active (1 master, 4 workers)
+In-Memory Cache: OK (0 active keys, 0 hits, 0 misses)
+PubSub Bus: Active (0 topics, 0 pending queues)
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
+    set(source [=[આવો
+કેશ_પરિણામ = કેશ_લખો("વપરાશકર્તા", "હર્ષિત", 3600);
+છાપો કેશ_પરિણામ;
+વપરાશકર્તા = કેશ_મેળવો("વપરાશકર્તા");
+છાપો વપરાશકર્તા;
+ગણતરી = કેશ_વધારો("મુલાકાતીઓ", 10);
+છાપો ગણતરી;
+વિષય = વિષય_બનાવો("સમાચાર");
+છાપો વિષય["વિષય"];
+સંદેશ_ગણતરી = સંદેશ_સાંભળો("સમાચાર", "હેન્ડલર");
+છાપો સંદેશ_ગણતરી;
+કતાર = કતાર_ઉમેરો("ઓર્ડર", "નવો_ઓર્ડર");
+છાપો કતાર;
+કેમેરો = એન્ડ્રોઇડ_કેમેરો();
+છાપો કેમેરો["સ્થિતિ"];
+સેન્સર = એન્ડ્રોઇડ_સેન્સર("accelerometer");
+છાપો સેન્સર["સ્થિતિ"];
+ડેટાબેઝ = એન્ડ્રોઇડ_ડેટાબેઝ_પાથ("એપ");
+છાપો ડેટાબેઝ;
+આવૃત્તિ = ભાષા_આવૃત્તિ();
+છાપો આવૃત્તિ;
+આવજો
+]=])
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n2.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
