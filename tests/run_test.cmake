@@ -5476,7 +5476,7 @@ has_after = cache_has("session_user");
 print has_after;
 info = cache_info();
 print info["capacity"];
-exit
+end
 ]=])
     set(expected_stdout "1\nHarshit\n1\n5\n3\n1\n0\n1024\n")
     set(expected_stderr "")
@@ -5501,7 +5501,7 @@ packed = binary_pack("i32", 42);
 print packed;
 unpacked = binary_unpack("i32", packed);
 print unpacked;
-exit
+end
 ]=])
     set(expected_stdout "notifications\n1\n1\n2\nORD-101\n1\n0000002a\n42\n")
     set(expected_stderr "")
@@ -5525,7 +5525,7 @@ print wv["type"];
 print wv["open"];
 dbpath = android_sqlite_path("production");
 print dbpath;
-exit
+end
 ]=])
     set(expected_stdout "camera_capture\ncaptured\nselected\naccelerometer\nactive\nstart\n1\nui_webview\n1\n/data/data/org.gujaratilang.app/databases/production.db\n")
     set(expected_stderr "")

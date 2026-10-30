@@ -15122,16 +15122,22 @@ static Value parse_v210_builtins(Parser *parser, Token name, Value *arguments, s
         } else if (execute) {
             return ui_dispatch_event_helper(parser, name, arguments[0], arguments[1], argument_count == 3 ? arguments[2] : null_value());
         }
-    /* === GujaratiLang v2.4.0: Cloud KV Cache (Redis-Style) === */
+    /* === GujaratiLang v2.4.0: Cloud KV Cache (Redis-Style) with v1.8.0 fallback === */
     } else if (token_matches(parser, name, "કેશ_લખો") || token_matches(parser, name, "kesh_lakho") || token_matches(parser, name, "cache_set")) {
-        if (argument_count < 2 || argument_count > 3) {
+        if (argument_count >= 2 && arguments[0].kind == VALUE_DICT) {
+            *handled = 0;
+            return null_value();
+        } else if (argument_count < 2 || argument_count > 3) {
             report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
             return null_value();
         } else if (execute) {
             return v240_cache_set_helper(parser, name, arguments[0], arguments[1], argument_count == 3 ? arguments[2] : null_value());
         }
     } else if (token_matches(parser, name, "કેશ_મેળવો") || token_matches(parser, name, "kesh_melvo") || token_matches(parser, name, "cache_get")) {
-        if (argument_count != 1) {
+        if (argument_count >= 2 && arguments[0].kind == VALUE_DICT) {
+            *handled = 0;
+            return null_value();
+        } else if (argument_count != 1) {
             report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
             return null_value();
         } else if (execute) {
@@ -15145,7 +15151,10 @@ static Value parse_v210_builtins(Parser *parser, Token name, Value *arguments, s
             return v240_cache_has_helper(parser, name, arguments[0]);
         }
     } else if (token_matches(parser, name, "કેશ_કાઢી_નાખો") || token_matches(parser, name, "kesh_kadhi_nakho") || token_matches(parser, name, "cache_delete")) {
-        if (argument_count != 1) {
+        if (argument_count >= 2 && arguments[0].kind == VALUE_DICT) {
+            *handled = 0;
+            return null_value();
+        } else if (argument_count != 1) {
             report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
             return null_value();
         } else if (execute) {
@@ -26141,7 +26150,7 @@ int main(int argc, char **argv)
     SetConsoleCP(CP_UTF8);
 #endif
     if (argc >= 2 && (strcmp(argv[1], "--version") == 0 || strcmp(argv[1], "-v") == 0)) {
-        printf("2.3.0\n");
+        printf("2.4.0\n");
         return EXIT_SUCCESS;
     }
     if (argc >= 2 && strcmp(argv[1], "debug") == 0) {
