@@ -14002,14 +14002,14 @@ typedef struct {
     int active;
 } GjCacheEntry;
 
-static GjCacheEntry g_cache_entries[GJ_CACHE_MAX_ENTRIES];
-static int g_cache_count = 0;
-static unsigned long g_cache_seq = 0;
-static unsigned long g_cache_hits = 0;
-static unsigned long g_cache_misses = 0;
-static unsigned long g_cache_evictions = 0;
+static GjCacheEntry g_v240_cache_entries[GJ_CACHE_MAX_ENTRIES];
+static int g_v240_cache_count = 0;
+static unsigned long g_v240_cache_seq = 0;
+static unsigned long g_v240_cache_hits = 0;
+static unsigned long g_v240_cache_misses = 0;
+static unsigned long g_v240_cache_evictions = 0;
 
-static Value cache_set_helper(Parser *parser, Token name, Value key_v, Value val_v, Value ttl_v) {
+static Value v240_cache_set_helper(Parser *parser, Token name, Value key_v, Value val_v, Value ttl_v) {
     char *key = (key_v.kind == VALUE_STRING) ? value_to_c_string(parser, key_v) : NULL;
     if (!key) return number_value(0.0);
     double ttl_sec = (ttl_v.kind == VALUE_NUMBER) ? ttl_v.number : 0.0;
@@ -14018,104 +14018,104 @@ static Value cache_set_helper(Parser *parser, Token name, Value key_v, Value val
 
     int slot = -1;
     for (int i = 0; i < GJ_CACHE_MAX_ENTRIES; i++) {
-        if (g_cache_entries[i].active && strcmp(g_cache_entries[i].key, key) == 0) {
+        if (g_v240_cache_entries[i].active && strcmp(g_v240_cache_entries[i].key, key) == 0) {
             slot = i;
             break;
         }
     }
 
     if (slot == -1) {
-        if (g_cache_count >= GJ_CACHE_MAX_ENTRIES) {
+        if (g_v240_cache_count >= GJ_CACHE_MAX_ENTRIES) {
             /* LRU Eviction */
             int lru_slot = 0;
             unsigned long oldest_seq = (unsigned long)-1;
             for (int i = 0; i < GJ_CACHE_MAX_ENTRIES; i++) {
-                if (g_cache_entries[i].active && (g_cache_entries[i].expires_at > 0 && g_cache_entries[i].expires_at < now)) {
+                if (g_v240_cache_entries[i].active && (g_v240_cache_entries[i].expires_at > 0 && g_v240_cache_entries[i].expires_at < now)) {
                     lru_slot = i;
                     break;
                 }
-                if (g_cache_entries[i].active && g_cache_entries[i].access_seq < oldest_seq) {
-                    oldest_seq = g_cache_entries[i].access_seq;
+                if (g_v240_cache_entries[i].active && g_v240_cache_entries[i].access_seq < oldest_seq) {
+                    oldest_seq = g_v240_cache_entries[i].access_seq;
                     lru_slot = i;
                 }
             }
             slot = lru_slot;
-            if (g_cache_entries[slot].key) free(g_cache_entries[slot].key);
-            if (g_cache_entries[slot].str_val) free(g_cache_entries[slot].str_val);
-            g_cache_evictions++;
+            if (g_v240_cache_entries[slot].key) free(g_v240_cache_entries[slot].key);
+            if (g_v240_cache_entries[slot].str_val) free(g_v240_cache_entries[slot].str_val);
+            g_v240_cache_evictions++;
         } else {
             for (int i = 0; i < GJ_CACHE_MAX_ENTRIES; i++) {
-                if (!g_cache_entries[i].active) {
+                if (!g_v240_cache_entries[i].active) {
                     slot = i;
-                    g_cache_count++;
+                    g_v240_cache_count++;
                     break;
                 }
             }
         }
-        g_cache_entries[slot].key = key;
+        g_v240_cache_entries[slot].key = key;
     } else {
         free(key);
-        if (g_cache_entries[slot].str_val) {
-            free(g_cache_entries[slot].str_val);
-            g_cache_entries[slot].str_val = NULL;
+        if (g_v240_cache_entries[slot].str_val) {
+            free(g_v240_cache_entries[slot].str_val);
+            g_v240_cache_entries[slot].str_val = NULL;
         }
     }
 
-    g_cache_entries[slot].active = 1;
-    g_cache_entries[slot].expires_at = exp;
-    g_cache_entries[slot].access_seq = ++g_cache_seq;
-    g_cache_entries[slot].is_null = (val_v.kind == VALUE_NULL);
+    g_v240_cache_entries[slot].active = 1;
+    g_v240_cache_entries[slot].expires_at = exp;
+    g_v240_cache_entries[slot].access_seq = ++g_v240_cache_seq;
+    g_v240_cache_entries[slot].is_null = (val_v.kind == VALUE_NULL);
 
     if (val_v.kind == VALUE_STRING) {
-        g_cache_entries[slot].is_string = 1;
-        g_cache_entries[slot].str_val = value_to_c_string(parser, val_v);
+        g_v240_cache_entries[slot].is_string = 1;
+        g_v240_cache_entries[slot].str_val = value_to_c_string(parser, val_v);
     } else if (val_v.kind == VALUE_NUMBER) {
-        g_cache_entries[slot].is_string = 0;
-        g_cache_entries[slot].num_val = val_v.number;
+        g_v240_cache_entries[slot].is_string = 0;
+        g_v240_cache_entries[slot].num_val = val_v.number;
     } else {
-        g_cache_entries[slot].is_string = 1;
-        g_cache_entries[slot].str_val = copy_string("object");
+        g_v240_cache_entries[slot].is_string = 1;
+        g_v240_cache_entries[slot].str_val = copy_string("object");
     }
     return number_value(1.0);
 }
 
-static Value cache_get_helper(Parser *parser, Token name, Value key_v) {
+static Value v240_cache_get_helper(Parser *parser, Token name, Value key_v) {
     char *key = (key_v.kind == VALUE_STRING) ? value_to_c_string(parser, key_v) : NULL;
     if (!key) {
-        g_cache_misses++;
+        g_v240_cache_misses++;
         return null_value();
     }
     time_t now = time(NULL);
     for (int i = 0; i < GJ_CACHE_MAX_ENTRIES; i++) {
-        if (g_cache_entries[i].active && strcmp(g_cache_entries[i].key, key) == 0) {
-            if (g_cache_entries[i].expires_at > 0 && g_cache_entries[i].expires_at < now) {
+        if (g_v240_cache_entries[i].active && strcmp(g_v240_cache_entries[i].key, key) == 0) {
+            if (g_v240_cache_entries[i].expires_at > 0 && g_v240_cache_entries[i].expires_at < now) {
                 free(key);
-                g_cache_misses++;
+                g_v240_cache_misses++;
                 return null_value();
             }
-            g_cache_hits++;
-            g_cache_entries[i].access_seq = ++g_cache_seq;
+            g_v240_cache_hits++;
+            g_v240_cache_entries[i].access_seq = ++g_v240_cache_seq;
             free(key);
-            if (g_cache_entries[i].is_null) return null_value();
-            if (g_cache_entries[i].is_string) {
-                return gj_string(parser, name, g_cache_entries[i].str_val ? g_cache_entries[i].str_val : "");
+            if (g_v240_cache_entries[i].is_null) return null_value();
+            if (g_v240_cache_entries[i].is_string) {
+                return gj_string(parser, name, g_v240_cache_entries[i].str_val ? g_v240_cache_entries[i].str_val : "");
             } else {
-                return number_value(g_cache_entries[i].num_val);
+                return number_value(g_v240_cache_entries[i].num_val);
             }
         }
     }
     free(key);
-    g_cache_misses++;
+    g_v240_cache_misses++;
     return null_value();
 }
 
-static Value cache_has_helper(Parser *parser, Token name, Value key_v) {
+static Value v240_cache_has_helper(Parser *parser, Token name, Value key_v) {
     char *key = (key_v.kind == VALUE_STRING) ? value_to_c_string(parser, key_v) : NULL;
     if (!key) return number_value(0.0);
     time_t now = time(NULL);
     for (int i = 0; i < GJ_CACHE_MAX_ENTRIES; i++) {
-        if (g_cache_entries[i].active && strcmp(g_cache_entries[i].key, key) == 0) {
-            if (g_cache_entries[i].expires_at > 0 && g_cache_entries[i].expires_at < now) {
+        if (g_v240_cache_entries[i].active && strcmp(g_v240_cache_entries[i].key, key) == 0) {
+            if (g_v240_cache_entries[i].expires_at > 0 && g_v240_cache_entries[i].expires_at < now) {
                 free(key);
                 return number_value(0.0);
             }
@@ -14127,15 +14127,15 @@ static Value cache_has_helper(Parser *parser, Token name, Value key_v) {
     return number_value(0.0);
 }
 
-static Value cache_delete_helper(Parser *parser, Token name, Value key_v) {
+static Value v240_cache_delete_helper(Parser *parser, Token name, Value key_v) {
     char *key = (key_v.kind == VALUE_STRING) ? value_to_c_string(parser, key_v) : NULL;
     if (!key) return number_value(0.0);
     for (int i = 0; i < GJ_CACHE_MAX_ENTRIES; i++) {
-        if (g_cache_entries[i].active && strcmp(g_cache_entries[i].key, key) == 0) {
-            g_cache_entries[i].active = 0;
-            if (g_cache_entries[i].key) { free(g_cache_entries[i].key); g_cache_entries[i].key = NULL; }
-            if (g_cache_entries[i].str_val) { free(g_cache_entries[i].str_val); g_cache_entries[i].str_val = NULL; }
-            g_cache_count--;
+        if (g_v240_cache_entries[i].active && strcmp(g_v240_cache_entries[i].key, key) == 0) {
+            g_v240_cache_entries[i].active = 0;
+            if (g_v240_cache_entries[i].key) { free(g_v240_cache_entries[i].key); g_v240_cache_entries[i].key = NULL; }
+            if (g_v240_cache_entries[i].str_val) { free(g_v240_cache_entries[i].str_val); g_v240_cache_entries[i].str_val = NULL; }
+            g_v240_cache_count--;
             free(key);
             return number_value(1.0);
         }
@@ -14144,59 +14144,59 @@ static Value cache_delete_helper(Parser *parser, Token name, Value key_v) {
     return number_value(0.0);
 }
 
-static Value cache_incr_helper(Parser *parser, Token name, Value key_v, Value by_v) {
+static Value v240_cache_incr_helper(Parser *parser, Token name, Value key_v, Value by_v) {
     double by = (by_v.kind == VALUE_NUMBER) ? by_v.number : 1.0;
     char *key = (key_v.kind == VALUE_STRING) ? value_to_c_string(parser, key_v) : NULL;
     if (!key) return number_value(0.0);
     for (int i = 0; i < GJ_CACHE_MAX_ENTRIES; i++) {
-        if (g_cache_entries[i].active && strcmp(g_cache_entries[i].key, key) == 0) {
-            g_cache_entries[i].is_string = 0;
-            g_cache_entries[i].num_val += by;
-            g_cache_entries[i].access_seq = ++g_cache_seq;
+        if (g_v240_cache_entries[i].active && strcmp(g_v240_cache_entries[i].key, key) == 0) {
+            g_v240_cache_entries[i].is_string = 0;
+            g_v240_cache_entries[i].num_val += by;
+            g_v240_cache_entries[i].access_seq = ++g_v240_cache_seq;
             free(key);
-            return number_value(g_cache_entries[i].num_val);
+            return number_value(g_v240_cache_entries[i].num_val);
         }
     }
     /* Key not found, insert new */
-    cache_set_helper(parser, name, key_v, number_value(by), null_value());
+    v240_cache_set_helper(parser, name, key_v, number_value(by), null_value());
     free(key);
     return number_value(by);
 }
 
-static Value cache_decr_helper(Parser *parser, Token name, Value key_v, Value by_v) {
+static Value v240_cache_decr_helper(Parser *parser, Token name, Value key_v, Value by_v) {
     double by = (by_v.kind == VALUE_NUMBER) ? by_v.number : 1.0;
-    return cache_incr_helper(parser, name, key_v, number_value(-by));
+    return v240_cache_incr_helper(parser, name, key_v, number_value(-by));
 }
 
-static Value cache_flush_helper(Parser *parser, Token name) {
+static Value v240_cache_flush_helper(Parser *parser, Token name) {
     (void)parser; (void)name;
     for (int i = 0; i < GJ_CACHE_MAX_ENTRIES; i++) {
-        if (g_cache_entries[i].active) {
-            if (g_cache_entries[i].key) free(g_cache_entries[i].key);
-            if (g_cache_entries[i].str_val) free(g_cache_entries[i].str_val);
-            g_cache_entries[i].active = 0;
+        if (g_v240_cache_entries[i].active) {
+            if (g_v240_cache_entries[i].key) free(g_v240_cache_entries[i].key);
+            if (g_v240_cache_entries[i].str_val) free(g_v240_cache_entries[i].str_val);
+            g_v240_cache_entries[i].active = 0;
         }
     }
-    g_cache_count = 0;
+    g_v240_cache_count = 0;
     return number_value(1.0);
 }
 
-static Value cache_persist_helper(Parser *parser, Token name, Value file_v) {
+static Value v240_cache_persist_helper(Parser *parser, Token name, Value file_v) {
     char *path = (file_v.kind == VALUE_STRING) ? value_to_c_string(parser, file_v) : copy_string("cache.json");
     if (!path) return number_value(0.0);
     FILE *f = fopen(path, "w");
     if (!f) { free(path); return number_value(0.0); }
-    fprintf(f, "{\n  \"version\": \"2.4.0\",\n  \"count\": %d,\n  \"entries\": {\n", g_cache_count);
+    fprintf(f, "{\n  \"version\": \"2.4.0\",\n  \"count\": %d,\n  \"entries\": {\n", g_v240_cache_count);
     int first = 1;
     time_t now = time(NULL);
     for (int i = 0; i < GJ_CACHE_MAX_ENTRIES; i++) {
-        if (g_cache_entries[i].active && (g_cache_entries[i].expires_at == 0 || g_cache_entries[i].expires_at >= now)) {
+        if (g_v240_cache_entries[i].active && (g_v240_cache_entries[i].expires_at == 0 || g_v240_cache_entries[i].expires_at >= now)) {
             if (!first) fprintf(f, ",\n");
             first = 0;
-            if (g_cache_entries[i].is_string) {
-                fprintf(f, "    \"%s\": \"%s\"", g_cache_entries[i].key, g_cache_entries[i].str_val ? g_cache_entries[i].str_val : "");
+            if (g_v240_cache_entries[i].is_string) {
+                fprintf(f, "    \"%s\": \"%s\"", g_v240_cache_entries[i].key, g_v240_cache_entries[i].str_val ? g_v240_cache_entries[i].str_val : "");
             } else {
-                fprintf(f, "    \"%s\": %g", g_cache_entries[i].key, g_cache_entries[i].num_val);
+                fprintf(f, "    \"%s\": %g", g_v240_cache_entries[i].key, g_v240_cache_entries[i].num_val);
             }
         }
     }
@@ -14206,7 +14206,7 @@ static Value cache_persist_helper(Parser *parser, Token name, Value file_v) {
     return number_value(1.0);
 }
 
-static Value cache_load_helper(Parser *parser, Token name, Value file_v) {
+static Value v240_cache_load_helper(Parser *parser, Token name, Value file_v) {
     char *path = (file_v.kind == VALUE_STRING) ? value_to_c_string(parser, file_v) : copy_string("cache.json");
     if (!path) return number_value(0.0);
     FILE *f = fopen(path, "r");
@@ -14229,11 +14229,11 @@ static Value cache_load_helper(Parser *parser, Token name, Value file_v) {
                         vstart++;
                         char *vend = strchr(vstart, '"');
                         if (vend) *vend = '\0';
-                        cache_set_helper(parser, name, gj_string(parser, name, kname), gj_string(parser, name, vstart), null_value());
+                        v240_cache_set_helper(parser, name, gj_string(parser, name, kname), gj_string(parser, name, vstart), null_value());
                         loaded++;
                     } else {
                         double n = atof(vstart);
-                        cache_set_helper(parser, name, gj_string(parser, name, kname), number_value(n), null_value());
+                        v240_cache_set_helper(parser, name, gj_string(parser, name, kname), number_value(n), null_value());
                         loaded++;
                     }
                 }
@@ -14245,15 +14245,15 @@ static Value cache_load_helper(Parser *parser, Token name, Value file_v) {
     return number_value((double)loaded);
 }
 
-static Value cache_info_helper(Parser *parser, Token name) {
+static Value v240_cache_info_helper(Parser *parser, Token name) {
     Dict *d = create_dict(parser, name);
-    gj_dict_set(parser, d, "keys", number_value((double)g_cache_count), name);
-    gj_dict_set(parser, d, "hits", number_value((double)g_cache_hits), name);
-    gj_dict_set(parser, d, "misses", number_value((double)g_cache_misses), name);
+    gj_dict_set(parser, d, "keys", number_value((double)g_v240_cache_count), name);
+    gj_dict_set(parser, d, "hits", number_value((double)g_v240_cache_hits), name);
+    gj_dict_set(parser, d, "misses", number_value((double)g_v240_cache_misses), name);
     gj_dict_set(parser, d, "capacity", number_value((double)GJ_CACHE_MAX_ENTRIES), name);
-    gj_dict_set(parser, d, "evictions", number_value((double)g_cache_evictions), name);
-    gj_dict_set(parser, d, "કુલ_કી", number_value((double)g_cache_count), name);
-    gj_dict_set(parser, d, "હિટ", number_value((double)g_cache_hits), name);
+    gj_dict_set(parser, d, "evictions", number_value((double)g_v240_cache_evictions), name);
+    gj_dict_set(parser, d, "કુલ_કી", number_value((double)g_v240_cache_count), name);
+    gj_dict_set(parser, d, "હિટ", number_value((double)g_v240_cache_hits), name);
     return gj_dict(d);
 }
 
@@ -14624,7 +14624,7 @@ static int run_cli_service_run(const char *script_file, int cluster_size) {
 static int run_cli_service_status(void) {
     printf("[Gujarati Service v2.4.0 Status]\n");
     printf("Cluster Status: Active (1 master, 4 workers)\n");
-    printf("In-Memory Cache: OK (%d active keys, %lu hits, %lu misses)\n", g_cache_count, g_cache_hits, g_cache_misses);
+    printf("In-Memory Cache: OK (%d active keys, %lu hits, %lu misses)\n", g_v240_cache_count, g_v240_cache_hits, g_v240_cache_misses);
     printf("PubSub Bus: Active (%d topics, 0 pending queues)\n", g_topic_count);
     return EXIT_SUCCESS;
 }
@@ -15128,64 +15128,64 @@ static Value parse_v210_builtins(Parser *parser, Token name, Value *arguments, s
             report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
             return null_value();
         } else if (execute) {
-            return cache_set_helper(parser, name, arguments[0], arguments[1], argument_count == 3 ? arguments[2] : null_value());
+            return v240_cache_set_helper(parser, name, arguments[0], arguments[1], argument_count == 3 ? arguments[2] : null_value());
         }
     } else if (token_matches(parser, name, "કેશ_મેળવો") || token_matches(parser, name, "kesh_melvo") || token_matches(parser, name, "cache_get")) {
         if (argument_count != 1) {
             report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
             return null_value();
         } else if (execute) {
-            return cache_get_helper(parser, name, arguments[0]);
+            return v240_cache_get_helper(parser, name, arguments[0]);
         }
     } else if (token_matches(parser, name, "કેશ_છે") || token_matches(parser, name, "kesh_chhe") || token_matches(parser, name, "cache_has")) {
         if (argument_count != 1) {
             report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
             return null_value();
         } else if (execute) {
-            return cache_has_helper(parser, name, arguments[0]);
+            return v240_cache_has_helper(parser, name, arguments[0]);
         }
     } else if (token_matches(parser, name, "કેશ_કાઢી_નાખો") || token_matches(parser, name, "kesh_kadhi_nakho") || token_matches(parser, name, "cache_delete")) {
         if (argument_count != 1) {
             report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
             return null_value();
         } else if (execute) {
-            return cache_delete_helper(parser, name, arguments[0]);
+            return v240_cache_delete_helper(parser, name, arguments[0]);
         }
     } else if (token_matches(parser, name, "કેશ_વધારો") || token_matches(parser, name, "kesh_vadharo") || token_matches(parser, name, "cache_incr")) {
         if (argument_count < 1 || argument_count > 2) {
             report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
             return null_value();
         } else if (execute) {
-            return cache_incr_helper(parser, name, arguments[0], argument_count == 2 ? arguments[1] : null_value());
+            return v240_cache_incr_helper(parser, name, arguments[0], argument_count == 2 ? arguments[1] : null_value());
         }
     } else if (token_matches(parser, name, "કેશ_ઘટાડો") || token_matches(parser, name, "kesh_ghatado") || token_matches(parser, name, "cache_decr")) {
         if (argument_count < 1 || argument_count > 2) {
             report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
             return null_value();
         } else if (execute) {
-            return cache_decr_helper(parser, name, arguments[0], argument_count == 2 ? arguments[1] : null_value());
+            return v240_cache_decr_helper(parser, name, arguments[0], argument_count == 2 ? arguments[1] : null_value());
         }
     } else if (token_matches(parser, name, "કેશ_સાફ_કરો") || token_matches(parser, name, "kesh_saaf_karo") || token_matches(parser, name, "cache_flush")) {
         if (execute) {
-            return cache_flush_helper(parser, name);
+            return v240_cache_flush_helper(parser, name);
         }
     } else if (token_matches(parser, name, "કેશ_સાચવો") || token_matches(parser, name, "kesh_sachvo") || token_matches(parser, name, "cache_persist")) {
         if (argument_count != 1) {
             report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
             return null_value();
         } else if (execute) {
-            return cache_persist_helper(parser, name, arguments[0]);
+            return v240_cache_persist_helper(parser, name, arguments[0]);
         }
     } else if (token_matches(parser, name, "કેશ_લોડ") || token_matches(parser, name, "kesh_load") || token_matches(parser, name, "cache_load")) {
         if (argument_count != 1) {
             report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
             return null_value();
         } else if (execute) {
-            return cache_load_helper(parser, name, arguments[0]);
+            return v240_cache_load_helper(parser, name, arguments[0]);
         }
     } else if (token_matches(parser, name, "કેશ_માહિતી") || token_matches(parser, name, "kesh_mahiti") || token_matches(parser, name, "cache_info")) {
         if (execute) {
-            return cache_info_helper(parser, name);
+            return v240_cache_info_helper(parser, name);
         }
     /* === GujaratiLang v2.4.0: Distributed Pub/Sub & Binary Serialization === */
     } else if (token_matches(parser, name, "વિષય_બનાવો") || token_matches(parser, name, "vishay_banavo") || token_matches(parser, name, "pubsub_topic")) {
