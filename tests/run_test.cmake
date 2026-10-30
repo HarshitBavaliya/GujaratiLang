@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "2.2.0\n1\n")
+    set(expected_stdout "2.3.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "2.2.0\n")
+    set(expected_stdout "2.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "2.2.0\n1\n0\n")
+    set(expected_stdout "2.3.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.2.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "2.2.0\n1\n1\n2.2.0\n")
+    set(expected_stdout "2.3.0\n1\n1\n2.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.2.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.3.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-2.2.0
+2.3.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5314,7 +5314,7 @@ row
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v220_android_cli")
     set(program_arguments android init TestApp)
-    set(expected_stdout "[GujaratiLang Android v2.2.0] Initialized Android project 'TestApp' successfully!
+    set(expected_stdout "[GujaratiLang Android v2.3.0] Initialized Android project 'TestApp' successfully!
 Created AndroidManifest.xml, build.gradle.kts, and src/mukhy.gj
 ")
     set(expected_stderr "")
@@ -5354,8 +5354,106 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-2.2.0
+2.3.0
 ")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "v230_canvas_graphics")
+    set(source [=[aavo
+cv = canvas_create(200, 150);
+chhapo cv["width"];
+chhapo cv["height"];
+f = canvas_fill_color(cv, "#FF0000");
+chhapo f;
+s = canvas_stroke_color(cv, "#00FF00");
+chhapo s;
+r = canvas_draw_rect(cv, 10, 10, 50, 40);
+chhapo r;
+c = canvas_draw_circle(cv, 80, 80, 20);
+chhapo c;
+l = canvas_draw_line(cv, 0, 0, 100, 100);
+chhapo l;
+t = canvas_draw_text(cv, "Test", 10, 10, 12);
+chhapo t;
+bmp = canvas_save_bmp(cv, "test_render.bmp");
+chhapo bmp;
+info = canvas_info(cv);
+chhapo info["pixels_count"];
+aavjo
+]=])
+    set(expected_stdout "200\n150\n1\n1\n1\n1\n1\n1\n1\n30000\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v230_desktop_multimedia")
+    set(source [=[aavo
+win = window_open("My Gujarati App", 800, 600);
+chhapo win["title"];
+chhapo win["open"];
+mb = window_message_box("Title", "Message");
+chhapo mb["action"];
+chhapo mb["status"];
+fp = file_picker_open();
+chhapo fp;
+fs = file_picker_save();
+chhapo fs;
+b = audio_beep(440, 100);
+chhapo b;
+p = audio_play("sound.wav");
+chhapo p;
+aavjo
+]=])
+    set(expected_stdout "My Gujarati App\n1\nmessage_box\nshown\nselected_document.txt\nsaved_document.txt\n1\n1\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v230_mobile_reactive_ui")
+    set(source [=[aavo
+st = ui_state(10);
+chhapo st["type"];
+chhapo st["value"];
+nav = ui_navigate("/profile", {"user_id": 42});
+chhapo nav["action"];
+chhapo nav["screen"];
+pop = ui_pop();
+chhapo pop["action"];
+chhapo pop["status"];
+ev = ui_dispatch_event("login_btn", "click", "auth_token");
+chhapo ev["handled"];
+chhapo ev["component"];
+chhapo ev["event"];
+aavjo
+]=])
+    set(expected_stdout "ui_state\n10\nnavigate\n/profile\npop\npopped\n1\nlogin_btn\nclick\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v230_desktop_cli")
+    set(program_arguments desktop init SampleDesktopApp)
+    set(expected_stdout "[GujaratiLang Desktop v2.3.0] Initialized desktop application 'SampleDesktopApp' successfully!
+Created src/mukhy.gj with native 2D Canvas & Windowing.
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
+    set(source [=[આવો
+કેનવાસ = કેનવાસ_બનાવો(100, 100);
+છાપો કેનવાસ["પહોળાઈ"];
+રંગ = કેનવાસ_રંગ(કેનવાસ, "#008800");
+છાપો રંગ;
+ચોરસ = કેનવાસ_ચોરસ(કેનવાસ, 10, 10, 20, 20);
+છાપો ચોરસ;
+વિન્ડો = વિન્ડો_ખોલો("ડેસ્કટોપ", 600, 400);
+છાપો વિન્ડો["શીર્ષક"];
+સ્થિતિ = યુઆઈ_સ્થિતિ("સક્રિય");
+છાપો સ્થિતિ["મૂલ્ય"];
+નેવિગેટ = યુઆઈ_નેવિગેટ("/ખાતું", 1);
+છાપો નેવિગેટ["સ્ક્રીન"];
+ઇવેન્ટ = યુઆઈ_ઇવેન્ટ("બટન", "ક્લિક");
+છાપો ઇવેન્ટ["સફળ"];
+આવૃત્તિ = ભાષા_આવૃત્તિ();
+છાપો આવૃત્તિ;
+આવજો
+]=])
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n2.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)

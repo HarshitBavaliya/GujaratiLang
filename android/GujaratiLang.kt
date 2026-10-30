@@ -1,7 +1,7 @@
 package org.gujaratilang
 
 /**
- * GujaratiLang v2.2.0 Native Android JNI Bridge
+ * GujaratiLang v2.3.0 Native Android JNI Bridge
  * Provides high-performance in-process evaluation of GujaratiLang scripts on Android.
  */
 object GujaratiLang {
@@ -31,4 +31,13 @@ object GujaratiLang {
      * Returns the GujaratiLang runtime engine version.
      */
     external fun getVersion(): String
+
+    /**
+     * Dispatches a user touch or input event into the active GujaratiLang runtime.
+     * @param componentId Target widget or callback action name.
+     * @param eventType Event type ("click", "change", "submit").
+     * @param eventData Optional event payload.
+     * @return Event handling result string.
+     */
+    external fun dispatchEvent(componentId: String, eventType: String, eventData: String = ""): String
 }
