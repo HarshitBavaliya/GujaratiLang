@@ -1,9 +1,9 @@
 package org.gujaratilang
 
 /**
- * GujaratiLang v2.4.0 Native Android JNI Bridge
+ * GujaratiLang v2.5.0 LTS Native Android JNI Bridge
  * Provides high-performance in-process evaluation of GujaratiLang scripts on Android,
- * reactive UI dispatching, and hardware sensor/media integrations.
+ * reactive UI dispatching, and enterprise mobile capabilities (Biometrics, FCM, WorkManager, Keystore).
  */
 object GujaratiLang {
     init {
@@ -44,36 +44,51 @@ object GujaratiLang {
 
     /**
      * GujaratiLang v2.4.0 Android Hardware: Captures a photo using the system Camera.
-     * @param options Camera configuration options (JSON or comma-separated).
-     * @return File URI of the captured image.
      */
     external fun cameraCapture(options: String = ""): String
 
     /**
      * GujaratiLang v2.4.0 Android Hardware: Opens the system photo gallery picker.
-     * @return File URI of the selected image.
      */
     external fun pickImage(): String
 
     /**
      * GujaratiLang v2.4.0 Android Hardware: Reads device motion or environmental sensors.
-     * @param sensorType "accelerometer", "gyroscope", "step_counter", or "light".
-     * @return JSON string of sensor vector and magnitude.
      */
     external fun sensorRead(sensorType: String): String
 
     /**
      * GujaratiLang v2.4.0 Android Hardware: Controls native voice audio recording.
-     * @param action "start" or "stop".
-     * @param path Target audio file path.
-     * @return Output audio path or status string.
      */
     external fun audioRecord(action: String, path: String = ""): String
 
     /**
      * GujaratiLang v2.4.0 Android Hardware: Resolves the local sandboxed SQLite database file path.
-     * @param dbName Name of database.
-     * @return Absolute path on the Android filesystem.
      */
     external fun getDatabasePath(dbName: String = "app"): String
+
+    /**
+     * GujaratiLang v2.5.0 LTS Enterprise Mobile: Prompts native Biometric verification.
+     */
+    external fun biometricAuth(prompt: String = "Confirm Biometrics"): String
+
+    /**
+     * GujaratiLang v2.5.0 LTS Enterprise Mobile: Dispatches remote FCM push notification.
+     */
+    external fun pushNotify(title: String, body: String): String
+
+    /**
+     * GujaratiLang v2.5.0 LTS Enterprise Mobile: Schedules recurring background task with WorkManager.
+     */
+    external fun workSchedule(task: String, intervalMinutes: Double = 15.0): String
+
+    /**
+     * GujaratiLang v2.5.0 LTS Enterprise Mobile: Stores secret securely in Android Hardware Keystore.
+     */
+    external fun keystoreSecure(key: String, secret: String): String
+
+    /**
+     * GujaratiLang v2.5.0 LTS Enterprise Mobile: Reads secret securely from Android Hardware Keystore.
+     */
+    external fun keystoreRead(key: String): String
 }

@@ -1,7 +1,7 @@
 package org.gujaratilang;
 
 /**
- * GujaratiLang v2.4.0 Native Android JNI Bridge
+ * GujaratiLang v2.5.0 LTS Native Android JNI Bridge
  */
 public class GujaratiLang {
     static {
@@ -21,4 +21,9 @@ public class GujaratiLang {
     public static native String sensorRead(String sensorType);
     public static native String audioRecord(String action, String path);
     public static native String getDatabasePath(String dbName);
+    public static native String biometricAuth(String prompt);
+    public static native String pushNotify(String title, String body);
+    public static native String workSchedule(String task, double intervalMinutes);
+    public static native String keystoreSecure(String key, String secret);
+    public static native String keystoreRead(String key);
 }

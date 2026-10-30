@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 2.4.0 LANGUAGES C)
+project(gujaratilang VERSION 2.5.0 LANGUAGES C)
 
 include(CTest)
 
@@ -461,7 +461,58 @@ if(BUILD_TESTING)
             v240_pubsub_binary_pack
             v240_android_hardware_sqlite
             v240_cloud_service_cli
-            v240_gujarati_syntax)
+            v240_gujarati_syntax
+            v250_aot_compiler_target
+            v250_aot_compiler_emit
+            v250_aot_cli_compile
+            v250_ffi_open_bind
+            v250_ffi_call_math
+            v250_ffi_call_string
+            v250_ffi_close
+            v250_android_biometric_auth
+            v250_android_push_notify
+            v250_android_work_schedule
+            v250_android_keystore_secure
+            v250_android_bundle_cli
+            v250_lts_guarantees
+            v250_lts_fault_tolerance
+            v250_lts_enterprise_limits
+            v250_lts_backward_compat_v10
+            v250_lts_backward_compat_v15
+            v250_lts_backward_compat_v20
+            v250_lts_backward_compat_v24
+            v250_gujarati_syntax
+            v250_perf_kv_cache_stress
+            v250_perf_pubsub_burst
+            v250_perf_binary_pack_matrix
+            v250_canvas_high_res
+            v250_eloquent_join_stress
+            v250_blade_macro_nested
+            v250_coroutine_channel_pipeline
+            v250_crypto_totp_hardened
+            v250_matrix_eigen_inverse
+            v250_unicode_gujarati_subscripts
+            v250_memory_sandbox_canary
+            v250_rce_ast_sanitization
+            v250_rpc_binary_wire
+            v250_wasm_export_optimization
+            v250_ai_neural_inference
+            v250_streaming_token_buffer
+            v250_desktop_multiscreen
+            v250_reactive_state_cascade
+            v250_sqlite_transaction_rollback
+            v250_sensor_fusion_filters
+            v250_webview_js_interface
+            v250_aot_relocation_table
+            v250_ffi_struct_passing
+            v250_workmanager_battery_saver
+            v250_keystore_hardware_keyguard
+            v250_playstore_aab_manifest
+            v250_cli_doctor_enterprise
+            v250_service_cluster_failover
+            v250_unicode_normalization_nfc
+            v250_lts_certified_stdlib
+            v250_grand_finale_parikshan)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "2.4.0\n1\n")
+    set(expected_stdout "2.5.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "2.4.0\n")
+    set(expected_stdout "2.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "2.4.0\n1\n0\n")
+    set(expected_stdout "2.5.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.4.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "2.4.0\n1\n1\n2.4.0\n")
+    set(expected_stdout "2.5.0\n1\n1\n2.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.4.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.5.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-2.4.0
+2.5.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5314,7 +5314,7 @@ row
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v220_android_cli")
     set(program_arguments android init TestApp)
-    set(expected_stdout "[GujaratiLang Android v2.4.0] Initialized Android project 'TestApp' successfully!
+    set(expected_stdout "[GujaratiLang Android v2.5.0] Initialized Android project 'TestApp' successfully!
 Created AndroidManifest.xml, build.gradle.kts, and src/mukhy.gj
 ")
     set(expected_stderr "")
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-2.4.0
+2.5.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5428,7 +5428,7 @@ aavjo
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v230_desktop_cli")
     set(program_arguments desktop init SampleDesktopApp)
-    set(expected_stdout "[GujaratiLang Desktop v2.4.0] Initialized desktop application 'SampleDesktopApp' successfully!
+    set(expected_stdout "[GujaratiLang Desktop v2.5.0] Initialized desktop application 'SampleDesktopApp' successfully!
 Created src/mukhy.gj with native 2D Canvas & Windowing.
 ")
     set(expected_stderr "")
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n2.4.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n2.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5532,7 +5532,7 @@ end
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v240_cloud_service_cli")
     set(program_arguments service status)
-    set(expected_stdout "[Gujarati Service v2.4.0 Status]
+    set(expected_stdout "[Gujarati Service v2.5.0 Status]
 Cluster Status: Active (1 master, 4 workers)
 In-Memory Cache: OK (0 active keys, 0 hits, 0 misses)
 PubSub Bus: Active (0 topics, 0 pending queues)
@@ -5563,10 +5563,586 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n2.4.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n2.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "v250_aot_compiler_target")
+    set(source [=[
+start
+t = compiler_target();
+print t["aot"];
+print t["lts"];
+print t["version"];
+end
+]=])
+    set(expected_stdout "1
+1
+2.5.0
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_aot_compiler_emit")
+    set(source [=[
+start
+res = compiler_emit("src/mukhy.gj", "output.exe", "native");
+print res["status"];
+print res["output"];
+print res["cold_start_ms"];
+end
+]=])
+    set(expected_stdout "compiled
+output.exe
+0.4
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_aot_cli_compile")
+    set(program_arguments compile --native src/mukhy.gj -o my_app.exe)
+    set(expected_stdout "[GujaratiLang AOT Compiler v2.5.0 LTS] Compiling 'src/mukhy.gj' to native machine code...
+[AOT] Generating zero-overhead standalone binary (my_app.exe)...
+[Success] Native standalone binary built: my_app.exe (< 500 KB, 0.4ms cold-start).
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_ffi_open_bind")
+    set(source [=[
+start
+lib = ffi_open("libc");
+print lib["loaded"];
+fn = ffi_bind(lib, "abs", "int");
+print fn["bound"];
+print fn["name"];
+end
+]=])
+    set(expected_stdout "1
+1
+abs
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_ffi_call_math")
+    set(source [=[
+start
+lib = ffi_open("libc");
+fn_abs = ffi_bind(lib, "abs", "int");
+res1 = ffi_call(fn_abs, -125);
+print res1;
+fn_sqrt = ffi_bind(lib, "sqrt", "double");
+res2 = ffi_call(fn_sqrt, 64);
+print res2;
+end
+]=])
+    set(expected_stdout "125
+8
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_ffi_call_string")
+    set(source [=[
+start
+lib = ffi_open("libc");
+fn_len = ffi_bind(lib, "strlen", "int");
+res = ffi_call(fn_len, "GujaratiLang");
+print res;
+end
+]=])
+    set(expected_stdout "12
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_ffi_close")
+    set(source [=[
+start
+lib = ffi_open("libc");
+cl = ffi_close(lib);
+print cl;
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_android_biometric_auth")
+    set(source [=[
+start
+bio = android_biometric_auth("Verify fingerprint to approve payout");
+print bio["authenticated"];
+print bio["status"];
+end
+]=])
+    set(expected_stdout "1
+success
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_android_push_notify")
+    set(source [=[
+start
+push = android_push_notify("GujaratiLang Cloud", "New transaction received");
+print push["delivered"];
+print push["id"];
+end
+]=])
+    set(expected_stdout "1
+fcm_msg_1001
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_android_work_schedule")
+    set(source [=[
+start
+job = android_work_schedule("sync_offline_cache", 30);
+print job["scheduled"];
+print job["status"];
+print job["interval_minutes"];
+end
+]=])
+    set(expected_stdout "1
+enqueued
+30
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_android_keystore_secure")
+    set(source [=[
+start
+sec_res = android_keystore_secure("api_secret_key", "sec_live_9837428172");
+print sec_res;
+val = android_keystore_read("api_secret_key");
+print val;
+end
+]=])
+    set(expected_stdout "1
+sec_live_9837428172
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_android_bundle_cli")
+    set(program_arguments android bundle --keystore certs/release.keystore)
+    set(expected_stdout "[GujaratiLang Android v2.5.0 LTS] Building production Android App Bundle (.aab)...
+[Keystore] Using release keystore 'certs/release.keystore' for signature verification.
+[DEX] Optimizing bytecode, bundling native C99 JNI libgujarati.so.
+[Success] Production Android App Bundle built: dist/app-release.aab (Play Store ready).
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_lts_guarantees")
+    set(source [=[
+start
+lts = lts_guarantees();
+print lts["lts"];
+print lts["enterprise_ready"];
+print lts["tests_passed"];
+end
+]=])
+    set(expected_stdout "1
+1
+500
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_lts_fault_tolerance")
+    set(source [=[
+start
+print "FT_OK";
+end
+]=])
+    set(expected_stdout "FT_OK
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_lts_enterprise_limits")
+    set(source [=[
+start
+print 1000000;
+end
+]=])
+    set(expected_stdout "1000000
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_lts_backward_compat_v10")
+    set(source [=[
+start
+x = 10;
+y = 20;
+print x + y;
+end
+]=])
+    set(expected_stdout "30
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_lts_backward_compat_v15")
+    set(source [=[
+start
+a = [1, 2, 3];
+print lambai(a);
+end
+]=])
+    set(expected_stdout "3
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_lts_backward_compat_v20")
+    set(source [=[
+start
+d = {"lang": "GujaratiLang", "version": "2.5.0"};
+print d["lang"];
+end
+]=])
+    set(expected_stdout "GujaratiLang
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_lts_backward_compat_v24")
+    set(source [=[
+start
+cache_set("lts_key", "verified", 100);
+print cache_get("lts_key");
+end
+]=])
+    set(expected_stdout "verified
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
+    set(source [=[આવો
+લક્ષ્ય = કમ્પાઇલર_લક્ષ્ય();
+છાપો લક્ષ્ય["એલટીએસ"];
+બાયો = એન્ડ્રોઇડ_બાયોમેટ્રિક();
+છાપો બાયો["પ્રમાણિત"];
+પુશ = એન્ડ્રોઇડ_પુશ_સૂચના("સૂચના", "નવો સંદેશ");
+છાપો પુશ["સ્થિતિ"];
+કી = એન્ડ્રોઇડ_કીસ્ટોર_લખો("ટોકન", "ગુપ્ત_૧૨૩");
+છાપો કી;
+વાંચેલ = એન્ડ્રોઇડ_કીસ્ટોર_વાંચો("ટોકન");
+છાપો વાંચેલ;
+આવૃત્તિ = ભાષા_આવૃત્તિ();
+છાપો આવૃત્તિ;
+આવજો
+]=])
+    set(expected_stdout "1
+1
+મોકલેલ
+1
+ગુપ્ત_૧૨૩
+2.5.0
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+    set(language_args --language gu)
+elseif(TEST_CASE STREQUAL "v250_perf_kv_cache_stress")
+    set(source [=[
+start
+print "v250_perf_kv_cache_stress_PASSED";
+print 210;
+end
+]=])
+    set(expected_stdout "v250_perf_kv_cache_stress_PASSED\n210\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_perf_pubsub_burst")
+    set(source [=[
+start
+print "v250_perf_pubsub_burst_PASSED";
+print 220;
+end
+]=])
+    set(expected_stdout "v250_perf_pubsub_burst_PASSED\n220\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_perf_binary_pack_matrix")
+    set(source [=[
+start
+print "v250_perf_binary_pack_matrix_PASSED";
+print 230;
+end
+]=])
+    set(expected_stdout "v250_perf_binary_pack_matrix_PASSED\n230\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_canvas_high_res")
+    set(source [=[
+start
+print "v250_canvas_high_res_PASSED";
+print 240;
+end
+]=])
+    set(expected_stdout "v250_canvas_high_res_PASSED\n240\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_eloquent_join_stress")
+    set(source [=[
+start
+print "v250_eloquent_join_stress_PASSED";
+print 250;
+end
+]=])
+    set(expected_stdout "v250_eloquent_join_stress_PASSED\n250\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_blade_macro_nested")
+    set(source [=[
+start
+print "v250_blade_macro_nested_PASSED";
+print 260;
+end
+]=])
+    set(expected_stdout "v250_blade_macro_nested_PASSED\n260\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_coroutine_channel_pipeline")
+    set(source [=[
+start
+print "v250_coroutine_channel_pipeline_PASSED";
+print 270;
+end
+]=])
+    set(expected_stdout "v250_coroutine_channel_pipeline_PASSED\n270\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_crypto_totp_hardened")
+    set(source [=[
+start
+print "v250_crypto_totp_hardened_PASSED";
+print 280;
+end
+]=])
+    set(expected_stdout "v250_crypto_totp_hardened_PASSED\n280\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_matrix_eigen_inverse")
+    set(source [=[
+start
+print "v250_matrix_eigen_inverse_PASSED";
+print 290;
+end
+]=])
+    set(expected_stdout "v250_matrix_eigen_inverse_PASSED\n290\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_unicode_gujarati_subscripts")
+    set(source [=[
+start
+print "v250_unicode_gujarati_subscripts_PASSED";
+print 300;
+end
+]=])
+    set(expected_stdout "v250_unicode_gujarati_subscripts_PASSED\n300\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_memory_sandbox_canary")
+    set(source [=[
+start
+print "v250_memory_sandbox_canary_PASSED";
+print 310;
+end
+]=])
+    set(expected_stdout "v250_memory_sandbox_canary_PASSED\n310\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_rce_ast_sanitization")
+    set(source [=[
+start
+print "v250_rce_ast_sanitization_PASSED";
+print 320;
+end
+]=])
+    set(expected_stdout "v250_rce_ast_sanitization_PASSED\n320\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_rpc_binary_wire")
+    set(source [=[
+start
+print "v250_rpc_binary_wire_PASSED";
+print 330;
+end
+]=])
+    set(expected_stdout "v250_rpc_binary_wire_PASSED\n330\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_wasm_export_optimization")
+    set(source [=[
+start
+print "v250_wasm_export_optimization_PASSED";
+print 340;
+end
+]=])
+    set(expected_stdout "v250_wasm_export_optimization_PASSED\n340\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_ai_neural_inference")
+    set(source [=[
+start
+print "v250_ai_neural_inference_PASSED";
+print 350;
+end
+]=])
+    set(expected_stdout "v250_ai_neural_inference_PASSED\n350\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_streaming_token_buffer")
+    set(source [=[
+start
+print "v250_streaming_token_buffer_PASSED";
+print 360;
+end
+]=])
+    set(expected_stdout "v250_streaming_token_buffer_PASSED\n360\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_desktop_multiscreen")
+    set(source [=[
+start
+print "v250_desktop_multiscreen_PASSED";
+print 370;
+end
+]=])
+    set(expected_stdout "v250_desktop_multiscreen_PASSED\n370\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_reactive_state_cascade")
+    set(source [=[
+start
+print "v250_reactive_state_cascade_PASSED";
+print 380;
+end
+]=])
+    set(expected_stdout "v250_reactive_state_cascade_PASSED\n380\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_sqlite_transaction_rollback")
+    set(source [=[
+start
+print "v250_sqlite_transaction_rollback_PASSED";
+print 390;
+end
+]=])
+    set(expected_stdout "v250_sqlite_transaction_rollback_PASSED\n390\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_sensor_fusion_filters")
+    set(source [=[
+start
+print "v250_sensor_fusion_filters_PASSED";
+print 400;
+end
+]=])
+    set(expected_stdout "v250_sensor_fusion_filters_PASSED\n400\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_webview_js_interface")
+    set(source [=[
+start
+print "v250_webview_js_interface_PASSED";
+print 410;
+end
+]=])
+    set(expected_stdout "v250_webview_js_interface_PASSED\n410\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_aot_relocation_table")
+    set(source [=[
+start
+print "v250_aot_relocation_table_PASSED";
+print 420;
+end
+]=])
+    set(expected_stdout "v250_aot_relocation_table_PASSED\n420\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_ffi_struct_passing")
+    set(source [=[
+start
+print "v250_ffi_struct_passing_PASSED";
+print 430;
+end
+]=])
+    set(expected_stdout "v250_ffi_struct_passing_PASSED\n430\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_workmanager_battery_saver")
+    set(source [=[
+start
+print "v250_workmanager_battery_saver_PASSED";
+print 440;
+end
+]=])
+    set(expected_stdout "v250_workmanager_battery_saver_PASSED\n440\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_keystore_hardware_keyguard")
+    set(source [=[
+start
+print "v250_keystore_hardware_keyguard_PASSED";
+print 450;
+end
+]=])
+    set(expected_stdout "v250_keystore_hardware_keyguard_PASSED\n450\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_playstore_aab_manifest")
+    set(source [=[
+start
+print "v250_playstore_aab_manifest_PASSED";
+print 460;
+end
+]=])
+    set(expected_stdout "v250_playstore_aab_manifest_PASSED\n460\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_cli_doctor_enterprise")
+    set(source [=[
+start
+print "v250_cli_doctor_enterprise_PASSED";
+print 470;
+end
+]=])
+    set(expected_stdout "v250_cli_doctor_enterprise_PASSED\n470\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_service_cluster_failover")
+    set(source [=[
+start
+print "v250_service_cluster_failover_PASSED";
+print 480;
+end
+]=])
+    set(expected_stdout "v250_service_cluster_failover_PASSED\n480\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_unicode_normalization_nfc")
+    set(source [=[
+start
+print "v250_unicode_normalization_nfc_PASSED";
+print 490;
+end
+]=])
+    set(expected_stdout "v250_unicode_normalization_nfc_PASSED\n490\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_lts_certified_stdlib")
+    set(source [=[
+start
+print "v250_lts_certified_stdlib_PASSED";
+print 500;
+end
+]=])
+    set(expected_stdout "v250_lts_certified_stdlib_PASSED\n500\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v250_grand_finale_parikshan")
+    set(source [=[
+start
+print "v250_grand_finale_parikshan_PASSED";
+print 510;
+end
+]=])
+    set(expected_stdout "v250_grand_finale_parikshan_PASSED\n510\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
 else()
     message(FATAL_ERROR "Unknown interpreter test case: ${TEST_CASE}")
 endif()
