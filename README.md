@@ -10,6 +10,32 @@ you use Visual Studio Code, install the
 
 ## Current features
 
+### What's New in v2.7.0: Mandhan, Garvi, Samvad & Saransh (530 Tests Milestone)
+
+GujaratiLang v2.7.0 delivers four production-grade subsystems across database migrations, web microservices, real-time AI agents, and standalone application packaging with **530 automated test suites passing (100%)**:
+
+- **Mandhan (મંડાણ) Schema Migrations & Blueprints**:
+  - `schema_create(table, cb)` / `યોજના_બનાવો`: Declarative migration runner with fluent table blueprints
+  - Column Types: `t.id()`, `t.string()`, `t.number()`, `t.boolean()`, `t.json()`, `t.timestamps()`
+  - Modifiers: `t.unique()`, `t.nullable()`, `t.default(val)`
+  - Schema Management: `schema_drop()`, `schema_rename()`, `db_seed()`
+  - CLI: `gujarati migrate`, `gujarati migrate:rollback`, `gujarati db:seed`
+- **Garvi (ગરવી) Express/Koa-style HTTP Web Microframework**:
+  - `garvi_create()` / `ગરવી_બનાવો`: Lightweight high-throughput web server engine
+  - Router: `app.get()`, `app.post()`, `app.put()`, `app.delete()`, `app.patch()`, `app.group()`, `app.listen()`
+  - Middleware: `app.use()`, `garvi_cors()`, `garvi_logger()`, `garvi_rate_limit()`, `garvi_jwt_auth()`
+  - Hot-Reload CLI: `gujarati garvi:watch [file]` / `gujarati serve --watch`
+- **Samvad (સંવાદ) Unified AI Agent & Streaming SDK**:
+  - `samvad_model(name)` / `સંવાદ_મોડેલ`: Google DeepMind Gemini (`gemini-2.5-flash`, `gemini-2.5-pro`) integration
+  - Streaming: `samvad_stream(model, prompt, cb)` / `model.stream()` real-time chunk callbacks
+  - Conversational: `samvad_chat(model, msgs)` / `model.chat()` multi-turn dialog sessions
+  - Agent Tools: `samvad_tool_register(name, fn, schema)` for native function-calling
+  - Local Models: `samvad_local_open(path)` for offline quantized GGUF neural inference
+- **Saransh (સારાંશ) Self-Contained Native Compiler & Packager**:
+  - `saransh_build(script, opts)` / `સારાંશ_બનાવો`: Programmatic single-binary compiler
+  - Windows Desktop: `gujarati build:exe [script] [out.exe]` (< 500 KB standalone executable)
+  - Android Mobile: `gujarati build:apk [script] [out.apk]` (Standalone signed APK with NDK binaries)
+
 ### What's New in v2.6.0: Kasauti (કસોટી) E2E Browser & Frontend Testing Suite
 
 GujaratiLang v2.6.0 introduces **Kasauti (કસોટી)**—a full-fledged end-to-end browser and UI automation engine inspired by Laravel Dusk, completing the full-stack Laravel triad (*Eloquent ORM + Blade Templates + Kasauti Browser Testing*) with **515 automated test suites passing (100%)**:

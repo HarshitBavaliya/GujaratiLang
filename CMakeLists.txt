@@ -527,7 +527,22 @@ if(BUILD_TESTING)
             v260_kasauti_romanized_syntax
             v260_kasauti_native_gujarati
             v260_kasauti_cli_runner
-            v260_kasauti_chrome_doctor)
+            v260_kasauti_chrome_doctor
+            v270_mandhan_schema_create
+            v270_mandhan_column_types
+            v270_mandhan_column_modifiers
+            v270_mandhan_schema_drop_rename
+            v270_mandhan_db_seed
+            v270_mandhan_cli_migrate
+            v270_mandhan_cli_rollback
+            v270_garvi_router_methods
+            v270_garvi_middleware_pipeline
+            v270_garvi_route_groups
+            v270_garvi_cli_watch
+            v270_samvad_model_streaming
+            v270_samvad_tool_calling
+            v270_saransh_build_exe
+            v270_saransh_build_apk)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

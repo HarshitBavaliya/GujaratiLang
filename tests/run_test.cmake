@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "2.6.0\n1\n")
+    set(expected_stdout "2.7.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "2.6.0\n")
+    set(expected_stdout "2.7.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "2.6.0\n1\n0\n")
+    set(expected_stdout "2.7.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.6.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.7.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "2.6.0\n1\n1\n2.6.0\n")
+    set(expected_stdout "2.7.0\n1\n1\n2.7.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.6.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.7.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-2.6.0
+2.7.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-2.6.0
+2.7.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n2.6.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n2.7.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n2.6.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n2.7.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-2.6.0
+2.7.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-2.6.0
+2.7.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -6344,7 +6344,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "kasauti")
-    set(expected_stdout "[GujaratiLang Kasauti v2.6.0] Running frontend browser test suite in 'tests/kasauti'...
+    set(expected_stdout "[GujaratiLang Kasauti v2.7.0] Running frontend browser test suite in 'tests/kasauti'...
 [Kasauti] Scanning for *.kasauti.gj and *_test.gj files...
 [Kasauti] Environment: Headless Chrome / Virtual DOM Engine (Port 9222 ready)
   ✓ test_homepage_render: PASSED (3 assertions, 0.4ms)
@@ -6361,11 +6361,267 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "kasauti:chrome")
-    set(expected_stdout "[GujaratiLang Kasauti v2.6.0] Inspecting browser automation environment...
+    set(expected_stdout "[GujaratiLang Kasauti v2.7.0] Inspecting browser automation environment...
   • Chrome Binary: Auto-detected (System Headless Chrome / Chromium / Edge)
   • Remote Debugging Port: 9222 (Ready for CDP connection)
   • Headless Engine: Virtual DOM + WebDriver Protocol Ready
 [Kasauti Status] Ready to execute end-to-end browser tests.
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_mandhan_schema_create")
+    set(source [=[
+start
+t = schema_create("users");
+t.id();
+t.string("name");
+t.unique();
+print t["table"];
+print t["status"];
+end
+]=])
+    set(expected_stdout "users
+migrated
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_mandhan_column_types")
+    set(source [=[
+start
+t = schema_create("products");
+t.id();
+t.string("title");
+t.number("price");
+t.boolean("is_active");
+t.json("metadata");
+t.timestamps();
+cols = t["columns"];
+print cols[0]["type"];
+print cols[1]["type"];
+print cols[2]["type"];
+print cols[3]["type"];
+print cols[4]["type"];
+print cols[5]["type"];
+end
+]=])
+    set(expected_stdout "id
+string
+number
+boolean
+json
+timestamp
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_mandhan_column_modifiers")
+    set(source [=[
+start
+t = schema_create("accounts");
+t.string("email");
+t.unique();
+t.number("balance");
+t.nullable();
+t.string("status");
+t.default("active");
+cols = t["columns"];
+print cols[0]["unique"];
+print cols[1]["nullable"];
+print cols[2]["default"];
+end
+]=])
+    set(expected_stdout "1
+1
+active
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_mandhan_schema_drop_rename")
+    set(source [=[
+start
+r1 = schema_drop("temp_logs");
+r2 = schema_rename("old_users", "users");
+print r1;
+print r2;
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_mandhan_db_seed")
+    set(source [=[
+start
+count = db_seed("DatabaseSeeder");
+print count;
+end
+]=])
+    set(expected_stdout "15
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_mandhan_cli_migrate")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "migrate")
+    set(expected_stdout "[Mandhan v2.7.0] Running database migrations...
+  ✓ 2026_10_31_000001_create_users_table: MIGRATE (0.4ms)
+  ✓ 2026_10_31_000002_create_stabilizers_table: MIGRATE (0.3ms)
+[Mandhan Summary] 2 migrations executed successfully in batch 1.
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_mandhan_cli_rollback")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "migrate:rollback")
+    set(expected_stdout "[Mandhan v2.7.0] Rolling back migrations in batch 1...
+  ✓ 2026_10_31_000002_create_stabilizers_table: ROLLBACK (0.3ms)
+  ✓ 2026_10_31_000001_create_users_table: ROLLBACK (0.4ms)
+[Mandhan Summary] 2 migrations rolled back successfully.
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_garvi_router_methods")
+    set(source [=[
+start
+app = garvi_create();
+app.get("/users", "list_users");
+app.post("/users", "create_user");
+app.put("/users/1", "update_user");
+app.delete("/users/1", "delete_user");
+rts = app["routes"];
+print app["engine"];
+print rts[0]["method"];
+print rts[1]["method"];
+print rts[2]["method"];
+print rts[3]["method"];
+end
+]=])
+    set(expected_stdout "Garvi Web v2.7.0
+GET
+POST
+PUT
+DELETE
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_garvi_middleware_pipeline")
+    set(source [=[
+start
+app = garvi_create();
+app.use(garvi_cors());
+app.use(garvi_logger());
+app.use(garvi_rate_limit(100, 60));
+app.use(garvi_jwt_auth("secret_key"));
+mws = app["middlewares"];
+print mws[0]["middleware"];
+print mws[1]["middleware"];
+print mws[2]["middleware"];
+print mws[3]["middleware"];
+end
+]=])
+    set(expected_stdout "cors
+logger
+rate_limit
+jwt_auth
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_garvi_route_groups")
+    set(source [=[
+start
+app = garvi_create();
+app.listen(8080);
+print app["status"];
+print app["port"];
+print app["listening"];
+end
+]=])
+    set(expected_stdout "ready
+8080
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_garvi_cli_watch")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "garvi:watch")
+    set(expected_stdout "[Garvi v2.7.0] Starting live HTTP web server with hot-reload watcher on port 5000...
+[Garvi Watcher] Monitoring *.gj files in '.' for real-time changes...
+[Garvi Status] Server online at http://localhost:5000/
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_samvad_model_streaming")
+    set(source [=[
+start
+model = samvad_model("gemini-2.5-flash");
+print model["model"];
+print model["provider"];
+print model["streaming"];
+end
+]=])
+    set(expected_stdout "gemini-2.5-flash
+google-deepmind
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_samvad_tool_calling")
+    set(source [=[
+start
+model = samvad_model("gemini-2.5-pro");
+res = model.chat([{"role": "user", "content": "Hello"}]);
+loc = samvad_local_open("models/deepseek.gguf");
+print res["role"];
+print res["finish_reason"];
+print loc["format"];
+end
+]=])
+    set(expected_stdout "assistant
+stop
+gguf-q4
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_saransh_build_exe")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "build:exe")
+    set(expected_stdout "[Saransh v2.7.0] Packaging standalone desktop executable for Windows x64...
+  • Embedding bytecode & runtime engine (< 500 KB)
+  • Bundling virtual filesystem assets from 'dist'
+  • Injecting Windows PE application manifest and icon
+[Saransh Output] Created standalone executable: App.exe
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v270_saransh_build_apk")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "build:apk")
+    set(expected_stdout "[Saransh v2.7.0] Packaging standalone Android APK package...
+  • Compiling native arm64-v8a / armeabi-v7a NDK binaries
+  • Injecting AndroidManifest.xml and reactive touch UI
+  • Aligning and signing APK package with debug certificate
+[Saransh Output] Created Android application package: App.apk
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)

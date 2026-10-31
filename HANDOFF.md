@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v2.6.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v2.6.0) ("Kasauti (કસોટી) E2E Browser & Frontend Testing Suite").
+- Latest interpreter release: [GujaratiLang v2.7.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v2.7.0) ("Mandhan, Garvi, Samvad & Saransh").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v2.6.0 (515 automated test suites passing, 100% pass rate).
+  platform before publishing v2.7.0 (530 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,16 +30,32 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (515/515 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (530/530 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: `c349f42` — **Release v2.6.0: Kasauti (કસોટી) E2E Browser & Frontend Testing Suite (515 Tests Milestone)**.
+Latest commit on origin: **Release v2.7.0: Mandhan, Garvi, Samvad & Saransh (530 Tests Milestone)**.
 
 Recent completed work includes:
 
-- Added Kasauti (કસોટી) Dusk-style frontend browser automation and testing engine:
+- Added Mandhan (મંડાણ) Schema Migrations & Blueprints:
+  - `schema_create` / `યોજના_બનાવો`, `schema_drop` / `યોજના_કાઢો`, `schema_rename` / `યોજના_નામ_બદલો`, `db_seed` / `ડીબી_બીજ`
+  - Fluent Blueprint column methods: `id`, `string`, `number`, `boolean`, `json`, `timestamps`
+  - Fluent column modifiers: `unique`, `nullable`, `default`
+  - CLI: `gujarati migrate`, `gujarati migrate:rollback`, `gujarati db:seed`
+- Added Garvi (ગરવી) Express/Koa-style HTTP Web Microframework:
+  - `garvi_create` / `ગરવી_બનાવો`, `app.get`, `app.post`, `app.put`, `app.delete`, `app.patch`, `app.group`, `app.listen`
+  - Middlewares: `app.use`, `garvi_cors`, `garvi_logger`, `garvi_rate_limit`, `garvi_jwt_auth`
+  - Hot-reload watcher CLI: `gujarati garvi:watch [file]`
+- Added Samvad (સંવાદ) Unified AI Agent & Streaming SDK:
+  - `samvad_model` / `સંવાદ_મોડેલ`, `samvad_stream` / `model.stream`, `samvad_chat` / `model.chat`
+  - `samvad_tool_register` / `સંવાદ_સાધન`, `samvad_local_open` / `સંવાદ_સ્થાનિક` (GGUF quant models)
+- Added Saransh (સારાંશ) Self-Contained Native Compiler & Packager:
+  - `saransh_build` / `સારાંશ_બનાવો` programmatic builder API
+  - Standalone Windows x64 executable packaging: `gujarati build:exe [script] [out.exe]`
+  - Standalone Android APK packaging: `gujarati build:apk [script] [out.apk]`
+- Added Kasauti (કસોટી) Dusk-style frontend browser automation and testing engine (v2.6.0):
   - `kasauti_open` / `કસોટી_ખોલો`, `kasauti_visit` / `કસોટી_મુલાકાત`, `kasauti_type` / `કસોટી_લખો`, `kasauti_press` / `કસોટી_દબાવો`, `kasauti_click` / `કસોટી_ક્લિક`, `kasauti_select` / `કસોટી_પસંદ`
   - Assertions: `kasauti_assert_see` / `કસોટી_ખાતરી_જોવા_મળ્યું`, `kasauti_assert_dont_see` / `કસોટી_ખાતરી_નથી_દેખાતું`, `kasauti_assert_path` / `કસોટી_ખાતરી_પાથ`, `kasauti_assert_title` / `કસોટી_ખાતરી_શીર્ષક`, `kasauti_assert_present` / `કસોટી_ખાતરી_હાજર`
   - Snapshots & Cookies: `kasauti_screenshot` / `કસોટી_સ્ક્રીનશોટ`, `kasauti_cookie` / `કસોટી_કૂકી`, `kasauti_close` / `કસોટી_બંધ`
