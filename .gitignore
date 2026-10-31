@@ -3,6 +3,6 @@
 *.obj
 *.ilk
 *.pdb
-.vscode/sftp.json
+.vscode/
 /website/
 *.vsix

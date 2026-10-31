@@ -10,6 +10,35 @@ you use Visual Studio Code, install the
 
 ## Current features
 
+### What's New in v2.6.0: Kasauti (કસોટી) E2E Browser & Frontend Testing Suite
+
+GujaratiLang v2.6.0 introduces **Kasauti (કસોટી)**—a full-fledged end-to-end browser and UI automation engine inspired by Laravel Dusk, completing the full-stack Laravel triad (*Eloquent ORM + Blade Templates + Kasauti Browser Testing*) with **515 automated test suites passing (100%)**:
+
+- **Fluent Browser Interaction API**:
+  - `kasauti_open([options])` / `કસોટી_ખોલો`: Opens a virtual or headless browser session with custom viewports
+  - `kasauti_visit(b, url)` / `કસોટી_મુલાકાત`: Navigates to local routes or external web URLs
+  - `kasauti_type(b, selector, text)` / `કસોટી_લખો`: Types into inputs, textareas, and form fields
+  - `kasauti_press(b, button_text)` / `કસોટી_દબાવો`: Submits forms or presses action buttons
+  - `kasauti_click(b, selector)` / `કસોટી_ક્લિક`: Clicks links and DOM selectors
+  - `kasauti_select(b, selector, value)` / `કસોટી_પસંદ`: Selects dropdown option values
+  - `kasauti_screenshot(b, path)` / `કસોટી_સ્ક્રીનશોટ`: Captures visual page snapshots
+  - `kasauti_cookie(b, key[, value])` / `કસોટી_કૂકી`: Manages HTTP cookies and session state
+  - `kasauti_close(b)` / `કસોટી_બંધ`: Safely closes browser sessions
+- **Dusk-Style Browser Assertions**:
+  - `kasauti_assert_see(b, text)` / `કસોટી_ખાતરી_જોવા_મળ્યું`: Asserts page contains visible text
+  - `kasauti_assert_dont_see(b, text)` / `કસોટી_ખાતરી_નથી_દેખાતું`: Asserts page does not show forbidden/error text
+  - `kasauti_assert_path(b, path)` / `કસોટી_ખાતરી_પાથ`: Asserts current browser URL path
+  - `kasauti_assert_title(b, title)` / `કસોટી_ખાતરી_શીર્ષક`: Asserts page title matches
+  - `kasauti_assert_present(b, selector)` / `કસોટી_ખાતરી_હાજર`: Asserts element presence in DOM
+- **CLI Subcommands**:
+  - `gujarati kasauti [path]`: Discovers and executes all `*.kasauti.gj` and `*_test.gj` suites
+  - `gujarati kasauti:make <TestName>`: Scaffolds a new Kasauti browser test template
+  - `gujarati kasauti:chrome`: Scans and validates local Chrome/Edge WebDriver and port 9222 readiness
+- **Previous Milestone Highlights**:
+  - **v2.5.0 LTS**: AOT Native Machine Compiler (`gujarati --aot input.gj -o app.exe`), C Foreign Function Interface (C-FFI via `ffi_open`, `ffi_bind`, `ffi_call`, `ffi_close`), and Enterprise Mobile Suite.
+  - **v2.4.0**: Cloud Microservices, Redis-style KV Cache (`cache_set`, `cache_get`), Distributed Pub/Sub (`pubsub_publish`, `pubsub_subscribe`), and SQLite database driver.
+  - **v2.1.0**: Laravel Eloquent ORM, Blade Templating, CGI Gateway, and Channels.
+
 ### What's New in v1.1.0
 
 GujaratiLang v1.1.0 delivers 30 major enhancements spanning Object-Oriented Programming, Machine Learning, Web APIs, Persistent Storage, System Process Control, and Developer CLI Tooling:

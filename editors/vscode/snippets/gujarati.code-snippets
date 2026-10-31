@@ -2354,5 +2354,50 @@
       "lakhan_rupantar(${1:value})"
     ],
     "description": "Safely convert any value to string"
+  },
+  "GujaratiLang Kasauti Browser Test": {
+    "prefix": [
+      "kasauti",
+      "કસોટી",
+      "gj-kasauti"
+    ],
+    "body": [
+      "browser = kasauti_open({\"headless\": true, \"viewport\": [1280, 800]});",
+      "kasauti_visit(browser, \"${1:http://localhost:5000/}\");",
+      "kasauti_type(browser, \"${2:input}\", \"${3:Test Input}\");",
+      "kasauti_press(browser, \"${4:Submit}\");",
+      "kasauti_assert_see(browser, \"${5:Expected Text}\");",
+      "kasauti_screenshot(browser, \"${6:screenshot.png}\");",
+      "kasauti_close(browser);"
+    ],
+    "description": "v2.6.0 Kasauti fluent browser automation test"
+  },
+  "GujaratiLang Kasauti Native Test": {
+    "prefix": [
+      "કસોટી_ટેસ્ટ",
+      "gj-kasauti-gu"
+    ],
+    "body": [
+      "બ્રાઉઝર = કસોટી_ખોલો({\"હેડલેસ\": 1, \"વ્યૂપોર્ટ\": [1280, 800]});",
+      "કસોટી_મુલાકાત(બ્રાઉઝર, \"${1:http://localhost:5000/}\");",
+      "કસોટી_લખો(બ્રાઉઝર, \"${2:input}\", \"${3:લખાણ}\");",
+      "કસોટી_દબાવો(બ્રાઉઝર, \"${4:સબમિટ}\");",
+      "કસોટી_ખાતરી_જોવા_મળ્યું(બ્રાઉઝર, \"${5:સફળ}\");",
+      "કસોટી_સ્ક્રીનશોટ(બ્રાઉઝર, \"${6:screenshot.png}\");",
+      "કસોટી_બંધ(બ્રાઉઝર);"
+    ],
+    "description": "v2.6.0 Kasauti browser automation test in native Gujarati"
+  },
+  "GujaratiLang Cloud KV Cache": {
+    "prefix": [
+      "cache",
+      "કેશ",
+      "gj-cache"
+    ],
+    "body": [
+      "cache_set(\"${1:key}\", ${2:value}, ${3:3600});",
+      "val = cache_get(\"${1:key}\");"
+    ],
+    "description": "v2.4.0 Redis-style key-value cache operations"
   }
 }

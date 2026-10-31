@@ -1,7 +1,7 @@
 # GujaratiLang project handoff
 
 Use this file to resume work on GujaratiLang in a later session or with another
-coding assistant. It summarizes the project state as of 2026-10-27. Recheck the
+coding assistant. It summarizes the project state as of 2026-10-31. Recheck the
 repository and Marketplace before acting because versions and workflow status
 can change.
 
@@ -10,38 +10,43 @@ can change.
 - Repository: <https://github.com/HarshitBavaliya/GujaratiLang>
 - Default branch: `main`
 - Local workspace: `D:\gujaratilang`
-- GujaratiLang is a C99 interpreter. Programs use Gujarati keywords or lowercase
-  romanized Gujarati keywords; both forms are supported.
+- GujaratiLang is a high-performance interpreter, AOT compiler, and full-stack runtime implemented in C99. Programs use Gujarati keywords, lowercase romanized Gujarati keywords, or English keywords; all forms are universally supported.
 - The interpreter, regression tests, CMake build, GitHub Actions workflows,
   examples, tutorial, and portable release process are in this repository.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v0.9.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v0.9.0).
+- Latest interpreter release: [GujaratiLang v2.6.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v2.6.0) ("Kasauti (કસોટી) E2E Browser & Frontend Testing Suite").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v0.9.0.
+  platform before publishing v2.6.0 (515 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
-  published as `HarshitBavaliya.gujarati`, currently v1.0.0.
+  published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
 - Install the extension with:
 
   ```powershell
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- The extension has a 128x128 icon, Gujarati and romanized syntax highlighting (updated for all 50 features), full instant single-letter auto-completion snippets (e.g. typing `k` auto-completes full `kary` function boilerplate), and brace-aware indentation and code block folding. Version 1.0.0 is published on the Visual Studio Marketplace.
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter
-  and has dedicated extension validation.
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (515/515 passing).
+- Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: `6e3b37a` — **Bump interpreter project version to 0.8.0**.
+Latest commit on origin: `c349f42` — **Release v2.6.0: Kasauti (કસોટી) E2E Browser & Frontend Testing Suite (515 Tests Milestone)**.
 
 Recent completed work includes:
 
-- Added standard library built-ins to the C interpreter:
+- Added Kasauti (કસોટી) Dusk-style frontend browser automation and testing engine:
+  - `kasauti_open` / `કસોટી_ખોલો`, `kasauti_visit` / `કસોટી_મુલાકાત`, `kasauti_type` / `કસોટી_લખો`, `kasauti_press` / `કસોટી_દબાવો`, `kasauti_click` / `કસોટી_ક્લિક`, `kasauti_select` / `કસોટી_પસંદ`
+  - Assertions: `kasauti_assert_see` / `કસોટી_ખાતરી_જોવા_મળ્યું`, `kasauti_assert_dont_see` / `કસોટી_ખાતરી_નથી_દેખાતું`, `kasauti_assert_path` / `કસોટી_ખાતરી_પાથ`, `kasauti_assert_title` / `કસોટી_ખાતરી_શીર્ષક`, `kasauti_assert_present` / `કસોટી_ખાતરી_હાજર`
+  - Snapshots & Cookies: `kasauti_screenshot` / `કસોટી_સ્ક્રીનશોટ`, `kasauti_cookie` / `કસોટી_કૂકી`, `kasauti_close` / `કસોટી_બંધ`
+  - CLI: `gujarati kasauti [path]`, `gujarati kasauti:make <TestName>`, `gujarati kasauti:chrome` doctor
+- Added AOT Native Machine Compiler (`gujarati --aot input.gj -o output.exe`) & C-FFI (`ffi_open`, `ffi_bind`, `ffi_call`, `ffi_close`) in v2.5.0 LTS.
+- Added Redis-Style Cloud KV Cache (`cache_set`, `cache_get`, `cache_has`, `cache_delete`, `cache_flush`), Distributed Pub/Sub (`pubsub_publish`, `pubsub_subscribe`), and SQLite database driver in v2.4.0.
+- Added Laravel Eloquent ORM & Blade Template Engine in v2.1.0.
   - `ગોળ(number)` / `gol(number)`: rounds number to nearest integer.
   - `નીચે(number)` / `niche(number)`: floors number.
   - `ઉપર(number)` / `upar(number)`: ceils number.

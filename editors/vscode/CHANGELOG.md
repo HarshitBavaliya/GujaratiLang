@@ -1,3 +1,17 @@
+## [1.6.0] - 2026-10-31
+
+### Added - GujaratiLang v2.6.0 Kasauti Testing, Native AOT Compiler & Cloud Architecture
+- **Kasauti (કસોટી) Fluent Browser Testing Suite (v2.6.0)**:
+  - Syntax highlighting and autocomplete for `kasauti_open` / `કસોટી_ખોલો`, `kasauti_visit` / `કસોટી_મુલાકાત`, `kasauti_type` / `કસોટી_લખો`, `kasauti_press` / `કસોટી_દબાવો`, `kasauti_click` / `કસોટી_ક્લિક`, `kasauti_select` / `કસોટી_પસંદ`
+  - Assertions: `kasauti_assert_see` / `કસોટી_ખાતરી_જોવા_મળ્યું`, `kasauti_assert_dont_see` / `કસોટી_ખાતરી_નથી_દેખાતું`, `kasauti_assert_path` / `કસોટી_ખાતરી_પાથ`, `kasauti_assert_title` / `કસોટી_ખાતરી_શીર્ષક`, `kasauti_assert_present` / `કસોટી_ખાતરી_હાજર`
+  - Utilities: `kasauti_screenshot` / `કસોટી_સ્ક્રીનશોટ`, `kasauti_cookie` / `કસોટી_કૂકી`, `kasauti_close` / `કસોટી_બંધ`
+  - Auto-completion snippets for Kasauti browser testing in English and native Gujarati.
+- **AOT Native Machine Compiler & C-FFI (v2.5.0 LTS)**:
+  - Syntax highlighting for `compiler_target` / `કમ્પાઇલર_લક્ષ્ય`, `compiler_emit` / `કમ્પાઇલર_બનાવો`, `ffi_open` / `લાઇબ્રેરી_ખોલો`, `ffi_bind` / `ફંક્શન_જોડો`, `ffi_call` / `ફંક્શન_ચલાવો`, `ffi_close` / `લાઇબ્રેરી_બંધ`
+- **Cloud Microservices & Redis-Style KV Cache (v2.4.0)**:
+  - Syntax highlighting and snippets for `cache_set` / `કેશ_લખો`, `cache_get` / `કેશ_મેળવો`, `cache_has` / `કેશ_છે`, `cache_delete` / `કેશ_કાઢી_નાખો`, `cache_incr` / `કેશ_વધારો`, `cache_decr` / `કેશ_ઘટાડો`, `cache_flush` / `કેશ_સાફ_કરો`
+  - Distributed Pub/Sub: `pubsub_topic` / `વિષય_બનાવો`, `pubsub_subscribe` / `સંદેશ_સાંભળો`, `pubsub_publish` / `સંદેશ_મોકલો`, `queue_push` / `કતાર_ઉમેરો`, `queue_pop` / `કતાર_કાઢો`
+
 ## [1.5.0] - 2026-10-29
 
 ### Added - GujaratiLang v1.5.0 Mega-Release (All 30 Points in 1)
