@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 2.5.0 LANGUAGES C)
+project(gujaratilang VERSION 2.6.0 LANGUAGES C)
 
 include(CTest)
 
@@ -18,7 +18,7 @@ target_compile_features(gujarati PRIVATE c_std_99)
 if(MSVC)
     set_property(TARGET gujarati PROPERTY
         MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-    target_compile_options(gujarati PRIVATE /W4 /utf-8)
+    target_compile_options(gujarati PRIVATE /W4 /utf-8 /Ob1)
 else()
     target_compile_options(gujarati PRIVATE -Wall -Wextra -Wpedantic)
 endif()
@@ -512,7 +512,22 @@ if(BUILD_TESTING)
             v250_service_cluster_failover
             v250_unicode_normalization_nfc
             v250_lts_certified_stdlib
-            v250_grand_finale_parikshan)
+            v250_grand_finale_parikshan
+            v260_kasauti_open_visit
+            v260_kasauti_form_typing
+            v260_kasauti_button_press
+            v260_kasauti_assert_see
+            v260_kasauti_assert_dont_see
+            v260_kasauti_assert_path
+            v260_kasauti_assert_title
+            v260_kasauti_assert_present
+            v260_kasauti_select_dropdown
+            v260_kasauti_screenshot
+            v260_kasauti_cookie_jar
+            v260_kasauti_romanized_syntax
+            v260_kasauti_native_gujarati
+            v260_kasauti_cli_runner
+            v260_kasauti_chrome_doctor)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

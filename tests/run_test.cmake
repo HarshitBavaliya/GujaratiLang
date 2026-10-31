@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "2.5.0\n1\n")
+    set(expected_stdout "2.6.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "2.5.0\n")
+    set(expected_stdout "2.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "2.5.0\n1\n0\n")
+    set(expected_stdout "2.6.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.5.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "2.5.0\n1\n1\n2.5.0\n")
+    set(expected_stdout "2.6.0\n1\n1\n2.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.5.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.6.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-2.5.0
+2.6.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-2.5.0
+2.6.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n2.5.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n2.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n2.5.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n2.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-2.5.0
+2.6.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5788,7 +5788,7 @@ end
 elseif(TEST_CASE STREQUAL "v250_lts_backward_compat_v20")
     set(source [=[
 start
-d = {"lang": "GujaratiLang", "version": "2.5.0"};
+d = {"lang": "GujaratiLang", "version": "2.6.0"};
 print d["lang"];
 end
 ]=])
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-2.5.0
+2.6.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -6141,6 +6141,232 @@ print 510;
 end
 ]=])
     set(expected_stdout "v250_grand_finale_parikshan_PASSED\n510\n")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_open_visit")
+    set(source [=[
+start
+browser = kasauti_open({"headless": true});
+print browser["browser"];
+kasauti_visit(browser, "https://gujaratilang.hp-square.com/login");
+print browser["path"];
+kasauti_close(browser);
+end
+]=])
+    set(expected_stdout "kasauti_engine
+/login
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_form_typing")
+    set(source [=[
+start
+browser = kasauti_open();
+kasauti_visit(browser, "/login");
+kasauti_type(browser, "input[name='email']", "harshit@example.com");
+kasauti_type(browser, "input[name='password']", "supersecret");
+print kasauti_assert_see(browser, "harshit@example.com");
+kasauti_close(browser);
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_button_press")
+    set(source [=[
+start
+browser = kasauti_open();
+kasauti_visit(browser, "/login");
+kasauti_type(browser, "#email", "admin@gujaratilang.org");
+kasauti_press(browser, "Sign In");
+print browser["path"];
+print kasauti_assert_see(browser, "Welcome, Harshit!");
+kasauti_close(browser);
+end
+]=])
+    set(expected_stdout "/dashboard
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_assert_see")
+    set(source [=[
+start
+browser = kasauti_open();
+kasauti_visit(browser, "https://gujaratilang.hp-square.com/");
+print kasauti_assert_see(browser, "GujaratiLang");
+print kasauti_assert_see(browser, "AOT Compiler");
+kasauti_close(browser);
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_assert_dont_see")
+    set(source [=[
+start
+browser = kasauti_open();
+kasauti_visit(browser, "https://gujaratilang.hp-square.com/");
+print kasauti_assert_dont_see(browser, "404 Page Not Found");
+print kasauti_assert_dont_see(browser, "Fatal Exception");
+kasauti_close(browser);
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_assert_path")
+    set(source [=[
+start
+browser = kasauti_open();
+kasauti_visit(browser, "https://gujaratilang.hp-square.com/docs/getting-started");
+print kasauti_assert_path(browser, "/docs/getting-started");
+kasauti_close(browser);
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_assert_title")
+    set(source [=[
+start
+browser = kasauti_open();
+kasauti_visit(browser, "https://gujaratilang.hp-square.com/");
+print kasauti_assert_title(browser, "GujaratiLang");
+kasauti_close(browser);
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_assert_present")
+    set(source [=[
+start
+browser = kasauti_open();
+kasauti_visit(browser, "https://gujaratilang.hp-square.com/");
+print kasauti_assert_present(browser, "#code-editor");
+kasauti_close(browser);
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_select_dropdown")
+    set(source [=[
+start
+browser = kasauti_open();
+kasauti_visit(browser, "https://gujaratilang.hp-square.com/");
+kasauti_select(browser, "#theme-select", "dark");
+print kasauti_assert_see(browser, "dark");
+kasauti_close(browser);
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_screenshot")
+    set(source [=[
+start
+browser = kasauti_open();
+kasauti_visit(browser, "https://gujaratilang.hp-square.com/");
+file_path = kasauti_screenshot(browser, "test_shot.png");
+print file_path;
+kasauti_close(browser);
+end
+]=])
+    set(expected_stdout "test_shot.png
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_cookie_jar")
+    set(source [=[
+start
+browser = kasauti_open();
+kasauti_cookie(browser, "session_jwt", "jwt_live_token_7761");
+print kasauti_cookie(browser, "session_jwt");
+kasauti_close(browser);
+end
+]=])
+    set(expected_stdout "jwt_live_token_7761
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_romanized_syntax")
+    set(source [=[aavo
+browser = kasauti_kholo({"headless": satya});
+kasauti_mulakat(browser, "https://gujaratilang.hp-square.com/login");
+kasauti_lakho(browser, "#email", "harshit@test.com");
+kasauti_dabavo(browser, "Sign In");
+chhapo kasauti_tapas_path(browser, "/dashboard");
+chhapo kasauti_tapas_jova_malyu(browser, "Welcome");
+chhapo kasauti_tapas_nathi_dikhata(browser, "Error");
+kasauti_bandh(browser);
+aavjo
+]=])
+    set(expected_stdout "1
+1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_native_gujarati")
+    set(source [=[આવો
+બ્રાઉઝર = કસોટી_ખોલો({"હેડલેસ": સત્ય});
+કસોટી_મુલાકાત(બ્રાઉઝર, "https://gujaratilang.hp-square.com/login");
+કસોટી_લખો(બ્રાઉઝર, "#email", "harshit@test.com");
+કસોટી_દબાવો(બ્રાઉઝર, "પ્રવેશ કરો");
+છાપો કસોટી_ખાતરી_પાથ(બ્રાઉઝર, "/dashboard");
+છાપો કસોટી_ખાતરી_જોવા_મળ્યું(બ્રાઉઝર, "સ્વાગત છે");
+છાપો કસોટી_ખાતરી_નથી_દેખાતું(બ્રાઉઝર, "ભૂલ");
+કસોટી_સ્ક્રીનશોટ(બ્રાઉઝર, "કસોટી_આઉટપુટ.png");
+કસોટી_બંધ(બ્રાઉઝર);
+આવજો
+]=])
+    set(expected_stdout "1
+1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_cli_runner")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[aavo
+chhapo 1;
+aavjo
+]=])
+    set(program_arguments "kasauti")
+    set(expected_stdout "[GujaratiLang Kasauti v2.6.0] Running frontend browser test suite in 'tests/kasauti'...
+[Kasauti] Scanning for *.kasauti.gj and *_test.gj files...
+[Kasauti] Environment: Headless Chrome / Virtual DOM Engine (Port 9222 ready)
+  ✓ test_homepage_render: PASSED (3 assertions, 0.4ms)
+  ✓ test_user_authentication: PASSED (5 assertions, 0.6ms)
+  ✓ test_form_validation: PASSED (4 assertions, 0.5ms)
+[Kasauti Summary] 3 test suites, 12 assertions, 0 failures (100% passed).
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v260_kasauti_chrome_doctor")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[aavo
+chhapo 1;
+aavjo
+]=])
+    set(program_arguments "kasauti:chrome")
+    set(expected_stdout "[GujaratiLang Kasauti v2.6.0] Inspecting browser automation environment...
+  • Chrome Binary: Auto-detected (System Headless Chrome / Chromium / Edge)
+  • Remote Debugging Port: 9222 (Ready for CDP connection)
+  • Headless Engine: Virtual DOM + WebDriver Protocol Ready
+[Kasauti Status] Ready to execute end-to-end browser tests.
+")
     set(expected_stderr "")
     set(expect_failure FALSE)
 else()

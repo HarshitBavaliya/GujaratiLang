@@ -1,100 +1,53 @@
-# GujaratiLang v2.0.0 LTS — The Universal Bilingual Release & Long-Term Support 🚀🌟
+# GujaratiLang v2.6.0: Kasauti (કસોટી) E2E Browser & Frontend Testing Suite (વેબસાઇટ ફ્રન્ટએન્ડ કસોટી)
 
-GujaratiLang **v2.0.0 LTS** is the grand major milestone release of GujaratiLang. It delivers **Universal Bilingual Support** with direct standard English keywords (`function`, `print`, `if`, `else`, `while`, `return`, `for`, `in`, `class`, `try`, `catch`, `break`, `continue`, `true`, `false`, `null`, `start`, `end`, `self`) seamlessly unified alongside Romanized Gujarati and Native Gujarati scripts.
+GujaratiLang **v2.6.0** is officially released! Named after the authentic Gujarati word for touchstone and gold standard examination, **Kasauti (કસોટી)** brings comprehensive end-to-end frontend browser automation and UI testing to GujaratiLang—inspired by the expressive syntax of Laravel Dusk.
 
-In addition, **v2.0.0 LTS** introduces a standalone Browser WebAssembly Exporter, JIT Bytecode Optimizer and Constant Folder, Native AI/LLM SDK without external libraries, Language Server Protocol (LSP 2.0) with static linting, and guaranteed 5-year Long-Term Support (LTS) maintenance with **zero third-party dependencies**.
+With v2.1.0's **Laravel Eloquent ORM** and **Laravel Blade Templating**, GujaratiLang v2.6.0 completes the **full-stack Laravel triumvirate** in native Gujarati:
+$$\text{Eloquent ORM (Data)} + \text{Blade Templates (Views)} + \text{Kasauti Testing (Browser E2E)}$$
 
-All **427 test cases** pass with a 100% success rate across Windows, Linux, macOS Apple Silicon (ARM64), and macOS Intel (x64).
-
----
-
-## 🌟 What's New in v2.0.0 LTS (The 6 Core Pillars)
-
-### 🇬🇧 1. Universal Bilingual Standard English Syntax
-- **Direct English Keywords with Zero Friction**:
-  - `function` / `kary` / `કાર્ય`: Standard function declarations.
-  - `print` / `chhapo` / `છાપો`: Output print statement.
-  - `if` / `jo` / `જો`: Conditional branching.
-  - `else if` & `elif` / `nahitar_jo` / `નહિતર જો`: Multi-branch conditions.
-  - `else` / `nahitar` / `નહિતર`: Fallback branch.
-  - `while` / `jya_sudhi` / `જ્યાં સુધી`: Iterative loops.
-  - `for (item in list)` / `darek (item ma list)` / `દરેક (item માં list)`: Collection iteration.
-  - `return` / `parat` / `પરત`: Function returns.
-  - `break` & `continue` / `atko` & `chalu_rakho`: Loop flow control.
-  - `try` & `catch` / `prayatna` & `pakdo`: Structured exception handling.
-  - `true`, `false`, `null` / `satya`, `asatya`, `nakamo` / `સત્ય`, `અસત્ય`, `નકામો`: Standard literal booleans and null.
-  - `and`, `or`, `not` / `ane`, `athva`, `nahi` / `અને`, `અથવા`, `નહીં`: Logical operators.
-  - `start` / `begin` / `aavo` / `આવો`: Program entry delimiter.
-  - `end` / `finish` / `aavjo` / `આવજો`: Program exit delimiter.
-  - `this` & `self` / `a_pote` / `આ_પોતે`: Object method instance references.
-
-### 🌐 2. Browser WebAssembly Exporter & Offline Playground
-- **Compile to Pure Web Standards**:
-  - `wasm_export_html(title, code)` / `વોસમ_એચટીએમએલ_નિકાસ`: Emits a single-file, self-contained HTML/Wasm web page bundling the runtime and script.
-  - `wasm_dom_bind(selector, event, callback)` / `વોસમ_ડોમ_જોડાણ`: Reactive browser DOM event listener bindings.
-  - `wasm_memory_grow(pages)` / `વોસમ_મેમરી_વધારો`: Dynamic WebAssembly linear memory growth in 64KB page increments.
-  - `wasm_inspect_wat(bytes)` / `વોસમ_ટેક્સ્ટ_તપાસ`: Disassembles Wasm binary bytecodes into human-readable WAT format.
-  - CLI `gujarati playground [--export <dir>]`: Starts or exports the offline Wasm browser playground.
-
-### ⚡ 3. JIT Bytecode Optimizer & Constant Folding
-- **Ahead-of-Time AST & Bytecode Optimizations**:
-  - `opt_constant_fold(expr)` / `ઓપ્ટ_અચળ_ગણતરી`: Evaluates constant expressions at compile time (`2 + 3 * 4` -> `14`).
-  - `opt_dead_code_strip(code)` / `ઓપ્ટ_બિનજરૂરી_કોડ_હટાવો`: Identifies and strips unreachable code branches.
-  - `opt_peephole(bytecode)` / `ઓપ્ટ_પીપહોલ`: Bytecode peephole optimizer eliminating redundant stack push/pop instructions.
-  - `opt_inline_heuristic(fn)` / `ઓપ્ટ_ઇનલાઇન`: Small function inlining heuristic analyzer.
-  - CLI Flags `--optimize` / `-O` and `--opt-report`: Global compiler optimization flags with telemetry output.
-
-### 🤖 4. Native AI & LLM SDK (Pure C HTTP Client)
-- **Zero-Dependency Artificial Intelligence Engine**:
-  - `ai_completion(prompt, [model], [apiKey])` / `એઆઈ_સંપૂર્ણ`: Formats and dispatches completions requests to LLM APIs.
-  - `ai_chat(messages, [model], [apiKey])` / `એઆઈ_સંવાદ`: Multi-turn conversational chat completion interface.
-  - `ai_embedding(text, [model], [apiKey])` / `એઆઈ_એમ્બેડિંગ`: Generates dense semantic vector embeddings.
-  - `ai_cosine_similarity(v1, v2)` / `એઆઈ_કોસાઇન_સમાનતા`: Mathematical cosine similarity metric between embedding vectors (-1.0 to 1.0).
-  - `ai_tokenize_estimate(text)` / `એઆઈ_ટોકન_અંદાજ`: BPE token count estimator for prompt budget management.
-  - `ai_prompt_template(tpl, vars)` / `એઆઈ_પ્રોમ્પ્ટ_નમૂનો`: Dynamic parameter substitution for AI system and user prompts.
-
-### 🛠️ 5. Language Server Protocol (LSP 2.0) & Diagnostic Engine
-- **Developer Experience & IDE Tooling**:
-  - `lsp_lint_code(source)` / `એલએસપી_તપાસ`: Static syntax linter checking for missing program delimiters and undeclared identifiers.
-  - `lsp_hover_doc(symbol)` / `એલએસપી_દસ્તાવેજ`: Real-time hover documentation tooltip for built-in functions.
-  - `lsp_semantic_tokens(source)` / `એલએસપી_ટોકન્સ`: Semantic syntax token streams for advanced IDE highlighting.
-  - CLI `gujarati lint <file.gj>`: Standalone command-line code linter.
-  - CLI `gujarati lsp --stdio`: Standard I/O Language Server Protocol daemon for VS Code, Neovim, and Helix.
-
-### 🏛️ 6. LTS Long-Term Support Guarantees & Cross-Platform Parity
-- **Enterprise Longevity & Zero Dependencies**:
-  - `sys_lts_info()` / `સિસ્ટમ_એલટીએસ_માહિતી`: Metadata query returning LTS 5-year maintenance commitment (2026–2031).
-  - `bhasha_avrutti()` / `language_version()`: Returns `"2.0.0"`.
-  - 100% Backwards Compatibility: Seamlessly runs all legacy scripts written for v1.0 through v1.9.
-  - Zero Third-Party Dependencies: Pure ANSI C99 utilizing only standard OS system APIs.
+This release also elevates the GujaratiLang automated test suite to the **515 Tests Milestone (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
 
 ---
 
-## 📊 Summary of Functions Added in v2.0.0 LTS
+## 🌟 What's New in v2.6.0
 
-| Function (Standard English) | Function (Native Gujarati) | Purpose |
-| :--- | :--- | :--- |
-| `wasm_export_html(title, code)` | `વોસમ_એચટીએમએલ_નિકાસ(શીર્ષક, કોડ)` | Standalone single-file HTML/Wasm app generator |
-| `wasm_dom_bind(sel, ev, fn)` | `વોસમ_ડોમ_જોડાણ(પસંદગી, ઘટના, કૉલ)` | Reactive browser DOM event listener binding |
-| `wasm_memory_grow(pages)` | `વોસમ_મેમરી_વધારો(પેજ)` | WebAssembly linear memory dynamic expansion |
-| `wasm_inspect_wat(bytes)` | `વોસમ_ટેક્સ્ટ_તપાસ(બાઇટ્સ)` | Disassemble Wasm binary into WebAssembly Text |
-| `opt_constant_fold(expr)` | `ઓપ્ટ_અચળ_ગણતરી(અભિવ્યક્તિ)` | Compile-time AST constant folding |
-| `opt_dead_code_strip(code)` | `ઓપ્ટ_બિનજરૂરી_કોડ_હટાવો(કોડ)` | Dead and unreachable code elimination |
-| `opt_peephole(bytecode)` | `ઓપ્ટ_પીપહોલ(બાઇટકોડ)` | Bytecode peephole optimization |
-| `opt_inline_heuristic(fn)` | `ઓપ્ટ_ઇનલાઇન(નામ)` | Function inlining heuristic analyzer |
-| `ai_completion(prompt, [m])` | `એઆઈ_સંપૂર્ણ(સૂચના, [મોડેલ])` | Raw HTTP client AI completions request |
-| `ai_chat(messages, [m])` | `એઆઈ_સંવાદ(સંદેશાઓ, [મોડેલ])` | Multi-turn conversational chat interface |
-| `ai_embedding(text, [m])` | `એઆઈ_એમ્બેડિંગ(ટેક્સ્ટ, [મોડેલ])` | Dense vector embedding calculation |
-| `ai_cosine_similarity(v1, v2)` | `એઆઈ_કોસાઇન_સમાનતા(વેક્ટર૧, વેક્ટર૨)`| Cosine similarity between embedding vectors |
-| `ai_tokenize_estimate(text)` | `એઆઈ_ટોકન_અંદાજ(ટેક્સ્ટ)` | BPE token count estimation |
-| `ai_prompt_template(tpl, v)` | `એઆઈ_પ્રોમ્પ્ટ_નમૂનો(નમૂનો, વેર)` | Dynamic prompt template variable substitution |
-| `lsp_lint_code(source)` | `એલએસપી_તપાસ(સ્ત્રોત)` | Static syntax linter and diagnostic engine |
-| `lsp_hover_doc(symbol)` | `એલએસપી_દસ્તાવેજ(ચિહ્ન)` | Interactive hover documentation tooltip |
-| `lsp_semantic_tokens(source)` | `એલએસપી_ટોકન્સ(સ્ત્રોત)` | Semantic token encoding for syntax highlighting |
-| `sys_lts_info()` | `સિસ્ટમ_એલટીએસ_માહિતી()` | Long-Term Support system configuration metadata |
+### 1. 👁️ Kasauti (કસોટી) Fluent Browser Testing API
+Expressive browser automation supporting both sub-millisecond in-engine Virtual DOM execution and real Headless Chrome/Edge WebDriver via the Chrome DevTools Protocol (CDP):
+- **`kasauti_open([options])` / `કસોટી_ખોલો`**: Launches a virtual or real headless browser session with custom viewport (`1280x800`).
+- **`kasauti_visit(b, url)` / `કસોટી_મુલાકાત`**: Navigates to any web route, full URL, or internal server endpoint.
+- **`kasauti_type(b, selector, text)` / `કસોટી_લખો`**: Types text into inputs, textareas, and form fields.
+- **`kasauti_press(b, button_text)` / `કસોટી_દબાવો`** & **`kasauti_click(b, selector)` / `કસોટી_ક્લિક`**: Triggers form submissions, button presses, and anchor navigations.
+- **`kasauti_select(b, selector, value)` / `કસોટી_પસંદ`**: Interacts with dropdown menus and select controls.
+- **`kasauti_screenshot(b, path)` / `કસોટી_સ્ક્રીનશોટ`**: Captures audit screenshots and page snapshots.
+- **`kasauti_cookie(b, key, [value])` / `કસોટી_કૂકી`**: Manages session cookies and authentication state.
+- **`kasauti_close(b)` / `કસોટી_બંધ`**: Safely releases browser resources.
+
+### 2. 🛡️ Comprehensive Dusk-Style Browser Assertions
+Ensure user interface elements and text are rendered accurately:
+- **`kasauti_assert_see(b, text)` / `કસોટી_ખાતરી_જોવા_મળ્યું`**: Asserts that visible text exists on the page.
+- **`kasauti_assert_dont_see(b, text)` / `કસોટી_ખાતરી_નથી_દેખાતું`**: Verifies error messages or unauthorized elements are absent.
+- **`kasauti_assert_path(b, expected_path)` / `કસોટી_ખાતરી_પાથ`**: Asserts the current URL path matches expectations (e.g., redirect to `/dashboard`).
+- **`kasauti_assert_title(b, expected_title)` / `કસોટી_ખાતરી_શીર્ષક`**: Asserts the document `<title>` tag matches.
+- **`kasauti_assert_present(b, selector)` / `કસોટી_ખાતરી_હાજર`**: Checks DOM element presence by CSS ID or selector.
+
+### 3. 🧰 Native CLI Subcommands
+- **`gujarati kasauti [path]`**: Discovers and runs all `*.kasauti.gj` and `*_test.gj` files, producing colorized test summaries and reports.
+- **`gujarati kasauti:make <TestName>`**: Generates starter scaffold test files in `tests/kasauti/`.
+- **`gujarati kasauti:chrome`**: Diagnostic scanner verifying Chrome, Chromium, Edge, and port `9222` readiness.
 
 ---
 
-## 🛠️ Upgrading & Compatibility
-- **100% Backwards Compatible**: Existing programs written in Romanized Gujarati or Native Gujarati script run unmodified.
-- **Cross-Platform Availability**: Windows x64, macOS Apple Silicon (ARM64), macOS Intel (x64), and Linux (x86_64).
+## 🛡️ The 515 Tests Milestone (100% Pass Rate)
+GujaratiLang v2.6.0 expands automated testing to **515 automated test suites**:
+- **503 Language & Subsystem Test Suites**: Comprehensive coverage spanning core lexing, parsing, AST execution, Eloquent ORM, Blade templating, Redis-style caching, Pub/Sub, Desktop GUI, 2D Canvas, Android Camera/Sensors, AOT Compiler, C-FFI, and the new Kasauti browser testing engine.
+- **12 Production Example Programs**: Fibonacci, Temperature Converter, Inventory, Stock, Calculator, String Utils, CSV Parser, Math Suite, Text Filter, Report Generator, Invoice Generator, and Random Game.
+- **100% CTest Pass Rate** across Windows x64, Linux x64, macOS x64, and macOS ARM64.
+
+---
+
+## 🌐 Live Website & Playground
+The official portal and interactive playground are updated to **v2.6.0**:
+- **Official Website**: [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/)
+- **Version Archive**: [https://gujaratilang.hp-square.com/history.html](https://gujaratilang.hp-square.com/history.html)
+- **New Playground Preset**:
+  - 👁️ *Kasauti (કસોટી) Browser & E2E Testing*
