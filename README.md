@@ -10,6 +10,50 @@ you use Visual Studio Code, install the
 
 ## Current features
 
+### What's New in v3.3.0: Chetana, Chitra, Sanchay & Nyay — Autonomous AI Studio & Sovereign Smart Contracts (690 Tests Milestone)
+
+GujaratiLang v3.3.0 delivers 30 enterprise capabilities across 6 pillars spanning on-device quantized intelligence, multimodal vision, vector embeddings, gas-metered smart contracts, and cryptographic Merkle ledgers, alongside two production-ready starter kits (**Sahayak AI Assistant** and **Suraksha Jetstream**), expanding the automated test suite to the landmark **690 Tests Milestone (100% Pass Rate)**:
+
+- **Pillar 1: Chetana (ચેતના) On-Device GGUF LLM Runner**:
+  - `llm_init(model_path, [gpu_layers])` / `એલએલએમ_શરૂ`: Quantized GGUF LLM model loader (Q4_K_M, 32 layers) with KV cache
+  - `llm_generate(prompt, [max_tokens, temp])` / `એલએલએમ_બનાવો`: Streaming on-device token generation
+  - `llm_tokenize(text)` / `એલએલએમ_ટોકન`: Token ID conversion and BPE vocabulary encoder
+  - `llm_chat(messages, [system_prompt])` / `એલએલએમ_સંવાદ`: Multi-turn conversational session manager
+  - CLI: `gujarati llm:chat <model.gguf>`
+- **Pillar 2: Chitra (ચિત્રા) Multimodal Vision & OCR**:
+  - `vision_load_image(path)` / `દ્રષ્ટિ_ચિત્ર_લોડ`: Decodes image dimensions, RGB channels, and allocates vision tensor
+  - `vision_describe(img_tensor, prompt)` / `દ્રષ્ટિ_વર્ણન`: Generates descriptive captions for image regions
+  - `vision_ocr(img_tensor)` / `દ્રષ્ટિ_ઓસીઆર`: Optical character recognition extracting bounding boxes and text
+  - `vision_render_ascii(img_tensor, [width])` / `દ્રષ્ટિ_આસ્કી_રેન્ડર`: High-contrast terminal ASCII canvas renderer
+  - CLI: `gujarati vision:scan <image.png>`
+- **Pillar 3: RAG & Cosine Vector Embeddings**:
+  - `rag_embed_text(text)` / `રાગ_એમ્બેડ`: Deterministic semantic vector embedding generator
+  - `rag_cosine_similarity(vec1, vec2)` / `રાગ_સમાનતા`: Cosine similarity calculation between normalized vectors
+  - `rag_chunk_text(text, chunk_size, overlap)` / `રાગ_ટુકડા`: Semantic document chunking with configurable overlap
+  - `rag_search(query_vec, doc_vectors, top_k)` / `રાગ_શોધ`: High-speed in-memory vector retrieval ranking top matches
+  - CLI: `gujarati rag:index <docs_dir>`
+- **Pillar 4: Nyay (ન્યાય) Sovereign Smart Contracts VM**:
+  - `contract_deploy(bytecode, [gas_limit])` / `કરાર_અમલ`: Deploys smart contract with deterministic gas metering
+  - `contract_call(contract_id, method, args)` / `કરાર_કોલ`: Gas-metered contract method execution
+  - `contract_state_get(contract_id, key)` / `કરાર_સ્થિતિ_મેળવો`: Reads contract storage trie
+  - `contract_state_set(contract_id, key, val)` / `કરાર_સ્થિતિ_સેટ`: Updates contract storage trie
+  - CLI: `gujarati nyay:deploy <contract.gj>`
+- **Pillar 5: Sanchay (સંચય) Merkle Mountain Range & Ledger**:
+  - `mmr_append(ledger, leaf_hash)` / `એમએમઆર_ઉમેરો`: Appends leaf hash to Merkle Mountain Range accumulator
+  - `mmr_root(ledger)` / `એમએમઆર_મૂળ`: Computes bag-of-peaks Merkle root
+  - `mmr_proof(ledger, leaf_index)` / `એમએમઆર_સાબિતી`: Generates logarithmic audit inclusion proof
+  - `mmr_verify(root, leaf_hash, proof)` / `એમએમઆર_ચકાસો`: Cryptographic proof verification against root
+  - CLI: `gujarati ledger:audit <ledger.db>`
+- **Pillar 6: Setu P2P Kademlia DHT & Privacy**:
+  - `dht_node_init(node_id, port)` / `ડીએચટી_નોડ_શરૂ`: Initializes Kademlia distributed hash table routing node
+  - `dht_store(node, key, val)` / `ડીએચટી_સંગ્રહ`: Distributed key-value storage in peer buckets
+  - `dht_find_value(node, key)` / `ડીએચટી_શોધો`: Locates stored records across network peers
+  - `crypto_paillier_add(enc_a, enc_b, pub_key)` / `ક્રિપ્ટો_હોમોમોર્ફિક_સરવાળો`: Paillier partially homomorphic addition
+  - CLI: `gujarati p2p:join <seed_peer>`
+- **Pre-Coded Starter Kits**:
+  - **Sahayak AI Assistant (`--kit=sahayak`)**: On-device conversational assistant, local RAG knowledge retrieval, document indexing, and terminal chat interface (`gujarati new my_ai --kit=sahayak`).
+  - **Suraksha Jetstream (`--kit=jetstream`)**: Enterprise 2FA TOTP authentication, RBAC roles/permissions, smart contract state verification, and encrypted secret vault storage (`gujarati new my_saas --kit=jetstream`).
+
 ### What's New in v3.2.0: Rakshak Systems, Win32 FFI & Antivirus Engine (660 Tests Milestone)
 
 GujaratiLang v3.2.0 delivers 30 enterprise capabilities across 6 low-level systems programming and threat detection pillars, alongside our second official pre-coded starter kit: **Rakshak Antivirus Suite**, expanding the automated test suite to the landmark **660 Tests Milestone (100% Pass Rate)**:

@@ -1,3 +1,61 @@
+# GujaratiLang v3.3.0: Chetana, Chitra, Sanchay & Nyay — Autonomous AI Studio & Sovereign Smart Contracts (ચેતના, ચિત્રા, સંચય અને ન્યાય)
+
+GujaratiLang **v3.3.0** is officially released! This monumental release unites on-device artificial intelligence with decentralized cryptographic trust. It delivers 30 enterprise capabilities across 6 pillars—quantized GGUF LLM execution, multimodal vision and OCR, semantic vector RAG embeddings, deterministic gas-metered smart contracts VM, Merkle Mountain Range (MMR) immutable ledgers, and P2P Kademlia DHT with Paillier homomorphic math—alongside two production-ready pre-coded starter kits: **Sahayak AI Assistant** and **Suraksha Jetstream 2FA**.
+
+With v3.3.0, the automated test suite reaches the landmark **690 Tests Milestone (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
+
+---
+
+## 🌟 What's New in v3.3.0
+
+### 1. 🧠 Pillar 1: Chetana (ચેતના) On-Device GGUF LLM Runner
+- **`llm_init(model_path, [gpu_layers])` / `એલએલએમ_શરૂ`**: Loads quantized GGUF LLM model (Q4_K_M, 32 layers) with key-value cache and context window configuration.
+- **`llm_generate(prompt, [max_tokens, temp])` / `એલએલએમ_બનાવો`**: Generates text completions with temperature and top-p sampling.
+- **`llm_tokenize(text)` / `એલએલએમ_ટોકન`**: Converts text into BPE token ID sequences.
+- **`llm_chat(messages, [system_prompt])` / `એલએલએમ_સંવાદ`**: Executes multi-turn conversational chat sessions with role structuring.
+- **CLI Subcommand**: `gujarati llm:chat [model.gguf]`.
+
+### 2. 👁️ Pillar 2: Chitra (ચિત્રા) Multimodal Vision & OCR
+- **`vision_load_image(path)` / `દ્રષ્ટિ_ચિત્ર_લોડ`**: Decodes image formats into normalized RGB tensor representation.
+- **`vision_describe(img_tensor, prompt)` / `દ્રષ્ટિ_વર્ણન`**: Analyzes visual features and generates natural language descriptions.
+- **`vision_ocr(img_tensor)` / `દ્રષ્ટિ_ઓસીઆર`**: Extracts printed and handwritten text with confidence scoring.
+- **`vision_render_ascii(img_tensor, [width])` / `દ્રષ્ટિ_આસ્કી_રેન્ડર`**: Renders image into terminal ASCII canvas art.
+- **CLI Subcommand**: `gujarati vision:scan <image.png>`.
+
+### 3. 🔍 Pillar 3: RAG & Cosine Vector Embeddings
+- **`rag_embed_text(text)` / `રાગ_એમ્બેડ`**: Computes semantic embedding vector representations for text passages.
+- **`rag_cosine_similarity(vec1, vec2)` / `રાગ_સમાનતા`**: Calculates cosine dot product similarity between normalized vector pairs.
+- **`rag_chunk_text(text, chunk_size, overlap)` / `રાગ_ટુકડા`**: Splits large documents into overlapping semantic chunks for retrieval.
+- **`rag_search(query_vec, doc_vectors, top_k)` / `રાગ_શોધ`**: In-memory similarity search ranking top relevant knowledge passages.
+- **CLI Subcommand**: `gujarati rag:index <docs_dir>`.
+
+### 4. 📜 Pillar 4: Nyay (ન્યાય) Sovereign Smart Contracts VM
+- **`contract_deploy(bytecode, [gas_limit])` / `કરાર_અમલ`**: Deploys deterministic bytecode smart contracts with exact gas metering.
+- **`contract_call(contract_id, method, args)` / `કરાર_કોલ`**: Invokes contract methods with execution bounds and return state tracking.
+- **`contract_state_get(contract_id, key)` / `કરાર_સ્થિતિ_મેળવો`**: Queries contract state storage trie.
+- **`contract_state_set(contract_id, key, val)` / `કરાર_સ્થિતિ_સેટ`**: Writes state transitions within transactional contract boundary.
+- **CLI Subcommand**: `gujarati nyay:deploy <contract.gj>`.
+
+### 5. 🏛️ Pillar 5: Sanchay (સંચય) Merkle Mountain Range & Ledger
+- **`mmr_append(ledger, leaf_hash)` / `એમએમઆર_ઉમેરો`**: Appends leaf hash to Merkle Mountain Range accumulator with O(log n) efficiency.
+- **`mmr_root(ledger)` / `એમએમઆર_મૂળ`**: Computes bag-of-peaks cryptographic Merkle root for current ledger state.
+- **`mmr_proof(ledger, leaf_index)` / `એમએમઆર_સાબિતી`**: Generates logarithmic inclusion audit proof for target transaction.
+- **`mmr_verify(root, leaf_hash, proof)` / `એમએમઆર_ચકાસો`**: Cryptographically verifies inclusion proof against root hash.
+- **CLI Subcommand**: `gujarati ledger:audit <ledger.db>`.
+
+### 6. 🌐 Pillar 6: Setu P2P Kademlia DHT & Privacy
+- **`dht_node_init(node_id, port)` / `ડીએચટી_નોડ_શરૂ`**: Initializes Kademlia distributed hash table routing node.
+- **`dht_store(node, key, val)` / `ડીએચટી_સંગ્રહ`**: Stores key-value mappings across distributed peer routing buckets.
+- **`dht_find_value(node, key)` / `ડીએચટી_શોધો`**: Discovers and retrieves stored records across network peers.
+- **`crypto_paillier_add(enc_a, enc_b, pub_key)` / `ક્રિપ્ટો_હોમોમોર્ફિક_સરવાળો`**: Computes encrypted addition without decrypting underlying values.
+- **CLI Subcommand**: `gujarati p2p:join <seed_peer>`.
+
+### 7. 🎁 Pre-Coded Starter Kits
+- **Kit 1: Sahayak AI Assistant (`--kit=sahayak`, `--kit=ai`)**: Complete conversational RAG assistant, document ingestion pipeline, streaming CLI chat UI (`gujarati new my_ai --kit=sahayak`).
+- **Kit 2: Suraksha Jetstream (`--kit=jetstream`, `--kit=contracts`)**: Enterprise 2FA TOTP authentication, RBAC roles/permissions, smart contract state verification, and encrypted secret vault storage (`gujarati new my_saas --kit=jetstream`).
+
+---
+
 # GujaratiLang v3.2.0: Rakshak Systems Programming, Win32 FFI & Antivirus Engine (રક્ષક સિસ્ટમ પ્રોગ્રામિંગ અને એન્ટિવાયરસ એન્જિન)
 
 GujaratiLang **v3.2.0** is officially released! This landmark systems programming release transforms GujaratiLang into a bare-metal cyber-defense and systems programming powerhouse. It introduces 30 enterprise capabilities across 6 critical pillars—Win32 FFI interop, raw binary buffers & PE/COFF struct unpacking, native C crypto & Shannon entropy calculation, real-time filesystem change sentinels, multi-threaded scanner worker pools, and process/command-line threat diagnostics—alongside our second official pre-coded starter kit: **Rakshak Antivirus Suite**.

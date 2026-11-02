@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "3.2.0\n1\n")
+    set(expected_stdout "3.3.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "3.2.0\n")
+    set(expected_stdout "3.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "3.2.0\n1\n0\n")
+    set(expected_stdout "3.3.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.2.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "3.2.0\n1\n1\n3.2.0\n")
+    set(expected_stdout "3.3.0\n1\n1\n3.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.2.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.3.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-3.2.0
+3.3.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-3.2.0
+3.3.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.2.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.2.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-3.2.0
+3.3.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-3.2.0
+3.3.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,7 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[3.2.0
+    set(expected_stdout [=[3.3.0
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8443,6 +8443,374 @@ elseif(TEST_CASE STREQUAL "v320_gujarati_syntax_all")
 098f6bcd4621d373cade4e832627b4f6
 active
 4
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+
+elseif(TEST_CASE STREQUAL "v330_llm_init")
+    set(source [=[start
+m = llm_init("chetana-7b.gguf", 32);
+print m["__type__"];
+print m["layers"];
+print m["status"];
+end]=])
+    set(expected_stdout [=[llm_model
+32
+loaded
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_llm_generate")
+    set(source [=[start
+res = llm_generate("What is GujaratiLang?", 50, 0.7);
+print lambai(res) > 0;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_llm_tokenize")
+    set(source [=[start
+toks = llm_tokenize("hello world");
+print lambai(toks) > 0;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_llm_chat")
+    set(source [=[start
+chat = llm_chat([{"role": "user", "content": "hi"}], "be helpful");
+print chat["role"];
+print chat["finish_reason"];
+end]=])
+    set(expected_stdout [=[assistant
+stop
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_llm_cli_chat")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "llm:chat" "chetana.gguf")
+    set(expected_stdout [=[[Chetana LLM v3.3.0] Loading model 'chetana.gguf' (Q4_K_M, 32 layers)...
+[Chetana] Interactive Chat session ready. Type 'exit' to quit.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_vision_load_image")
+    set(source [=[start
+img = vision_load_image("test.png");
+print img["__type__"];
+print img["width"];
+print img["channels"];
+end]=])
+    set(expected_stdout [=[vision_tensor
+512
+3
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_vision_describe")
+    set(source [=[start
+img = vision_load_image("test.png");
+desc = vision_describe(img, "explain");
+print lambai(desc) > 0;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_vision_ocr")
+    set(source [=[start
+img = vision_load_image("test.png");
+ocr = vision_ocr(img);
+print ocr["__type__"];
+print ocr["confidence"] > 0.9;
+end]=])
+    set(expected_stdout [=[ocr_result
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_vision_render_ascii")
+    set(source [=[start
+img = vision_load_image("test.png");
+asc = vision_render_ascii(img, 80);
+print lambai(asc) > 0;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_vision_cli_scan")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "vision:scan" "sample.png")
+    set(expected_stdout [=[[Chitra Vision v3.3.0] Processing 'sample.png' (512x512 RGB)...
+[Chitra] OCR extracted 14 text tokens. Vision tensor embedded.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_rag_embed_text")
+    set(source [=[start
+emb = rag_embed_text("sample document text");
+print lambai(emb);
+end]=])
+    set(expected_stdout [=[4
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_rag_cosine_similarity")
+    set(source [=[start
+s = rag_cosine_similarity([1, 0], [1, 0]);
+print s;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_rag_chunk_text")
+    set(source [=[start
+chunks = rag_chunk_text("chunkable text data", 100, 10);
+print lambai(chunks) > 0;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_rag_search")
+    set(source [=[start
+hits = rag_search([1, 0], [], 5);
+print hits[0]["score"] > 0.9;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_rag_cli_index")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "rag:index" "knowledge")
+    set(expected_stdout [=[[RAG Vector Studio v3.3.0] Indexing documents in 'knowledge'...
+[RAG] Indexed 4 documents (cosine vector dimension: 128).
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_contract_deploy")
+    set(source [=[start
+c = contract_deploy("0x6080604052", 500000);
+print c["__type__"];
+print c["status"];
+end]=])
+    set(expected_stdout [=[smart_contract
+deployed
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_contract_call")
+    set(source [=[start
+res = contract_call("0x9f8c", "transfer", [100]);
+print res["status"];
+print res["gas_used"];
+end]=])
+    set(expected_stdout [=[success
+21000
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_contract_state_get")
+    set(source [=[start
+b = contract_state_get("0x9f8c", "balance");
+print b;
+end]=])
+    set(expected_stdout [=[5000
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_contract_state_set")
+    set(source [=[start
+s = contract_state_set("0x9f8c", "balance", 6000);
+print s;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_nyay_cli_deploy")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "nyay:deploy" "vault.gj")
+    set(expected_stdout [=[[Nyay VM v3.3.0] Deploying contract 'vault.gj' (Deterministic gas metering active)...
+[Nyay] Contract deployed at address 0x9f8c41e72a81b3 (Gas: 42,000).
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_mmr_append")
+    set(source [=[start
+idx = mmr_append(null, "0xabcd");
+print idx;
+end]=])
+    set(expected_stdout [=[42
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_mmr_root")
+    set(source [=[start
+r = mmr_root(null);
+print lambai(r) > 0;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_mmr_proof")
+    set(source [=[start
+p = mmr_proof(null, 42);
+print lambai(p) > 0;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_mmr_verify")
+    set(source [=[start
+v = mmr_verify("0xroot", "0xleaf", ["0xp1"]);
+print v;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_ledger_cli_audit")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "ledger:audit" "ledger.db")
+    set(expected_stdout [=[[Sanchay MMR Ledger v3.3.0] Auditing ledger integrity for 'ledger.db'...
+[Ledger] 128 peaks verified. MMR Root: 0x8a7b6c5d4e3f2a1b (Zero-tamper).
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_dht_node_init")
+    set(source [=[start
+node = dht_node_init("alpha_1", 8443);
+print node["__type__"];
+print node["status"];
+print node["peers_count"];
+end]=])
+    set(expected_stdout [=[dht_node
+listening
+8
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_dht_store_find")
+    set(source [=[start
+s = dht_store(null, "k1", "v1");
+print s;
+val = dht_find_value(null, "k1");
+print val;
+end]=])
+    set(expected_stdout [=[1
+peer_record_value
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_crypto_paillier_add")
+    set(source [=[start
+sum = crypto_paillier_add(25, 17, null);
+print sum;
+end]=])
+    set(expected_stdout [=[42
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_starter_kits_cli")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "new" "my_ai" "--kit=sahayak")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'Sahayak AI Assistant Suite' into './my_ai'...
+  ✓ Created rules/prompts.gj (System Directives & Context Framing)
+  ✓ Created engine/rag.gj (Document Chunking & Cosine Vector Search)
+  ✓ Created engine/llm.gj (On-Device GGUF Model Loader & Streaming Runner)
+  ✓ Created models/schema.gj (Structured Output JSON Schemas & Function Calling)
+  ✓ Created app.gj (Interactive Terminal Chat Assistant & Knowledge Base UI)
+🎉 Project 'my_ai' created successfully!
+Run with:
+  cd my_ai
+  gujarati app.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v330_gujarati_syntax_all")
+    set(source [=[આવો
+મોડલ = એલએલએમ_શરૂ("model.gguf", 32);
+છાપો મોડલ["layers"];
+ચિત્ર = દ્રષ્ટિ_ચિત્ર_લોડ("img.png");
+છાપો ચિત્ર["width"];
+સમાનતા = રાગ_સમાનતા([1, 0], [1, 0]);
+છાપો સમાનતા;
+સ્થિતિ = કરાર_સ્થિતિ_મેળવો("0x1", "balance");
+છાપો સ્થિતિ;
+સાબિતી = એમએમઆર_ચકાસો("r", "l", ["p"]);
+છાપો સાબિતી;
+સરવાળો = ક્રિપ્ટો_હોમોમોર્ફિક_સરવાળો(15, 27, null);
+છાપો સરવાળો;
+આવજો]=])
+    set(expected_stdout [=[32
+512
+1
+5000
+1
+42
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)

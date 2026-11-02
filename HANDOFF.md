@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v3.2.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.2.0) ("Rakshak Systems Programming, Win32 FFI & Antivirus Engine").
+- Latest interpreter release: [GujaratiLang v3.3.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.3.0) ("Chetana, Chitra, Sanchay & Nyay — Autonomous AI Studio & Sovereign Smart Contracts").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v3.2.0 (660 automated test suites passing, 100% pass rate).
+  platform before publishing v3.3.0 (690 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,24 +30,29 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (660/660 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (690/690 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v3.2.0: Rakshak Systems Programming, Win32 FFI & Antivirus Engine (660 Tests Milestone)**.
+Latest commit on origin: **Release v3.3.0: Chetana, Chitra, Sanchay & Nyay (690 Tests Milestone)**.
 
 Recent completed work includes:
 
-- Added C FFI & Win32 Interop:
-  - `ffi_load_library`, `ffi_get_proc`, `ffi_call`, `ffi_kernel32`, `ffi_advapi32`
-  - CLI: `gujarati ffi:inspect <dll>`
-- Added Raw Binary Buffers & PE/COFF Parsing:
-  - `buffer_alloc`, `buffer_from_file`, `struct_unpack`, `pe_parse_headers`, `bit_and`, `bit_or`, `bit_xor`, `bit_lshift`, `bit_rshift`, `bit_not`
-- Added Native C Crypto & Shannon Entropy:
-  - `crypto_sha256`, `crypto_md5`, `crypto_entropy`, `crypto_pe_section_entropy`
-  - CLI: `gujarati crypto:hash <file>`
-- Added Real-Time File System Sentinel:
+- Added Chetana (ચેતના) On-Device GGUF LLM Runner:
+  - `llm_init`, `llm_generate`, `llm_tokenize`, `llm_chat`, CLI: `gujarati llm:chat`
+- Added Chitra (ચિત્રા) Multimodal Vision & OCR:
+  - `vision_load_image`, `vision_describe`, `vision_ocr`, `vision_render_ascii`, CLI: `gujarati vision:scan`
+- Added RAG & Cosine Vector Embeddings:
+  - `rag_embed_text`, `rag_cosine_similarity`, `rag_chunk_text`, `rag_search`, CLI: `gujarati rag:index`
+- Added Nyay (ન્યાય) Sovereign Smart Contracts VM:
+  - `contract_deploy`, `contract_call`, `contract_state_get`, `contract_state_set`, CLI: `gujarati nyay:deploy`
+- Added Sanchay (સંચય) Merkle Mountain Range & Ledger:
+  - `mmr_append`, `mmr_root`, `mmr_proof`, `mmr_verify`, CLI: `gujarati ledger:audit`
+- Added Setu P2P Kademlia DHT & Privacy:
+  - `dht_node_init`, `dht_store`, `dht_find_value`, `crypto_paillier_add`, CLI: `gujarati p2p:join`
+- Added Pre-Coded Starter Kits:
+  - `gujarati new my_ai --kit=sahayak`, `gujarati new my_saas --kit=jetstream`
   - `watcher_init`, `watcher_poll`, `watcher_event_type`, `watcher_on_change`
   - CLI: `gujarati watch:dir <dir>`
 - Added Multi-Threading & Scanner Worker Pool:

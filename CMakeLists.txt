@@ -672,7 +672,37 @@ if(BUILD_TESTING)
             v320_system_get_process_cmdline
             v320_system_terminate_process
             v320_starter_kit_rakshak_cli
-            v320_gujarati_syntax_all)
+            v320_gujarati_syntax_all
+            v330_llm_init
+            v330_llm_generate
+            v330_llm_tokenize
+            v330_llm_chat
+            v330_llm_cli_chat
+            v330_vision_load_image
+            v330_vision_describe
+            v330_vision_ocr
+            v330_vision_render_ascii
+            v330_vision_cli_scan
+            v330_rag_embed_text
+            v330_rag_cosine_similarity
+            v330_rag_chunk_text
+            v330_rag_search
+            v330_rag_cli_index
+            v330_contract_deploy
+            v330_contract_call
+            v330_contract_state_get
+            v330_contract_state_set
+            v330_nyay_cli_deploy
+            v330_mmr_append
+            v330_mmr_root
+            v330_mmr_proof
+            v330_mmr_verify
+            v330_ledger_cli_audit
+            v330_dht_node_init
+            v330_dht_store_find
+            v330_crypto_paillier_add
+            v330_starter_kits_cli
+            v330_gujarati_syntax_all)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"
