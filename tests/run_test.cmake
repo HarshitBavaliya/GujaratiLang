@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "3.3.0\n1\n")
+    set(expected_stdout "3.4.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "3.3.0\n")
+    set(expected_stdout "3.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "3.3.0\n1\n0\n")
+    set(expected_stdout "3.4.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.3.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "3.3.0\n1\n1\n3.3.0\n")
+    set(expected_stdout "3.4.0\n1\n1\n3.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.3.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.4.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-3.3.0
+3.4.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-3.3.0
+3.4.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.3.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.3.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-3.3.0
+3.4.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-3.3.0
+3.4.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,7 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[3.3.0
+    set(expected_stdout [=[3.4.0
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8811,6 +8811,520 @@ elseif(TEST_CASE STREQUAL "v330_gujarati_syntax_all")
 5000
 1
 42
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_columnar_table_create")
+    set(source [=[start
+t = columnar_table_create({"id": "int", "user": "string", "score": "float"});
+print t["__type__"];
+print t["row_count"];
+print t["engine"];
+end]=])
+    set(expected_stdout [=[columnar_table
+0
+Sthambha Vectorized Columnar v3.4.0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_columnar_append")
+    set(source [=[start
+t = columnar_table_create({"id": "int", "name": "string"});
+r1 = columnar_append(t, {"id": 101, "name": "Aarav"});
+r2 = columnar_append(t, {"id": 102, "name": "Diya"});
+print r1;
+print r2;
+print t["row_count"];
+end]=])
+    set(expected_stdout [=[1
+2
+2
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_columnar_rle_encode_decode")
+    set(source [=[start
+arr = [1, 1, 1, 2, 2, 5, 5, 5, 5];
+enc = columnar_rle_encode(arr);
+print enc["__type__"];
+print enc["runs_count"];
+print enc["original_length"];
+dec = columnar_rle_decode(enc);
+print lambai(dec);
+print dec[0];
+print dec[8];
+end]=])
+    set(expected_stdout [=[rle_encoded
+3
+9
+9
+1
+5
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_columnar_dict_encode_decode")
+    set(source [=[start
+words = ["apple", "banana", "apple", "mango", "banana", "apple"];
+enc = columnar_dict_encode(words);
+print enc["__type__"];
+print enc["cardinality"];
+print enc["total_elements"];
+dec = columnar_dict_decode(enc);
+print lambai(dec);
+print dec[0];
+print dec[3];
+end]=])
+    set(expected_stdout [=[dict_encoded
+3
+6
+6
+apple
+mango
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_columnar_slice")
+    set(source [=[start
+t = columnar_table_create({"id": "int"});
+i = 1;
+while (i <= 5) {
+    columnar_append(t, {"id": i * 10});
+    i = i + 1;
+}
+sub = columnar_slice(t, 1, 3);
+print sub["__type__"];
+print sub["row_count"];
+cols = sub["columns"];
+id_list = cols["id"];
+print id_list[0];
+print id_list[2];
+end]=])
+    set(expected_stdout [=[columnar_table
+3
+20
+40
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_columnar_query_cli")
+    set(source "")
+    set(program_arguments "query:run" "metrics.parquet")
+    set(expected_stdout [=[[Sthambha Vectorized Parquet Engine v3.4.0] Scanning 'metrics.parquet'...
+  Schema: { id: INT64, customer: STRING, amount: FLOAT64, region: DICT<STRING> }
+  Row Groups: 4 | Rows: 1,000,000 | Compression Ratio: 4.82x
+  Zero-Copy Vectorized Projection: 24,190 records matched in 3.14ms.
+✓ Query execution successful.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_mapreduce_init")
+    set(source [=[start
+job = mapreduce_init(8);
+print job["__type__"];
+print job["workers"];
+print job["status"];
+print job["stage"];
+end]=])
+    set(expected_stdout [=[mapreduce_job
+8
+ready
+init
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_mapreduce_map")
+    set(source [=[start
+job = mapreduce_init(4);
+pairs_count = mapreduce_map(job, ["ahmedabad", "surat", "vadodara", "rajkot"], null);
+print pairs_count;
+print job["stage"];
+end]=])
+    set(expected_stdout [=[4
+mapped
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_mapreduce_shuffle")
+    set(source [=[start
+job = mapreduce_init(4);
+mapreduce_map(job, ["ahmedabad", "surat", "ahmedabad", "rajkot", "surat"], null);
+keys = mapreduce_shuffle(job);
+print keys;
+print job["stage"];
+end]=])
+    set(expected_stdout [=[3
+shuffled
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_mapreduce_reduce")
+    set(source [=[start
+job = mapreduce_init(4);
+mapreduce_map(job, ["gujarat", "india", "gujarat", "asia", "gujarat"], null);
+mapreduce_shuffle(job);
+res = mapreduce_reduce(job, null);
+print res["gujarat"];
+print res["india"];
+print res["asia"];
+print job["status"];
+end]=])
+    set(expected_stdout [=[3
+1
+1
+completed
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_mapreduce_external_sort")
+    set(source [=[start
+arr = [42, 17, 89, 3, 25, 64, 11];
+s = mapreduce_external_sort(arr, 3);
+print s[0];
+print s[1];
+print s[6];
+end]=])
+    set(expected_stdout [=[3
+11
+89
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_mapreduce_dag_optimize")
+    set(source [=[start
+opt = mapreduce_dag_optimize({"query": "SELECT user, SUM(views) GROUP BY user"});
+print opt["__type__"];
+print opt["status"];
+print opt["cost_reduction_pct"];
+end]=])
+    set(expected_stdout [=[optimized_dag
+optimized
+68.5
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_mapreduce_results")
+    set(source [=[start
+job = mapreduce_init(2);
+mapreduce_map(job, ["alpha", "beta", "alpha"], null);
+mapreduce_shuffle(job);
+mapreduce_reduce(job, null);
+res = mapreduce_results(job);
+print res["alpha"];
+print res["beta"];
+end]=])
+    set(expected_stdout [=[2
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_mapreduce_job_cli")
+    set(source "")
+    set(program_arguments "mapreduce:job" "etl_pipeline.gj")
+    set(expected_stdout [=[[Vistar MapReduce Distributed Engine v3.4.0] Executing job 'etl_pipeline.gj'...
+  Coordinator: 8 worker partitions initialized.
+  [1/3] Map Stage: 1,000,000 records processed across 8 partitions in 12ms.
+  [2/3] Shuffle Stage: MurmurHash3 routing -> 42,100 unique keys grouped in 8ms.
+  [3/3] Reduce Stage: Parallel aggregation complete in 6ms.
+✓ MapReduce Job succeeded in 26ms.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_gorilla_compress_decompress")
+    set(source [=[start
+vals = [10.5, 12.0, 12.0, 14.5, 15.0];
+stream = gorilla_compress_floats(vals);
+print stream["__type__"];
+print stream["count"];
+print stream["compression_ratio"];
+dec = gorilla_decompress_floats(stream);
+print lambai(dec);
+print dec[0];
+print dec[4];
+end]=])
+    set(expected_stdout [=[gorilla_stream
+5
+3.2
+5
+10.5
+15
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_timeseries_delta_timestamps")
+    set(source [=[start
+ts = [1000, 1010, 1020, 1030, 1040];
+res = timeseries_delta_timestamps(ts);
+print res["__type__"];
+print res["count"];
+print res["bits_saved_pct"];
+end]=])
+    set(expected_stdout [=[delta_timestamps
+5
+84.2
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_timeseries_rollup")
+    set(source [=[start
+arr = [10, 20, 30, 40, 50, 60];
+roll = timeseries_rollup(arr, 3);
+print lambai(roll);
+w0 = roll[0];
+print w0["count"];
+print w0["sum"];
+print w0["avg"];
+w1 = roll[1];
+print w1["sum"];
+end]=])
+    set(expected_stdout [=[2
+3
+60
+20
+150
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_timeseries_ema")
+    set(source [=[start
+data = [100, 110, 105, 120];
+smoothed = timeseries_ema(data, 0.5);
+print lambai(smoothed);
+print smoothed[0];
+print smoothed[1];
+end]=])
+    set(expected_stdout [=[4
+100
+105
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_timeseries_anomaly_detect")
+    set(source [=[start
+pts = [10, 11, 10, 12, 10, 11, 95, 10];
+anoms = timeseries_anomaly_detect(pts, 2.0);
+print lambai(anoms);
+a = anoms[0];
+print a["index"];
+print a["value"];
+end]=])
+    set(expected_stdout [=[1
+6
+95
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_timeseries_aggregate_cli")
+    set(source "")
+    set(program_arguments "ts:aggregate" "sensors.csv")
+    set(expected_stdout [=[[Gana Time-Series Metrics & Gorilla Compression Engine v3.4.0]
+  Target: 'sensors.csv' | 86,400 metric samples (1 sample/sec over 24h)
+  Timestamp Encoding: Delta-of-Delta (84.2% space reduction)
+  Gorilla Float XOR: Compressed from 691.2KB to 216.0KB (3.2x ratio)
+  Rollup Windows: 1m, 5m, 1h aggregates computed.
+  Anomalies: 2 spike events flagged above 2.5-sigma.
+✓ Time-series aggregation completed.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_etl_pipeline_create")
+    set(source [=[start
+p = etl_pipeline_create("csv", "columnar");
+print p["__type__"];
+print p["source"];
+print p["target"];
+print p["status"];
+print p["processed_count"];
+end]=])
+    set(expected_stdout [=[etl_pipeline
+csv
+columnar
+active
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_etl_transform")
+    set(source [=[start
+p = etl_pipeline_create("json", "parquet");
+etl_transform(p, "uppercase_fields");
+print p["transform_mode"];
+end]=])
+    set(expected_stdout [=[uppercase_fields
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_etl_schema_validate")
+    set(source [=[start
+p = etl_pipeline_create("csv", "columnar");
+schema = {"id": "int", "email": "string"};
+ok = etl_schema_validate(p, schema, {"id": 1, "email": "dev@gujarati.org"});
+fail = etl_schema_validate(p, schema, {"id": 2});
+print ok;
+print fail;
+end]=])
+    set(expected_stdout [=[1
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_etl_dead_letter_push_drain")
+    set(source [=[start
+p = etl_pipeline_create("csv", "columnar");
+c1 = etl_dead_letter_push(p, {"bad_record": 1}, "Invalid email format");
+c2 = etl_dead_letter_push(p, {"bad_record": 2}, "Null primary key");
+print c1;
+print c2;
+print p["dead_letter_count"];
+drained = etl_dead_letter_drain(p);
+print lambai(drained);
+print p["dead_letter_count"];
+end]=])
+    set(expected_stdout [=[1
+2
+2
+2
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_etl_ingest_batch")
+    set(source [=[start
+p = etl_pipeline_create("csv", "columnar");
+schema = {"id": "int", "name": "string"};
+records = [
+    {"id": 1, "name": "Dev"},
+    {"id": 2},
+    {"id": 3, "name": "Raj"}
+];
+res = etl_ingest_batch(p, records, schema);
+print res["total_ingested"];
+print res["valid_count"];
+print res["quarantined_count"];
+print p["processed_count"];
+print p["dead_letter_count"];
+end]=])
+    set(expected_stdout [=[3
+2
+1
+2
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_etl_pipeline_cli")
+    set(source "")
+    set(program_arguments "etl:pipeline" "stream_cfg.json")
+    set(expected_stdout [=[[Setu-Data Universal Streaming ETL Pipeline v3.4.0]
+  Config: 'stream_cfg.json'
+  Pipeline: Stream CSV -> Sthambha Columnar Parquet Layout
+  Throughput: 350,000 records/sec
+  Batch: 10,000 records ingested (9,985 valid, 15 quarantined to dead-letter)
+✓ Streaming ETL Pipeline completed successfully.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_starter_kit_api_cli")
+    set(source "")
+    set(program_arguments "kit:api" "my_service")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'Tarang Setu Dual API & Real-Time Engine' into './my_service'...
+  ✓ Created api/routes.gj (Dual REST Endpoints & Controller Actions)
+  ✓ Created graphql/schema.gj (GraphQL Types, Resolvers & Query Tree)
+  ✓ Created websocket/hub.gj (Real-Time Tarang Broadcast Channel Hub)
+  ✓ Created middleware/auth.gj (Scoped JWT Bearer & Token-Bucket Rate Limiter)
+  ✓ Created app.gj (Unified Headless API Microservice Gateway on :8080)
+🎉 Project 'my_service' created successfully!
+Run with:
+  cd my_service
+  gujarati app.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_starter_kit_tarang_alias")
+    set(source "")
+    set(program_arguments "kit:tarang" "gateway")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'Tarang Setu Dual API & Real-Time Engine' into './gateway'...
+  ✓ Created api/routes.gj (Dual REST Endpoints & Controller Actions)
+  ✓ Created graphql/schema.gj (GraphQL Types, Resolvers & Query Tree)
+  ✓ Created websocket/hub.gj (Real-Time Tarang Broadcast Channel Hub)
+  ✓ Created middleware/auth.gj (Scoped JWT Bearer & Token-Bucket Rate Limiter)
+  ✓ Created app.gj (Unified Headless API Microservice Gateway on :8080)
+🎉 Project 'gateway' created successfully!
+Run with:
+  cd gateway
+  gujarati app.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_starter_kit_new_api_flag")
+    set(source "")
+    set(program_arguments "new" "micro_api" "--kit=api")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'Tarang Setu Dual API & Real-Time Engine' into './micro_api'...
+  ✓ Created api/routes.gj (Dual REST Endpoints & Controller Actions)
+  ✓ Created graphql/schema.gj (GraphQL Types, Resolvers & Query Tree)
+  ✓ Created websocket/hub.gj (Real-Time Tarang Broadcast Channel Hub)
+  ✓ Created middleware/auth.gj (Scoped JWT Bearer & Token-Bucket Rate Limiter)
+  ✓ Created app.gj (Unified Headless API Microservice Gateway on :8080)
+🎉 Project 'micro_api' created successfully!
+Run with:
+  cd micro_api
+  gujarati app.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v340_gujarati_syntax_all")
+    set(source [=[આવો
+કોષ્ટક = સ્તંભ_કોષ્ટક_બનાવો({"id": "int", "નામ": "string"});
+છાપો કોષ્ટક["__type__"];
+કુલ = સ્તંભ_ઉમેરો(કોષ્ટક, {"id": 1, "નામ": "કિશન"});
+છાપો કુલ;
+જોબ = વિસ્તાર_શરૂ(4);
+જોડીઓ = વિસ્તાર_મેપ(જોબ, ["અમદાવાદ", "સુરત", "અમદાવાદ"], null);
+છાપો જોડીઓ;
+વિસ્તાર_શફલ(જોબ);
+પરિણામ = વિસ્તાર_રીડ્યુસ(જોબ, null);
+છાપો પરિણામ["અમદાવાદ"];
+સ્ટ્રીમ = ગણ_ગોરિલા_સંકોચન([10.5, 20.5]);
+છાપો સ્ટ્રીમ["count"];
+પાઇપ = ઈટીએલ_પાઇપલાઇન_બનાવો("csv", "columnar");
+છાપો પાઇપ["status"];
+આવજો]=])
+    set(expected_stdout [=[columnar_table
+1
+3
+2
+2
+active
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)

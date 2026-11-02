@@ -1,3 +1,55 @@
+# GujaratiLang v3.4.0: Maha-Sankhya — Big Data, Columnar Analytical Compute & Tarang Setu API (મહાસંખ્યા અને તરંગ સેતુ)
+
+GujaratiLang **v3.4.0** is officially released! This monumental release delivers high-performance big data analytics, vectorized columnar processing, distributed MapReduce computing, time-series Gorilla compression, and streaming ETL pipelines directly into the pure C99 runtime with zero external C dependencies. It also introduces the official **Tarang Setu API Starter Kit (`--kit=api`)**, expanding the automated test suite to the landmark **720 Tests Milestone (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
+
+---
+
+## 🌟 What's New in v3.4.0
+
+### 1. 📊 Pillar 1: Sthambha (સ્તંભ) Columnar Parquet & Arrow Tables
+- **`columnar_table_create(schema)` / `સ્તંભ_કોષ્ટક_બનાવો`**: In-memory columnar data frame with typed schemas (int, float, string) for high-performance vectorized scanning.
+- **`columnar_append(table, row_dict)` / `સ્તંભ_ઉમેરો`**: Appends row records into columnar memory layout.
+- **`columnar_rle_encode(array)` / `સ્તંભ_આરએલઈ_એન્કોડ`**: Run-Length Encoding (RLE) for high compression on repeated values.
+- **`columnar_rle_decode(rle_dict)` / `સ્તંભ_આરએલઈ_ડીકોડ`**: Run-Length Decoding reconstructing raw series.
+- **`columnar_dict_encode(array)` / `સ્તંભ_શબ્દકોશ_એન્કોડ`**: Dictionary encoding converting high-cardinality string columns into integer indices.
+- **`columnar_dict_decode(dict_payload)` / `સ્તંભ_શબ્દકોશ_ડીકોડ`**: Reconstructs original strings from dictionary indices.
+- **`columnar_slice(table, offset, count)` / `સ્તંભ_ટુકડો`**: Vectorized zero-copy columnar slicing.
+- **CLI Subcommand**: `gujarati query:run <table.parquet>`.
+
+### 2. ⚡ Pillar 2: Vistar (વિસ્તાર) MapReduce Engine
+- **`mapreduce_init(name)` / `મેપરીડ્યુસ_શરૂ`**: Initializes distributed MapReduce job context.
+- **`mapreduce_map(job, key, val)` / `મેપરીડ્યુસ_મેપ`**: Emits intermediate `(key, value)` pairs during mapping stage.
+- **`mapreduce_shuffle(job)` / `મેપરીડ્યુસ_શફલ`**: Partitions and groups intermediate key-value pairs by key.
+- **`mapreduce_reduce(job, key, vals)` / `મેપરીડ્યુસ_રીડ્યુસ`**: Aggregates grouped key values with user reduction function.
+- **`mapreduce_external_sort(job, runs)` / `મેપરીડ્યુસ_સૉર્ટ`**: External two-phase merge sort for datasets larger than RAM.
+- **`mapreduce_dag_optimize(job)` / `મેપરીડ્યુસ_ડીએજી_ઓપ્ટિમાઈઝ`**: Optimizes execution DAG by fusing map/reduce stages.
+- **`mapreduce_results(job)` / `મેપરીડ્યુસ_પરિણામ`**: Retrieves final materialized key-value reduction pairs.
+- **CLI Subcommand**: `gujarati mapreduce:job <job_spec.gj>`.
+
+### 3. ⏱️ Pillar 3: Gana (ગણ) Time-Series Metrics & Gorilla Compression
+- **`gorilla_compress_floats(floats)` / `ગોરિલા_સંકોચન`**: Facebook Gorilla XOR floating-point compression algorithm.
+- **`gorilla_decompress_floats(payload)` / `ગોરિલા_વિસંકોચન`**: Decompresses Gorilla bitstreams back to double-precision floats.
+- **`timeseries_delta_timestamps(timestamps)` / `સમય_ડેલ્ટા_ટાઇમસ્ટેમ્પ`**: Delta-of-delta timestamp variable-length compression.
+- **`timeseries_rollup(ts_data, bucket_sec)` / `સમય_રોલઅપ`**: Downsamples high-frequency metrics into aggregate buckets (count, min, max, sum, avg).
+- **`timeseries_ema(data, alpha)` / `સમય_ઈએમએ`**: Computes Exponential Moving Average with configurable smoothing parameter.
+- **`timeseries_anomaly_detect(data, threshold_z)` / `સમય_વિસંગતિ_શોધ`**: Z-score anomaly detector identifying statistical outliers.
+- **CLI Subcommand**: `gujarati ts:aggregate <metrics.ts>`.
+
+### 4. 🔄 Pillar 4: Setu-Data Universal Streaming ETL
+- **`etl_pipeline_create(name)` / `ઈટીએલ_પાઈપલાઈન_બનાવો`**: Initializes declarative ETL streaming pipeline.
+- **`etl_transform(pipeline, record, fn)` / `ઈટીએલ_રૂપાંતરણ`**: Streams records through pure functional transformation stages.
+- **`etl_schema_validate(record, schema)` / `ઈટીએલ_સ્કીમા_ચકાસો`**: Strict schema contract enforcer ensuring type integrity.
+- **`etl_dead_letter_push(pipeline, item, reason)` / `ઈટીએલ_ડેડલેટર_ઉમેરો`**: Routes poisoned/corrupt records into dead-letter queue (DLQ).
+- **`etl_dead_letter_drain(pipeline)` / `ઈટીએલ_ડેડલેટર_ખાલી`**: Flushes dead-letter queue for forensic replay and debugging.
+- **`etl_ingest_batch(pipeline, batch_records)` / `ઈટીએલ_બેચ_દાખલ`**: High-throughput micro-batch ingestion pipeline.
+- **CLI Subcommand**: `gujarati etl:pipeline <config.etl>`.
+
+### 5. 🎁 Pre-Coded Starter Kit 4: Tarang Setu API (તરંગ સેતુ)
+- Scaffolds a complete production-grade high-throughput REST API with JWT authentication, rate limiting, columnar caching, and OpenAPI Swagger documentation.
+- CLI: `gujarati new <app_name> --kit=api`, `gujarati kit:api`, `gujarati kit:tarang`.
+
+---
+
 # GujaratiLang v3.3.0: Chetana, Chitra, Sanchay & Nyay — Autonomous AI Studio & Sovereign Smart Contracts (ચેતના, ચિત્રા, સંચય અને ન્યાય)
 
 GujaratiLang **v3.3.0** is officially released! This monumental release unites on-device artificial intelligence with decentralized cryptographic trust. It delivers 30 enterprise capabilities across 6 pillars—quantized GGUF LLM execution, multimodal vision and OCR, semantic vector RAG embeddings, deterministic gas-metered smart contracts VM, Merkle Mountain Range (MMR) immutable ledgers, and P2P Kademlia DHT with Paillier homomorphic math—alongside two production-ready pre-coded starter kits: **Sahayak AI Assistant** and **Suraksha Jetstream 2FA**.

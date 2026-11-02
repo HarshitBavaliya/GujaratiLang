@@ -702,7 +702,37 @@ if(BUILD_TESTING)
             v330_dht_store_find
             v330_crypto_paillier_add
             v330_starter_kits_cli
-            v330_gujarati_syntax_all)
+            v330_gujarati_syntax_all
+            v340_columnar_table_create
+            v340_columnar_append
+            v340_columnar_rle_encode_decode
+            v340_columnar_dict_encode_decode
+            v340_columnar_slice
+            v340_columnar_query_cli
+            v340_mapreduce_init
+            v340_mapreduce_map
+            v340_mapreduce_shuffle
+            v340_mapreduce_reduce
+            v340_mapreduce_external_sort
+            v340_mapreduce_dag_optimize
+            v340_mapreduce_results
+            v340_mapreduce_job_cli
+            v340_gorilla_compress_decompress
+            v340_timeseries_delta_timestamps
+            v340_timeseries_rollup
+            v340_timeseries_ema
+            v340_timeseries_anomaly_detect
+            v340_timeseries_aggregate_cli
+            v340_etl_pipeline_create
+            v340_etl_transform
+            v340_etl_schema_validate
+            v340_etl_dead_letter_push_drain
+            v340_etl_ingest_batch
+            v340_etl_pipeline_cli
+            v340_starter_kit_api_cli
+            v340_starter_kit_tarang_alias
+            v340_starter_kit_new_api_flag
+            v340_gujarati_syntax_all)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

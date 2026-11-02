@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v3.3.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.3.0) ("Chetana, Chitra, Sanchay & Nyay — Autonomous AI Studio & Sovereign Smart Contracts").
+- Latest interpreter release: [GujaratiLang v3.4.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.4.0) ("Maha-Sankhya: Big Data, Columnar Analytical Compute & Tarang Setu API").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v3.3.0 (690 automated test suites passing, 100% pass rate).
+  platform before publishing v3.4.0 (720 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,15 +30,29 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (690/690 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (720/720 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v3.3.0: Chetana, Chitra, Sanchay & Nyay (690 Tests Milestone)**.
+Latest commit on origin: **Release v3.4.0: Maha-Sankhya Big Data & Tarang Setu API (720 Tests Milestone)**.
 
 Recent completed work includes:
 
+- Added Sthambha (સ્તંભ) Columnar Parquet & Arrow Tables:
+  - `columnar_table_create`, `columnar_append`, `columnar_rle_encode`, `columnar_rle_decode`, `columnar_dict_encode`, `columnar_dict_decode`, `columnar_slice`
+  - CLI: `gujarati query:run <table.parquet>`
+- Added Vistar (વિસ્તાર) MapReduce Engine:
+  - `mapreduce_init`, `mapreduce_map`, `mapreduce_shuffle`, `mapreduce_reduce`, `mapreduce_external_sort`, `mapreduce_dag_optimize`, `mapreduce_results`
+  - CLI: `gujarati mapreduce:job <job_spec.gj>`
+- Added Gana (ગણ) Time-Series Metrics & Gorilla Compression:
+  - `gorilla_compress_floats`, `gorilla_decompress_floats`, `timeseries_delta_timestamps`, `timeseries_rollup`, `timeseries_ema`, `timeseries_anomaly_detect`
+  - CLI: `gujarati ts:aggregate <metrics.ts>`
+- Added Setu-Data Universal Streaming ETL:
+  - `etl_pipeline_create`, `etl_transform`, `etl_schema_validate`, `etl_dead_letter_push`, `etl_dead_letter_drain`, `etl_ingest_batch`
+  - CLI: `gujarati etl:pipeline <config.etl>`
+- Added Pre-Coded Starter Kit 4: Tarang Setu API:
+  - CLI: `gujarati new <name> --kit=api`, `gujarati kit:api`, `gujarati kit:tarang`
 - Added Chetana (ચેતના) On-Device GGUF LLM Runner:
   - `llm_init`, `llm_generate`, `llm_tokenize`, `llm_chat`, CLI: `gujarati llm:chat`
 - Added Chitra (ચિત્રા) Multimodal Vision & OCR:
