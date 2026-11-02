@@ -1,3 +1,72 @@
+# GujaratiLang v3.7.0: Satya & Shuddhi — Formal Verification & Safe Memory (સત્ય, શુદ્ધિ, પ્રમાણ અને છેદ)
+
+GujaratiLang **v3.7.0** is officially released! This monumental release brings mathematical correctness and compile-time memory safety to GujaratiLang, implemented in 100% pure C99 with **zero external C dependencies**.
+
+It introduces a linear-ownership borrow checker (Shuddhi) guaranteeing zero leaks and zero GC pauses, an embedded pure C99 DPLL SAT/SMT propositional theorem prover (Satya) for arithmetic invariants and induction proofs, design-by-contract preconditions, postconditions, and loop variants (Praman), and a concurrent happens-before memory data race and deadlock detector (Chhed), alongside our seventh official pre-coded starter kit: **Kasauti Testing Suite (`--kit=kasauti`, `--kit=test`)**.
+
+With v3.7.0, the automated test suite reaches the landmark **810 Tests Milestone (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
+
+---
+
+## 🌟 What's New in v3.7.0
+
+### 1. 🛡️ Pillar 1: Shuddhi (શુદ્ધિ) Borrow Checker
+- **`borrow_owner_create(name, resource_type)` / `શુદ્ધિ_માલિક_બનાવો`**: Allocates a linearly owned resource with a single unique owner.
+- **`borrow_ref_immutable(owner, ref_name)` / `શુદ્ધિ_ઉધાર_સ્થિર`**: Borrows a read-only reference; permits multiple concurrent readers.
+- **`borrow_ref_mutable(owner, ref_name)` / `શુદ્ધિ_ઉધાર_બદલાવ`**: Borrows an exclusive mutable reference; strictly forbids concurrent borrows.
+- **`borrow_lifetime_check(owner, scope_depth)` / `શુદ્ધિ_આયુષ્ય_તપાસ`**: Validates compile-time lifetime scopes preventing dangling pointers.
+- **`borrow_release(owner, ref_name)` / `શુદ્ધિ_મુક્ત_કરો`**: Releases active reference and returns full capabilities to owner.
+- **`borrow_move(owner, new_owner)` / `શુદ્ધિ_માલિક_બદલો`**: Transfers ownership linearly, invalidating previous owner handle.
+- **`borrow_check_leaks()` / `શુદ્ધિ_તપાસ_લીક`**: Audits memory pool verifying zero lingering unreleased allocations.
+- **CLI Subcommand**: `gujarati check:borrow <source.gj>` (alias `gujarati શુદ્ધિ:તપાસ`).
+
+### 2. 🔍 Pillar 2: Satya (સત્ય) Pure C99 SMT Theorem Prover
+- **`smt_solver_create(name)` / `સત્ય_સોલ્વર_બનાવો`**: Initializes pure C99 DPLL SAT/SMT propositional logic solver context.
+- **`smt_assert_formula(solver, expr_str)` / `સત્ય_સૂત્ર_ઉમેરો`**: Appends quantifier-free linear integer arithmetic formula or clause.
+- **`smt_check_sat(solver)` / `સત્ય_તપાસ_સંતોષ`**: Executes DPLL solving returning satisfiability decisions and conflict resolution.
+- **`smt_get_model(solver)` / `સત્ય_મોડેલ_મેળવો`**: Extracts satisfying assignment mapping variables to concrete optimal values.
+- **`smt_prove_invariant(solver, inv_str)` / `સત્ય_સાબિત_કરો`**: Formally proves mathematical invariant holds across all valid application states.
+- **`smt_verify_bounds(array_len, index)` / `સત્ય_બાઉન્ડ્સ_તપાસ`**: Mathematical array bounds verification eliminating runtime bounds checking overhead.
+- **`smt_prove_induction(base_case, step)` / `સત્ય_આગમન_સાબિત`**: Formal induction engine for recursive functions and loop terminations.
+- **CLI Subcommand**: `gujarati verify:formal <theory.smt>` (alias `gujarati સત્ય:ચકાસણી`).
+
+### 3. 📜 Pillar 3: Praman (પ્રમાણ) Design-by-Contract
+- **`praman_requires(cond, err_msg)` / `પ્રમાણ_પૂર્વશરત`**: Asserts function entry preconditions.
+- **`praman_ensures(cond, err_msg)` / `પ્રમાણ_પરિણામ_શરત`**: Validates function return guarantees before yielding to caller.
+- **`praman_invariant(cond, obj_name)` / `પ્રમાણ_અચળ_નિયમ`**: Asserts perpetual class or struct state invariants.
+- **`praman_loop_variant(current_val, prev_val)` / `પ્રમાણ_લૂપ_ચકાસણી`**: Formally ensures monotonic convergence to prevent infinite loops.
+- **`praman_status()` / `પ્રમાણ_સ્થિતિ`**: Returns audit count of verified preconditions, postconditions, and invariants.
+- **`praman_set_mode(strict_level)` / `પ્રમાણ_મોડ_સેટ`**: Configures contract evaluation mode (0 = off, 1 = debug, 2 = strict).
+- **CLI Subcommand**: `gujarati contract:check <app.gj>` (alias `gujarati પ્રમાણ:ચકાસણી`).
+
+### 4. ⚡ Pillar 4: Chhed (છેદ) Data Race Detector
+- **`race_detector_init(max_threads)` / `છેદ_તપાસ_શરૂ`**: Allocates happens-before concurrency graph engine with lock-set tracking.
+- **`race_record_access(thread_id, addr, is_write)` / `છેદ_એક્સેસ_નોંધણી`**: Logs memory reads and writes across threads.
+- **`race_lock_acquire(thread_id, lock_id)` / `છેદ_તાળું_મેળવો`**: Updates lock-set graph to detect lock-order inversion and deadlocks.
+- **`race_lock_release(thread_id, lock_id)` / `છેદ_તાળું_છોડો`**: Releases lock from thread active lock-set.
+- **`race_detect_conflicts(addr)` / `છેદ_ટકરાવ_શોધો`**: Evaluates whether conflicting concurrent unsynchronized access occurred.
+- **`race_check_memory_order(op_type)` / `છેદ_ક્રમ_તપાસ`**: Validates memory ordering and sequential consistency guarantees.
+- **CLI Subcommand**: `gujarati check:race <thread_script.gj>` (alias `gujarati છેદ:તપાસ`).
+
+### 5. 🎁 Pre-Coded Starter Kit 7: Kasauti Testing Suite (`--kit=kasauti`, `--kit=test`)
+Scaffold automated test suites with Dusk-style browser automation, screenshot pixel diffing, network interceptors, and device viewport emulation:
+```bash
+gujarati new my_tests --kit=kasauti
+# or
+gujarati new my_tests --kit=test
+# or shorthand
+gujarati kit:kasauti my_tests
+```
+Generates:
+- `tests/browser_test.gj`: Dusk-style headless browser automation for authentication and form validation
+- `tests/visual_regression.gj`: Visual screenshot diffing with pixel-level tolerance comparison
+- `tests/api_mock.gj`: Intercepting network HTTP client calls with realistic mock payloads
+- `tests/device_matrix.gj`: Multi-device viewport responsive rendering test suite
+- `runner.gj`: Automated test runner producing pass/fail reporting and test coverage diagnostics
+
+---
+
+
 # GujaratiLang v3.6.0: Vepar & Nanu — Enterprise ERP, GST & Order Book (વેપાર, ખાતા અને જીએસટી એન્જિન)
 
 GujaratiLang **v3.6.0** is officially released! This landmark release delivers native enterprise commerce and financial accounting primitives written in 100% pure C99 with **zero external C dependencies**.

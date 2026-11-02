@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v3.6.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.6.0) ("Vepar & Nanu — Enterprise ERP, Indian GST Engine & Order Book").
+- Latest interpreter release: [GujaratiLang v3.7.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.7.0) ("Satya & Shuddhi — Formal Verification & Safe Memory").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v3.6.0 (780 automated test suites passing, 100% pass rate).
+  platform before publishing v3.7.0 (810 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,14 +30,29 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (780/780 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (810/810 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v3.6.0: Vepar & Nanu — Enterprise ERP, GST & Order Book (780 Tests Milestone)**.
+Latest commit on origin: **Release v3.7.0: Satya & Shuddhi — Formal Verification & Safe Memory (810 Tests Milestone)**.
 
 Recent completed work includes:
+
+- Added Shuddhi (શુદ્ધિ) Borrow Checker:
+  - `borrow_owner_create`, `borrow_ref_immutable`, `borrow_ref_mutable`, `borrow_lifetime_check`, `borrow_release`, `borrow_move`, `borrow_check_leaks`
+  - CLI: `gujarati check:borrow <source.gj>`
+- Added Satya (સત્ય) Pure C99 SMT Theorem Prover:
+  - `smt_solver_create`, `smt_assert_formula`, `smt_check_sat`, `smt_get_model`, `smt_prove_invariant`, `smt_verify_bounds`, `smt_prove_induction`
+  - CLI: `gujarati verify:formal <theory.smt>`
+- Added Praman (પ્રમાણ) Design-by-Contract:
+  - `praman_requires`, `praman_ensures`, `praman_invariant`, `praman_loop_variant`, `praman_status`, `praman_set_mode`
+  - CLI: `gujarati contract:check <app.gj>`
+- Added Chhed (છેદ) Data Race Detector:
+  - `race_detector_init`, `race_record_access`, `race_lock_acquire`, `race_lock_release`, `race_detect_conflicts`, `race_check_memory_order`
+  - CLI: `gujarati check:race <thread_script.gj>`
+- Added Pre-Coded Starter Kit 7: Kasauti Testing Suite:
+  - `gujarati new my_tests --kit=kasauti` (aliases `kit:kasauti`, `kit:test`)
 
 - Added Khata (ખાતા) Double-Entry Ledger:
   - `khata_account_create`, `khata_entry_post`, `khata_account_balance`, `khata_trial_balance`, `khata_balance_sheet`, `khata_forex_convert`, `khata_audit_verify`

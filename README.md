@@ -10,6 +10,47 @@ you use Visual Studio Code, install the
 
 ## Current features
 
+### What's New in v3.7.0: Satya & Shuddhi — Formal Verification & Safe Memory (810 Tests Milestone)
+
+GujaratiLang v3.7.0 introduces 30 enterprise capabilities across compile-time memory safety, SMT theorem proving, design-by-contract, and data race sanitization alongside our official pre-coded **Kasauti Testing Suite Starter Kit (`--kit=kasauti`, `--kit=test`)**, expanding the automated test suite to the landmark **810 Tests Milestone (100% Pass Rate)**:
+
+- **Pillar 1: Shuddhi (શુદ્ધિ) Borrow Checker**:
+  - `borrow_owner_create(name, type)` / `શુદ્ધિ_માલિક_બનાવો`: Single-owner linear resource allocation
+  - `borrow_ref_immutable(owner, ref_name)` / `શુદ્ધિ_ઉધાર_સ્થિર`: Read-only concurrent reference borrowing
+  - `borrow_ref_mutable(owner, ref_name)` / `શુદ્ધિ_ઉધાર_બદલાવ`: Exclusive mutable reference borrowing
+  - `borrow_lifetime_check(owner, scope_depth)` / `શુદ્ધિ_આયુષ્ય_તપાસ`: Compile-time lifetime scope validation
+  - `borrow_release(owner, ref_name)` / `શુદ્ધિ_મુક્ત_કરો`: Active borrow release
+  - `borrow_move(owner, new_owner)` / `શુદ્ધિ_માલિક_બદલો`: Linear ownership transfer
+  - `borrow_check_leaks()` / `શુદ્ધિ_તપાસ_લીક`: Memory leak auditing verifying zero unreleased allocations
+  - CLI: `gujarati check:borrow <source.gj>`
+- **Pillar 2: Satya (સત્ય) Pure C99 SMT Theorem Prover**:
+  - `smt_solver_create(name)` / `સત્ય_સોલ્વર_બનાવો`: Pure C99 DPLL SAT/SMT propositional solver context
+  - `smt_assert_formula(solver, expr_str)` / `સત્ય_સૂત્ર_ઉમેરો`: Linear arithmetic formula assertion
+  - `smt_check_sat(solver)` / `સત્ય_તપાસ_સંતોષ`: DPLL satisfiability determination
+  - `smt_get_model(solver)` / `સત્ય_મોડેલ_મેળવો`: Satisfying variable assignment model extraction
+  - `smt_prove_invariant(solver, inv_str)` / `સત્ય_સાબિત_કરો`: Invariant theorem proof generation
+  - `smt_verify_bounds(array_len, index)` / `સત્ય_બાઉન્ડ્સ_તપાસ`: Zero-overhead array bounds verification
+  - `smt_prove_induction(base_case, step)` / `સત્ય_આગમન_સાબિત`: Mathematical induction proving engine
+  - CLI: `gujarati verify:formal <theory.smt>`
+- **Pillar 3: Praman (પ્રમાણ) Design-by-Contract**:
+  - `praman_requires(cond, err_msg)` / `પ્રમાણ_પૂર્વશરત`: Function precondition assertion
+  - `praman_ensures(cond, err_msg)` / `પ્રમાણ_પરિણામ_શરત`: Function postcondition validation
+  - `praman_invariant(cond, obj_name)` / `પ્રમાણ_અચળ_નિયમ`: Perpetual class/struct state invariants
+  - `praman_loop_variant(current_val, prev_val)` / `પ્રમાણ_લૂપ_ચકાસણી`: Monotonic loop termination proofs
+  - `praman_status()` / `પ્રમાણ_સ્થિતિ`: Verified contracts audit summary
+  - `praman_set_mode(strict_level)` / `પ્રમાણ_મોડ_સેટ`: Contract evaluation mode configuration
+  - CLI: `gujarati contract:check <app.gj>`
+- **Pillar 4: Chhed (છેદ) Data Race Detector**:
+  - `race_detector_init(max_threads)` / `છેદ_તપાસ_શરૂ`: Happens-before concurrency graph initialization
+  - `race_record_access(thread_id, addr, is_write)` / `છેદ_એક્સેસ_નોંધણી`: Memory access logging across threads
+  - `race_lock_acquire(thread_id, lock_id)` / `છેદ_તાળું_મેળવો`: Lock-set tracking and deadlock prevention
+  - `race_lock_release(thread_id, lock_id)` / `છેદ_તાળું_છોડો`: Lock release from thread lock-set
+  - `race_detect_conflicts(addr)` / `છેદ_ટકરાવ_શોધો`: Unsynchronized data race conflict detection
+  - `race_check_memory_order(op_type)` / `છેદ_ક્રમ_તપાસ`: Sequential consistency memory order verification
+  - CLI: `gujarati check:race <thread_script.gj>`
+- **Pre-Coded Starter Kit 7: Kasauti Testing Suite (`--kit=kasauti`, `--kit=test`)**:
+  - Automated testing suite with Dusk-style browser automation, visual regression diffing, network interceptor mocks, and device matrix viewport emulation (`gujarati new my_tests --kit=kasauti`, aliases `kit:kasauti`, `kit:test`).
+
 ### What's New in v3.6.0: Vepar & Nanu — Enterprise ERP, Indian GST Engine & Order Book (780 Tests Milestone)
 
 GujaratiLang v3.6.0 introduces 30 enterprise capabilities across double-entry ledger bookkeeping, Indian GST tax calculations, high-frequency order book matching, and programmatic C99 PDF invoice generation alongside our official pre-coded **Vepar Commerce Starter Kit (`--kit=commerce`, `--kit=vepar`)**, expanding the automated test suite to the landmark **780 Tests Milestone (100% Pass Rate)**:

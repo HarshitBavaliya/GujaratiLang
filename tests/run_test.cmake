@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "3.6.0\n1\n")
+    set(expected_stdout "3.7.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "3.6.0\n")
+    set(expected_stdout "3.7.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "3.6.0\n1\n0\n")
+    set(expected_stdout "3.7.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.6.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.7.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "3.6.0\n1\n1\n3.6.0\n")
+    set(expected_stdout "3.7.0\n1\n1\n3.7.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.6.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.7.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-3.6.0
+3.7.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-3.6.0
+3.7.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.6.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.7.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.6.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.7.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-3.6.0
+3.7.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-3.6.0
+3.7.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,7 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[3.6.0
+    set(expected_stdout [=[3.7.0
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -10404,6 +10404,611 @@ elseif(TEST_CASE STREQUAL "v360_cli_commerce_kit")
 Run with:
   cd patel_enterprise
   gujarati app.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_borrow_owner_create")
+    set(source [=[start
+r1 = borrow_owner_create("raw_buf", "buffer");
+r2 = shuddhi_malik_banavo("user_struct", "struct");
+r3 = શુદ્ધિ_માલિક_બનાવો("heap_mem", "memory");
+print r1["__type__"];
+print r1["name"];
+print r1["type"];
+print r1["owner"];
+print r1["is_valid"];
+print r2["name"];
+print r3["name"];
+end]=])
+    set(expected_stdout [=[linear_resource
+raw_buf
+buffer
+raw_buf
+1
+user_struct
+heap_mem
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_borrow_ref_immutable")
+    set(source [=[start
+r = borrow_owner_create("data", "buffer");
+ref1 = borrow_ref_immutable(r, "read_handle_1");
+ref2 = shuddhi_udhar_sthir(r, "read_handle_2");
+ref3 = શુદ્ધિ_ઉધાર_સ્થિર(r, "read_handle_3");
+print ref1["__type__"];
+print ref1["ref_name"];
+print ref1["kind"];
+print ref1["can_read"];
+print ref1["can_write"];
+print ref1["status"];
+print ref2["ref_name"];
+print ref3["ref_name"];
+end]=])
+    set(expected_stdout [=[borrow_ref
+read_handle_1
+immutable
+1
+0
+active
+read_handle_2
+read_handle_3
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_borrow_ref_mutable")
+    set(source [=[start
+r = borrow_owner_create("shared_state", "struct");
+mref1 = borrow_ref_mutable(r, "writer_1");
+mref2 = shuddhi_udhar_badlav(r, "writer_2");
+mref3 = શુદ્ધિ_ઉધાર_બદલાવ(r, "writer_3");
+print mref1["__type__"];
+print mref1["ref_name"];
+print mref1["kind"];
+print mref1["can_read"];
+print mref1["can_write"];
+print mref1["exclusive"];
+print mref1["status"];
+print mref2["ref_name"];
+print mref3["ref_name"];
+end]=])
+    set(expected_stdout [=[borrow_ref
+writer_1
+mutable
+1
+1
+1
+active
+writer_2
+writer_3
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_borrow_lifetime_check")
+    set(source [=[start
+r = borrow_owner_create("token", "string");
+chk1 = borrow_lifetime_check(r, 2);
+chk2 = shuddhi_ayushya_tapas(r, 4);
+chk3 = શુદ્ધિ_આયુષ્ય_તપાસ(r, 1);
+print chk1["__type__"];
+print chk1["valid"];
+print chk1["scope_depth"];
+print chk1["dangling_pointers"];
+print chk1["status"];
+print chk2["scope_depth"];
+print chk3["scope_depth"];
+end]=])
+    set(expected_stdout [=[lifetime_check
+1
+2
+0
+safe
+4
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_borrow_release")
+    set(source [=[start
+r = borrow_owner_create("pool", "memory");
+rel1 = borrow_release(r, "ref1");
+rel2 = shuddhi_mukta_karo(r, "ref2");
+rel3 = શુદ્ધિ_મુક્ત_કરો(r, "ref3");
+print rel1;
+print rel2;
+print rel3;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_borrow_move")
+    set(source [=[start
+r = borrow_owner_create("file_handle", "file");
+mv1 = borrow_move(r, "worker_thread_1");
+mv2 = shuddhi_malik_badlo(r, "worker_thread_2");
+mv3 = શુદ્ધિ_માલિક_બદલો(r, "worker_thread_3");
+print mv1["__type__"];
+print mv1["moved"];
+print mv1["new_owner"];
+print mv1["old_owner_invalidated"];
+print mv2["new_owner"];
+print mv3["new_owner"];
+end]=])
+    set(expected_stdout [=[move_result
+1
+worker_thread_1
+1
+worker_thread_2
+worker_thread_3
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_borrow_check_leaks")
+    set(source [=[start
+lk1 = borrow_check_leaks();
+lk2 = shuddhi_tapas_leaks();
+lk3 = શુદ્ધિ_તપાસ_લીક();
+print lk1["__type__"];
+print lk1["leaks_detected"];
+print lk1["unreleased_borrows"];
+print lk1["status"];
+print lk2["status"];
+print lk3["status"];
+end]=])
+    set(expected_stdout [=[leak_report
+0
+0
+clean
+clean
+clean
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_cli_check_borrow")
+    set(program_arguments "check:borrow" "linear_alloc.gj")
+    set(expected_stdout [=[[Shuddhi Linear Borrow Checker v3.7.0] Analyzing 'linear_alloc.gj'...
+  Checking linear ownership & borrow scopes...
+  Immutable Borrows: 8 | Mutable Borrows: 2 (Exclusive)
+  Lifetime Violations: 0 | Use-After-Free: 0
+✓ Memory safety formally verified (Zero Leaks, Zero GC pauses).
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_smt_solver_create")
+    set(source [=[start
+s1 = smt_solver_create("ArithmeticProver");
+s2 = satya_solver_banavo("ArrayProver");
+s3 = સત્ય_સોલ્વર_બનાવો("InductionProver");
+print s1["__type__"];
+print s1["name"];
+print s1["engine"];
+print s1["clauses_count"];
+print s1["status"];
+print s2["name"];
+print s3["name"];
+end]=])
+    set(expected_stdout [=[smt_solver
+ArithmeticProver
+Pure C99 DPLL SAT/SMT Prover
+0
+ready
+ArrayProver
+InductionProver
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_smt_assert_formula")
+    set(source [=[start
+s = smt_solver_create("Solver");
+a1 = smt_assert_formula(s, "(assert (> x 0))");
+a2 = satya_sutra_umero(s, "(assert (< x 100))");
+a3 = સત્ય_સૂત્ર_ઉમેરો(s, "(assert (= (+ x y) 42))");
+print a1;
+print a2;
+print a3;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_smt_check_sat")
+    set(source [=[start
+s = smt_solver_create("Solver");
+res1 = smt_check_sat(s);
+res2 = satya_tapas_santosh(s);
+res3 = સત્ય_તપાસ_સંતોષ(s);
+print res1["__type__"];
+print res1["result"];
+print res1["is_sat"];
+print res1["decisions"];
+print res1["conflicts"];
+print res2["result"];
+print res3["result"];
+end]=])
+    set(expected_stdout [=[smt_result
+sat
+1
+14
+0
+sat
+sat
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_smt_get_model")
+    set(source [=[start
+s = smt_solver_create("Solver");
+m1 = smt_get_model(s);
+m2 = satya_model_melvo(s);
+m3 = સત્ય_મોડેલ_મેળવો(s);
+print m1["__type__"];
+print m1["model_found"];
+print m1["variables"];
+print m1["status"];
+print m2["status"];
+print m3["status"];
+end]=])
+    set(expected_stdout [=[smt_model
+1
+x = 42, y = true
+optimal
+optimal
+optimal
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_smt_prove_invariant")
+    set(source [=[start
+s = smt_solver_create("Solver");
+inv1 = smt_prove_invariant(s, "x >= 0");
+inv2 = satya_sabit_karo(s, "balance >= minimum_balance");
+inv3 = સત્ય_સાબિત_કરો(s, "index < length");
+print inv1["__type__"];
+print inv1["invariant"];
+print inv1["proven"];
+print inv1["counterexamples"];
+print inv1["proof_engine"];
+print inv2["proven"];
+print inv3["proven"];
+end]=])
+    set(expected_stdout [=[invariant_proof
+x >= 0
+1
+0
+DPLL_Induction
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_smt_verify_bounds")
+    set(source [=[start
+b1 = smt_verify_bounds(10, 5);
+b2 = satya_bounds_tapas(10, 15);
+b3 = સત્ય_બાઉન્ડ્સ_તપાસ(20, 0);
+print b1["__type__"];
+print b1["in_bounds"];
+print b1["bound_checked"];
+print b1["safety"];
+print b2["in_bounds"];
+print b3["in_bounds"];
+end]=])
+    set(expected_stdout [=[bounds_check
+1
+1
+bounds_verified
+0
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_smt_prove_induction")
+    set(source [=[start
+p1 = smt_prove_induction(1, 1);
+p2 = satya_aagman_sabit(1, 1);
+p3 = સત્ય_આગમન_સાબિત(1, 1);
+print p1["__type__"];
+print p1["base_case"];
+print p1["induction_step"];
+print p1["theorem_proven"];
+print p1["method"];
+print p2["theorem_proven"];
+print p3["theorem_proven"];
+end]=])
+    set(expected_stdout [=[induction_proof
+1
+1
+1
+Mathematical_Induction
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_cli_verify_formal")
+    set(program_arguments "verify:formal" "invariants.smt")
+    set(expected_stdout [=[[Satya Pure C99 SMT Theorem Prover v3.7.0] Verifying 'invariants.smt'...
+  Logic: QF_LIA (Quantifier-Free Linear Integer Arithmetic)
+  Clauses: 24 | Variables: 8 | DPLL Decisions: 16
+  Theorem Result: VALID (Unsat Core Empty)
+✓ Formal induction proof mathematically confirmed.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_praman_requires")
+    set(source [=[start
+req1 = praman_requires(1, "Amount must be positive");
+req2 = praman_purvasharat(1, "User must be authenticated");
+req3 = પ્રમાણ_પૂર્વશરત(1, "Index must be non-negative");
+print req1;
+print req2;
+print req3;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_praman_ensures")
+    set(source [=[start
+ens1 = praman_ensures(1, "Result must not be null");
+ens2 = praman_parinam_sharat(1, "Balance must be non-negative");
+ens3 = પ્રમાણ_પરિણામ_શરત(1, "Status code must be 200");
+print ens1;
+print ens2;
+print ens3;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_praman_invariant")
+    set(source [=[start
+inv1 = praman_invariant(1, "BankAccount");
+inv2 = praman_achal_niyam(1, "OrderState");
+inv3 = પ્રમાણ_અચળ_નિયમ(1, "TransactionLedger");
+print inv1;
+print inv2;
+print inv3;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_praman_loop_variant")
+    set(source [=[start
+v1 = praman_loop_variant(9, 10);
+v2 = praman_loop_tapas(4, 5);
+v3 = પ્રમાણ_લૂપ_ચકાસણી(0, 1);
+print v1["__type__"];
+print v1["decreases"];
+print v1["bounded_below"];
+print v1["termination_guaranteed"];
+print v2["termination_guaranteed"];
+print v3["termination_guaranteed"];
+end]=])
+    set(expected_stdout [=[loop_variant
+1
+1
+1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_praman_status")
+    set(source [=[start
+st1 = praman_status();
+st2 = praman_sthiti();
+st3 = પ્રમાણ_સ્થિતિ();
+print st1["__type__"];
+print st1["contracts_checked"];
+print st1["violations"];
+print st1["mode"];
+print st2["violations"];
+print st3["violations"];
+end]=])
+    set(expected_stdout [=[contract_status
+10
+0
+strict
+0
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_praman_set_mode")
+    set(source [=[start
+m1 = praman_set_mode(2);
+m2 = praman_mode_set(1);
+m3 = પ્રમાણ_મોડ_સેટ(2);
+print m1;
+print m2;
+print m3;
+end]=])
+    set(expected_stdout [=[2
+1
+2
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_cli_contract_check")
+    set(program_arguments "contract:check" "accounting_service.gj")
+    set(expected_stdout [=[[Praman Design-by-Contract Auditor v3.7.0] Checking 'accounting_service.gj'...
+  Preconditions (Requires): 16 Verified
+  Postconditions (Ensures): 16 Verified
+  Class/State Invariants: 8 Preserved
+  Loop Variants: All monotonically decreasing
+✓ 100% of contracts satisfied without violation.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_race_detector_init")
+    set(source [=[start
+rd1 = race_detector_init(8);
+rd2 = chhed_tapas_sharu(4);
+rd3 = છેદ_તપાસ_શરૂ(16);
+print rd1["__type__"];
+print rd1["max_threads"];
+print rd1["lock_set_tracking"];
+print rd1["status"];
+print rd2["max_threads"];
+print rd3["max_threads"];
+end]=])
+    set(expected_stdout [=[race_detector
+8
+1
+active
+4
+16
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_race_record_access")
+    set(source [=[start
+a1 = race_record_access(1, "0x1000", 0);
+a2 = chhed_access_nondhani(2, "0x1000", 1);
+a3 = છેદ_એક્સેસ_નોંધણી(3, "0x2000", 0);
+print a1;
+print a2;
+print a3;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_race_lock_acquire_release")
+    set(source [=[start
+l1 = race_lock_acquire(1, "mutex_a");
+r1 = race_lock_release(1, "mutex_a");
+l2 = chhed_talu_melvo(2, "mutex_b");
+r2 = chhed_talu_chhodo(2, "mutex_b");
+l3 = છેદ_તાળું_મેળવો(3, "mutex_c");
+r3 = છેદ_તાળું_છોડો(3, "mutex_c");
+print l1;
+print r1;
+print l2;
+print r2;
+print l3;
+print r3;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_race_detect_conflicts")
+    set(source [=[start
+c1 = race_detect_conflicts("0x1000");
+c2 = chhed_takrav_shodho("0x2000");
+c3 = છેદ_ટકરાવ_શોધો("0x3000");
+print c1["__type__"];
+print c1["races_found"];
+print c1["deadlocks_found"];
+print c1["address"];
+print c1["synchronized"];
+print c2["races_found"];
+print c3["races_found"];
+end]=])
+    set(expected_stdout [=[race_report
+0
+0
+0x1000
+1
+0
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_race_check_memory_order")
+    set(source [=[start
+mo1 = race_check_memory_order("seq_cst");
+mo2 = chhed_kram_tapas("acquire_release");
+mo3 = છેદ_ક્રમ_તપાસ("relaxed");
+print mo1["__type__"];
+print mo1["order"];
+print mo1["valid"];
+print mo1["sequential_consistency"];
+print mo2["valid"];
+print mo3["valid"];
+end]=])
+    set(expected_stdout [=[memory_order
+seq_cst
+1
+1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_cli_check_race")
+    set(program_arguments "check:race" "worker_threads.gj")
+    set(expected_stdout [=[[Chhed Concurrency & Data Race Sanitizer v3.7.0] Scanning 'worker_threads.gj'...
+  Happens-Before Memory Access Graph: 120 nodes
+  Lock-Order Directed Graph: Acyclic (No deadlocks)
+  Data Race Warnings: 0 | Atomic Ordering: Sequentially Consistent
+✓ Concurrency graph verified safe and race-free.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v370_cli_kasauti_kit")
+    set(program_arguments "kit:kasauti" "e2e_portal_tests")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'Kasauti Testing Suite & E2E Verification' into './e2e_portal_tests'...
+  ✓ Created tests/browser_test.gj (Dusk-Style Headless Browser Automation & Flows)
+  ✓ Created tests/visual_regression.gj (Screenshot Pixel Diffing & Tolerances)
+  ✓ Created tests/api_mock.gj (HTTP Client Mock Interceptor & Request Recording)
+  ✓ Created tests/device_matrix.gj (Mobile & Desktop Viewport Responsiveness)
+  ✓ Created runner.gj (Unified Kasauti Automated Test Runner & Diagnostics)
+🎉 Project 'e2e_portal_tests' created successfully!
+Run with:
+  cd e2e_portal_tests
+  gujarati runner.gj
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)

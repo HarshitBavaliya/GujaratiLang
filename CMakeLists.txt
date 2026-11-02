@@ -792,7 +792,37 @@ if(BUILD_TESTING)
             v360_pdf_draw_table
             v360_pdf_sign_hash
             v360_pdf_save_file_and_cli
-            v360_cli_commerce_kit)
+            v360_cli_commerce_kit
+            v370_borrow_owner_create
+            v370_borrow_ref_immutable
+            v370_borrow_ref_mutable
+            v370_borrow_lifetime_check
+            v370_borrow_release
+            v370_borrow_move
+            v370_borrow_check_leaks
+            v370_cli_check_borrow
+            v370_smt_solver_create
+            v370_smt_assert_formula
+            v370_smt_check_sat
+            v370_smt_get_model
+            v370_smt_prove_invariant
+            v370_smt_verify_bounds
+            v370_smt_prove_induction
+            v370_cli_verify_formal
+            v370_praman_requires
+            v370_praman_ensures
+            v370_praman_invariant
+            v370_praman_loop_variant
+            v370_praman_status
+            v370_praman_set_mode
+            v370_cli_contract_check
+            v370_race_detector_init
+            v370_race_record_access
+            v370_race_lock_acquire_release
+            v370_race_detect_conflicts
+            v370_race_check_memory_order
+            v370_cli_check_race
+            v370_cli_kasauti_kit)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"
