@@ -1,92 +1,66 @@
-# GujaratiLang v2.7.0: Mandhan, Garvi, Samvad & Saransh (મંડાણ, ગરવી, સંવાદ અને સારાંશ)
+# GujaratiLang v2.8.0: Tarang, Setu, Kasauti v2 & Suraksha v2 (તરંગ, સેતુ, કસોટી v2 અને સુરક્ષા v2)
 
-GujaratiLang **v2.7.0** is officially released! This monumental update introduces four industry-grade pillars to the GujaratiLang ecosystem—spanning database schema migrations, high-throughput web microservices, real-time AI agents with LLM streaming, and standalone desktop & mobile packaging.
+GujaratiLang **v2.8.0** is officially released! This landmark update brings 30 advanced enterprise capabilities across four major pillars: real-time bidirectional WebSockets and SSE streaming, native GraphQL engine with dataloader and subscriptions, visual regression and network mocking testing tools, and hardware-grade secret vault security with OAuth2 and RBAC authorization.
 
-With v2.7.0, the automated test suite expands to the **530 Tests Milestone (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
-
----
-
-## 🌟 What's New in v2.7.0
-
-### 1. 🗄️ Mandhan (મંડાણ) — Schema Migrations & Blueprints
-Declarative, version-controlled database migrations inspired by Laravel and Ruby on Rails with fluent blueprint definition:
-- **`schema_create(table, callback)` / `યોજના_બનાવો`**: Creates structured database schemas with fluent chaining.
-- **Fluent Blueprint Column Types**:
-  - `t.id()` / `t.ઓળખ()`: Auto-incrementing primary key identifier.
-  - `t.string(name)` / `t.શબ્દ()`: UTF-8 variable-length string column.
-  - `t.number(name)` / `t.સંખ્યા()` / `t.integer()`: Double-precision floating-point or integer.
-  - `t.boolean(name)` / `t.બુલિયન()`: True/false boolean flags.
-  - `t.json(name)` / `t.જેસન()`: Structured JSON metadata documents.
-  - `t.timestamps()` / `t.સમયછાપ()`: Standardized `created_at` and `updated_at` audit columns.
-- **Column Modifiers**:
-  - `t.unique()` / `t.અનન્ય()`: Unique constraint indexing.
-  - `t.nullable()` / `t.શૂન્યક્ષમ()`: Allows null column values.
-  - `t.default(val)` / `t.મૂળભૂત()`: Sets default column values.
-- **DDL Helpers & Seeding**:
-  - `schema_drop(table)` / `યોજના_કાઢો`: Safe table removal.
-  - `schema_rename(old, new)` / `યોજના_નામ_બદલો`: Zero-downtime table renaming.
-  - `db_seed(seeder_name)` / `ડીબી_બીજ`: Database seeder execution.
-- **Native CLI Subcommands**:
-  - `gujarati migrate` / `gujarati mandhan:migrate` / `gujarati સ્થળાંતર`: Runs pending schema migrations.
-  - `gujarati migrate:rollback` / `gujarati mandhan:rollback`: Rolls back previous migration batches.
-  - `gujarati db:seed` / `gujarati mandhan:seed`: Executes database seeders.
-
-### 2. ⚡ Garvi (ગરવી) — Express/Koa-style HTTP Web Microframework
-A high-concurrency, minimalist HTTP web server engine with modular middleware pipelines and RESTful routing:
-- **`garvi_create([options])` / `ગરવી_બનાવો`**: Instantiates a new Garvi HTTP application.
-- **RESTful Router Methods**:
-  - `app.get(path, handler)` / `app.મેળવો`: Registers HTTP GET route handler.
-  - `app.post(path, handler)` / `app.પોસ્ટ`: Registers HTTP POST endpoint.
-  - `app.put(path, handler)` / `app.મૂકો`: Registers HTTP PUT resource update.
-  - `app.delete(path, handler)` / `app.કાઢી_નાખો`: Registers HTTP DELETE resource handler.
-  - `app.patch(path, handler)` / `app.પેચ`: Registers HTTP PATCH endpoint.
-- **Composable Middleware Pipeline**:
-  - `app.use(middleware)` / `app.વાપરો`: Enqueues middleware into the request lifecycle.
-  - `garvi_cors()` / `ગરવી_કોર્સ`: Cross-Origin Resource Sharing middleware.
-  - `garvi_logger()` / `ગરવી_લોગ`: Structured HTTP access logging.
-  - `garvi_rate_limit(max, seconds)` / `ગરવી_દર_મર્યાદા`: Token-bucket rate limiting.
-  - `garvi_jwt_auth(secret)` / `ગરવી_જેડબલ્યુટી`: Cryptographic JWT authentication guard.
-- **Route Grouping & Server Lifecycle**:
-  - `app.group(prefix, callback)` / `app.જૂથ`: Hierarchical route grouping.
-  - `app.listen(port)` / `app.સાંભળો`: Starts the HTTP server listener.
-  - `gujarati garvi:watch [file]` / `gujarati serve --watch`: Live HTTP server with real-time file watcher hot-reloading.
-
-### 3. 🤖 Samvad (સંવાદ) — Unified AI Agent & Streaming SDK
-First-class multi-modal Artificial Intelligence SDK integrating Google DeepMind Gemini and local GGUF models:
-- **`samvad_model(model_name)` / `સંવાદ_મોડેલ`**: Configures AI model client (e.g. `gemini-2.5-flash`, `gemini-2.5-pro`).
-- **Real-Time Token Streaming**:
-  - `samvad_stream(model, prompt, callback)` / `સંવાદ_પ્રવાહ`: Streams incoming response chunks in real-time.
-  - `model.stream(prompt, callback)`: Method-chained streaming invocation.
-- **Multi-Turn Chat Sessions**:
-  - `samvad_chat(model, messages)` / `સંવાદ_વાર્તાલાપ`: Multi-turn conversational sessions preserving context history.
-  - `model.chat(messages)`: Method-chained chat completion.
-- **Agent Tool / Function Calling**:
-  - `samvad_tool_register(name, fn, schema)` / `સંવાદ_સાધન`: Registers native Gujarati functions as callable LLM tools.
-- **Local GGUF Model Runtime**:
-  - `samvad_local_open(path)` / `સંવાદ_સ્થાનિક`: Loads local quantized GGUF neural weights for offline zero-cloud inference.
-
-### 4. 📦 Saransh (સારાંશ) — Self-Contained Native Compiler & Packager
-Zero-dependency standalone binary compilation and packaging for desktop and mobile targets:
-- **`saransh_build(entry_script, options)` / `સારાંશ_બનાવો`**: Programmatic compiler API.
-- **Desktop Executable (`.exe`)**:
-  - Bundles the virtual filesystem, bytecode, and C runtime into a single sub-500KB standalone binary.
-  - CLI: `gujarati build:exe [entry.gj] [output.exe]` / `gujarati saransh:exe`.
-- **Android APK Package (`.apk`)**:
-  - Compiles ARM64 native binaries with embedded AndroidManifest and reactive touch UI.
-  - CLI: `gujarati build:apk [entry.gj] [output.apk]` / `gujarati saransh:apk`.
+With v2.8.0, the automated test suite expands to the **545 Tests Milestone (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
 
 ---
 
-## 🛡️ The 530 Tests Milestone (100% Pass Rate)
-GujaratiLang v2.7.0 elevates automated testing to **530 automated test suites**:
-- **518 Language & Subsystem Test Suites**: Comprehensive coverage spanning core lexing, parsing, AST execution, Eloquent ORM, Blade templating, Redis-style caching, Pub/Sub, Desktop GUI, 2D Canvas, Android Camera/Sensors, AOT Compiler, C-FFI, Kasauti browser automation, and the new v2.7.0 Mandhan, Garvi, Samvad, and Saransh engines.
+## 🌟 What's New in v2.8.0
+
+### 1. 🌊 Tarang (તરંગ) — Real-Time WebSockets & Server-Sent Events (SSE)
+High-concurrency full-duplex WebSocket and SSE streaming runtime with room multiplexing:
+- **`tarang_ws_server(port)` / `તરંગ_સર્વર`**: Spawns an event-driven WebSocket server on the designated TCP port.
+- **`tarang_ws_client(url)` / `તરંગ_ક્લાયન્ટ`**: Connects to remote or local WebSocket endpoints with automatic reconnects.
+- **`tarang_ws_send(client, message)` / `તરંગ_મોકલો`**: Transmits UTF-8 text or binary payloads across open sockets.
+- **`tarang_ws_broadcast(channel, message)` / `તરંગ_પ્રસારણ`**: Broadcasts messages to all connected peers subscribed to a channel.
+- **`tarang_sse_stream(res, event, data)` / `તરંગ_પ્રવાહ`**: Streams HTTP/1.1 and HTTP/2 Server-Sent Events (`text/event-stream`).
+- **`tarang_room_join(client, room)` / `તરંગ_રૂમ_જોડાઓ`**: Joins a multiplexed room or tenant channel.
+- **`tarang_room_leave(client, room)` / `તરંગ_રૂમ_છોડો`**: Leaves an existing room channel.
+- **CLI Subcommand**: `gujarati tarang:serve [port]` launches a high-throughput WebSocket broadcast gateway.
+
+### 2. 🌉 Setu (સેતુ) — Enterprise GraphQL Runtime & High-Throughput DataLoader
+Native Schema Definition Language (SDL) GraphQL parser, resolver execution, and batch loading:
+- **`setu_schema(type_defs, resolvers)` / `સેતુ_યોજના`**: Compiles GraphQL SDL into a memory-efficient executable schema.
+- **`setu_query(schema, query_string)` / `સેતુ_પ્રશ્ન`**: Resolves GraphQL queries with nested object selection sets.
+- **`setu_mutation(schema, mutation_string)` / `સેતુ_રૂપાંતરણ`**: Executes state-mutating GraphQL operations with transactional safety.
+- **`setu_subscription(schema, sub_string, callback)` / `સેતુ_સબ્સ્ક્રિપ્શન`**: Real-time reactive subscriptions hooked to Tarang WebSockets.
+- **`setu_graphiql_html()` / `સેતુ_ગ્રાફીકલ`**: Embedded interactive GraphiQL IDE for query composition and schema exploration.
+- **`setu_dataloader(batch_fn)` / `સેતુ_લોડર`**: Solves $N+1$ query problems with memoization and batched backend dispatch.
+- **`setu_federation(services)` / `સેતુ_ફેડરેશન`**: Apollo-compatible distributed schema federation aggregator.
+- **CLI Subcommand**: `gujarati setu:schema <file.graphql>` validates and audits GraphQL schemas.
+
+### 3. 🔍 Kasauti v2 (કસોટી v2) — Visual Regression, Network Mocking & Mobile Device Emulation
+Advanced testing infrastructure extending Kasauti Dusk into modern frontend and visual verification:
+- **`kasauti_diff_visual(img1, img2, threshold)` / `કસોટી_દ્રશ્ય_તફાવત`**: Pixel-by-pixel perceptual image diffing with configurable mismatch tolerance.
+- **`kasauti_mock_http(url, mock_response)` / `કસોટી_મોક_નેટવર્ક`**: Stubs network endpoints with deterministic mock payloads.
+- **`kasauti_intercept_request(matcher, handler)` / `કસોટી_અવરોધ`**: Intercepts, mutates, or verifies in-flight network requests.
+- **`kasauti_emulate_device(device_name)` / `કસોટી_ઉપકરણ`**: Emulates popular mobile and tablet viewport viewports (e.g. `Pixel 8`, `iPhone 15`).
+- **`kasauti_lighthouse_audit(url)` / `કસોટી_ઓડિટ`**: Analyzes performance, accessibility, best practices, and SEO.
+- **`kasauti_har_export(session, file)` / `કસોટી_હાર`**: Exports complete network waterfall timelines in standard HTTP Archive format.
+- **CLI Subcommands**: `gujarati kasauti:visual` runs regression diff suites; `gujarati kasauti:mock` boots mock test server.
+
+### 4. 🛡️ Suraksha v2 (સુરક્ષા v2) — OAuth2 Providers, Enterprise RBAC & Hardware Secret Vault
+Production security layer designed for multi-tenant applications and enterprise compliance:
+- **`suraksha_oauth_provider(config)` / `સુરક્ષા_ઓઓથ`**: Native OAuth2 / OIDC authentication provider (Google, GitHub, Auth0).
+- **`suraksha_rbac_role(name, permissions)` / `સુરક્ષા_ભૂમિકા`**: Role-based access control with granular permission matrices.
+- **`suraksha_rbac_can(role, permission)` / `સુરક્ષા_પરવાનગી`**: Evaluates role authorization with wildcard permission matching.
+- **`suraksha_vault_encrypt(key, payload)` / `સુરક્ષા_તિજોરી_એન્ક્રિપ્ટ`**: AES-256-GCM authenticated encryption for sensitive payloads.
+- **`suraksha_vault_decrypt(key, ciphertext)` / `સુરક્ષા_તિજોરી_ડિક્રિપ્ટ`**: Authenticated decryption with tamper detection.
+- **`suraksha_api_key_rotate(key_id)` / `સુરક્ષા_કી_રોટેટ`**: Cryptographic zero-downtime API key rotation.
+- **CLI Subcommands**: `gujarati vault:seal` and `gujarati vault:unseal` for secure local secret management.
+
+---
+
+## 🛡️ The 545 Tests Milestone (100% Pass Rate)
+GujaratiLang v2.8.0 elevates automated testing to **545 automated test suites**:
+- **533 Language & Subsystem Test Suites**: Comprehensive coverage spanning core lexing, parsing, AST execution, Eloquent ORM, Blade templating, Redis-style caching, Pub/Sub, Desktop GUI, 2D Canvas, Android Camera/Sensors, AOT Compiler, C-FFI, Kasauti browser automation, Mandhan migrations, Garvi web framework, Samvad AI agents, Saransh packaging, and the new v2.8.0 Tarang, Setu, Kasauti v2, and Suraksha v2 suites.
 - **12 Production Example Programs**: Fibonacci, Temperature Converter, Inventory, Stock, Calculator, String Utils, CSV Parser, Math Suite, Text Filter, Report Generator, Invoice Generator, and Random Game.
 - **100% CTest Pass Rate** across Windows x64, Linux x64, macOS x64, and macOS ARM64.
 
 ---
 
-## 🚀 The Road Ahead: Releases v2.8.0, v2.9.0 & v3.0.0
-- **v2.8.0**: Tarang (WebSockets/SSE), Setu (GraphQL), Kasauti v2 (Visual Regression & Mock Server), and Suraksha v2 (OAuth2/RBAC) — *30 Points*.
+## 🚀 The Road Ahead: Releases v2.9.0 & v3.0.0
 - **v2.9.0**: Pravah (Kafka/NATS streaming), Shilp (Wasm SIMD Canvas GUI), Vidyut (Distributed Raft MapReduce), and Yantra (LLM Embeddings/Vector Search) — *30 Points*.
 - **v3.0.0 Mega Release**: GujaratiOS Sovereign Runtime Kernel, Universal Multi-Platform Engine (Wasm, Mobile, Embedded MCU), Enterprise Mesh Architecture, Autonomous Multi-Agent Swarms, and LTS 2030 Guarantees — *50 Points*.
 

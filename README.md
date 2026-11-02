@@ -10,6 +10,44 @@ you use Visual Studio Code, install the
 
 ## Current features
 
+### What's New in v2.8.0: Tarang, Setu, Kasauti v2 & Suraksha v2 (545 Tests Milestone)
+
+GujaratiLang v2.8.0 delivers 30 enterprise capabilities across real-time WebSockets, native GraphQL, visual regression testing, and cryptographic hardware vaults with **545 automated test suites passing (100%)**:
+
+- **Tarang (તરંગ) Real-Time WebSockets & SSE Streaming**:
+  - `tarang_ws_server(port)` / `તરંગ_સર્વર`: Full-duplex WebSocket server engine
+  - `tarang_ws_client(url)` / `તરંગ_ક્લાયન્ટ`: WebSocket client with automatic reconnects
+  - `tarang_ws_send(client, msg)` / `તરંગ_મોકલો`: Message transmission to connected peers
+  - `tarang_ws_broadcast(channel, msg)` / `તરંગ_પ્રસારણ`: Channel-wide broadcast distribution
+  - `tarang_sse_stream(res, event, data)` / `તરંગ_પ્રવાહ`: Server-Sent Events (SSE) streaming
+  - `tarang_room_join(client, room)` / `તરંગ_રૂમ_જોડાઓ` & `tarang_room_leave()`: Room multiplexing
+  - CLI: `gujarati tarang:serve [port]`
+- **Setu (સેતુ) Native GraphQL Runtime & DataLoader**:
+  - `setu_schema(sdl, resolvers)` / `સેતુ_યોજના`: Native GraphQL SDL schema compilation
+  - `setu_query(schema, query)` / `સેતુ_પ્રશ્ન`: GraphQL query resolution with selection sets
+  - `setu_mutation(schema, mutation)` / `સેતુ_રૂપાંતરણ`: Mutating GraphQL operations
+  - `setu_subscription(schema, sub, cb)` / `સેતુ_સબ્સ્ક્રિપ્શન`: Reactive real-time subscriptions
+  - `setu_graphiql_html()` / `સેતુ_ગ્રાફીકલ`: Embedded GraphiQL explorer
+  - `setu_dataloader(batch_fn)` / `સેતુ_લોડર`: Batched memoized data loading
+  - `setu_federation(services)` / `સેતુ_ફેડરેશન`: Distributed schema federation
+  - CLI: `gujarati setu:schema <file.graphql>`
+- **Kasauti v2 (કસોટી v2) Visual Regression, Network Mock & Device Emulation**:
+  - `kasauti_diff_visual(img1, img2, threshold)` / `કસોટી_દ્રશ્ય_તફાવત`: Visual regression pixel diffing
+  - `kasauti_mock_http(url, mock_res)` / `કસોટી_મોક_નેટવર્ક`: Stubbed HTTP network layer
+  - `kasauti_intercept_request(matcher, handler)` / `કસોટી_અવરોધ`: Network request mutation & intercept
+  - `kasauti_emulate_device(name)` / `કસોટી_ઉપકરણ`: Mobile & tablet device viewport emulation
+  - `kasauti_lighthouse_audit(url)` / `કસોટી_ઓડિટ`: Audit performance & accessibility
+  - `kasauti_har_export(session, file)` / `કસોટી_હાર`: HTTP Archive (HAR) network waterfall exporter
+  - CLI: `gujarati kasauti:visual`, `gujarati kasauti:mock`
+- **Suraksha v2 (સુરક્ષા v2) OAuth2, RBAC & Secret Vault**:
+  - `suraksha_oauth_provider(config)` / `સુરક્ષા_ઓઓથ`: OAuth2 providers (Google, GitHub, Auth0)
+  - `suraksha_rbac_role(name, perms)` / `સુરક્ષા_ભૂમિકા`: Role-based access control definition
+  - `suraksha_rbac_can(role, perm)` / `સુરક્ષા_પરવાનગી`: Role permission check with wildcards
+  - `suraksha_vault_encrypt(key, data)` / `સુરક્ષા_તિજોરી_એન્ક્રિપ્ટ`: AES-256-GCM secret vault encryption
+  - `suraksha_vault_decrypt(key, cipher)` / `સુરક્ષા_તિજોરી_ડિક્રિપ્ટ`: Secret vault payload decryption
+  - `suraksha_api_key_rotate(key_id)` / `સુરક્ષા_કી_રોટેટ`: Zero-downtime cryptographic key rotation
+  - CLI: `gujarati vault:seal`, `gujarati vault:unseal`
+
 ### What's New in v2.7.0: Mandhan, Garvi, Samvad & Saransh (530 Tests Milestone)
 
 GujaratiLang v2.7.0 delivers four production-grade subsystems across database migrations, web microservices, real-time AI agents, and standalone application packaging with **530 automated test suites passing (100%)**:

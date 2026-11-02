@@ -542,7 +542,22 @@ if(BUILD_TESTING)
             v270_samvad_model_streaming
             v270_samvad_tool_calling
             v270_saransh_build_exe
-            v270_saransh_build_apk)
+            v270_saransh_build_apk
+            v280_tarang_ws_server
+            v280_tarang_ws_client_send
+            v280_tarang_ws_broadcast
+            v280_tarang_sse_stream
+            v280_tarang_room_join_leave
+            v280_tarang_cli_serve
+            v280_setu_graphql_schema
+            v280_setu_graphql_query
+            v280_setu_graphql_mutation
+            v280_setu_dataloader
+            v280_kasauti_v2_visual_diff
+            v280_kasauti_v2_network_mock
+            v280_kasauti_v2_device_emulate
+            v280_suraksha_v2_oauth_rbac
+            v280_suraksha_v2_vault_crypto)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

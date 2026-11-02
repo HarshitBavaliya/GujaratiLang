@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v2.7.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v2.7.0) ("Mandhan, Garvi, Samvad & Saransh").
+- Latest interpreter release: [GujaratiLang v2.8.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v2.8.0) ("Tarang, Setu, Kasauti v2 & Suraksha v2").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v2.7.0 (530 automated test suites passing, 100% pass rate).
+  platform before publishing v2.8.0 (545 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,16 +30,32 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (530/530 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (545/545 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v2.7.0: Mandhan, Garvi, Samvad & Saransh (530 Tests Milestone)**.
+Latest commit on origin: **Release v2.8.0: Tarang, Setu, Kasauti v2 & Suraksha v2 (545 Tests Milestone)**.
 
 Recent completed work includes:
 
-- Added Mandhan (મંડાણ) Schema Migrations & Blueprints:
+- Added Tarang (તરંગ) Real-Time WebSockets & Server-Sent Events (SSE):
+  - `tarang_ws_server` / `તરંગ_સર્વર`, `tarang_ws_client` / `તરંગ_ક્લાયન્ટ`, `tarang_ws_send` / `તરંગ_મોકલો`, `tarang_ws_broadcast` / `તરંગ_પ્રસારણ`
+  - `tarang_sse_stream` / `તરંગ_પ્રવાહ`, `tarang_room_join` / `તરંગ_રૂમ_જોડાઓ`, `tarang_room_leave` / `તરંગ_રૂમ_છોડો`
+  - CLI: `gujarati tarang:serve [port]`
+- Added Setu (સેતુ) Native GraphQL Runtime & DataLoader:
+  - `setu_schema` / `સેતુ_યોજના`, `setu_query` / `સેતુ_પ્રશ્ન`, `setu_mutation` / `સેતુ_રૂપાંતરણ`, `setu_subscription` / `સેતુ_સબ્સ્ક્રિપ્શન`
+  - `setu_graphiql_html` / `સેતુ_ગ્રાફીકલ`, `setu_dataloader` / `સેતુ_લોડર`, `setu_federation` / `સેતુ_ફેડરેશન`
+  - CLI: `gujarati setu:schema <file.graphql>`
+- Added Kasauti v2 (કસોટી v2) Visual Regression, Network Mocking & Mobile Device Emulation:
+  - `kasauti_diff_visual` / `કસોટી_દ્રશ્ય_તફાવત`, `kasauti_mock_http` / `કસોટી_મોક_નેટવર્ક`, `kasauti_intercept_request` / `કસોટી_અવરોધ`
+  - `kasauti_emulate_device` / `કસોટી_ઉપકરણ`, `kasauti_lighthouse_audit` / `કસોટી_ઓડિટ`, `kasauti_har_export` / `કસોટી_હાર`
+  - CLI: `gujarati kasauti:visual`, `gujarati kasauti:mock`
+- Added Suraksha v2 (સુરક્ષા v2) OAuth2 Providers, Enterprise RBAC & Secret Vault:
+  - `suraksha_oauth_provider` / `સુરક્ષા_ઓઓથ`, `suraksha_rbac_role` / `સુરક્ષા_ભૂમિકા`, `suraksha_rbac_can` / `સુરક્ષા_પરવાનગી`
+  - `suraksha_vault_encrypt` / `સુરક્ષા_તિજોરી_એન્ક્રિપ્ટ`, `suraksha_vault_decrypt` / `સુરક્ષા_તિજોરી_ડિક્રિપ્ટ`, `suraksha_api_key_rotate` / `સુરક્ષા_કી_રોટેટ`
+  - CLI: `gujarati vault:seal`, `gujarati vault:unseal`
+- Added Mandhan (મંડાણ) Schema Migrations & Blueprints (v2.7.0):
   - `schema_create` / `યોજના_બનાવો`, `schema_drop` / `યોજના_કાઢો`, `schema_rename` / `યોજના_નામ_બદલો`, `db_seed` / `ડીબી_બીજ`
   - Fluent Blueprint column methods: `id`, `string`, `number`, `boolean`, `json`, `timestamps`
   - Fluent column modifiers: `unique`, `nullable`, `default`
