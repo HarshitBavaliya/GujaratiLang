@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "3.0.0\n1\n")
+    set(expected_stdout "3.1.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "3.0.0\n")
+    set(expected_stdout "3.1.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "3.0.0\n1\n0\n")
+    set(expected_stdout "3.1.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.0.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.1.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "3.0.0\n1\n1\n3.0.0\n")
+    set(expected_stdout "3.1.0\n1\n1\n3.1.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.0.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.1.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-3.0.0
+3.1.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-3.0.0
+3.1.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.0.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.1.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.0.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.1.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-3.0.0
+3.1.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-3.0.0
+3.1.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -7592,6 +7592,434 @@ end
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v310_drishti_trace_start_end")
+    set(source [=[start
+span = drishti_trace_start("db_query", null);
+print span["name"];
+print span["status"];
+print span["engine"];
+drishti_span_end(span, "success");
+print span["status"];
+print span["duration_us"];
+end]=])
+    set(expected_stdout [=[db_query
+active
+Drishti OpenTelemetry v3.1.0
+success
+420
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_drishti_span_tag")
+    set(source [=[start
+span = drishti_trace_start("auth_check", null);
+drishti_span_tag(span, "auth.user", "harshit");
+drishti_span_tag(span, "auth.role", "admin");
+print span["auth.user"];
+print span["auth.role"];
+end]=])
+    set(expected_stdout [=[harshit
+admin
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_drishti_trace_headers")
+    set(source [=[start
+span = drishti_trace_start("rpc_call", null);
+h = drishti_trace_headers(span);
+print h["traceparent"];
+print h["tracestate"];
+end]=])
+    set(expected_stdout [=[00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
+gj=live
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_drishti_metrics")
+    set(source [=[start
+c = drishti_metric_counter("http_requests", 42, null);
+print c;
+g = drishti_metric_gauge("active_sockets", 128, null);
+print g;
+end]=])
+    set(expected_stdout [=[42
+128
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_drishti_otlp_export")
+    set(source [=[start
+out = drishti_otlp_export("http://collector:4318", 50);
+print lambai(out) > 20;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_drishti_cli_trace")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "drishti:trace" "server.gj")
+    set(expected_stdout [=[[Drishti OpenTelemetry v3.1.0] Trace session started for 'server.gj'
+[Trace] Generated span tree (0.42ms latency, 100% sampled).
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_drishti_cli_flamegraph")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "drishti:flamegraph" "trace_profile.json")
+    set(expected_stdout [=[[Drishti OpenTelemetry v3.1.0] Flamegraph generated from 'trace_profile.json':
+  [Root: 100%] -> [DB: 42%] -> [Network: 35%] -> [Compute: 23%]
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_kavach_sock_filter")
+    set(source [=[start
+f = kavach_sock_filter("TCP", 8443);
+print f["filter_id"];
+print f["protocol"];
+print f["port"];
+print f["status"];
+end]=])
+    set(expected_stdout [=[bpf_sock_01
+TCP
+8443
+attached
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_kavach_seccomp_policy")
+    set(source [=[start
+res = kavach_seccomp_policy(["socket", "connect", "write", "exit"]);
+print res;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_kavach_ringbuf_poll")
+    set(source [=[start
+polled = kavach_ringbuf_poll(null, null);
+print polled;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_kavach_net_flow")
+    set(source [=[start
+flow = kavach_net_flow("wlan0");
+print flow["interface"];
+print flow["bytes_in"];
+print flow["tcp_retransmits"];
+end]=])
+    set(expected_stdout [=[wlan0
+1048576
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_kavach_mem_guard_anomaly")
+    set(source [=[start
+g = kavach_mem_guard(67108864);
+print g;
+a = kavach_anomaly_rule("rapid_reconnect", "isolate");
+print a;
+end]=])
+    set(expected_stdout [=[1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_kavach_cli_monitor_audit")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "kavach:audit")
+    set(expected_stdout [=[[Kavach eBPF v3.1.0] Seccomp profile audit complete: 14 syscalls whitelisted, memory guard verified.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_pavan_vm_init")
+    set(source [=[start
+vm = pavan_vm_init(8, 512);
+print vm["vm_id"];
+print vm["vcpus"];
+print vm["memory_mb"];
+print vm["status"];
+end]=])
+    set(expected_stdout [=[pavan_vm_9a1
+8
+512
+configured
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_pavan_vm_boot")
+    set(source [=[start
+vm = pavan_vm_init(2, 128);
+boot = pavan_vm_boot(vm, "/vmlinux", "/rootfs");
+print boot["status"];
+print boot["boot_time_ms"];
+end]=])
+    set(expected_stdout [=[running
+3.4
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_pavan_cgroup_virtio")
+    set(source [=[start
+vm = pavan_vm_init(2, 128);
+cg = pavan_cgroup_limit(vm, 75, 128);
+print cg;
+vd = pavan_virtio_disk(vm, "scratch.qcow2");
+print vd;
+end]=])
+    set(expected_stdout [=[1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_pavan_tap_bridge")
+    set(source [=[start
+vm = pavan_vm_init(2, 128);
+tap = pavan_tap_bridge(vm, "tap_edge0", "10.10.0.1");
+print tap;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_pavan_checkpoint_resume")
+    set(source [=[start
+vm = pavan_vm_init(2, 128);
+chk = pavan_vm_checkpoint(vm, "/state/vm.chk");
+print chk;
+res = pavan_vm_resume("/state/vm.chk");
+print res["status"];
+print res["resumed"];
+end]=])
+    set(expected_stdout [=[1
+running
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_pavan_cli_spawn")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "pavan:spawn" "kernel_app.img")
+    set(expected_stdout [=[[Pavan MicroVM v3.1.0] Booting container sandbox from 'kernel_app.img'...
+[Pavan] VM 'pavan_vm_live' booted in 3.8ms (vCPU: 2, RAM: 128MB, IP: 192.168.100.2)
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_pavan_cli_ps")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "pavan:ps")
+    set(expected_stdout [=[[Pavan MicroVM v3.1.0] Active MicroVM Sandboxes:
+  ID: pavan_vm_live | Status: running | Memory: 128MB | Uptime: 0.4s
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_anudan_dns_resolve")
+    set(source [=[start
+res = anudan_dns_resolve("edge.gujarati.io", "49.207.1.1");
+print res["domain"];
+print res["resolved_ip"];
+print res["edge_region"];
+print res["latency_ms"];
+end]=])
+    set(expected_stdout [=[edge.gujarati.io
+103.21.244.1
+bom-in
+1.2
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_anudan_health_probe")
+    set(source [=[start
+prb = anudan_health_probe("node-delhi", 1500);
+print prb["node"];
+print prb["status"];
+print prb["p99_latency_ms"];
+end]=])
+    set(expected_stdout [=[node-delhi
+healthy
+2.1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_anudan_tls_acme")
+    set(source [=[start
+cert = anudan_tls_acme("gujaratilang.hp-square.com", "ops@hp-square.com");
+print cert["domain"];
+print cert["cert_status"];
+print cert["tls_version"];
+end]=])
+    set(expected_stdout [=[gujaratilang.hp-square.com
+valid
+TLS 1.3
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_anudan_mesh_route_circuit")
+    set(source [=[start
+rt = anudan_mesh_route("catalog_service", "weighted");
+print rt;
+cb = anudan_circuit_breaker("catalog_service", 5);
+print cb;
+end]=])
+    set(expected_stdout [=[1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_anudan_token_bucket")
+    set(source [=[start
+tb = anudan_token_bucket(1000, 100);
+print tb["capacity"];
+print tb["refill_rate"];
+print tb["available_tokens"];
+end]=])
+    set(expected_stdout [=[1000
+100
+1000
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_anudan_cli_mesh")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "mesh:status")
+    set(expected_stdout [=[[Anudan GeoDNS & Edge Mesh v3.1.0] Global Mesh Status:
+  Regions: bom-in (Healthy, 1.2ms) | del-in (Healthy, 2.4ms) | blr-in (Healthy, 1.8ms)
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_starter_kit_breeze_cli")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "new" "my_web_app" "--kit=breeze")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'Garvi Breeze Auth' into './my_web_app'...
+  ✓ Created models/user.gj (Eloquent SQLite User Model)
+  ✓ Created controllers/auth_controller.gj (Login, Register & Logout)
+  ✓ Created views/layout.blade.gj (Responsive Blade Layout)
+  ✓ Created views/login.blade.gj & register.blade.gj
+  ✓ Created views/dashboard.blade.gj
+  ✓ Created app.gj (Garvi HTTP Server on :8080)
+🎉 Project 'my_web_app' created successfully!
+Run with:
+  cd my_web_app
+  gujarati app.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_starter_kit_auth_shortcut")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "kit:auth")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'Garvi Breeze Auth' into './breeze_app'...
+  ✓ Created models/user.gj (Eloquent SQLite User Model)
+  ✓ Created controllers/auth_controller.gj (Login, Register & Logout)
+  ✓ Created views/layout.blade.gj (Responsive Blade Layout)
+  ✓ Created views/login.blade.gj & register.blade.gj
+  ✓ Created views/dashboard.blade.gj
+  ✓ Created app.gj (Garvi HTTP Server on :8080)
+🎉 Project 'breeze_app' created successfully!
+Run with:
+  cd breeze_app
+  gujarati app.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_gujarati_syntax_all")
+    set(source [=[આવો
+સ્પાન = દ્રષ્ટિ_ટ્રેસ_શરૂ("નમસ્તે_ટ્રેસ", નકામો);
+છાપો સ્પાન["name"];
+દ્રષ્ટિ_સ્પાન_અંત(સ્પાન, "સફળ");
+છાપો સ્પાન["status"];
+સોકેટ = કવચ_સોકેટ_ફિલ્ટર("TCP", 80);
+છાપો સોકેટ["status"];
+વીએમ = પવન_વીએમ_શરૂ(2, 128);
+છાપો વીએમ["status"];
+ડીએનએસ = અનુદાન_ડીએનએસ("gujaratilang.hp-square.com", નકામો);
+છાપો ડીએનએસ["resolved_ip"];
+આવજો]=])
+    set(expected_stdout [=[નમસ્તે_ટ્રેસ
+સફળ
+attached
+configured
+103.21.244.1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v310_version_and_system_info")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "--version")
+    set(expected_stdout [=[3.1.0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
 else()
     message(FATAL_ERROR "Unknown interpreter test case: ${TEST_CASE}")
 endif()

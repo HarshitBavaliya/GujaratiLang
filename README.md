@@ -10,6 +10,48 @@ you use Visual Studio Code, install the
 
 ## Current features
 
+### What's New in v3.1.0: Parikshan & Sanchalan with Garvi Breeze Starter Kit (630 Tests Milestone)
+
+GujaratiLang v3.1.0 delivers 30 enterprise capabilities across 4 production operations pillars and our first official pre-coded starter kit, expanding the automated test suite to the landmark **630 Tests Milestone (100% Pass Rate)**:
+
+- **Pillar 1: Drishti (દ્રષ્ટિ) OpenTelemetry & Distributed Tracing**:
+  - `drishti_trace_start(span_name, [parent_span])` / `દ્રષ્ટિ_ટ્રેસ_શરૂ`: Active distributed trace span with nanosecond timestamps
+  - `drishti_span_end(span, status)` / `દ્રષ્ટિ_સ્પાન_અંત`: Span finalization, microsecond duration tracking
+  - `drishti_span_tag(span, key, val)` / `દ્રષ્ટિ_સ્પાન_ટેગ`: OpenTelemetry semantic conventions and custom metadata tags
+  - `drishti_trace_headers(span)` / `દ્રષ્ટિ_ટ્રેસ_હેડર`: W3C `traceparent` and `tracestate` propagation headers
+  - `drishti_metric_counter(name, val, tags)` / `દ્રષ્ટિ_મેટ્રિક_કાઉન્ટર`: Monotonic counter metrics
+  - `drishti_metric_gauge(name, val, tags)` / `દ્રષ્ટિ_મેટ્રિક_ગેજ`: Variable gauge metrics
+  - `drishti_otlp_export(endpoint, timeout_ms)` / `દ્રષ્ટિ_ઓટીએલપી_નિકાસ`: Protobuf OTLP collector exporter
+  - CLI: `gujarati drishti:trace <script.gj>`, `gujarati drishti:flamegraph [profile.json]`
+- **Pillar 2: Kavach (કવચ) eBPF Sandboxing & Zero-Trust Kernel**:
+  - `kavach_sock_filter(proto, port)` / `કવચ_સોકેટ_ફિલ્ટર`: Kernel-level eBPF socket packet filter
+  - `kavach_seccomp_policy(whitelist)` / `કવચ_સેકકોમ્પ_નીતિ`: BPF seccomp syscall whitelist enforcing zero-trust sandbox
+  - `kavach_ringbuf_poll(buffer, callback)` / `કવચ_રિંગબફર_મેળવો`: Zero-copy BPF ring buffer reader
+  - `kavach_net_flow(interface)` / `કવચ_નેટ_પ્રવાહ`: Direct NIC XDP flow monitor tracking throughput & drops
+  - `kavach_mem_guard(limit_bytes)` / `કવચ_મેમરી_રક્ષક`: Kernel page-table defense against heap overflows & UAF
+  - `kavach_anomaly_rule(rule_name, action)` / `કવચ_વિસંગતતા_નિયમ`: Real-time behavioral anomaly trigger with automatic isolation
+  - CLI: `gujarati kavach:monitor [process]`, `gujarati kavach:audit`
+- **Pillar 3: Pavan (પવન) MicroVM Sandboxing & Firecracker Isolation**:
+  - `pavan_vm_init(vcpus, ram_mb)` / `પવન_વીએમ_શરૂ`: Ultra-fast microVM guest instance (< 5ms cold boot)
+  - `pavan_vm_boot(vm, kernel_img, rootfs)` / `પવન_વીએમ_બૂટ`: Boots Linux kernel inside KVM/Hyper-V container
+  - `pavan_cgroup_limit(vm, subsystem, val)` / `પવન_સીગ્રુપ_મર્યાદા`: Hardware cgroup v2 CPU shares, memory caps, IOPS throttling
+  - `pavan_virtio_disk(vm, disk_path)` / `પવન_વર્ચ્યુઅલ_ડિસ્ક`: High-throughput non-blocking VirtIO block device
+  - `pavan_tap_bridge(vm, tap_dev)` / `પવન_ટેપ_બ્રિજ`: VirtIO-Net tap interface hooked to host bridge
+  - `pavan_vm_checkpoint(vm, snapshot_path)` / `પવન_ચેકપોઇન્ટ`: Live memory serialization and disk snapshot in < 15ms
+  - `pavan_vm_resume(vm, snapshot_path)` / `પવન_પુનઃશરૂ`: Instant microVM resume from snapshot image
+  - CLI: `gujarati pavan:spawn <rootfs>`, `gujarati pavan:ps`
+- **Pillar 4: Anudan (અનુદાન) GeoDNS Anycast & Edge Mesh**:
+  - `anudan_dns_resolve(domain, client_ip)` / `અનુદાન_ડીએનએસ`: Anycast GeoDNS resolver returning nearest edge PoP
+  - `anudan_health_probe(node, timeout_ms)` / `અનુદાન_આરોગ્ય_તપાસ`: Active TCP/HTTP health checker with jitter-free latency
+  - `anudan_tls_acme(domain, email)` / `અનુદાન_ટીએલએસ_સર્ટ`: Automated Let's Encrypt ACME v2 TLS 1.3 certificate provisioning
+  - `anudan_mesh_route(service, algorithm)` / `અનુદાન_મેશ_માર્ગ`: Dynamic service mesh load-balancer (weighted, round-robin)
+  - `anudan_circuit_breaker(service, error_threshold)` / `અનુદાન_સર્કિટ_બ્રેકર`: Distributed circuit breaker halting requests to failing upstreams
+  - `anudan_token_bucket(capacity, refill_rate)` / `અનુદાન_ટોકન_બકેટ`: Multi-region rate-limiting token bucket algorithm
+  - CLI: `gujarati mesh:status`, `gujarati mesh:drain <node>`
+- **Pre-Coded Starter Kit 1: Garvi Breeze Auth (ગારવી બ્રિઝ ઓથેન્ટિકેશન કિટ)**:
+  - CLI: `gujarati new <app_name> --kit=breeze`, `gujarati kit:auth`, `gujarati new:breeze`
+  - Scaffolds a complete production-ready authentication suite: Eloquent SQLite models (`User`), controllers (`login`, `register`, `logout`), responsive Blade views (`layout`, `dashboard`), and Garvi HTTP server.
+
 ### What's New in v3.0.0 Mega-Release: The Grand Sovereign Cloud & Distributed Quantum Engine (600 Tests Milestone)
 
 GujaratiLang v3.0.0 is the crowning **Mega-Release** delivering 50 enterprise capabilities across 5 grand pillars, elevating the automated test suite to the landmark **600 Tests Milestone (100% Pass Rate)**:

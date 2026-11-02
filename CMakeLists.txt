@@ -612,7 +612,37 @@ if(BUILD_TESTING)
             v300_sovereign_bytecode_verify
             v300_sovereign_mcu_profile
             v300_sovereign_audit_compliance
-            v300_sovereign_lts_cli_kernel)
+            v300_sovereign_lts_cli_kernel
+            v310_drishti_trace_start_end
+            v310_drishti_span_tag
+            v310_drishti_trace_headers
+            v310_drishti_metrics
+            v310_drishti_otlp_export
+            v310_drishti_cli_trace
+            v310_drishti_cli_flamegraph
+            v310_kavach_sock_filter
+            v310_kavach_seccomp_policy
+            v310_kavach_ringbuf_poll
+            v310_kavach_net_flow
+            v310_kavach_mem_guard_anomaly
+            v310_kavach_cli_monitor_audit
+            v310_pavan_vm_init
+            v310_pavan_vm_boot
+            v310_pavan_cgroup_virtio
+            v310_pavan_tap_bridge
+            v310_pavan_checkpoint_resume
+            v310_pavan_cli_spawn
+            v310_pavan_cli_ps
+            v310_anudan_dns_resolve
+            v310_anudan_health_probe
+            v310_anudan_tls_acme
+            v310_anudan_mesh_route_circuit
+            v310_anudan_token_bucket
+            v310_anudan_cli_mesh
+            v310_starter_kit_breeze_cli
+            v310_starter_kit_auth_shortcut
+            v310_gujarati_syntax_all
+            v310_version_and_system_info)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"
