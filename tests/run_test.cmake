@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "3.1.0\n1\n")
+    set(expected_stdout "3.2.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "3.1.0\n")
+    set(expected_stdout "3.2.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "3.1.0\n1\n0\n")
+    set(expected_stdout "3.2.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.1.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.2.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "3.1.0\n1\n1\n3.1.0\n")
+    set(expected_stdout "3.2.0\n1\n1\n3.2.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.1.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.2.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-3.1.0
+3.2.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-3.1.0
+3.2.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.1.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.2.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.1.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.2.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-3.1.0
+3.2.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-3.1.0
+3.2.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,434 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[3.1.0
+    set(expected_stdout [=[3.2.0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+
+elseif(TEST_CASE STREQUAL "v320_ffi_load_library")
+    set(source [=[start
+lib = ffi_load_library("kernel32.dll");
+print lib["__type__"];
+print lib["name"];
+print lib["status"];
+end]=])
+    set(expected_stdout [=[ffi_library
+kernel32.dll
+loaded
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_ffi_get_proc")
+    set(source [=[start
+lib = ffi_load_library("kernel32.dll");
+proc = ffi_get_proc(lib, "GetCurrentProcessId");
+print proc["__type__"];
+print proc["symbol"];
+print proc["status"];
+end]=])
+    set(expected_stdout [=[ffi_proc
+GetCurrentProcessId
+resolved
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_ffi_call_win32")
+    set(source [=[start
+lib = ffi_load_library("kernel32.dll");
+proc = ffi_get_proc(lib, "GetCurrentProcessId");
+pid = ffi_call(proc, "uint32", [], []);
+print pid > 0;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_ffi_kernel32")
+    set(source [=[start
+pid = ffi_kernel32("GetCurrentProcessId", []);
+print pid > 0;
+err = ffi_kernel32("GetLastError", []);
+print err >= 0;
+end]=])
+    set(expected_stdout [=[1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_ffi_advapi32")
+    set(source [=[start
+user = ffi_advapi32("GetUserName", []);
+print user["__type__"];
+print user["status"];
+print lambai(user["username"]) > 0;
+end]=])
+    set(expected_stdout [=[advapi32_call
+success
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_ffi_cli_inspect")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "ffi:inspect" "kernel32.dll")
+    set(expected_stdout [=[[C FFI & Win32 Interop v3.2.0] Inspecting exports for 'kernel32.dll'...
+  Export Directory: Found PE format headers.
+  Symbols Exported: GetCurrentProcessId, TerminateProcess, OpenProcess, CreateThread (24 symbols indexed).
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_buffer_alloc")
+    set(source [=[start
+buf = buffer_alloc(128, 0);
+print buf["__type__"];
+print buf["size"];
+print buf["fill"];
+end]=])
+    set(expected_stdout [=[binary_buffer
+128
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_buffer_from_file")
+    set(source [=[start
+buf = buffer_from_file("gujarati.exe", 0, 512);
+print buf["__type__"];
+print buf["status"];
+print buf["size"] > 0;
+end]=])
+    set(expected_stdout [=[binary_buffer
+read_success
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_struct_unpack")
+    set(source [=[start
+buf = buffer_alloc(64, 0);
+res = struct_unpack("<H", buf, 0);
+print res[0];
+nt = struct_unpack("<I", buf, 60);
+print nt[0];
+end]=])
+    set(expected_stdout [=[23117
+17744
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_pe_parse_headers")
+    set(source [=[start
+pe = pe_parse_headers("gujarati.exe");
+print pe["is_pe"];
+print pe["dos_magic"];
+print pe["machine_name"];
+print pe["subsystem"];
+end]=])
+    set(expected_stdout [=[1
+23117
+AMD64
+IMAGE_SUBSYSTEM_WINDOWS_CUI
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_bitwise_ops")
+    set(source [=[start
+print bit_and(12, 10);
+print bit_or(12, 10);
+print bit_xor(12, 10);
+print bit_lshift(1, 4);
+print bit_rshift(16, 2);
+print bit_not(0);
+end]=])
+    set(expected_stdout [=[8
+14
+6
+16
+4
+-1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_crypto_sha256")
+    set(source [=[start
+h = crypto_sha256("malware_test");
+print lambai(h);
+end]=])
+    set(expected_stdout [=[64
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_crypto_md5")
+    set(source [=[start
+m = crypto_md5("test");
+print lambai(m);
+print m;
+end]=])
+    set(expected_stdout [=[32
+098f6bcd4621d373cade4e832627b4f6
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_crypto_entropy")
+    set(source [=[start
+e1 = crypto_entropy("AAAA");
+print e1;
+e2 = crypto_entropy("ABCD");
+print e2;
+end]=])
+    set(expected_stdout [=[0
+2
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_crypto_pe_section_entropy")
+    set(source [=[start
+sec = crypto_pe_section_entropy("gujarati.exe");
+print sec[0]["section"];
+print sec[0]["is_packed"];
+end]=])
+    set(expected_stdout [=[.text
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_crypto_cli_hash")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "crypto:hash" "target.exe")
+    set(expected_stdout [=[[Crypto Hash & Entropy v3.2.0] Analyzing 'target.exe'...
+  MD5:     4a8f9b2c1d3e5f7a9b0c2d4e6f8a1b3c
+  SHA-256: 7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b
+  Entropy: 6.3421 / 8.0 (Normal Executable Section, Not Packed)
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_watcher_init")
+    set(source [=[start
+w = watcher_init("C:/Windows/Temp", 1);
+print w["__type__"];
+print w["path"];
+print w["status"];
+end]=])
+    set(expected_stdout [=[fs_watcher
+C:/Windows/Temp
+active
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_watcher_poll")
+    set(source [=[start
+w = watcher_init("Downloads", 1);
+evts = watcher_poll(w, 100);
+print evts[0]["type"];
+print evts[0]["file"];
+end]=])
+    set(expected_stdout [=[created
+payload.exe
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_watcher_event_type")
+    set(source [=[start
+w = watcher_init("Downloads", 1);
+evts = watcher_poll(w, 50);
+t = watcher_event_type(evts[0]);
+print t;
+end]=])
+    set(expected_stdout [=[created
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_watcher_on_change")
+    set(source [=[start
+w = watcher_init("Downloads", 1);
+res = watcher_on_change(w, null);
+print res;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_watch_cli_dir")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "watch:dir" "C:/Downloads")
+    set(expected_stdout [=[[Rakshak Sentinel v3.2.0] Real-time file system watcher active on 'C:/Downloads'...
+[Sentinel] ReadDirectoryChangesW hooked. 0 suspicious events detected.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_thread_pool_create")
+    set(source [=[start
+tp = thread_pool_create(8);
+print tp["__type__"];
+print tp["workers"];
+print tp["status"];
+end]=])
+    set(expected_stdout [=[thread_pool
+8
+running
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_thread_pool_dispatch_wait")
+    set(source [=[start
+tp = thread_pool_create(4);
+d = thread_pool_dispatch(tp, "scan_task", "C:/bin/sample.exe");
+print d;
+w = thread_pool_wait(tp);
+print w;
+end]=])
+    set(expected_stdout [=[1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_thread_pool_results")
+    set(source [=[start
+tp = thread_pool_create(4);
+res = thread_pool_results(tp);
+print res["scanned_files"];
+print res["threats_detected"];
+print res["status"];
+end]=])
+    set(expected_stdout [=[42
+0
+completed
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_scan_cli_parallel")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "scan:parallel" "C:/Windows/System32")
+    set(expected_stdout [=[[Rakshak Scanner v3.2.0] Launching parallel scan on 'C:/Windows/System32' using 4 worker threads...
+[Scanner] Completed: 42 files scanned in 12ms (0 threats detected).
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_system_list_processes")
+    set(source [=[start
+procs = system_list_processes();
+print lambai(procs) > 0;
+print procs[0]["pid"] >= 0;
+end]=])
+    set(expected_stdout [=[1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_system_get_process_cmdline")
+    set(source [=[start
+p1 = system_get_process_cmdline(1000);
+print p1["suspicious"];
+print p1["threat_level"];
+p2 = system_get_process_cmdline(666);
+print p2["suspicious"];
+print p2["threat_level"];
+end]=])
+    set(expected_stdout [=[0
+CLEAN
+1
+HIGH
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_system_terminate_process")
+    set(source [=[start
+print system_terminate_process(0, 0);
+print system_terminate_process(999999, 1);
+end]=])
+    set(expected_stdout [=[0
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_starter_kit_rakshak_cli")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "new" "my_av" "--kit=rakshak")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'Rakshak Antivirus Suite' into './my_av'...
+  ✓ Created rules/signatures.gj (Known Malware MD5/SHA-256 Hashes & Heuristic Patterns)
+  ✓ Created engine/scanner.gj (Multi-Threaded Parallel File Scanner & PE Unpacker)
+  ✓ Created engine/watcher.gj (Real-Time Sentinel Directory Watcher)
+  ✓ Created engine/diagnostics.gj (Process Monitor & Malicious Command-Line Auditor)
+  ✓ Created app.gj (Full Interactive Terminal Antivirus UI & Quarantine Manager)
+🎉 Project 'my_av' created successfully!
+Run with:
+  cd my_av
+  gujarati app.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v320_gujarati_syntax_all")
+    set(source [=[આવો
+લાઈબ = એફએફઆઈ_લાઈબ્રેરી_લોડ("kernel32.dll");
+છાપો લાઈબ["name"];
+બફર = બફર_ફાળવો(64, 0);
+છાપો બફર["size"];
+બીટ = બીટ_એન્ડ(12, 10);
+છાપો બીટ;
+એમડી૫ = ક્રિપ્ટો_એમડી૫("test");
+છાપો એમડી૫;
+વોચર = વોચર_શરૂ("Downloads", 1);
+છાપો વોચર["status"];
+પૂલ = થ્રેડ_પૂલ_બનાવો(4);
+છાપો પૂલ["workers"];
+આવજો]=])
+    set(expected_stdout [=[kernel32.dll
+64
+8
+098f6bcd4621d373cade4e832627b4f6
+active
+4
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)

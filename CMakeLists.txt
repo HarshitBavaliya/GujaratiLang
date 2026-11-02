@@ -642,7 +642,37 @@ if(BUILD_TESTING)
             v310_starter_kit_breeze_cli
             v310_starter_kit_auth_shortcut
             v310_gujarati_syntax_all
-            v310_version_and_system_info)
+            v310_version_and_system_info
+            v320_ffi_load_library
+            v320_ffi_get_proc
+            v320_ffi_call_win32
+            v320_ffi_kernel32
+            v320_ffi_advapi32
+            v320_ffi_cli_inspect
+            v320_buffer_alloc
+            v320_buffer_from_file
+            v320_struct_unpack
+            v320_pe_parse_headers
+            v320_bitwise_ops
+            v320_crypto_sha256
+            v320_crypto_md5
+            v320_crypto_entropy
+            v320_crypto_pe_section_entropy
+            v320_crypto_cli_hash
+            v320_watcher_init
+            v320_watcher_poll
+            v320_watcher_event_type
+            v320_watcher_on_change
+            v320_watch_cli_dir
+            v320_thread_pool_create
+            v320_thread_pool_dispatch_wait
+            v320_thread_pool_results
+            v320_scan_cli_parallel
+            v320_system_list_processes
+            v320_system_get_process_cmdline
+            v320_system_terminate_process
+            v320_starter_kit_rakshak_cli
+            v320_gujarati_syntax_all)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

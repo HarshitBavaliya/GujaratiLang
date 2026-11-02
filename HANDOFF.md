@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v3.1.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.1.0) ("The Grand Sovereign Cloud & Distributed Quantum Engine").
+- Latest interpreter release: [GujaratiLang v3.2.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.2.0) ("Rakshak Systems Programming, Win32 FFI & Antivirus Engine").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v3.1.0 (630 automated test suites passing, 100% pass rate).
+  platform before publishing v3.2.0 (660 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,19 +30,34 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (630/630 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (660/660 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v3.1.0: Pravah, Shilp, Vidyut & Yantra (560 Tests Milestone)**.
+Latest commit on origin: **Release v3.2.0: Rakshak Systems Programming, Win32 FFI & Antivirus Engine (660 Tests Milestone)**.
 
 Recent completed work includes:
 
-- Added Pravah (પ્રવાહ) Distributed Streaming & Event Mesh:
-  - `pravah_producer` / `પ્રવાહ_ઉત્પાદક`, `pravah_consumer` / `પ્રવાહ_ગ્રાહક`, `pravah_send` / `પ્રવાહ_મોકલો`, `pravah_poll` / `પ્રવાહ_મેળવો`
-  - `pravah_commit` / `પ્રવાહ_સ્વીકાર`, `pravah_dlq` / `પ્રવાહ_મૃત_પત્ર`, `pravah_window` / `પ્રવાહ_સમય_બારી`
-  - CLI: `gujarati pravah:stream [topic]`, `gujarati pravah:consume [topic]`
+- Added C FFI & Win32 Interop:
+  - `ffi_load_library`, `ffi_get_proc`, `ffi_call`, `ffi_kernel32`, `ffi_advapi32`
+  - CLI: `gujarati ffi:inspect <dll>`
+- Added Raw Binary Buffers & PE/COFF Parsing:
+  - `buffer_alloc`, `buffer_from_file`, `struct_unpack`, `pe_parse_headers`, `bit_and`, `bit_or`, `bit_xor`, `bit_lshift`, `bit_rshift`, `bit_not`
+- Added Native C Crypto & Shannon Entropy:
+  - `crypto_sha256`, `crypto_md5`, `crypto_entropy`, `crypto_pe_section_entropy`
+  - CLI: `gujarati crypto:hash <file>`
+- Added Real-Time File System Sentinel:
+  - `watcher_init`, `watcher_poll`, `watcher_event_type`, `watcher_on_change`
+  - CLI: `gujarati watch:dir <dir>`
+- Added Multi-Threading & Scanner Worker Pool:
+  - `thread_pool_create`, `thread_pool_dispatch`, `thread_pool_wait`, `thread_pool_results`
+  - CLI: `gujarati scan:parallel <dir>`
+- Added Process & System Diagnostics:
+  - `system_list_processes`, `system_get_process_cmdline`, `system_terminate_process`
+  - CLI: `gujarati process:list`, `gujarati process:kill <pid>`
+- Added Rakshak Antivirus Starter Kit:
+  - CLI: `gujarati new <name> --kit=rakshak`, `gujarati kit:rakshak`
 - Added Shilp (શિલ્પ) High-Performance Vector Canvas & Graphics Engine:
   - `shilp_scene` / `શિલ્પ_દ્રશ્ય`, `shilp_draw_path` / `શિલ્પ_માર્ગ`, `shilp_draw_text` / `શિલ્પ_લખાણ`, `shilp_transform` / `શિલ્પ_રૂપાંતરણ`
   - `shilp_gradient` / `શિલ્પ_ઢાળ`, `shilp_export_svg` / `શિલ્પ_નિકાસ_svg`, `shilp_export_png` / `શિલ્પ_નિકાસ_png`

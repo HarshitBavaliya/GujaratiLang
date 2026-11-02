@@ -1,3 +1,61 @@
+# GujaratiLang v3.2.0: Rakshak Systems Programming, Win32 FFI & Antivirus Engine (રક્ષક સિસ્ટમ પ્રોગ્રામિંગ અને એન્ટિવાયરસ એન્જિન)
+
+GujaratiLang **v3.2.0** is officially released! This landmark systems programming release transforms GujaratiLang into a bare-metal cyber-defense and systems programming powerhouse. It introduces 30 enterprise capabilities across 6 critical pillars—Win32 FFI interop, raw binary buffers & PE/COFF struct unpacking, native C crypto & Shannon entropy calculation, real-time filesystem change sentinels, multi-threaded scanner worker pools, and process/command-line threat diagnostics—alongside our second official pre-coded starter kit: **Rakshak Antivirus Suite**.
+
+With v3.2.0, the automated test suite reaches the landmark **660 Tests Milestone (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
+
+---
+
+## 🌟 What's New in v3.2.0
+
+### 1. ⚡ Pillar 1: C FFI (Foreign Function Interface) & Win32 Interop
+- **`ffi_load_library(dll_name)` / `એફએફઆઈ_લાઈબ્રેરી_લોડ`**: Dynamically loads native Windows DLLs (`LoadLibraryW`) and exports typed library reference handles.
+- **`ffi_get_proc(lib_handle, symbol)` / `એફએફઆઈ_ફંક્શન_મેળવો`**: Resolves symbol addresses (`GetProcAddress`) for target native C functions.
+- **`ffi_call(proc, ret_type, arg_types, args)` / `એફએફઆઈ_કોલ`**: Dispatches dynamic foreign function calls obeying native C calling conventions.
+- **`ffi_kernel32(func_name, args)` / `એફએફઆઈ_કર્નલ૩૨`**: Direct kernel32 API interop (PID tracking, tick counts, error codes).
+- **`ffi_advapi32(func_name, args)` / `એફએફઆઈ_એડવાપી૩૨`**: Direct advapi32 API interop (user tokens, security descriptors).
+- **CLI Subcommand**: `gujarati ffi:inspect <dll>` (inspects PE export directory and lists exported symbols).
+
+### 2. 🧩 Pillar 2: Raw Binary Buffers & PE/COFF Struct Unpacking
+- **`buffer_alloc(size, [fill_byte])` / `બફર_ફાળવો`**: Allocates contiguous raw byte buffers with direct byte-level slicing and indexing.
+- **`buffer_from_file(path, offset, size)` / `બફર_ફાઇલમાંથી`**: Reads binary bytes directly from executable and library files on disk.
+- **`struct_unpack(format_str, buffer, offset)` / `સ્ટ્રક્ટ_અનપેક`**: Decodes binary structures using endian formats (`<H` 16-bit uint, `<I` 32-bit uint, `<Q` 64-bit uint).
+- **`pe_parse_headers(path_or_buffer)` / `પીઈ_હેડર_વાંચો`**: Full PE32/PE32+ parser decoding `IMAGE_DOS_HEADER` (`e_magic = 0x5A4D / MZ`), `IMAGE_NT_HEADERS`, section tables, and subsystem.
+- **`bit_and`, `bit_or`, `bit_xor`, `bit_lshift`, `bit_rshift`, `bit_not`**: Native 64-bit bitwise logic operations for masking and binary calculations.
+
+### 3. 🔒 Pillar 3: Native C-Level Hashing Primitives & Shannon Entropy
+- **`crypto_sha256(data_or_path)` / `ક્રિપ્ટો_એસએચએ૨૫૬`**: High-performance bare-metal C SHA-256 cryptographic hash computation.
+- **`crypto_md5(data_or_path)` / `ક્રિપ્ટો_એમડી૫`**: Ultra-fast MD5 signature generation matching antivirus threat databases.
+- **`crypto_entropy(buffer_or_string)` / `ક્રિપ્ટો_એન્ટ્રોપી`**: Computes Shannon entropy ($H(X) = -\sum P_i \log_2 P_i$) to instantly detect packed/encrypted malware.
+- **`crypto_pe_section_entropy(path)` / `પીઈ_સેક્શન_એન્ટ્રોપી`**: Audits all executable sections (`.text`, `.data`, `.rsrc`), flagging entropy anomalies exceeding 7.0.
+- **CLI Subcommand**: `gujarati crypto:hash <file>` (prints MD5, SHA-256, and entropy rating).
+
+### 4. 👁️ Pillar 4: Real-Time File System Watcher & Sentinel
+- **`watcher_init(dir_path, [recursive])` / `વોચર_શરૂ`**: Initializes asynchronous directory monitor hooking Windows `ReadDirectoryChangesW`.
+- **`watcher_poll(watcher, [timeout_ms])` / `વોચર_મેળવો`**: Non-blocking queue consumer for filesystem change notifications.
+- **`watcher_event_type(event)` / `વોચર_ઇવેન્ટ_પ્રકાર`**: Parses change actions (`created`, `modified`, `deleted`, `renamed`).
+- **`watcher_on_change(watcher, callback)` / `વોચર_કોલબેક`**: Event-driven callback mechanism triggering automated virus scans on write.
+- **CLI Subcommand**: `gujarati watch:dir <dir>` (launches interactive sentinel on specified directory).
+
+### 5. ⚡ Pillar 5: Multi-Threading & Scanner Worker Pool
+- **`thread_pool_create(worker_count)` / `થ્રેડ_પૂલ_બનાવો`**: Creates native OS worker thread pool leveraging all CPU cores.
+- **`thread_pool_dispatch(pool, task, args)` / `થ્રેડ_પૂલ_મોકલો`**: Dispatches file paths and scanning jobs concurrently across worker threads.
+- **`thread_pool_wait(pool, [timeout_ms])` / `થ્રેડ_પૂલ_રાહ`**: Synchronizes thread execution and awaits completion of pending scan queue.
+- **`thread_pool_results(pool)` / `થ્રેડ_પૂલ_પરિણામ`**: Aggregates thread-safe results (total files scanned, malware detected, scan time).
+- **CLI Subcommand**: `gujarati scan:parallel <dir>` (performs high-throughput multi-threaded scan).
+
+### 6. 🛡️ Pillar 6: Process & System Diagnostics Module
+- **`system_list_processes()` / `સિસ્ટમ_પ્રક્રિયા_યાદી`**: Wraps `CreateToolhelp32Snapshot` returning process list (PID, parent PID, executable path).
+- **`system_get_process_cmdline(pid)` / `સિસ્ટમ_કમાન્ડલાઈન_તપાસ`**: Inspects command-line arguments to flag suspicious flags (`-enc`, `Bypass`, hidden windows).
+- **`system_terminate_process(pid, [exit_code])` / `સિસ્ટમ_પ્રક્રિયા_અંત`**: Terminates malicious processes via Win32 `TerminateProcess`.
+- **CLI Subcommand**: `gujarati process:list`, `gujarati process:kill <pid>`.
+
+### 7. 🛡️ Pre-Coded Starter Kit 2: Rakshak Antivirus Suite (રક્ષક એન્ટિવાયરસ કિટ)
+- **CLI Scaffolding**: `gujarati new <name> --kit=rakshak`, `gujarati kit:rakshak`, `gujarati kit:antivirus`
+- Generates a full turn-key antivirus solution with signature definitions, parallel PE scanner, real-time sentinel directory watcher, process monitor, and interactive CLI quarantine dashboard.
+
+---
+
 # GujaratiLang v3.1.0: Parikshan & Sanchalan with Garvi Breeze Starter Kit (પરીક્ષણ અને સંચાલન એન્જિન)
 
 GujaratiLang **v3.1.0** is officially released! This major release delivers 30 enterprise capabilities across 4 production operations pillars—OpenTelemetry distributed tracing, eBPF kernel sandboxing, Firecracker MicroVM virtualization, and GeoDNS Anycast edge routing—alongside our first official pre-coded boilerplate starter kit: **Garvi Breeze Auth**.

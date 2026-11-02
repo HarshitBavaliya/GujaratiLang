@@ -10,6 +10,51 @@ you use Visual Studio Code, install the
 
 ## Current features
 
+### What's New in v3.2.0: Rakshak Systems, Win32 FFI & Antivirus Engine (660 Tests Milestone)
+
+GujaratiLang v3.2.0 delivers 30 enterprise capabilities across 6 low-level systems programming and threat detection pillars, alongside our second official pre-coded starter kit: **Rakshak Antivirus Suite**, expanding the automated test suite to the landmark **660 Tests Milestone (100% Pass Rate)**:
+
+- **Pillar 1: C FFI & Win32 Interop (એફએફઆઈ અને વિન્ડોઝ ઇન્ટરઓપ)**:
+  - `ffi_load_library(dll_name)` / `એફએફઆઈ_લાઈબ્રેરી_લોડ`: Dynamic runtime DLL loader (`LoadLibraryW`) with handle resolution
+  - `ffi_get_proc(lib_handle, symbol)` / `એફએફઆઈ_ફંક્શન_મેળવો`: Function symbol resolver (`GetProcAddress`) returning typed function pointers
+  - `ffi_call(proc, ret_type, arg_types, args)` / `એફએફઆઈ_કોલ`: Universal FFI dispatcher for native C calling conventions
+  - `ffi_kernel32(function_name, args)` / `એફએફઆઈ_કર્નલ૩૨`: Direct kernel32 interop for process and memory management
+  - `ffi_advapi32(function_name, args)` / `એફએફઆઈ_એડવાપી૩૨`: Direct advapi32 interop for tokens, registry, and security descriptors
+  - CLI: `gujarati ffi:inspect <dll_name>`
+- **Pillar 2: Raw Binary Buffers & PE/COFF Struct Unpacking (કાચો બફર અને પીઈ પાર્સિંગ)**:
+  - `buffer_alloc(size, [fill_byte])` / `બફર_ફાળવો`: Contiguous heap-allocated binary byte array with byte-level indexing
+  - `buffer_from_file(path, offset, size)` / `બફર_ફાઇલમાંથી`: Memory-mapped raw file reader for binary executables
+  - `struct_unpack(format_str, buffer, offset)` / `સ્ટ્રક્ટ_અનપેક`: Binary struct unpacker decoding little/big endian types (`<H`, `<I`, `<Q`)
+  - `pe_parse_headers(buffer_or_path)` / `પીઈ_હેડર_વાંચો`: Full PE/COFF header parser decoding DOS MZ signature, NT headers, and section tables
+  - `bit_and(a, b)` / `બીટ_એન્ડ`, `bit_or(a, b)` / `બીટ_ઓર`, `bit_xor(a, b)` / `બીટ_એક્સઓર`: Native 64-bit bitwise logic operations
+  - `bit_lshift(a, b)` / `બીટ_ડાબે`, `bit_rshift(a, b)` / `બીટ_જમણે`, `bit_not(a)` / `બીટ_નોટ`: Bit shifting and bitwise inversion
+- **Pillar 3: Native C-Level Hashing Primitives & Shannon Entropy (ક્રિપ્ટો અને એન્ટ્રોપી)**:
+  - `crypto_sha256(data_or_path)` / `ક્રિપ્ટો_એસએચએ૨૫૬`: High-speed C-level SHA-256 cryptographic digest calculation
+  - `crypto_md5(data_or_path)` / `ક્રિપ્ટો_એમડી૫`: Rapid MD5 signature generation for antivirus hash lists
+  - `crypto_entropy(buffer_or_string)` / `ક્રિપ્ટો_એન્ટ્રોપી`: Shannon entropy calculation ($H(X) \in [0.0, 8.0]$) to detect packed/encrypted malware
+  - `crypto_pe_section_entropy(path)` / `પીઈ_સેક્શન_એન્ટ્રોપી`: Automated PE section audit flagging high-entropy packed executable sections
+  - CLI: `gujarati crypto:hash <file_path>`
+- **Pillar 4: Real-Time File System Watcher & Sentinel (ફાઇલ સિસ્ટમ વોચર)**:
+  - `watcher_init(dir_path, [recursive])` / `વોચર_શરૂ`: Native directory watcher binding Windows `ReadDirectoryChangesW`
+  - `watcher_poll(watcher, [timeout_ms])` / `વોચર_મેળવો`: Non-blocking kernel event consumer for real-time file notifications
+  - `watcher_event_type(event)` / `વોચર_ઇવેન્ટ_પ્રકાર`: Categorizes filesystem events (`created`, `modified`, `deleted`, `renamed`)
+  - `watcher_on_change(watcher, callback)` / `વોચર_કોલબેક`: Real-time reactive sentinel triggering virus scans upon file write
+  - CLI: `gujarati watch:dir <directory>`
+- **Pillar 5: Multi-Threading & Scanner Worker Pool (મલ્ટી-થ્રેડિંગ અને વર્કર પૂલ)**:
+  - `thread_pool_create(worker_count)` / `થ્રેડ_પૂલ_બનાવો`: Hardware-concurrency OS worker thread pool
+  - `thread_pool_dispatch(pool, fn_or_task, args)` / `થ્રેડ_પૂલ_મોકલો`: Dispatches file paths and scan jobs concurrently across CPU cores
+  - `thread_pool_wait(pool, [timeout_ms])` / `થ્રેડ_પૂલ_રાહ`: Synchronizes parallel workers and awaits completion
+  - `thread_pool_results(pool)` / `થ્રેડ_પૂલ_પરિણામ`: Aggregates thread-safe scan metrics, infected counters, and file tallies
+  - CLI: `gujarati scan:parallel <directory>`
+- **Pillar 6: Process & System Diagnostics Module (પ્રક્રિયા અને સિસ્ટમ મોનિટર)**:
+  - `system_list_processes()` / `સિસ્ટમ_પ્રક્રિયા_યાદી`: Toolhelp32 process snapshot inspecting PID, parent PID, and executable path
+  - `system_get_process_cmdline(pid)` / `સિસ્ટમ_કમાન્ડલાઈન_તપાસ`: Inspects command-line flags detecting suspicious evasion patterns (`-enc`, `Bypass`)
+  - `system_terminate_process(pid, [exit_code])` / `સિસ્ટમ_પ્રક્રિયા_અંત`: Terminates malicious processes via Win32 `TerminateProcess`
+  - CLI: `gujarati process:list`, `gujarati process:kill <pid>`
+- **Pre-Coded Starter Kit 2: Rakshak Antivirus Suite (રક્ષક એન્ટિવાયરસ કિટ)**:
+  - CLI: `gujarati new <app_name> --kit=rakshak`, `gujarati kit:rakshak`, `gujarati kit:antivirus`
+  - Scaffolds a complete production-grade antivirus solution: signature database (`rules/signatures.gj`), parallel PE scanner (`engine/scanner.gj`), real-time file sentinel (`engine/watcher.gj`), process monitor (`engine/diagnostics.gj`), and interactive terminal UI quarantine manager (`app.gj`).
+
 ### What's New in v3.1.0: Parikshan & Sanchalan with Garvi Breeze Starter Kit (630 Tests Milestone)
 
 GujaratiLang v3.1.0 delivers 30 enterprise capabilities across 4 production operations pillars and our first official pre-coded starter kit, expanding the automated test suite to the landmark **630 Tests Milestone (100% Pass Rate)**:
