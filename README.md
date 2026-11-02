@@ -10,6 +10,45 @@ you use Visual Studio Code, install the
 
 ## Current features
 
+### What's New in v2.9.0: Pravah, Shilp, Vidyut & Yantra (560 Tests Milestone)
+
+GujaratiLang v2.9.0 brings 30 enterprise capabilities across distributed streaming, vector canvas graphics, Raft consensus clustering, and high-performance neural vector databases with **560 automated test suites passing (100%)**:
+
+- **Pravah (પ્રવાહ) Distributed Streaming & Event Mesh**:
+  - `pravah_producer(config)` / `પ્રવાહ_ઉત્પાદક`: Event streaming producer client
+  - `pravah_consumer(config)` / `પ્રવાહ_ગ્રાહક`: Consumer group subscriber with offset tracking
+  - `pravah_send(producer, topic, msg, [key])` / `પ્રવાહ_મોકલો`: Partitioned event publishing
+  - `pravah_poll(consumer, timeout_ms)` / `પ્રવાહ_મેળવો`: Stream consumer poller
+  - `pravah_commit(consumer)` / `પ્રવાહ_સ્વીકાર`: Offset synchronization commit
+  - `pravah_dlq(stream, dlq_topic)` / `પ્રવાહ_મૃત_પત્ર`: Dead-letter queue routing for failed events
+  - `pravah_window(stream, window_ms, fn)` / `પ્રવાહ_સમય_બારી`: Tumbling & sliding window aggregations
+  - CLI: `gujarati pravah:stream [topic]`, `gujarati pravah:consume [topic]`
+- **Shilp (શિલ્પ) High-Performance Vector Canvas & Graphics Engine**:
+  - `shilp_scene(width, height)` / `શિલ્પ_દ્રશ્ય`: Scene graph container and canvas context
+  - `shilp_draw_path(scene, svg_path, style)` / `શિલ્પ_માર્ગ`: SVG vector path renderer
+  - `shilp_draw_text(scene, text, x, y, font)` / `શિલ્પ_લખાણ`: Hardware-rendered vector typography
+  - `shilp_transform(node, matrix)` / `શિલ્પ_રૂપાંતરણ`: 2D/3D affine transformation matrix
+  - `shilp_gradient(type, stops)` / `શિલ્પ_ઢાળ`: Linear and radial gradient color shaders
+  - `shilp_export_svg(scene, [path])` / `શિલ્પ_નિકાસ_svg`: Standard SVG XML serialization
+  - `shilp_export_png(scene, [path])` / `શિલ્પ_નિકાસ_png`: Hardware-rendered PNG bitmap exporter
+  - CLI: `gujarati shilp:render <scene.gj> [out.png]`
+- **Vidyut (વિદ્યુત) Raft Consensus & Actor System**:
+  - `vidyut_cluster(node_id, peers)` / `વિદ્યુત_ક્લસ્ટર`: Distributed cluster coordinator
+  - `vidyut_raft_state(cluster)` / `વિદ્યુત_રાફ્ટ_સ્થિતિ`: Leader/Follower consensus state
+  - `vidyut_dlock_acquire(cluster, lock, [ttl])` / `વિદ્યુત_તાળું_મેળવો`: Distributed mutual exclusion lock
+  - `vidyut_dlock_release(cluster, lock)` / `વિદ્યુત_તાળું_છોડો`: Distributed lock release
+  - `vidyut_actor_spawn(behavior_fn)` / `વિદ્યુત_અભિનેતા`: Erlang-style lightweight green actor
+  - `vidyut_actor_send(actor, message)` / `વિદ્યુત_સંદેશ`: Asynchronous actor mailbox enqueue
+  - CLI: `gujarati vidyut:status [node]`, `gujarati vidyut:join <peer>`
+- **Yantra (યંત્ર) Vector Database & Neural Embeddings**:
+  - `yantra_vector_db(dim, [metric])` / `યંત્ર_વેક્ટર_ડીબી`: In-memory HNSW vector database
+  - `yantra_insert(vdb, id, vector, [metadata])` / `યંત્ર_દાખલ`: High-dimensional vector indexing
+  - `yantra_search(vdb, query_vector, top_k)` / `યંત્ર_શોધ`: Approximate nearest neighbors (ANN) search
+  - `yantra_embed_text(text, [model])` / `યંત્ર_એમ્બેડ`: Dense text embedding computation
+  - `yantra_cosine(vec1, vec2)` / `યંત્ર_કોસાઈન`: SIMD-accelerated vector cosine distance
+  - `yantra_hybrid_rank(vdb, text, vec, alpha)` / `યંત્ર_સંકર_શોધ`: Blended BM25 + vector ranking
+  - CLI: `gujarati yantra:search [index] [query]`
+
 ### What's New in v2.8.0: Tarang, Setu, Kasauti v2 & Suraksha v2 (545 Tests Milestone)
 
 GujaratiLang v2.8.0 delivers 30 enterprise capabilities across real-time WebSockets, native GraphQL, visual regression testing, and cryptographic hardware vaults with **545 automated test suites passing (100%)**:

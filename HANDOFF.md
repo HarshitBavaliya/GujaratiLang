@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v2.8.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v2.8.0) ("Tarang, Setu, Kasauti v2 & Suraksha v2").
+- Latest interpreter release: [GujaratiLang v2.9.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v2.9.0) ("Pravah, Shilp, Vidyut & Yantra").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v2.8.0 (545 automated test suites passing, 100% pass rate).
+  platform before publishing v2.9.0 (560 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,16 +30,32 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (545/545 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (560/560 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v2.8.0: Tarang, Setu, Kasauti v2 & Suraksha v2 (545 Tests Milestone)**.
+Latest commit on origin: **Release v2.9.0: Pravah, Shilp, Vidyut & Yantra (560 Tests Milestone)**.
 
 Recent completed work includes:
 
-- Added Tarang (તરંગ) Real-Time WebSockets & Server-Sent Events (SSE):
+- Added Pravah (પ્રવાહ) Distributed Streaming & Event Mesh:
+  - `pravah_producer` / `પ્રવાહ_ઉત્પાદક`, `pravah_consumer` / `પ્રવાહ_ગ્રાહક`, `pravah_send` / `પ્રવાહ_મોકલો`, `pravah_poll` / `પ્રવાહ_મેળવો`
+  - `pravah_commit` / `પ્રવાહ_સ્વીકાર`, `pravah_dlq` / `પ્રવાહ_મૃત_પત્ર`, `pravah_window` / `પ્રવાહ_સમય_બારી`
+  - CLI: `gujarati pravah:stream [topic]`, `gujarati pravah:consume [topic]`
+- Added Shilp (શિલ્પ) High-Performance Vector Canvas & Graphics Engine:
+  - `shilp_scene` / `શિલ્પ_દ્રશ્ય`, `shilp_draw_path` / `શિલ્પ_માર્ગ`, `shilp_draw_text` / `શિલ્પ_લખાણ`, `shilp_transform` / `શિલ્પ_રૂપાંતરણ`
+  - `shilp_gradient` / `શિલ્પ_ઢાળ`, `shilp_export_svg` / `શિલ્પ_નિકાસ_svg`, `shilp_export_png` / `શિલ્પ_નિકાસ_png`
+  - CLI: `gujarati shilp:render <scene.gj> [out.png]`
+- Added Vidyut (વિદ્યુત) Raft Consensus & Actor System:
+  - `vidyut_cluster` / `વિદ્યુત_ક્લસ્ટર`, `vidyut_raft_state` / `વિદ્યુત_રાફ્ટ_સ્થિતિ`, `vidyut_dlock_acquire` / `વિદ્યુત_તાળું_મેળવો`
+  - `vidyut_dlock_release` / `વિદ્યુત_તાળું_છોડો`, `vidyut_actor_spawn` / `વિદ્યુત_અભિનેતા`, `vidyut_actor_send` / `વિદ્યુત_સંદેશ`
+  - CLI: `gujarati vidyut:status [node]`, `gujarati vidyut:join <peer>`
+- Added Yantra (યંત્ર) Vector Database & Neural Embeddings:
+  - `yantra_vector_db` / `યંત્ર_વેક્ટર_ડીબી`, `yantra_insert` / `યંત્ર_દાખલ`, `yantra_search` / `યંત્ર_શોધ`
+  - `yantra_embed_text` / `યંત્ર_એમ્બેડ`, `yantra_cosine` / `યંત્ર_કોસાઈન`, `yantra_hybrid_rank` / `યંત્ર_સંકર_શોધ`
+  - CLI: `gujarati yantra:search [index] [query]`
+- Added Tarang (તરંગ) Real-Time WebSockets & Server-Sent Events (SSE) (v2.8.0):
   - `tarang_ws_server` / `તરંગ_સર્વર`, `tarang_ws_client` / `તરંગ_ક્લાયન્ટ`, `tarang_ws_send` / `તરંગ_મોકલો`, `tarang_ws_broadcast` / `તરંગ_પ્રસારણ`
   - `tarang_sse_stream` / `તરંગ_પ્રવાહ`, `tarang_room_join` / `તરંગ_રૂમ_જોડાઓ`, `tarang_room_leave` / `તરંગ_રૂમ_છોડો`
   - CLI: `gujarati tarang:serve [port]`

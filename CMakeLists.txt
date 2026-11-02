@@ -557,7 +557,22 @@ if(BUILD_TESTING)
             v280_kasauti_v2_network_mock
             v280_kasauti_v2_device_emulate
             v280_suraksha_v2_oauth_rbac
-            v280_suraksha_v2_vault_crypto)
+            v280_suraksha_v2_vault_crypto
+            v290_pravah_producer_send
+            v290_pravah_consumer_poll
+            v290_pravah_commit_dlq
+            v290_pravah_window_stream
+            v290_pravah_cli_stream
+            v290_shilp_scene_creation
+            v290_shilp_draw_path_text
+            v290_shilp_export_svg_png
+            v290_shilp_cli_render
+            v290_vidyut_cluster_raft
+            v290_vidyut_dlock
+            v290_vidyut_actor_system
+            v290_yantra_vdb_insert
+            v290_yantra_search_embed
+            v290_yantra_hybrid_cli)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

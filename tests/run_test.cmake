@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "2.8.0\n1\n")
+    set(expected_stdout "2.9.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "2.8.0\n")
+    set(expected_stdout "2.9.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "2.8.0\n1\n0\n")
+    set(expected_stdout "2.9.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.8.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n2.9.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "2.8.0\n1\n1\n2.8.0\n")
+    set(expected_stdout "2.9.0\n1\n1\n2.9.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.8.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n2.9.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-2.8.0
+2.9.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-2.8.0
+2.9.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n2.8.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n2.9.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n2.8.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n2.9.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-2.8.0
+2.9.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-2.8.0
+2.9.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -6847,6 +6847,227 @@ end
     set(expected_stdout "vault:v2:7f8a9b1c2d3e4f5a6b7c8d9e0f1a2b3c
 decrypted_secret_data
 gj_sec_live_98a7b6c5d4e3f2a1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_pravah_producer_send")
+    set(source [=[
+start
+p = pravah_producer({});
+print p["broker"];
+print p["status"];
+print p["engine"];
+print pravah_send(p, "events", "payload_1", "key_1");
+end
+]=])
+    set(expected_stdout "pravah://stream.mesh:9092
+connected
+Pravah Stream Mesh v2.9.0
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_pravah_consumer_poll")
+    set(source [=[
+start
+c = pravah_consumer({"group": "indexer-group"});
+print c["group"];
+print c["status"];
+msg = pravah_poll(c, 100);
+print msg["topic"];
+print msg["value"];
+end
+]=])
+    set(expected_stdout "indexer-group
+active
+events
+pravah_event_payload
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_pravah_commit_dlq")
+    set(source [=[
+start
+c = pravah_consumer({});
+print pravah_commit(c);
+print c["offset"];
+print pravah_dlq("stream_1", "poison_pill_dlq");
+end
+]=])
+    set(expected_stdout "1
+1043
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_pravah_window_stream")
+    set(source [=[
+start
+res = pravah_window("telemetry_stream", 5000, "tumbling_sum");
+print res;
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_pravah_cli_stream")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "pravah:stream" "sensors")
+    set(expected_stdout "[Pravah v2.9.0] Streaming live message flow on topic 'sensors'...
+[Pravah Status] Cluster mesh active. 1000 events/sec ingested.
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_shilp_scene_creation")
+    set(source [=[
+start
+scene = shilp_scene(1024, 768);
+print scene["width"];
+print scene["height"];
+print scene["engine"];
+end
+]=])
+    set(expected_stdout "1024
+768
+Shilp Vector Canvas v2.9.0
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_shilp_draw_path_text")
+    set(source [=[
+start
+scene = shilp_scene(800, 600);
+print shilp_draw_path(scene, "M 0 0 L 100 100", {"stroke": "#333"});
+print shilp_draw_text(scene, "Hello Shilp", 50, 50, {"size": 24});
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_shilp_export_svg_png")
+    set(source [=[
+start
+scene = shilp_scene(800, 600);
+svg = shilp_export_svg(scene);
+print svg;
+png = shilp_export_png(scene, "ui_mockup.png");
+print png;
+end
+]=])
+    set(expected_stdout [=[<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><rect width="100%" height="100%" fill="#ffffff"/></svg>
+ui_mockup.png
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_shilp_cli_render")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "shilp:render" "layout.gj" "preview.png")
+    set(expected_stdout "[Shilp v2.9.0] Compiling scene from 'layout.gj' to high-resolution bitmap 'preview.png'...
+[Shilp Output] Render completed: 1920x1080 60FPS. Anti-aliasing active.
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_vidyut_cluster_raft")
+    set(source [=[
+start
+clust = vidyut_cluster("leader_node", ["peer_1", "peer_2"]);
+print clust["role"];
+st = vidyut_raft_state(clust);
+print st["role"];
+print st["term"];
+print st["leader_id"];
+end
+]=])
+    set(expected_stdout "Leader
+Leader
+1
+node-1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_vidyut_dlock")
+    set(source [=[
+start
+clust = vidyut_cluster("node-1", []);
+print vidyut_dlock_acquire(clust, "order_seq_lock", 1000);
+print vidyut_dlock_release(clust, "order_seq_lock");
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_vidyut_actor_system")
+    set(source [=[
+start
+act = vidyut_actor_spawn(null);
+print act["status"];
+print vidyut_actor_send(act, {"type": "ping"});
+end
+]=])
+    set(expected_stdout "running
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_yantra_vdb_insert")
+    set(source [=[
+start
+vdb = yantra_vector_db(64, "cosine");
+print vdb["dimension"];
+print vdb["metric"];
+print vdb["engine"];
+print yantra_insert(vdb, "item_1", [0.1, 0.2, 0.3], {"label": "docs"});
+print vdb["size"];
+end
+]=])
+    set(expected_stdout "64
+cosine
+Yantra Vector DB v2.9.0
+1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_yantra_search_embed")
+    set(source [=[
+start
+vdb = yantra_vector_db(4, "cosine");
+emb = yantra_embed_text("gujarati machine learning");
+hits = yantra_search(vdb, emb, 1);
+print hits[0]["id"];
+print hits[0]["score"];
+print yantra_cosine([1, 0], [1, 0]);
+end
+]=])
+    set(expected_stdout "doc_101
+0.985
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v290_yantra_hybrid_cli")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "yantra:search" "knowledge_base" "neural indexing")
+    set(expected_stdout "[Yantra v2.9.0] Searching index 'knowledge_base' for 'neural indexing'...
+  1. doc_101: Score 0.985 | GujaratiLang Distributed Architecture
+  2. doc_102: Score 0.941 | Raft Consensus & Actor Protocols
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)

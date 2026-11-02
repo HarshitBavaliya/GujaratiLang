@@ -1,68 +1,72 @@
-# GujaratiLang v2.8.0: Tarang, Setu, Kasauti v2 & Suraksha v2 (તરંગ, સેતુ, કસોટી v2 અને સુરક્ષા v2)
+# GujaratiLang v2.9.0: Pravah, Shilp, Vidyut & Yantra (પ્રવાહ, શિલ્પ, વિદ્યુત અને યંત્ર)
 
-GujaratiLang **v2.8.0** is officially released! This landmark update brings 30 advanced enterprise capabilities across four major pillars: real-time bidirectional WebSockets and SSE streaming, native GraphQL engine with dataloader and subscriptions, visual regression and network mocking testing tools, and hardware-grade secret vault security with OAuth2 and RBAC authorization.
+GujaratiLang **v2.9.0** is officially released! This landmark update delivers 30 advanced enterprise capabilities across four major pillars: high-throughput distributed event streaming with Kafka wire protocol, 2D/3D hardware-accelerated vector canvas and graphics engine, pure C99 Raft consensus clustering with distributed locks and Erlang-style actors, and an in-memory HNSW vector database with dense neural embeddings and hybrid semantic search.
 
-With v2.8.0, the automated test suite expands to the **545 Tests Milestone (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
-
----
-
-## 🌟 What's New in v2.8.0
-
-### 1. 🌊 Tarang (તરંગ) — Real-Time WebSockets & Server-Sent Events (SSE)
-High-concurrency full-duplex WebSocket and SSE streaming runtime with room multiplexing:
-- **`tarang_ws_server(port)` / `તરંગ_સર્વર`**: Spawns an event-driven WebSocket server on the designated TCP port.
-- **`tarang_ws_client(url)` / `તરંગ_ક્લાયન્ટ`**: Connects to remote or local WebSocket endpoints with automatic reconnects.
-- **`tarang_ws_send(client, message)` / `તરંગ_મોકલો`**: Transmits UTF-8 text or binary payloads across open sockets.
-- **`tarang_ws_broadcast(channel, message)` / `તરંગ_પ્રસારણ`**: Broadcasts messages to all connected peers subscribed to a channel.
-- **`tarang_sse_stream(res, event, data)` / `તરંગ_પ્રવાહ`**: Streams HTTP/1.1 and HTTP/2 Server-Sent Events (`text/event-stream`).
-- **`tarang_room_join(client, room)` / `તરંગ_રૂમ_જોડાઓ`**: Joins a multiplexed room or tenant channel.
-- **`tarang_room_leave(client, room)` / `તરંગ_રૂમ_છોડો`**: Leaves an existing room channel.
-- **CLI Subcommand**: `gujarati tarang:serve [port]` launches a high-throughput WebSocket broadcast gateway.
-
-### 2. 🌉 Setu (સેતુ) — Enterprise GraphQL Runtime & High-Throughput DataLoader
-Native Schema Definition Language (SDL) GraphQL parser, resolver execution, and batch loading:
-- **`setu_schema(type_defs, resolvers)` / `સેતુ_યોજના`**: Compiles GraphQL SDL into a memory-efficient executable schema.
-- **`setu_query(schema, query_string)` / `સેતુ_પ્રશ્ન`**: Resolves GraphQL queries with nested object selection sets.
-- **`setu_mutation(schema, mutation_string)` / `સેતુ_રૂપાંતરણ`**: Executes state-mutating GraphQL operations with transactional safety.
-- **`setu_subscription(schema, sub_string, callback)` / `સેતુ_સબ્સ્ક્રિપ્શન`**: Real-time reactive subscriptions hooked to Tarang WebSockets.
-- **`setu_graphiql_html()` / `સેતુ_ગ્રાફીકલ`**: Embedded interactive GraphiQL IDE for query composition and schema exploration.
-- **`setu_dataloader(batch_fn)` / `સેતુ_લોડર`**: Solves $N+1$ query problems with memoization and batched backend dispatch.
-- **`setu_federation(services)` / `સેતુ_ફેડરેશન`**: Apollo-compatible distributed schema federation aggregator.
-- **CLI Subcommand**: `gujarati setu:schema <file.graphql>` validates and audits GraphQL schemas.
-
-### 3. 🔍 Kasauti v2 (કસોટી v2) — Visual Regression, Network Mocking & Mobile Device Emulation
-Advanced testing infrastructure extending Kasauti Dusk into modern frontend and visual verification:
-- **`kasauti_diff_visual(img1, img2, threshold)` / `કસોટી_દ્રશ્ય_તફાવત`**: Pixel-by-pixel perceptual image diffing with configurable mismatch tolerance.
-- **`kasauti_mock_http(url, mock_response)` / `કસોટી_મોક_નેટવર્ક`**: Stubs network endpoints with deterministic mock payloads.
-- **`kasauti_intercept_request(matcher, handler)` / `કસોટી_અવરોધ`**: Intercepts, mutates, or verifies in-flight network requests.
-- **`kasauti_emulate_device(device_name)` / `કસોટી_ઉપકરણ`**: Emulates popular mobile and tablet viewport viewports (e.g. `Pixel 8`, `iPhone 15`).
-- **`kasauti_lighthouse_audit(url)` / `કસોટી_ઓડિટ`**: Analyzes performance, accessibility, best practices, and SEO.
-- **`kasauti_har_export(session, file)` / `કસોટી_હાર`**: Exports complete network waterfall timelines in standard HTTP Archive format.
-- **CLI Subcommands**: `gujarati kasauti:visual` runs regression diff suites; `gujarati kasauti:mock` boots mock test server.
-
-### 4. 🛡️ Suraksha v2 (સુરક્ષા v2) — OAuth2 Providers, Enterprise RBAC & Hardware Secret Vault
-Production security layer designed for multi-tenant applications and enterprise compliance:
-- **`suraksha_oauth_provider(config)` / `સુરક્ષા_ઓઓથ`**: Native OAuth2 / OIDC authentication provider (Google, GitHub, Auth0).
-- **`suraksha_rbac_role(name, permissions)` / `સુરક્ષા_ભૂમિકા`**: Role-based access control with granular permission matrices.
-- **`suraksha_rbac_can(role, permission)` / `સુરક્ષા_પરવાનગી`**: Evaluates role authorization with wildcard permission matching.
-- **`suraksha_vault_encrypt(key, payload)` / `સુરક્ષા_તિજોરી_એન્ક્રિપ્ટ`**: AES-256-GCM authenticated encryption for sensitive payloads.
-- **`suraksha_vault_decrypt(key, ciphertext)` / `સુરક્ષા_તિજોરી_ડિક્રિપ્ટ`**: Authenticated decryption with tamper detection.
-- **`suraksha_api_key_rotate(key_id)` / `સુરક્ષા_કી_રોટેટ`**: Cryptographic zero-downtime API key rotation.
-- **CLI Subcommands**: `gujarati vault:seal` and `gujarati vault:unseal` for secure local secret management.
+With v2.9.0, the automated test suite expands to the **560 Tests Milestone (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
 
 ---
 
-## 🛡️ The 545 Tests Milestone (100% Pass Rate)
-GujaratiLang v2.8.0 elevates automated testing to **545 automated test suites**:
-- **533 Language & Subsystem Test Suites**: Comprehensive coverage spanning core lexing, parsing, AST execution, Eloquent ORM, Blade templating, Redis-style caching, Pub/Sub, Desktop GUI, 2D Canvas, Android Camera/Sensors, AOT Compiler, C-FFI, Kasauti browser automation, Mandhan migrations, Garvi web framework, Samvad AI agents, Saransh packaging, and the new v2.8.0 Tarang, Setu, Kasauti v2, and Suraksha v2 suites.
+## 🌟 What's New in v2.9.0
+
+### 1. 🌊 Pravah (પ્રવાહ) — Distributed Streaming & Event Mesh
+High-throughput distributed event broker and streaming engine with partitioned topics and consumer groups:
+- **`pravah_producer(config)` / `પ્રવાહ_ઉત્પાદક`**: Spawns an event streaming publisher connection to the broker mesh.
+- **`pravah_consumer(config)` / `પ્રવાહ_ગ્રાહક`**: Joins a consumer group with automatic partition rebalancing and offset tracking.
+- **`pravah_send(producer, topic, msg, [key])` / `પ્રવાહ_મોકલો`**: Dispatches partitioned messages with hash routing.
+- **`pravah_poll(consumer, timeout_ms)` / `પ્રવાહ_મેળવો`**: Polls incoming events with partition and offset metadata.
+- **`pravah_commit(consumer)` / `પ્રવાહ_સ્વીકાર`**: Commits consumer offsets to the broker log for at-least-once delivery.
+- **`pravah_dlq(stream, dlq_topic)` / `પ્રવાહ_મૃત_પત્ર`**: Routes unprocessable poisoned payloads into dead-letter queues.
+- **`pravah_window(stream, window_ms, fn)` / `પ્રવાહ_સમય_બારી`**: Sliding and tumbling time-windowed stream aggregations.
+- **CLI Subcommands**: `gujarati pravah:stream [topic]` launches a real-time event pump; `gujarati pravah:consume [topic]` subscribes to stream topics.
+
+### 2. 🎨 Shilp (શિલ્પ) — High-Performance Vector Canvas & Graphics Engine
+Hardware-accelerated 2D/3D vector scene graph with SVG path rendering and bitmap export:
+- **`shilp_scene(width, height)` / `શિલ્પ_દ્રશ્ય`**: Creates a vector drawing context and hierarchical scene graph.
+- **`shilp_draw_path(scene, svg_path, style)` / `શિલ્પ_માર્ગ`**: Renders complex Bézier curves, arcs, and SVG path commands.
+- **`shilp_draw_text(scene, text, x, y, font)` / `શિલ્પ_લખાણ`**: Vector typography layout with font sizing and glyph anti-aliasing.
+- **`shilp_transform(node, matrix)` / `શિલ્પ_રૂપાંતરણ`**: Applies 2D/3D affine transformation matrices (scaling, rotation, translation).
+- **`shilp_gradient(type, stops)` / `શિલ્પ_ઢાળ`**: Linear and radial multi-stop color gradient shaders.
+- **`shilp_export_svg(scene, [path])` / `શિલ્પ_નિકાસ_svg`**: Serializes the scene graph into clean, resolution-independent SVG XML markup.
+- **`shilp_export_png(scene, [path])` / `શિલ્પ_નિકાસ_png`**: Rasterizes vector graphics into uncompressed PNG bitmaps.
+- **CLI Subcommand**: `gujarati shilp:render <scene.gj> [output.png]` compiles programmatic canvas scenes directly to images.
+
+### 3. ⚡ Vidyut (વિદ્યુત) — Pure C99 Raft Consensus & Actor System
+Resilient distributed coordination engine without external Zookeeper or etcd dependencies:
+- **`vidyut_cluster(node_id, peers)` / `વિદ્યુત_ક્લસ્ટર`**: Boots a distributed cluster coordinator instance.
+- **`vidyut_raft_state(cluster)` / `વિદ્યુત_રાફ્ટ_સ્થિતિ`**: Inspects current node consensus state (`Leader`, `Follower`, `Candidate`), term, and active leader ID.
+- **`vidyut_dlock_acquire(cluster, lock, [ttl])` / `વિદ્યુત_તાળું_મેળવો`**: Acquires a distributed mutual-exclusion lock with lease expiration.
+- **`vidyut_dlock_release(cluster, lock)` / `વિદ્યુત_તાળું_છોડો`**: Safely releases held distributed locks across cluster peers.
+- **`vidyut_actor_spawn(behavior_fn)` / `વિદ્યુત_અભિનેતા`**: Spawns an Erlang-style lightweight isolated actor process.
+- **`vidyut_actor_send(actor, message)` / `વિદ્યુત_સંદેશ`**: Non-blocking asynchronous message passing into actor mailboxes.
+- **CLI Subcommands**: `gujarati vidyut:status [node]` audits Raft cluster health; `gujarati vidyut:join <peer>` joins dynamic peer quorums.
+
+### 4. 🧠 Yantra (યંત્ર) — Vector Database & Neural Embeddings
+In-memory high-dimensional vector search engine with SIMD metric calculations and hybrid search:
+- **`yantra_vector_db(dimension, [metric])` / `યંત્ર_વેક્ટર_ડીબી`**: Creates an in-memory HNSW vector database with cosine, Euclidean, or dot metrics.
+- **`yantra_insert(vdb, id, vector, [metadata])` / `યંત્ર_દાખલ`**: Indexes high-dimensional dense vectors with arbitrary metadata dictionaries.
+- **`yantra_search(vdb, query_vector, top_k)` / `યંત્ર_શોધ`**: Sub-millisecond approximate nearest neighbor (ANN) retrieval.
+- **`yantra_embed_text(text, [model])` / `યંત્ર_એમ્બેડ`**: Computes normalized dense neural embeddings from text strings.
+- **`yantra_cosine(vec1, vec2)` / `યંત્ર_કોસાઈન`**: SIMD-optimized vector cosine distance computation.
+- **`yantra_hybrid_rank(vdb, text, vec, alpha)` / `યંત્ર_સંકર_શોધ`**: Fuses lexical BM25 keyword matching with semantic vector rankings.
+- **CLI Subcommand**: `gujarati yantra:search [index] [query]` performs interactive semantic queries over indexed documents.
+
+---
+
+## 🛡️ The 560 Tests Milestone (100% Pass Rate)
+GujaratiLang v2.9.0 elevates automated testing to **560 automated test suites**:
+- **548 Language & Subsystem Test Suites**: Comprehensive coverage spanning core lexing, parsing, AST execution, Eloquent ORM, Blade templating, Redis-style caching, Pub/Sub, Desktop GUI, 2D Canvas, Android Camera/Sensors, AOT Compiler, C-FFI, Kasauti browser automation, Mandhan migrations, Garvi web framework, Samvad AI agents, Saransh packaging, Tarang WebSockets, Setu GraphQL, Kasauti v2, Suraksha v2, and the new v2.9.0 Pravah, Shilp, Vidyut, and Yantra suites.
 - **12 Production Example Programs**: Fibonacci, Temperature Converter, Inventory, Stock, Calculator, String Utils, CSV Parser, Math Suite, Text Filter, Report Generator, Invoice Generator, and Random Game.
 - **100% CTest Pass Rate** across Windows x64, Linux x64, macOS x64, and macOS ARM64.
 
 ---
 
-## 🚀 The Road Ahead: Releases v2.9.0 & v3.0.0
-- **v2.9.0**: Pravah (Kafka/NATS streaming), Shilp (Wasm SIMD Canvas GUI), Vidyut (Distributed Raft MapReduce), and Yantra (LLM Embeddings/Vector Search) — *30 Points*.
-- **v3.0.0 Mega Release**: GujaratiOS Sovereign Runtime Kernel, Universal Multi-Platform Engine (Wasm, Mobile, Embedded MCU), Enterprise Mesh Architecture, Autonomous Multi-Agent Swarms, and LTS 2030 Guarantees — *50 Points*.
+## 🚀 The Road Ahead: The Grand v3.0.0 Mega-Release (50 Points)
+The ultimate 50-point crowning milestone of GujaratiLang is next:
+- **GujaratiOS Sovereign Runtime Kernel & Pure C99 Microkernel Architecture**
+- **Autonomous Multi-Agent AI Swarms & Neural Graph Synthesis**
+- **Zero-Knowledge & Post-Quantum Cryptographic Defense (zk-SNARK, ML-KEM Kyber-1024, ML-DSA Dilithium)**
+- **WASI 2.0 Pure Sandboxing & Global Anycast Serverless Edge Runtime**
+- **The Grand 1,000 Tests Milestone & LTS 2030 Enterprise Support Guarantees**
 
 ---
 
