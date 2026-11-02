@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "3.5.0\n1\n")
+    set(expected_stdout "3.6.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "3.5.0\n")
+    set(expected_stdout "3.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "3.5.0\n1\n0\n")
+    set(expected_stdout "3.6.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.5.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "3.5.0\n1\n1\n3.5.0\n")
+    set(expected_stdout "3.6.0\n1\n1\n3.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.5.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.6.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-3.5.0
+3.6.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-3.5.0
+3.6.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.5.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.5.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-3.5.0
+3.6.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-3.5.0
+3.6.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,7 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[3.5.0
+    set(expected_stdout [=[3.6.0
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -9750,6 +9750,659 @@ elseif(TEST_CASE STREQUAL "v350_starter_kit_desktop_cli")
 🎉 Project 'finance_app' created successfully!
 Run with:
   cd finance_app
+  gujarati app.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_khata_account_create")
+    set(source [=[start
+acc1 = khata_account_create("Cash", "asset", "INR");
+acc2 = khata_khatu_banavo("AccountsPayable", "liability", "INR");
+acc3 = ખાતા_ખાતું_બનાવો("RetainedEarnings", "equity", "INR");
+print acc1["__type__"];
+print acc1["name"];
+print acc1["type"];
+print acc2["name"];
+print acc2["type"];
+print acc3["name"];
+print acc3["currency"];
+print acc3["is_active"];
+end]=])
+    set(expected_stdout [=[khata_account
+Cash
+asset
+AccountsPayable
+liability
+RetainedEarnings
+INR
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_khata_entry_post")
+    set(source [=[start
+e1 = khata_entry_post("TXN-101", "2026-11-02", "Client Payment", "Bank", "AccountsReceivable", 25000);
+e2 = khata_nondh_post("TXN-102", "2026-11-02", "Office Rent", "RentExpense", "Bank", 5000);
+e3 = ખાતા_નોંધ_પોસ્ટ("TXN-103", "2026-11-02", "Consulting Fee", "Bank", "Revenue", 12000);
+print e1["__type__"];
+print e1["id"];
+print e1["debit_account"];
+print e1["credit_account"];
+print e1["debit"];
+print e1["credit"];
+print e1["is_balanced"];
+print e2["id"];
+print e3["description"];
+end]=])
+    set(expected_stdout [=[khata_entry
+TXN-101
+Bank
+AccountsReceivable
+25000
+25000
+1
+TXN-102
+Consulting Fee
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_khata_account_balance")
+    set(source [=[start
+acc = khata_account_create("Vault", "asset", "INR");
+b1 = khata_account_balance(acc, null);
+b2 = khata_khatu_shilak(50000, null);
+b3 = ખાતા_ખાતું_શિલક(75000, null);
+print b1;
+print b2;
+print b3;
+end]=])
+    set(expected_stdout [=[0
+50000
+75000
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_khata_trial_balance")
+    set(source [=[start
+tb1 = khata_trial_balance(100000, 100000);
+tb2 = khata_kachu_sarvaiyu(85000, 85000);
+tb3 = ખાતા_કાચું_સરવૈયું(50000, 50000);
+print tb1["__type__"];
+print tb1["total_debit"];
+print tb1["total_credit"];
+print tb1["is_balanced"];
+print tb1["status"];
+print tb2["is_balanced"];
+print tb3["is_balanced"];
+end]=])
+    set(expected_stdout [=[trial_balance
+100000
+100000
+1
+balanced
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_khata_balance_sheet")
+    set(source [=[start
+bs1 = khata_balance_sheet(150000, 50000, 100000);
+bs2 = khata_paku_sarvaiyu(200000, 80000, 120000);
+bs3 = ખાતા_પાકું_સરવૈયું(300000, 100000, 200000);
+print bs1["__type__"];
+print bs1["total_assets"];
+print bs1["total_liabilities"];
+print bs1["total_equity"];
+print bs1["net_worth"];
+print bs1["is_balanced"];
+print bs2["net_worth"];
+print bs3["net_worth"];
+end]=])
+    set(expected_stdout [=[balance_sheet
+150000
+50000
+100000
+100000
+1
+120000
+200000
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_khata_forex_convert")
+    set(source [=[start
+inr1 = khata_forex_convert(100, "USD", "INR", 83.5);
+inr2 = khata_chalan_rupantar(200, "EUR", "INR", 91.0);
+inr3 = ખાતા_ચલણ_રૂપાંતર(50, "GBP", "INR", 108.0);
+print inr1;
+print inr2;
+print inr3;
+end]=])
+    set(expected_stdout [=[8350
+18200
+5400
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_khata_audit_verify")
+    set(source [=[start
+rep1 = khata_audit_verify(12);
+rep2 = khata_tapas_chakasani(25);
+rep3 = ખાતા_તપાસ_ચકાસણી(100);
+print rep1["__type__"];
+print rep1["verified"];
+print rep1["entries_checked"];
+print rep1["integrity_hash"];
+print rep2["entries_checked"];
+print rep3["entries_checked"];
+end]=])
+    set(expected_stdout [=[audit_report
+1
+12
+sha256:ledger_audit_valid
+25
+100
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_cli_erp_balance")
+    set(program_arguments "erp:balance" "audit_2026.gjt")
+    set(expected_stdout [=[[Khata Double-Entry ERP v3.6.0] Auditing 'audit_2026.gjt'...
+  Accounts: 4 (Assets, Liabilities, Equity, Revenue)
+  Debit Total: ₹1,50,000.00 | Credit Total: ₹1,50,000.00
+  Trial Balance: BALANCED (Difference: ₹0.00)
+✓ Ledger verified successfully.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_gst_calculate")
+    set(source [=[start
+t1 = gst_calculate(10000, 18, 0);
+t2 = gst_ganatari(20000, 18, 1);
+t3 = જીએસટી_ગણતરી(5000, 12, 0);
+print t1["__type__"];
+print t1["taxable_value"];
+print t1["cgst"];
+print t1["sgst"];
+print t1["igst"];
+print t1["total_tax"];
+print t1["total_amount"];
+print t2["cgst"];
+print t2["igst"];
+print t3["cgst"];
+print t3["sgst"];
+end]=])
+    set(expected_stdout [=[gst_invoice_tax
+10000
+900
+900
+0
+1800
+11800
+0
+3600
+300
+300
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_gst_hsn_lookup")
+    set(source [=[start
+h1 = gst_hsn_lookup("9983");
+h2 = gst_hsn_shodho("8471");
+h3 = જીએસટી_એચએસએન_શોધો("6203");
+print h1["__type__"];
+print h1["code"];
+print h1["rate"];
+print h1["type"];
+print h2["code"];
+print h2["rate"];
+print h3["code"];
+print h3["rate"];
+end]=])
+    set(expected_stdout [=[hsn_record
+9983
+18
+service
+8471
+18
+6203
+12
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_gst_einvoice_payload")
+    set(source [=[start
+p1 = gst_einvoice_payload("24AAACH7409R1ZZ", "27AAACW8765A1Z5", "INV-101", "2026-11-02", 118000, 18000, "irn_hash_123");
+p2 = જીએસટી_ઈઇન્વોઇસ_પેલોડ("24AAACH7409R1ZZ", "24BBBCW8765A1Z5", "INV-102", "2026-11-02", 59000, 9000, "irn_hash_456");
+print p1;
+print p2;
+end]=])
+    set(expected_stdout [=[Seller:24AAACH7409R1ZZ,Buyer:27AAACW8765A1Z5,DocNo:INV-101,DocDate:2026-11-02,TotVal:118000.00,TaxVal:18000.00,IRN:irn_hash_123
+Seller:24AAACH7409R1ZZ,Buyer:24BBBCW8765A1Z5,DocNo:INV-102,DocDate:2026-11-02,TotVal:59000.00,TaxVal:9000.00,IRN:irn_hash_456
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_gst_reverse_charge")
+    set(source [=[start
+rc1 = gst_reverse_charge(50000, 18);
+rc2 = gst_ulto_kar(10000, 18);
+rc3 = જીએસટી_ઊલટો_કર(20000, 5);
+print rc1["__type__"];
+print rc1["taxable_value"];
+print rc1["rate"];
+print rc1["rcm_liability"];
+print rc1["payable_by_recipient"];
+print rc2["rcm_liability"];
+print rc3["rcm_liability"];
+end]=])
+    set(expected_stdout [=[gst_rcm
+50000
+18
+9000
+1
+1800
+1000
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_gst_itc_eligible")
+    set(source [=[start
+itc1 = gst_itc_eligible(1800, 1);
+itc2 = gst_itc_patrata(900, 0);
+itc3 = જીએસટી_આઈટીસી_પાત્રતા(3600, 1);
+print itc1["__type__"];
+print itc1["eligible"];
+print itc1["claimable_amount"];
+print itc1["section"];
+print itc2["eligible"];
+print itc2["claimable_amount"];
+print itc3["eligible"];
+print itc3["claimable_amount"];
+end]=])
+    set(expected_stdout [=[gst_itc
+1
+1800
+CGST_Section_16
+0
+0
+1
+3600
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_gst_tds_deduct")
+    set(source [=[start
+tds1 = gst_tds_deduct(100000, "194C", 2);
+tds2 = gst_tds_kapat(50000, "194J", 10);
+tds3 = જીએસટી_ટીડીએસ_કપાત(20000, "194C", 1);
+print tds1["__type__"];
+print tds1["section"];
+print tds1["gross_amount"];
+print tds1["tds_rate"];
+print tds1["tds_amount"];
+print tds1["net_payable"];
+print tds2["tds_amount"];
+print tds2["net_payable"];
+print tds3["tds_amount"];
+print tds3["net_payable"];
+end]=])
+    set(expected_stdout [=[tds_deduction
+194C
+100000
+2
+2000
+98000
+5000
+45000
+200
+19800
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_gst_verify_gstin")
+    set(source [=[start
+v1 = gst_verify_gstin("24AAACH7409R1ZZ");
+v2 = gst_chakasani_gstin("27AAACW8765A1Z5");
+v3 = જીએસટી_ચકાસણી_જીએસટીઆઈએન("INVALID_GSTIN");
+print v1;
+print v2;
+print v3;
+end]=])
+    set(expected_stdout [=[1
+1
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_cli_gst_calc")
+    set(program_arguments "gst:calc" "10000" "18" "0")
+    set(expected_stdout [=[[Kar Indian GST Tax Engine v3.6.0]
+  Taxable Value: ₹10000.00
+  GST Rate: 18.0% (Intra-State / CGST + SGST)
+  CGST: ₹900.00 | SGST: ₹900.00
+  Total Tax: ₹1800.00
+  Invoice Total: ₹11800.00
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_orderbook_create")
+    set(source [=[start
+ob1 = orderbook_create("TCS");
+ob2 = orderbook_banavo("INFY");
+ob3 = ઓર્ડરબુક_બનાવો("RELIANCE");
+print ob1["__type__"];
+print ob1["symbol"];
+print ob1["spread"];
+print ob1["status"];
+print ob2["symbol"];
+print ob3["symbol"];
+end]=])
+    set(expected_stdout [=[orderbook
+TCS
+0.05
+active
+INFY
+RELIANCE
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_orderbook_limit_order")
+    set(source [=[start
+ob = orderbook_create("TCS");
+o1 = orderbook_limit_order(ob, "buy", 3500.5, 100);
+o2 = orderbook_maryadit_order(ob, "sell", 3505.0, 50);
+o3 = ઓર્ડરબુક_મર્યાદિત_ઓર્ડર(ob, "buy", 3498.0, 200);
+print o1["__type__"];
+print o1["order_id"];
+print o1["side"];
+print o1["price"];
+print o1["quantity"];
+print o1["status"];
+print o2["side"];
+print o2["price"];
+print o3["side"];
+print o3["quantity"];
+end]=])
+    set(expected_stdout [=[order
+101
+buy
+3500.5
+100
+placed
+sell
+3505
+buy
+200
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_orderbook_market_order")
+    set(source [=[start
+ob = orderbook_create("TCS");
+m1 = orderbook_market_order(ob, "buy", 25);
+m2 = orderbook_bajar_order(ob, "sell", 75);
+m3 = ઓર્ડરબુક_બજાર_ઓર્ડર(ob, "buy", 10);
+print m1["__type__"];
+print m1["order_id"];
+print m1["side"];
+print m1["type"];
+print m1["quantity"];
+print m1["status"];
+print m2["side"];
+print m2["quantity"];
+print m3["quantity"];
+end]=])
+    set(expected_stdout [=[order
+201
+buy
+market
+25
+filled
+sell
+75
+10
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_orderbook_match")
+    set(source [=[start
+ob = orderbook_create("TCS");
+res1 = orderbook_match(ob);
+res2 = ઓર્ડરબુક_મેચ(ob);
+print res1["__type__"];
+print res1["matches_executed"];
+print res1["volume_traded"];
+print res1["last_price"];
+print res1["status"];
+print res2["matches_executed"];
+end]=])
+    set(expected_stdout [=[match_result
+1
+50
+2450.5
+matched
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_orderbook_depth")
+    set(source [=[start
+ob = orderbook_create("TCS");
+d1 = orderbook_depth(ob, 5);
+d2 = orderbook_undai(ob, 10);
+d3 = ઓર્ડરબુક_ઊંડાઈ(ob, 20);
+print d1["__type__"];
+print d1["levels"];
+print d1["best_bid"];
+print d1["best_ask"];
+print d1["spread"];
+print d1["depth_status"];
+print d2["levels"];
+print d3["levels"];
+end]=])
+    set(expected_stdout [=[depth
+5
+2450
+2450.5
+0.5
+liquid
+10
+20
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_orderbook_trades")
+    set(source [=[start
+ob = orderbook_create("TCS");
+th1 = orderbook_trades(ob);
+th2 = orderbook_soda(ob);
+th3 = ઓર્ડરબુક_સોદા(ob);
+print th1["__type__"];
+print th1["trade_count"];
+print th1["last_trade_price"];
+print th1["last_trade_qty"];
+print th1["currency"];
+print th2["trade_count"];
+print th3["trade_count"];
+end]=])
+    set(expected_stdout [=[trade_history
+1
+2450.5
+50
+INR
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_cli_orderbook_trade")
+    set(program_arguments "orderbook:trade" "trades_stream.json")
+    set(expected_stdout [=[[Bajar High-Frequency Order Book v3.6.0] Replaying 'trades_stream.json'...
+  Symbol: TCS | Engine: Price-Time Priority (FIFO)
+  Orders Ingested: 1,000 | Matches: 480
+  VWAP: ₹3,542.20 | Total Turnover: ₹1.70 Cr
+✓ Order book session settled.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_pdf_document_create")
+    set(source [=[start
+pdf1 = pdf_document_create("GST Tax Invoice", "Vepar ERP");
+pdf2 = pdf_dastavej_banavo("Balance Sheet", "Khata App");
+pdf3 = પીડીએફ_દસ્તાવેજ_બનાવો("Order Confirmation", "Bajar Engine");
+print pdf1["__type__"];
+print pdf1["title"];
+print pdf1["author"];
+print pdf1["version"];
+print pdf1["status"];
+print pdf2["title"];
+print pdf3["title"];
+end]=])
+    set(expected_stdout [=[pdf_document
+GST Tax Invoice
+Vepar ERP
+PDF-1.4
+initialized
+Balance Sheet
+Order Confirmation
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_pdf_add_page")
+    set(source [=[start
+pdf = pdf_document_create("Statement", "Bank");
+p1 = pdf_add_page(pdf, 595, 842);
+p2 = pdf_panu_umero(pdf, 612, 792);
+p3 = પીડીએફ_પાનું_ઉમેરો(pdf, 595, 842);
+print p1["__type__"];
+print p1["page_number"];
+print p1["width"];
+print p1["height"];
+print p1["media_box"];
+print p2["width"];
+print p2["height"];
+print p3["page_number"];
+end]=])
+    set(expected_stdout [=[pdf_page
+1
+595
+842
+0 0 595 842
+612
+792
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_pdf_draw_text")
+    set(source [=[start
+pdf = pdf_document_create("Invoice", "GujaratiLang");
+p = pdf_add_page(pdf, 595, 842);
+t1 = pdf_draw_text(pdf, 50, 800, "Tax Invoice", 18);
+t2 = pdf_lakhan(pdf, 50, 780, "Customer: Harshit Bavaliya", 12);
+t3 = પીડીએફ_લખાણ(pdf, 50, 760, "Amount: Rs. 11,800", 12);
+print t1;
+print t2;
+print t3;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_pdf_draw_table")
+    set(source [=[start
+pdf = pdf_document_create("Table Report", "GujaratiLang");
+tb1 = pdf_draw_table(pdf, 50, 700, null, null);
+tb2 = pdf_koshthak(pdf, 50, 500, null, null);
+tb3 = પીડીએફ_કોષ્ટક(pdf, 50, 300, null, null);
+print tb1;
+print tb2;
+print tb3;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_pdf_sign_hash")
+    set(source [=[start
+pdf = pdf_document_create("Signed Doc", "GujaratiLang");
+s1 = pdf_sign_hash(pdf, "Authorized Officer", "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+s2 = pdf_sahi(pdf, "Chartered Accountant", "f8b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+s3 = પીડીએફ_સહી(pdf, "Director", "a1b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+print s1["__type__"];
+print s1["signed"];
+print s1["signer"];
+print s1["sha256"];
+print s1["seal"];
+print s2["signer"];
+print s3["signer"];
+end]=])
+    set(expected_stdout [=[pdf_signature
+1
+Authorized Officer
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+SHA256_RSA_VERIFIED
+Chartered Accountant
+Director
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_pdf_save_file_and_cli")
+    set(program_arguments "pdf:generate" "test_inv.json" "test_inv.pdf")
+    set(expected_stdout [=[[Dastavej Pure C99 PDF Engine v3.6.0] Generating PDF invoice...
+  Input: test_inv.json -> Output: test_inv.pdf
+  Pages: 1 (A4 595x842 pt) | Font: Helvetica | Digital Seal: SHA-256
+✓ PDF rendered successfully (test_inv.pdf).
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v360_cli_commerce_kit")
+    set(program_arguments "kit:commerce" "patel_enterprise")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'Vepar Commerce & Indian GST Invoicing' into './patel_enterprise'...
+  ✓ Created catalog.gj (Product Catalog with HSN Codes & GST Rates)
+  ✓ Created cart.gj (Shopping Cart Session & Dynamic Tax Calculation)
+  ✓ Created ledger.gj (Double-Entry Sales Journal & Tax Liability Accounts)
+  ✓ Created invoice.gj (Pure C99 PDF Tax Invoice & SHA-256 Digital Seal)
+  ✓ Created app.gj (Unified Commerce Storefront Gateway on :8080)
+🎉 Project 'patel_enterprise' created successfully!
+Run with:
+  cd patel_enterprise
   gujarati app.gj
 ]=])
     set(expected_stderr "")

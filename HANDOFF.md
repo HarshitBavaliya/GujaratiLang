@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v3.5.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.5.0) ("Winsock Async Network, Ranga-3D Graphics, Gati Physics & Shilp Desktop GUI").
+- Latest interpreter release: [GujaratiLang v3.6.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.6.0) ("Vepar & Nanu — Enterprise ERP, Indian GST Engine & Order Book").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v3.5.0 (750 automated test suites passing, 100% pass rate).
+  platform before publishing v3.6.0 (780 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,14 +30,29 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (750/750 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (780/780 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v3.5.0: Winsock Async Network, Ranga-3D Graphics & Shilp Desktop GUI (750 Tests Milestone)**.
+Latest commit on origin: **Release v3.6.0: Vepar & Nanu — Enterprise ERP, GST & Order Book (780 Tests Milestone)**.
 
 Recent completed work includes:
+
+- Added Khata (ખાતા) Double-Entry Ledger:
+  - `khata_account_create`, `khata_entry_post`, `khata_account_balance`, `khata_trial_balance`, `khata_balance_sheet`, `khata_forex_convert`, `khata_audit_verify`
+  - CLI: `gujarati erp:balance <journal.gjt>`
+- Added Kar (કર) Indian GST Tax Engine:
+  - `gst_calculate`, `gst_hsn_lookup`, `gst_einvoice_payload`, `gst_reverse_charge`, `gst_itc_eligible`, `gst_tds_deduct`, `gst_verify_gstin`
+  - CLI: `gujarati gst:calc <amount> <rate> [interstate]`
+- Added Bajar (બજાર) Order Book Matching Engine:
+  - `orderbook_create`, `orderbook_limit_order`, `orderbook_market_order`, `orderbook_match`, `orderbook_depth`, `orderbook_trades`
+  - CLI: `gujarati orderbook:trade <orders.json>`
+- Added Dastavej (દસ્તાવેજ) Pure C99 PDF Generator:
+  - `pdf_document_create`, `pdf_add_page`, `pdf_draw_text`, `pdf_draw_table`, `pdf_sign_hash`, `pdf_save_file`
+  - CLI: `gujarati pdf:generate <invoice.json> <out.pdf>`
+- Added Pre-Coded Starter Kit 6: Vepar Commerce:
+  - `gujarati new my_store --kit=commerce` (aliases `kit:commerce`, `kit:vepar`)
 
 - Added Winsock Asynchronous HTTP Listeners:
   - `winsock_server_init`, `winsock_server_poll`, `winsock_server_accept`, `winsock_client_recv`, `winsock_client_send`, `winsock_server_close`

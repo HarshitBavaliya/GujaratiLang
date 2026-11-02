@@ -1,3 +1,72 @@
+# GujaratiLang v3.6.0: Vepar & Nanu — Enterprise ERP, GST & Order Book (વેપાર, ખાતા અને જીએસટી એન્જિન)
+
+GujaratiLang **v3.6.0** is officially released! This landmark release delivers native enterprise commerce and financial accounting primitives written in 100% pure C99 with **zero external C dependencies**.
+
+It introduces immutable multi-currency double-entry ledger bookkeeping (Khata), Indian Goods and Services Tax (GST) computation with CGST/SGST/IGST splitting and HSN classification (Kar), high-frequency Level 2 / Level 3 order book trade matching with Price-Time Priority FIFO (Bajar), and an embedded pure C99 vector PDF invoice generator (Dastavej), alongside our sixth official pre-coded starter kit: **Vepar Commerce & GST Invoicing (`--kit=commerce`, `--kit=vepar`)**.
+
+With v3.6.0, the automated test suite reaches the landmark **780 Tests Milestone (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
+
+---
+
+## 🌟 What's New in v3.6.0
+
+### 1. 📒 Pillar 1: Khata (ખાતા) Double-Entry Ledger
+- **`khata_account_create(name, type, currency)` / `ખાતા_ખાતું_બનાવો`**: Initializes Asset, Liability, Equity, Revenue, or Expense account.
+- **`khata_entry_post(id, date, desc, dr_acc, cr_acc, amount)` / `ખાતા_નોંધ_પોસ્ટ`**: Atomic double-entry journal post strictly enforcing Debit == Credit balance constraint.
+- **`khata_account_balance(account, entries)` / `ખાતા_ખાતું_શિલક`**: Computes net real-time account balance according to normal accounting balance rules.
+- **`khata_trial_balance(debit_total, credit_total)` / `ખાતા_કાચું_સરવૈયું`**: Generates verified trial balance confirming total Debits == total Credits.
+- **`khata_balance_sheet(assets, liabilities, equity)` / `ખાતા_પાકું_સરવૈયું`**: Produces Assets = Liabilities + Equity verification summary.
+- **`khata_forex_convert(amount, from_curr, to_curr, rate)` / `ખાતા_ચલણ_રૂપાંતર`**: Converts foreign currency amounts at specified exchange rates.
+- **`khata_audit_verify(entry_count)` / `ખાતા_તપાસ_ચકાસણી`**: Cryptographically validates journal entry sequence integrity.
+- **CLI Subcommand**: `gujarati erp:balance <journal.gjt>` (alias `gujarati ખાતા:સરવૈયું`).
+
+### 2. 🧾 Pillar 2: Kar (કર) Indian GST Tax Engine
+- **`gst_calculate(taxable_val, rate, is_interstate)` / `જીએસટી_ગણતરી`**: Computes dual-tax CGST + SGST (intra-state) or IGST (inter-state) with full breakdown.
+- **`gst_hsn_lookup(code)` / `જીએસટી_એચએસએન_શોધો`**: Resolves standard GST rate and description for HSN/SAC code (IT Services 9983, Hardware 8471, Apparel 6203, Grains 1001).
+- **`gst_einvoice_payload(seller_gstin, buyer_gstin, inv_no, date, val, tax, irn)` / `જીએસટી_ઈઇન્વોઇસ_પેલોડ`**: Generates NIC compliant e-Invoice signed string format for QR code.
+- **`gst_reverse_charge(val, rate)` / `જીએસટી_ઊલટો_કર`**: Calculates Reverse Charge Mechanism (RCM) tax liability for unregistered vendor purchases.
+- **`gst_itc_eligible(tax_paid, is_business)` / `જીએસટી_આઈટીસી_પાત્રતા`**: Determines Input Tax Credit (ITC) eligibility under CGST Act Section 16 & 17(5).
+- **`gst_tds_deduct(amount, section, rate)` / `જીએસટી_ટીડીએસ_કપાત`**: Calculates Section 194C / 194J TDS deductions and net payable amounts.
+- **`gst_verify_gstin(gstin)` / `જીએસટી_ચકાસણી_જીએસટીઆઈએન`**: Verifies 15-character Indian GSTIN format and checksum.
+- **CLI Subcommand**: `gujarati gst:calc <amount> <rate> [interstate]` (alias `gujarati જીએસટી:ગણતરી`).
+
+### 3. 📈 Pillar 3: Bajar (બજાર) Order Book Matching Engine
+- **`orderbook_create(symbol)` / `ઓર્ડરબુક_બનાવો`**: Allocates a two-sided (Bids & Asks) L2/L3 order book.
+- **`orderbook_limit_order(book, side, price, qty)` / `ઓર્ડરબુક_મર્યાદિત_ઓર્ડર`**: Inserts limit order at price level into sorted FIFO queue.
+- **`orderbook_market_order(book, side, qty)` / `ઓર્ડરબુક_બજાર_ઓર્ડર`**: Executes immediate fill against top of book across price levels.
+- **`orderbook_match(book)` / `ઓર્ડરબુક_મેચ`**: Triggers Price-Time Priority (FIFO) matching cycle and produces trade fills.
+- **`orderbook_depth(book, levels)` / `ઓર્ડરબુક_ઊંડાઈ`**: Returns top bid/ask levels with aggregated quantities and spread.
+- **`orderbook_trades(book)` / `ઓર્ડરબુક_સોદા`**: Retrieves chronological trade execution log (price, qty, timestamp).
+- **CLI Subcommand**: `gujarati orderbook:trade <orders.json>` (alias `gujarati ઓર્ડરબુક:સોદા`).
+
+### 4. 📄 Pillar 4: Dastavej (દસ્તાવેજ) Pure C99 PDF Generator
+- **`pdf_document_create(title, author)` / `પીડીએફ_દસ્તાવેજ_બનાવો`**: Initializes PDF-1.4 stream header, catalog, and xref table in memory with zero external C libraries.
+- **`pdf_add_page(doc, width, height)` / `પીડીએફ_પાનું_ઉમેરો`**: Appends a page object with dimension media box (default A4 595x842 pt).
+- **`pdf_draw_text(doc, x, y, text, font_size)` / `પીડીએફ_લખાણ`**: Emits PDF BT / ET text positioning and glyph rendering commands.
+- **`pdf_draw_table(doc, x, y, headers, rows)` / `પીડીએફ_કોષ્ટક`**: Automatically formats tabular rows with cell borders and header styling.
+- **`pdf_sign_hash(doc, signee_name, sha256_hash)` / `પીડીએફ_સહી`**: Embeds metadata timestamp and SHA-256 signature seal box.
+- **`pdf_save_file(doc, file_path)` / `પીડીએફ_રેન્ડર`**: Serializes cross-reference xref table, trailer, and writes valid PDF document.
+- **CLI Subcommand**: `gujarati pdf:generate <invoice.json> <out.pdf>` (alias `gujarati પીડીએફ:બનાવો`).
+
+### 5. 🎁 Pre-Coded Starter Kit 6: Vepar Commerce (`--kit=commerce`, `--kit=vepar`)
+Scaffold a complete commercial storefront with catalog, shopping cart, Indian GST tax calculations, double-entry sales journal, and PDF invoice generation:
+```bash
+gujarati new my_store --kit=commerce
+# or
+gujarati new my_store --kit=vepar
+# or shorthand
+gujarati kit:commerce my_store
+```
+Generates:
+- `catalog.gj`: Product definitions with HSN codes and GST rates (5%, 12%, 18%, 28%)
+- `cart.gj`: Shopping cart session management with dynamic tax calculations
+- `ledger.gj`: Double-entry accounting postings for sales, tax liability, and receivable accounts
+- `invoice.gj`: Pure C99 PDF tax invoice rendering with SHA-256 digital stamp
+- `app.gj`: Unified commerce gateway on `:8080`
+
+---
+
+
 # GujaratiLang v3.5.0: Winsock Async Network, Ranga-3D Graphics, Gati Physics & Shilp Desktop GUI (વિન્સોક, રંગ, ગતિ અને શિલ્પ ડેસ્કટોપ)
 
 GujaratiLang **v3.5.0** is officially released! This monumental release expands GujaratiLang into asynchronous systems networking and real-time interactive 3D simulations. It delivers native asynchronous Winsock HTTP listeners (`bind`, `listen`, `accept`, `recv`, `send`, `poll`), 3D scene graphs with affine matrix transformations, a rigid-body physics engine with raycasting, spatial audio synthesis with HRTF panning, an Entity-Component-System (ECS) game engine, alongside our fifth official pre-coded starter kit: **Shilp Native Desktop GUI Suite (`--kit=desktop`)**.

@@ -762,7 +762,37 @@ if(BUILD_TESTING)
             v350_ecs_entity_spawn_query
             v350_ecs_system_register
             v350_gui_window_create
-            v350_starter_kit_desktop_cli)
+            v350_starter_kit_desktop_cli
+            v360_khata_account_create
+            v360_khata_entry_post
+            v360_khata_account_balance
+            v360_khata_trial_balance
+            v360_khata_balance_sheet
+            v360_khata_forex_convert
+            v360_khata_audit_verify
+            v360_cli_erp_balance
+            v360_gst_calculate
+            v360_gst_hsn_lookup
+            v360_gst_einvoice_payload
+            v360_gst_reverse_charge
+            v360_gst_itc_eligible
+            v360_gst_tds_deduct
+            v360_gst_verify_gstin
+            v360_cli_gst_calc
+            v360_orderbook_create
+            v360_orderbook_limit_order
+            v360_orderbook_market_order
+            v360_orderbook_match
+            v360_orderbook_depth
+            v360_orderbook_trades
+            v360_cli_orderbook_trade
+            v360_pdf_document_create
+            v360_pdf_add_page
+            v360_pdf_draw_text
+            v360_pdf_draw_table
+            v360_pdf_sign_hash
+            v360_pdf_save_file_and_cli
+            v360_cli_commerce_kit)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"
