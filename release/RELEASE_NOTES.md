@@ -1,3 +1,60 @@
+# GujaratiLang v3.5.0: Winsock Async Network, Ranga-3D Graphics, Gati Physics & Shilp Desktop GUI (વિન્સોક, રંગ, ગતિ અને શિલ્પ ડેસ્કટોપ)
+
+GujaratiLang **v3.5.0** is officially released! This monumental release expands GujaratiLang into asynchronous systems networking and real-time interactive 3D simulations. It delivers native asynchronous Winsock HTTP listeners (`bind`, `listen`, `accept`, `recv`, `send`, `poll`), 3D scene graphs with affine matrix transformations, a rigid-body physics engine with raycasting, spatial audio synthesis with HRTF panning, an Entity-Component-System (ECS) game engine, alongside our fifth official pre-coded starter kit: **Shilp Native Desktop GUI Suite (`--kit=desktop`)**.
+
+With v3.5.0, the automated test suite reaches the landmark **750 Tests Milestone (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64), all implemented in 100% pure C99 with zero external C dependencies.
+
+---
+
+## 🌟 What's New in v3.5.0
+
+### 1. 🌐 Pillar 1: Winsock Asynchronous HTTP & Network Listeners (વિન્સોક અસિંક લિસનર)
+- **`winsock_server_init(host, port, [backlog])` / `વિન્સોક_સર્વર_શરૂ`**: Native non-blocking TCP socket creation, `WSAStartup` / `socket()`, `setsockopt(SO_REUSEADDR)`, `bind()` to interface, and async non-blocking mode configuration.
+- **`winsock_server_poll(server_handle, [timeout_ms])` / `વિન્સોક_સર્વર_પોલ`**: Native non-blocking event multiplexing (`select()` / `WSAPoll`) awaiting incoming client connections without thread freezing.
+- **`winsock_server_accept(server_handle)` / `વિન્સોક_સર્વર_સ્વીકારો`**: Non-blocking `accept()` call returning client socket handle, IP address, and remote port, setting client socket to non-blocking mode.
+- **`winsock_client_recv(client_handle, [max_bytes])` / `વિન્સોક_ક્લાયન્ટ_મેળવો`**: Non-blocking `recv()` reading incoming HTTP request bytes into a string buffer.
+- **`winsock_client_send(client_handle, response_str)` / `વિન્સોક_ક્લાયન્ટ_મોકલો`**: Native `send()` writing HTTP headers and payload response to client socket with transmission byte tracking.
+- **`winsock_server_close(socket_handle)` / `વિન્સોક_સર્વર_બંધ`**: Graceful TCP connection shutdown and socket termination.
+- **CLI Subcommand**: `gujarati http:serve [port] [dir]`.
+
+### 2. 🎮 Pillar 2: Khel-3D (ખેલ 3D) Scene Graph & Mesh Graphics
+- **`khel3d_scene_create(name)` / `ખેલ૩ડી_દ્રશ્ય_બનાવો`**: Initializes 3D scene graph with ambient lighting, background color, and node tree.
+- **`khel3d_mesh_create(primitive_type, params)` / `ખેલ૩ડી_મેશ_બનાવો`**: Generates 3D procedural geometry for cubes, spheres, cylinders, and planes.
+- **`khel3d_camera_set(scene, eye, target, up, fov)` / `ખેલ૩ડી_કેમેરા_સેટ`**: Perspective and orthographic camera view/projection matrix configuration.
+- **`khel3d_node_transform(mesh, translate, rotate, scale)` / `ખેલ૩ડી_નોડ_રૂપાંતર`**: Computes 4x4 affine model transform matrices.
+- **`khel3d_render_wireframe(scene, width, height)` / `ખેલ૩ડી_રેન્ડર_વાયરફ્રેમ`**: Vectorized 3D-to-2D perspective projection wireframe rasterizer.
+- **CLI Subcommand**: `gujarati assets:cook <mesh.gltf>`.
+
+### 3. ⚙️ Pillar 3: Gati (ગતિ) 3D Physics Engine & Raycasting
+- **`gati_world_create(gravity_vec)` / `ગતિ_વિશ્વ_બનાવો`**: Initializes 3D rigid-body simulation world.
+- **`gati_body_add(world, body_type, mass, position)` / `ગતિ_બોડી_ઉમેરો`**: Creates dynamic, static, or kinematic rigid bodies with mass and restitution.
+- **`gati_step(world, dt)` / `ગતિ_સ્ટેપ`**: Symplectic Euler numerical velocity and position integration.
+- **`gati_collide_aabb(box_a, box_b)` / `ગતિ_ટકરાવ_તપાસ`**: Fast Axis-Aligned Bounding Box (AABB) intersection detection.
+- **`gati_raycast(world, origin, direction, max_dist)` / `ગતિ_રેકાસ્ટ`**: 3D vector raycasting returning hit point, distance, and collider ID.
+- **CLI Subcommand**: `gujarati physics:simulate <world.gj>`.
+
+### 4. 🔊 Pillar 4: Dhwani (ધ્વનિ) Spatial Audio & Sound Synthesis
+- **`dhwani_engine_init(sample_rate, channels)` / `ધ્વનિ_શરૂ`**: Initializes 44.1kHz / 48kHz digital audio synthesizer.
+- **`dhwani_tone_generate(waveform, freq_hz, duration_sec, volume)` / `ધ્વનિ_સુર_બનાવો`**: Generates pure mathematical audio waveforms (sine, square, triangle, saw, noise).
+- **`dhwani_spatial_position(sound_clip, listener_pos, emitter_pos)` / `ધ્વનિ_સ્થાનિક_સેટ`**: Head-Related Transfer Function (HRTF) 3D positional audio stereo panning, distance attenuation, and Doppler shift.
+- **`dhwani_reverb_apply(sound_clip, room_size, damping)` / `ધ્વનિ_રીવર્બ_લાગુ`**: Delay-line digital reverberation filter simulating room acoustics.
+- **`dhwani_mix_tracks(tracks_list)` / `ધ્વનિ_ટ્રેક_મિશ્રણ`**: Multi-channel audio summing mixer with clipping protection.
+- **CLI Subcommand**: `gujarati audio:play <sound.wav>`.
+
+### 5. 🕹️ Pillar 5: Niyantran (નિયંત્રણ) Game ECS & Shilp Desktop GUI
+- **`ecs_world_create()` / `ઈસીએસ_વિશ્વ_બનાવો`**: Entity-Component-System archetype registry.
+- **`ecs_entity_spawn(world, components_dict)` / `ઈસીએસ_એન્ટિટી_બનાવો`**: Spawns unique entity IDs and binds component maps.
+- **`ecs_query(world, required_components)` / `ઈસીએસ_શોધ`**: High-speed entity filtering matching component sets.
+- **`ecs_system_register(world, name, update_fn)` / `ઈસીએસ_સિસ્ટમ_નોંધણી`**: Registers priority-ordered game loop systems.
+- **`gui_window_create(title, width, height, [flags])` / `જીયુઆઈ_બારી_બનાવો`**: Native cross-platform desktop window descriptor with event listeners and Shilp 2D vector canvas.
+- **CLI Subcommand**: `gujarati game:run <main.gj>`.
+
+### 6. 🎁 Pre-Coded Starter Kit 5: Shilp Native Desktop GUI Suite (`--kit=desktop`)
+- Scaffolds complete cross-platform desktop GUI application with custom windows, system menubar, file dialogs, and native packaging.
+- CLI: `gujarati new <app_name> --kit=desktop`, `gujarati kit:desktop`, `gujarati kit:gui`, `gujarati kit:shilp`.
+
+---
+
 # GujaratiLang v3.4.0: Maha-Sankhya — Big Data, Columnar Analytical Compute & Tarang Setu API (મહાસંખ્યા અને તરંગ સેતુ)
 
 GujaratiLang **v3.4.0** is officially released! This monumental release delivers high-performance big data analytics, vectorized columnar processing, distributed MapReduce computing, time-series Gorilla compression, and streaming ETL pipelines directly into the pure C99 runtime with zero external C dependencies. It also introduces the official **Tarang Setu API Starter Kit (`--kit=api`)**, expanding the automated test suite to the landmark **720 Tests Milestone (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).

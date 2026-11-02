@@ -732,7 +732,37 @@ if(BUILD_TESTING)
             v340_starter_kit_api_cli
             v340_starter_kit_tarang_alias
             v340_starter_kit_new_api_flag
-            v340_gujarati_syntax_all)
+            v340_gujarati_syntax_all
+            v350_winsock_server_init
+            v350_winsock_server_poll
+            v350_winsock_server_accept
+            v350_winsock_client_recv
+            v350_winsock_client_send
+            v350_winsock_server_close
+            v350_winsock_http_serve_cli
+            v350_khel3d_scene_create
+            v350_khel3d_mesh_create
+            v350_khel3d_camera_set
+            v350_khel3d_node_transform
+            v350_khel3d_render_wireframe
+            v350_khel3d_assets_cook_cli
+            v350_gati_world_create
+            v350_gati_body_add
+            v350_gati_step
+            v350_gati_collide_aabb
+            v350_gati_raycast
+            v350_gati_physics_simulate_cli
+            v350_dhwani_engine_init
+            v350_dhwani_tone_generate
+            v350_dhwani_spatial_position
+            v350_dhwani_reverb_apply
+            v350_dhwani_mix_tracks
+            v350_dhwani_audio_play_cli
+            v350_ecs_world_create
+            v350_ecs_entity_spawn_query
+            v350_ecs_system_register
+            v350_gui_window_create
+            v350_starter_kit_desktop_cli)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

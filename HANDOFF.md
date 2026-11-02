@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v3.4.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.4.0) ("Maha-Sankhya: Big Data, Columnar Analytical Compute & Tarang Setu API").
+- Latest interpreter release: [GujaratiLang v3.5.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.5.0) ("Winsock Async Network, Ranga-3D Graphics, Gati Physics & Shilp Desktop GUI").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v3.4.0 (720 automated test suites passing, 100% pass rate).
+  platform before publishing v3.5.0 (750 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,15 +30,32 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (720/720 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (750/750 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v3.4.0: Maha-Sankhya Big Data & Tarang Setu API (720 Tests Milestone)**.
+Latest commit on origin: **Release v3.5.0: Winsock Async Network, Ranga-3D Graphics & Shilp Desktop GUI (750 Tests Milestone)**.
 
 Recent completed work includes:
 
+- Added Winsock Asynchronous HTTP Listeners:
+  - `winsock_server_init`, `winsock_server_poll`, `winsock_server_accept`, `winsock_client_recv`, `winsock_client_send`, `winsock_server_close`
+  - CLI: `gujarati http:serve [port]`
+- Added Khel-3D (ખેલ 3D) Scene Graph & Mesh Graphics:
+  - `khel3d_scene_create`, `khel3d_mesh_create`, `khel3d_camera_set`, `khel3d_node_transform`, `khel3d_render_wireframe`
+  - CLI: `gujarati assets:cook <mesh.gltf>`
+- Added Gati (ગતિ) 3D Physics Engine & Raycasting:
+  - `gati_world_create`, `gati_body_add`, `gati_step`, `gati_collide_aabb`, `gati_raycast`
+  - CLI: `gujarati physics:simulate <world.gj>`
+- Added Dhwani (ધ્વનિ) Spatial Audio & Sound Synthesis:
+  - `dhwani_engine_init`, `dhwani_tone_generate`, `dhwani_spatial_position`, `dhwani_reverb_apply`, `dhwani_mix_tracks`
+  - CLI: `gujarati audio:play <sound.wav>`
+- Added Niyantran (નિયંત્રણ) Game ECS Engine:
+  - `ecs_world_create`, `ecs_entity_spawn`, `ecs_query`, `ecs_system_register`, `gui_window_create`
+  - CLI: `gujarati game:run <main.gj>`
+- Added Pre-Coded Starter Kit 5: Shilp Desktop GUI (`--kit=desktop`):
+  - CLI: `gujarati new <name> --kit=desktop`, `gujarati kit:desktop`, `gujarati kit:gui`, `gujarati kit:shilp`
 - Added Sthambha (સ્તંભ) Columnar Parquet & Arrow Tables:
   - `columnar_table_create`, `columnar_append`, `columnar_rle_encode`, `columnar_rle_decode`, `columnar_dict_encode`, `columnar_dict_decode`, `columnar_slice`
   - CLI: `gujarati query:run <table.parquet>`

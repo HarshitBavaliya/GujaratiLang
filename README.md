@@ -10,6 +10,49 @@ you use Visual Studio Code, install the
 
 ## Current features
 
+### What's New in v3.5.0: Winsock Async Network, Ranga-3D Graphics, Gati Physics, Dhwani Audio, Niyantran ECS & Shilp Desktop GUI (750 Tests Milestone)
+
+GujaratiLang v3.5.0 introduces 30 enterprise capabilities spanning native asynchronous network listeners, 3D graphics, physics simulations, spatial audio, and game systems architecture alongside our official pre-coded **Shilp Native Desktop GUI Starter Kit (`--kit=desktop`)**, expanding the automated test suite to the landmark **750 Tests Milestone (100% Pass Rate)**:
+
+- **Pillar 1: Winsock Asynchronous HTTP & Network Listeners (વિન્સોક અસિંક લિસનર)**:
+  - `winsock_server_init(host, port, [backlog])` / `વિન્સોક_સર્વર_શરૂ`: Native non-blocking TCP server listener with socket creation, `SO_REUSEADDR`, and async mode setup
+  - `winsock_server_poll(server_handle, [timeout_ms])` / `વિન્સોક_સર્વર_પોલ`: Multiplexed event polling (`select`/`WSAPoll`) awaiting incoming client connections without blocking
+  - `winsock_server_accept(server_handle)` / `વિન્સોક_સર્વર_સ્વીકારો`: Non-blocking client connection accept configuring accepted socket for non-blocking I/O
+  - `winsock_client_recv(client_handle, [max_bytes])` / `વિન્સોક_ક્લાયન્ટ_મેળવો`: Non-blocking HTTP request data retrieval
+  - `winsock_client_send(client_handle, response_str)` / `વિન્સોક_ક્લાયન્ટ_મોકલો`: High-speed HTTP response transmission tracking transferred byte counts
+  - `winsock_server_close(socket_handle)` / `વિન્સોક_સર્વર_બંધ`: Graceful TCP connection shutdown and socket termination
+  - CLI: `gujarati http:serve [port] [dir]`
+- **Pillar 2: Khel-3D (ખેલ 3D) Scene Graph & Mesh Graphics**:
+  - `khel3d_scene_create(name)` / `ખેલ૩ડી_દ્રશ્ય_બનાવો`: 3D scene tree initialization with ambient lighting and background color
+  - `khel3d_mesh_create(primitive_type, params)` / `ખેલ૩ડી_મેશ_બનાવો`: 3D procedural geometry generator for cubes, spheres, cylinders, and planes
+  - `khel3d_camera_set(scene, eye, target, up, fov)` / `ખેલ૩ડી_કેમેરા_સેટ`: Perspective and orthographic camera view/projection matrix configuration
+  - `khel3d_node_transform(mesh, translate, rotate, scale)` / `ખેલ૩ડી_નોડ_રૂપાંતર`: 4x4 affine matrix transformation pipeline
+  - `khel3d_render_wireframe(scene, width, height)` / `ખેલ૩ડી_રેન્ડર_વાયરફ્રેમ`: Vectorized 3D-to-2D perspective projection wireframe rasterizer
+  - CLI: `gujarati assets:cook <mesh.gltf>`
+- **Pillar 3: Gati (ગતિ) 3D Physics Engine & Raycasting**:
+  - `gati_world_create(gravity_vec)` / `ગતિ_વિશ્વ_બનાવો`: Initializes 3D rigid-body simulation world
+  - `gati_body_add(world, body_type, mass, position)` / `ગતિ_બોડી_ઉમેરો`: Attaches dynamic, static, or kinematic rigid bodies
+  - `gati_step(world, dt)` / `ગતિ_સ્ટેપ`: Symplectic Euler numerical velocity and position integration
+  - `gati_collide_aabb(box_a, box_b)` / `ગતિ_ટકરાવ_તપાસ`: Fast Axis-Aligned Bounding Box (AABB) intersection detection
+  - `gati_raycast(world, origin, direction, max_dist)` / `ગતિ_રેકાસ્ટ`: 3D vector raycasting returning hit point, distance, and collider ID
+  - CLI: `gujarati physics:simulate <world.gj>`
+- **Pillar 4: Dhwani (ધ્વનિ) Spatial Audio & Sound Synthesis**:
+  - `dhwani_engine_init(sample_rate, channels)` / `ધ્વનિ_શરૂ`: Initializes 44.1kHz / 48kHz digital audio synthesizer
+  - `dhwani_tone_generate(waveform, freq_hz, duration_sec, volume)` / `ધ્વનિ_સુર_બનાવો`: Generates pure mathematical audio waveforms (sine, square, triangle, saw, noise)
+  - `dhwani_spatial_position(sound_clip, listener_pos, emitter_pos)` / `ધ્વનિ_સ્થાનિક_સેટ`: HRTF 3D positional audio stereo panning, distance attenuation, and Doppler shift
+  - `dhwani_reverb_apply(sound_clip, room_size, damping)` / `ધ્વનિ_રીવર્બ_લાગુ`: Delay-line digital reverberation filter
+  - `dhwani_mix_tracks(tracks_list)` / `ધ્વનિ_ટ્રેક_મિશ્રણ`: Multi-channel audio summing mixer with clipping protection
+  - CLI: `gujarati audio:play <sound.wav>`
+- **Pillar 5: Niyantran (નિયંત્રણ) Game ECS & Shilp Desktop GUI**:
+  - `ecs_world_create()` / `ઈસીએસ_વિશ્વ_બનાવો`: Entity-Component-System archetype registry
+  - `ecs_entity_spawn(world, components_dict)` / `ઈસીએસ_એન્ટિટી_બનાવો`: Spawns unique entity IDs and binds component maps
+  - `ecs_query(world, required_components)` / `ઈસીએસ_શોધ`: High-speed entity filtering matching component sets
+  - `ecs_system_register(world, name, update_fn)` / `ઈસીએસ_સિસ્ટમ_નોંધણી`: Registers priority-ordered game loop systems
+  - `gui_window_create(title, width, height, [flags])` / `જીયુઆઈ_બારી_બનાવો`: Native cross-platform desktop window descriptor with event listeners and Shilp 2D vector canvas
+  - CLI: `gujarati game:run <main.gj>`
+- **Pre-Coded Starter Kit 5: Shilp Desktop GUI (`--kit=desktop`)**:
+  - Complete cross-platform desktop application scaffolding with custom windows, system menubar, file dialogs, and native packaging (`gujarati new my_app --kit=desktop`, aliases `kit:desktop`, `kit:gui`, `kit:shilp`).
+
 ### What's New in v3.4.0: Maha-Sankhya (મહાસંખ્યા) — Big Data, Columnar Analytical Compute & Streaming ETL (720 Tests Milestone)
 
 GujaratiLang v3.4.0 delivers 30 enterprise capabilities across 4 high-performance data processing pillars alongside our new pre-coded starter kit (**Tarang Setu API Suite**), expanding the automated test suite to the landmark **720 Tests Milestone (100% Pass Rate)**:

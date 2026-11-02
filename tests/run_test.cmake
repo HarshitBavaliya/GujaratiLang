@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "3.4.0\n1\n")
+    set(expected_stdout "3.5.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "3.4.0\n")
+    set(expected_stdout "3.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "3.4.0\n1\n0\n")
+    set(expected_stdout "3.5.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.4.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "3.4.0\n1\n1\n3.4.0\n")
+    set(expected_stdout "3.5.0\n1\n1\n3.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.4.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.5.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-3.4.0
+3.5.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-3.4.0
+3.5.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.4.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.4.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-3.4.0
+3.5.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-3.4.0
+3.5.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,7 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[3.4.0
+    set(expected_stdout [=[3.5.0
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -9325,6 +9325,432 @@ elseif(TEST_CASE STREQUAL "v340_gujarati_syntax_all")
 2
 2
 active
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_winsock_server_init")
+    set(source [=[start
+s = winsock_server_init("127.0.0.1", 9091, 64);
+print s["__type__"];
+print s["host"];
+print s["port"];
+print s["nonblocking"];
+print s["status"];
+end]=])
+    set(expected_stdout [=[winsock_server
+127.0.0.1
+9091
+1
+listening
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_winsock_server_poll")
+    set(source [=[start
+s = winsock_server_init("127.0.0.1", 9092, 10);
+ready = winsock_server_poll(s, 5);
+print ready;
+end]=])
+    set(expected_stdout [=[0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_winsock_server_accept")
+    set(source [=[start
+s = winsock_server_init("127.0.0.1", 9093, 10);
+cl = winsock_server_accept(s);
+print cl["__type__"];
+print cl["client_ip"];
+print cl["status"];
+end]=])
+    set(expected_stdout [=[winsock_client
+127.0.0.1
+connected
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_winsock_client_recv")
+    set(source [=[start
+s = winsock_server_init("127.0.0.1", 9094, 10);
+cl = winsock_server_accept(s);
+req = winsock_client_recv(cl, 1024);
+print lambai(req) > 0;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_winsock_client_send")
+    set(source [=[start
+s = winsock_server_init("127.0.0.1", 9095, 10);
+cl = winsock_server_accept(s);
+resp = "HTTP/1.1 200 OK\r\nContent-Length: 13\r\n\r\nHello Gujarati";
+bytes = winsock_client_send(cl, resp);
+print bytes > 0;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_winsock_server_close")
+    set(source [=[start
+s = winsock_server_init("127.0.0.1", 9096, 10);
+res = winsock_server_close(s);
+print res;
+print s["status"];
+end]=])
+    set(expected_stdout [=[1
+closed
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_winsock_http_serve_cli")
+    set(program_arguments "http:serve" "8080")
+    set(expected_stdout [=[[Winsock Asynchronous HTTP Server v3.5.0]
+  Listening on http://127.0.0.1:8080/
+  Mode: Asynchronous Non-blocking (WSAEventSelect / WSAPoll)
+  Status: Ready for incoming connections.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_khel3d_scene_create")
+    set(source [=[start
+sc = khel3d_scene_create("CyberDungeon");
+print sc["__type__"];
+print sc["name"];
+print sc["ambient_color"];
+print sc["engine"];
+end]=])
+    set(expected_stdout [=[khel3d_scene
+CyberDungeon
+#ffffff
+Khel-3D Scene Graph v3.5.0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_khel3d_mesh_create")
+    set(source [=[start
+cube = khel3d_mesh_create("cube", null);
+sphere = khel3d_mesh_create("sphere", null);
+print cube["__type__"];
+print cube["vertex_count"];
+print cube["face_count"];
+print sphere["vertex_count"];
+print sphere["face_count"];
+end]=])
+    set(expected_stdout [=[khel3d_mesh
+8
+12
+42
+80
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_khel3d_camera_set")
+    set(source [=[start
+sc = khel3d_scene_create("CameraTest");
+cam = khel3d_camera_set(sc, [0, 5, -10], [0, 0, 0], [0, 1, 0], 45.0);
+print cam["__type__"];
+print cam["fov"];
+end]=])
+    set(expected_stdout [=[khel3d_camera
+45
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_khel3d_node_transform")
+    set(source [=[start
+m = khel3d_mesh_create("cube", null);
+tr = khel3d_node_transform(m, [10, 20, 30], [0, 90, 0], [2, 2, 2]);
+mat = tr["matrix_4x4"];
+print lambai(mat);
+print mat[0];
+end]=])
+    set(expected_stdout [=[16
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_khel3d_render_wireframe")
+    set(source [=[start
+sc = khel3d_scene_create("WireframeScene");
+wf = khel3d_render_wireframe(sc, 80, 24);
+print wf["__type__"];
+print wf["width"];
+print wf["height"];
+print wf["lines_drawn"];
+end]=])
+    set(expected_stdout [=[khel3d_wireframe
+80
+24
+12
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_khel3d_assets_cook_cli")
+    set(program_arguments "assets:cook" "hero.gltf")
+    set(expected_stdout [=[[Khel-3D Asset Pipeline v3.5.0] Cooking asset 'hero.gltf'...
+  Geometry: 2 meshes, 1,420 triangles processed.
+  Bones: 18 skeletal bones packed.
+✓ Binary cooking complete: cooked_assets/hero.gltf.bin
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_gati_world_create")
+    set(source [=[start
+gw = gati_world_create([0, -9.81, 0]);
+print gw["__type__"];
+print gw["body_count"];
+print gw["engine"];
+end]=])
+    set(expected_stdout [=[gati_world
+0
+Gati Symplectic Euler v3.5.0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_gati_body_add")
+    set(source [=[start
+gw = gati_world_create([0, -9.81, 0]);
+b1 = gati_body_add(gw, "dynamic", 5.0, [0, 10, 0]);
+b2 = gati_body_add(gw, "static", 0.0, [0, 0, 0]);
+print b1["__type__"];
+print b1["type"];
+print b1["mass"];
+print b2["type"];
+end]=])
+    set(expected_stdout [=[gati_body
+dynamic
+5
+static
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_gati_step")
+    set(source [=[start
+gw = gati_world_create([0, -9.81, 0]);
+res = gati_step(gw, 0.016);
+print res["status"];
+print res["bodies_updated"];
+end]=])
+    set(expected_stdout [=[integrated
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_gati_collide_aabb")
+    set(source [=[start
+col = gati_collide_aabb({"min": [0,0,0], "max": [2,2,2]}, {"min": [1,1,1], "max": [3,3,3]});
+print col;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_gati_raycast")
+    set(source [=[start
+gw = gati_world_create([0, -9.81, 0]);
+rc = gati_raycast(gw, [0, 10, -20], [0, 0, 1], 50.0);
+print rc["hit"];
+print rc["body_id"];
+end]=])
+    set(expected_stdout [=[1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_gati_physics_simulate_cli")
+    set(program_arguments "physics:simulate" "level1_physics.gj")
+    set(expected_stdout [=[[Gati 3D Physics Simulation v3.5.0] Simulating 'level1_physics.gj'...
+  Integrator: Symplectic Euler (dt = 0.016s / 60 FPS)
+  Rigid Bodies: 12 dynamic, 4 static colliders.
+✓ 600 frames simulated. 0 penetrations detected.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_dhwani_engine_init")
+    set(source [=[start
+ae = dhwani_engine_init(48000, 2);
+print ae["__type__"];
+print ae["sample_rate"];
+print ae["channels"];
+print ae["state"];
+print ae["engine"];
+end]=])
+    set(expected_stdout [=[dhwani_engine
+48000
+2
+active
+Dhwani Spatial Audio v3.5.0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_dhwani_tone_generate")
+    set(source [=[start
+clip = dhwani_tone_generate("sine", 440.0, 2.0, 0.9);
+print clip["__type__"];
+print clip["waveform"];
+print clip["frequency"];
+print clip["duration"];
+end]=])
+    set(expected_stdout [=[dhwani_audio_clip
+sine
+440
+2
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_dhwani_spatial_position")
+    set(source [=[start
+clip = dhwani_tone_generate("square", 220.0, 1.0, 0.8);
+sp = dhwani_spatial_position(clip, [0, 0, 0], [4, 0, 5]);
+print sp["pan_left"];
+print sp["pan_right"];
+print sp["doppler_pitch"];
+end]=])
+    set(expected_stdout [=[0.35
+0.85
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_dhwani_reverb_apply")
+    set(source [=[start
+clip = dhwani_tone_generate("sine", 880.0, 1.0, 0.7);
+rev = dhwani_reverb_apply(clip, 0.8, 0.3);
+print rev["__type__"];
+print rev["reverb_applied"];
+print rev["room_size"];
+end]=])
+    set(expected_stdout [=[dhwani_audio_clip
+1
+0.8
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_dhwani_mix_tracks")
+    set(source [=[start
+t1 = dhwani_tone_generate("sine", 440.0, 3.0, 0.5);
+t2 = dhwani_tone_generate("sawtooth", 110.0, 3.0, 0.5);
+m = dhwani_mix_tracks([t1, t2]);
+print m["__type__"];
+print m["track_count"];
+print m["status"];
+end]=])
+    set(expected_stdout [=[dhwani_master_track
+2
+mixed
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_dhwani_audio_play_cli")
+    set(program_arguments "audio:play" "intro_theme.wav")
+    set(expected_stdout [=[[Dhwani Spatial Audio v3.5.0] Playing 'intro_theme.wav'...
+  Format: 48,000 Hz, 32-bit Float Stereo (HRTF Binaural)
+  Status: Audio playback buffer active.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_ecs_world_create")
+    set(source [=[start
+ew = ecs_world_create();
+print ew["__type__"];
+print ew["entity_count"];
+print ew["engine"];
+end]=])
+    set(expected_stdout [=[ecs_world
+0
+Niyantran Archetype ECS v3.5.0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_ecs_entity_spawn_query")
+    set(source [=[start
+ew = ecs_world_create();
+e1 = ecs_entity_spawn(ew, {"transform": [0,0,0], "velocity": [1,0,0]});
+e2 = ecs_entity_spawn(ew, {"transform": [10,0,0], "render": "player.png"});
+print e1;
+print e2;
+q = ecs_query(ew, ["transform"]);
+print lambai(q);
+end]=])
+    set(expected_stdout [=[1
+2
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_ecs_system_register")
+    set(source [=[start
+ew = ecs_world_create();
+res = ecs_system_register(ew, "MovementSystem", null);
+print res;
+end]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_gui_window_create")
+    set(source [=[start
+win = gui_window_create("Shilp Studio", 1024, 768, null);
+print win["__type__"];
+print win["title"];
+print win["width"];
+print win["height"];
+print win["canvas"];
+print win["status"];
+end]=])
+    set(expected_stdout [=[gui_window
+Shilp Studio
+1024
+768
+shilp_vector_canvas
+created
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v350_starter_kit_desktop_cli")
+    set(program_arguments "new" "finance_app" "--kit=desktop")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'Shilp Native Desktop GUI Suite' into './finance_app'...
+  ✓ Created app.gj (Native Window Event Loop & Shilp 2D Vector Canvas)
+  ✓ Created views/main_view.gj (Reactive UI Components & Vector Graphics Layout)
+  ✓ Created views/menu_bar.gj (System Menubar, Keyboard Shortcuts & Tray Icon)
+  ✓ Created components/dialog.gj (Native Open/Save File Dialogs & Modals)
+  ✓ Created assets/icon.svg (High-DPI Shilp Vector Application Icon)
+🎉 Project 'finance_app' created successfully!
+Run with:
+  cd finance_app
+  gujarati app.gj
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
