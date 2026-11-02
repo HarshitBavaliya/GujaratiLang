@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v2.9.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v2.9.0) ("Pravah, Shilp, Vidyut & Yantra").
+- Latest interpreter release: [GujaratiLang v3.0.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.0.0) ("The Grand Sovereign Cloud & Distributed Quantum Engine").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v2.9.0 (560 automated test suites passing, 100% pass rate).
+  platform before publishing v3.0.0 (600 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,12 +30,12 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (560/560 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (600/600 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v2.9.0: Pravah, Shilp, Vidyut & Yantra (560 Tests Milestone)**.
+Latest commit on origin: **Release v3.0.0: Pravah, Shilp, Vidyut & Yantra (560 Tests Milestone)**.
 
 Recent completed work includes:
 

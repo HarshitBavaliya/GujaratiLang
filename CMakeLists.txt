@@ -572,7 +572,47 @@ if(BUILD_TESTING)
             v290_vidyut_actor_system
             v290_yantra_vdb_insert
             v290_yantra_search_embed
-            v290_yantra_hybrid_cli)
+            v290_yantra_hybrid_cli
+            v300_cloud_edge_init
+            v300_cloud_edge_kv
+            v300_cloud_worker_spawn
+            v300_cloud_wasi_sandbox
+            v300_cloud_edge_headers
+            v300_cloud_tenant_isolate
+            v300_cloud_metrics_export
+            v300_cloud_cli_deploy
+            v300_pqc_kyber_keypair
+            v300_pqc_kyber_encaps_decaps
+            v300_pqc_dilithium_sign_verify
+            v300_zk_snark_prove_verify
+            v300_crypto_vrf
+            v300_crypto_threshold_bls
+            v300_pqc_cli_genkey
+            v300_zk_cli_verify
+            v300_swaroop_actor_create
+            v300_swaroop_actor_send
+            v300_swaroop_supervisor
+            v300_swaroop_actor_monitor_link
+            v300_swaroop_hot_reload
+            v300_swaroop_mailbox_priority
+            v300_swaroop_registry_bind_lookup
+            v300_swaroop_cli_top
+            v300_raft_cluster_init
+            v300_raft_election_timeout
+            v300_raft_log_append
+            v300_raft_state_machine_apply
+            v300_raft_compact_snapshot
+            v300_raft_joint_consensus
+            v300_raft_split_brain_guard
+            v300_raft_cli_quorum
+            v300_sovereign_agent_swarm
+            v300_sovereign_task_decompose
+            v300_sovereign_python_bridge
+            v300_sovereign_rust_ffi
+            v300_sovereign_bytecode_verify
+            v300_sovereign_mcu_profile
+            v300_sovereign_audit_compliance
+            v300_sovereign_lts_cli_kernel)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"
