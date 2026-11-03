@@ -21037,7 +21037,11 @@ static Value winsock_server_accept_helper(Parser *parser, Token name, Value srv_
     int fd = (sock_v.kind == VALUE_NUMBER) ? (int)sock_v.number : -1;
     if (fd > 0) {
         struct sockaddr_in caddr;
+#if defined(_WIN32)
         int clen = sizeof(caddr);
+#else
+        socklen_t clen = sizeof(caddr);
+#endif
         socket_t cs = accept((socket_t)fd, (struct sockaddr*)&caddr, &clen);
         if (!IS_INVALID_SOCKET(cs)) {
 #if defined(_WIN32)
@@ -21051,10 +21055,12 @@ static Value winsock_server_accept_helper(Parser *parser, Token name, Value srv_
             gj_dict_set(parser, res, "client_ip", gj_string(parser, name, inet_ntoa(caddr.sin_addr)), name);
             gj_dict_set(parser, res, "client_port", number_value((double)ntohs(caddr.sin_port)), name);
             gj_dict_set(parser, res, "status", gj_string(parser, name, "connected"), name);
+            gj_dict_set(parser, res, "is_mock", number_value(0.0), name);
             return gj_dict(res);
         }
     }
-    gj_dict_set(parser, res, "socket", number_value(4.0), name);
+    gj_dict_set(parser, res, "socket", number_value(-1.0), name);
+    gj_dict_set(parser, res, "is_mock", number_value(1.0), name);
     gj_dict_set(parser, res, "client_ip", gj_string(parser, name, "127.0.0.1"), name);
     gj_dict_set(parser, res, "client_port", number_value(54321.0), name);
     gj_dict_set(parser, res, "status", gj_string(parser, name, "connected"), name);
@@ -21064,19 +21070,23 @@ static Value winsock_server_accept_helper(Parser *parser, Token name, Value srv_
 static Value winsock_client_recv_helper(Parser *parser, Token name, Value cl_v, Value max_bytes_v) {
     int max_b = (max_bytes_v.kind == VALUE_NUMBER && max_bytes_v.number > 0) ? (int)max_bytes_v.number : 4096;
     if (cl_v.kind == VALUE_DICT && cl_v.dict) {
-        Value sock_v = gj_dict_get(cl_v.dict, "socket");
-        int fd = (sock_v.kind == VALUE_NUMBER) ? (int)sock_v.number : -1;
-        if (fd > 0) {
-            char *buf = (char*)malloc(max_b + 1);
-            if (buf) {
-                int n = recv((socket_t)fd, buf, max_b, 0);
-                if (n > 0) {
-                    buf[n] = '\0';
-                    Value res = gj_string(parser, name, buf);
+        Value mock_v = gj_dict_get(cl_v.dict, "is_mock");
+        int is_mock = (mock_v.kind == VALUE_NUMBER && mock_v.number > 0);
+        if (!is_mock) {
+            Value sock_v = gj_dict_get(cl_v.dict, "socket");
+            int fd = (sock_v.kind == VALUE_NUMBER) ? (int)sock_v.number : -1;
+            if (fd > 0) {
+                char *buf = (char*)malloc(max_b + 1);
+                if (buf) {
+                    int n = recv((socket_t)fd, buf, max_b, 0);
+                    if (n > 0) {
+                        buf[n] = '\0';
+                        Value res = gj_string(parser, name, buf);
+                        free(buf);
+                        return res;
+                    }
                     free(buf);
-                    return res;
                 }
-                free(buf);
             }
         }
     }
@@ -21087,11 +21097,20 @@ static Value winsock_client_send_helper(Parser *parser, Token name, Value cl_v, 
     char *s = (msg_v.kind == VALUE_STRING) ? value_to_c_string(parser, msg_v) : NULL;
     int len = s ? (int)strlen(s) : 0;
     if (cl_v.kind == VALUE_DICT && cl_v.dict && s) {
-        Value sock_v = gj_dict_get(cl_v.dict, "socket");
-        int fd = (sock_v.kind == VALUE_NUMBER) ? (int)sock_v.number : -1;
-        if (fd > 0) {
-            int sent = send((socket_t)fd, s, len, 0);
-            if (sent > 0) len = sent;
+        Value mock_v = gj_dict_get(cl_v.dict, "is_mock");
+        int is_mock = (mock_v.kind == VALUE_NUMBER && mock_v.number > 0);
+        if (!is_mock) {
+            Value sock_v = gj_dict_get(cl_v.dict, "socket");
+            int fd = (sock_v.kind == VALUE_NUMBER) ? (int)sock_v.number : -1;
+            if (fd > 0) {
+#if defined(MSG_NOSIGNAL)
+                int flags = MSG_NOSIGNAL;
+#else
+                int flags = 0;
+#endif
+                int sent = send((socket_t)fd, s, len, flags);
+                if (sent > 0) len = sent;
+            }
         }
     }
     if (s) free(s);
@@ -21100,11 +21119,15 @@ static Value winsock_client_send_helper(Parser *parser, Token name, Value cl_v, 
 
 static Value winsock_server_close_helper(Parser *parser, Token name, Value h_v) {
     if (h_v.kind == VALUE_DICT && h_v.dict) {
-        Value sock_v = gj_dict_get(h_v.dict, "socket");
-        int fd = (sock_v.kind == VALUE_NUMBER) ? (int)sock_v.number : -1;
-        if (fd > 0) {
-            shutdown((socket_t)fd, 2);
-            CLOSE_SOCKET((socket_t)fd);
+        Value mock_v = gj_dict_get(h_v.dict, "is_mock");
+        int is_mock = (mock_v.kind == VALUE_NUMBER && mock_v.number > 0);
+        if (!is_mock) {
+            Value sock_v = gj_dict_get(h_v.dict, "socket");
+            int fd = (sock_v.kind == VALUE_NUMBER) ? (int)sock_v.number : -1;
+            if (fd > 0) {
+                shutdown((socket_t)fd, 2);
+                CLOSE_SOCKET((socket_t)fd);
+            }
         }
         gj_dict_set(parser, h_v.dict, "status", gj_string(parser, name, "closed"), name);
     }
@@ -36904,9 +36927,32 @@ int main(int argc, char **argv)
 #ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
+#else
+#if defined(SIGPIPE)
+    signal(SIGPIPE, SIG_IGN);
+#endif
 #endif
     if (argc >= 2 && (strcmp(argv[1], "--version") == 0 || strcmp(argv[1], "-v") == 0)) {
         printf("4.0.0\n");
+        return EXIT_SUCCESS;
+    }
+    if (argc >= 2 && (strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "help") == 0 || strcmp(argv[1], "મદદ") == 0)) {
+        printf("GujaratiLang v4.0.0 — The Sovereign Gujarati Programming Language\n");
+        printf("Usage:\n");
+        printf("  gujarati <file.gj>                       Run a GujaratiLang program\n");
+        printf("  gujarati --repl                          Start interactive REPL\n");
+        printf("  gujarati -v, --version                   Show version information\n");
+        printf("  gujarati -h, --help                      Show this help message\n");
+        printf("\nTooling & Subcommands:\n");
+        printf("  gujarati ast:dump <file.gj>              Inspect Abstract Syntax Tree\n");
+        printf("  gujarati wasm:compile <file.gj> [out]    Compile to WebAssembly binary\n");
+        printf("  gujarati pqc:keypair [algorithm]         Generate NIST Post-Quantum Cryptography keys\n");
+        printf("  gujarati swarm:status [cluster.json]     Inspect autonomous agent swarm consensus\n");
+        printf("  gujarati new <name> [--kit=<kit>]        Scaffold starter kit (agent, audio, mobile, etc.)\n");
+        printf("  gujarati dtn:route / mesh:simulate       Planetary DTN & LoRaWAN/BLE mesh simulation\n");
+        printf("  gujarati ros2:node / slam:map            Robotics ROS2 DDS & SLAM mapping\n");
+        printf("  gujarati check:borrow / verify:formal    Formal verification & memory borrow checker\n");
+        printf("  gujarati docs [topic]                    Display built-in language documentation\n");
         return EXIT_SUCCESS;
     }
     /* === GujaratiLang v2.8.0 CLI Commands: Mandhan, Garvi, Saransh === */
