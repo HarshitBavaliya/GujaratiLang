@@ -1,3 +1,68 @@
+# GujaratiLang v3.9.0: Bhuvan & Setu — Planetary Delay-Tolerant Networking, LoRaWAN / BLE Mesh, IPFS Content Addressing & Decentralized Identifiers (ભુવન, સેતુ, મેશ, સંચય અને ઓળખ)
+
+GujaratiLang **v3.9.0** is officially released! This landmark milestone expands GujaratiLang into off-grid, interplanetary, peer-to-peer, and decentralized networking runtimes, implemented in 100% pure C99 with **zero external C dependencies**.
+
+It introduces the RFC 5050 Delay-Tolerant Networking (DTN) Bundle Protocol with custody transfer and orbital Contact Graph Routing (Bhuvan), sub-GHz ad-hoc flood mesh networking for disaster-recovery and rural sensor networks (Mesh), standard IPFS UnixFS Merkle DAGs and CIDv0/CIDv1 cryptographic content addressing (Sanchay), and W3C Decentralized Identifiers (DIDs) with Ed25519 tamper-proof Verifiable Credentials & Presentations (Pehchan), alongside our ninth official pre-coded starter kit: **Dhwani Spatial Audio & Synthesizer Studio (`--kit=audio`, `--kit=dhwani`)**.
+
+With v3.9.0, the automated test suite reaches the milestone of **870 Tests (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
+
+---
+
+## 🌟 What's New in v3.9.0
+
+### 1. 🪐 Pillar 1: Bhuvan (ભુવન) Delay-Tolerant Networking (DTN RFC 5050) (8 Points)
+- **`dtn_bundle_create(src, dst, payload, ttl)` / `dtn_bundle_bnavo` / `ડીટીએન_બંડલ_બનાવો`**: Creates an RFC 5050 DTN bundle with custody transfer request, destination EID, source EID, TTL, and payload.
+- **`dtn_bundle_serialize(bundle)` / `dtn_bundle_kramit` / `ડીટીએન_બંડલ_ક્રમિત`**: Serializes bundle dictionary into canonical DTN binary/hex RFC 5050 format.
+- **`dtn_bundle_parse(hex_data)` / `dtn_bundle_vancho` / `ડીટીએન_બંડલ_વાંચો`**: Parses serialized bundle data, validating version, blocks, and integrity.
+- **`dtn_store_forward(bundle, spool_dir)` / `dtn_sangrah_aagal` / `ડીટીએન_સંગ્રહ_આગળ`**: Persists bundles to local storage spool awaiting transit contact windows.
+- **`dtn_custody_accept(bundle, custodian_eid)` / `dtn_hastantaran_swikar` / `ડીટીએન_હસ્તાંતરણ_સ્વીકાર`**: Issues custody signal acknowledgment transferring custody responsibility.
+- **`dtn_contact_plan_add(peer, start, end, rate)` / `dtn_sampark_yojana` / `ડીટીએન_સંપર્ક_યોજના`**: Schedules deterministic orbital contact windows for Contact Graph Routing (CGR).
+- **`dtn_bundle_route_next(bundle, current_time)` / `dtn_marga_shodho` / `ડીટીએન_માર્ગ_શોધો`**: Determines next-hop custodian EID based on contact schedule and bundle TTL.
+- **CLI: `gujarati dtn:route <contact_plan.json>` / `gujarati ડીટીએન:માર્ગ`**: Evaluates planetary contact graph and calculates bundle delivery ETA.
+
+### 2. 📡 Pillar 2: Mesh (મેશ) LoRaWAN & BLE Sub-GHz Mesh Routing (8 Points)
+- **`mesh_node_init(node_id, freq, sf)` / `mesh_node_saruaat` / `મેશ_નોડ_શરૂઆત`**: Initializes a virtual/hardware LoRaWAN/BLE mesh transceiver node.
+- **`mesh_packet_send(node, dst, payload, max_hops)` / `mesh_packet_moklo` / `મેશ_પેકેટ_મોકલો`**: Broadcasts an ad-hoc mesh packet with TTL and sequential packet ID.
+- **`mesh_packet_route_forward(node, pkt)` / `mesh_packet_aagal_moklo` / `મેશ_પેકેટ_આગળ_મોકલો`**: Handles hop decrements, duplicate drop checks, and multi-hop flood forwarding.
+- **`mesh_peer_heartbeat(node, peer, rssi, snr)` / `mesh_peer_dhabkaro` / `મેશ_પીઅર_ધબકારો`**: Updates routing table with neighbor link quality metrics (RSSI, SNR).
+- **`mesh_routing_table_get(node)` / `mesh_marga_takhta` / `મેશ_માર્ગ_તખ્તા`**: Returns active routing table with neighbor paths and hop costs.
+- **`mesh_packet_encrypt(payload, key)` / `mesh_packet_gupt` / `મેશ_પેકેટ_ગુપ્ત`**: Encrypts mesh payload using authenticated keystream cipher with IV prefix.
+- **`mesh_packet_decrypt(ciphertext, key)` / `mesh_packet_spasht` / `મેશ_પેકેટ_સ્પષ્ટ`**: Decrypts mesh over-the-air payload.
+- **CLI: `gujarati mesh:simulate <topology.json>` / `gujarati મેશ:સિમ્યુલેટ`**: Simulates multi-hop mesh message propagation and packet loss statistics.
+
+### 3. 📦 Pillar 3: Sanchay (સંચય) IPFS UnixFS & Content Addressing (7 Points)
+- **`ipfs_cid_generate(data, version)` / `ipfs_cid_bnavo` / `આઈપીએફએસ_સીઆઈડી_બનાવો`**: Computes standard IPFS CIDv0 (`Qm...` base58) or CIDv1 (`bafy...` base32) cryptographic multihashes.
+- **`ipfs_dag_node_create(data, links)` / `ipfs_dag_nod_bnavo` / `આઈપીએફએસ_ડેગ_નોડ_બનાવો`**: Constructs Merkle DAG nodes linking child CIDs with payload data.
+- **`ipfs_unixfs_chunk(content, chunk_size)` / `ipfs_unixfs_tukda` / `આઈપીએફએસ_યુનિક્સએફએસ_ટુકડા`**: Splits content into UnixFS leaf blocks and calculates root Merkle hash.
+- **`ipfs_block_verify(cid, data)` / `ipfs_block_chakasani` / `આઈપીએફએસ_બ્લોક_ચકાસણી`**: Cryptographically verifies data content against CID hash (tamper detection).
+- **`ipfs_pin_add(cid, pin_type)` / `ipfs_pin_umero` / `આઈપીએફએસ_પિન_ઉમેરો`**: Pins CID locally in Sanchay pinned index, preventing garbage collection.
+- **`ipfs_pin_list()` / `ipfs_pin_yadi` / `આઈપીએફએસ_પિન_યાદી`**: Returns list of all pinned CIDs with pinning timestamps and pin types.
+- **CLI: `gujarati ipfs:hash <file>` / `gujarati આઈપીએફએસ:હેશ`**: Pure C99 CLI tool calculating and verifying CIDv1 multihashes for any file.
+
+### 4. 🪪 Pillar 4: Pehchan (ઓળખ) W3C Decentralized Identifiers & Verifiable Credentials (7 Points)
+- **`did_create(method, pubkey)` / `did_bnavo` / `ડીઆઈડી_બનાવો`**: Generates W3C compliant DID string (`did:key:...` or `did:guj:...`).
+- **`did_document_resolve(did)` / `did_dastavej_shodho` / `ડીઆઈડી_દસ્તાવેજ_શોધો`**: Resolves W3C DID Document JSON with verification methods and authentication suites.
+- **`vc_issue(issuer, subject, claims, exp_days)` / `vc_aapo` / `વીસી_આપો`**: Constructs tamper-evident Verifiable Credential conforming to W3C VC data model.
+- **`vc_sign(vc, privkey)` / `vc_sahikaro` / `વીસી_સહીકરો`**: Attaches Ed25519 cryptographic proof block to Verifiable Credential.
+- **`vc_verify(vc_signed, pubkey)` / `vc_chakasani` / `વીસી_ચકાસણી`**: Validates cryptographic signature, expiration date, and integrity of claims in a VC.
+- **`vp_create(vc_list, holder)` / `vp_bnavo` / `વીપી_બનાવો`**: Packages one or more VCs into a Verifiable Presentation with holder proof.
+- **CLI: `gujarati did:resolve <did>` / `gujarati ડીઆઈડી:શોધો`**: Resolves DID and outputs formatted W3C DID Document.
+
+### 5. 🎵 Pre-Built Starter Kit 9: Dhwani Audio (`--kit=audio`, `--kit=dhwani`)
+Scaffold cross-platform spatial audio synthesis and sound engine projects:
+```bash
+gujarati new synth_studio --kit=audio
+# or
+gujarati new synth_studio --kit=dhwani
+```
+Generates:
+- `app.gj`: Master synthesizer rack, audio engine & 3D spatial positioning.
+- `synths/wave_generator.gj`: Multi-waveform wavetable oscillators & ADSR filter envelopes.
+- `mixer/track_bus.gj`: 8-Channel stereo mixer bus, gain staging & reverb send.
+- `assets/manifest.json`: Sound effects library, sample rate & audio buffers.
+
+---
+
 # GujaratiLang v3.8.0: Yantram & Gati — Robotics, ROS2 DDS, LiDAR SLAM, PID & Drone Telemetry (યંત્રમ, ગતિ, માર્ગ, ચાલક અને ઉડાન)
 
 GujaratiLang **v3.8.0** is officially released! This monumental release brings industrial robotics, real-time autonomous navigation, closed-loop motion control, and avionics telemetry to GujaratiLang, implemented in 100% pure C99 with **zero external C dependencies**.

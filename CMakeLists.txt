@@ -852,7 +852,37 @@ if(BUILD_TESTING)
             v380_drone_sensor_fusion
             v380_drone_arm_failsafe
             v380_cli_drone_telemetry
-            v380_cli_mobile_kit)
+            v380_cli_mobile_kit
+            v390_dtn_bundle_create
+            v390_dtn_bundle_serialize
+            v390_dtn_bundle_parse
+            v390_dtn_store_forward
+            v390_dtn_custody_accept
+            v390_dtn_contact_plan_add
+            v390_dtn_bundle_route_next
+            v390_cli_dtn_route
+            v390_mesh_node_init
+            v390_mesh_packet_send
+            v390_mesh_packet_route_forward
+            v390_mesh_peer_heartbeat
+            v390_mesh_routing_table_get
+            v390_mesh_packet_encrypt
+            v390_mesh_packet_decrypt
+            v390_cli_mesh_simulate
+            v390_ipfs_cid_generate
+            v390_ipfs_dag_node_create
+            v390_ipfs_unixfs_chunk
+            v390_ipfs_block_verify
+            v390_ipfs_pin_add
+            v390_ipfs_pin_list
+            v390_cli_ipfs_hash
+            v390_did_create
+            v390_did_document_resolve
+            v390_vc_issue
+            v390_vc_sign
+            v390_vc_verify
+            v390_vp_create
+            v390_cli_audio_kit)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

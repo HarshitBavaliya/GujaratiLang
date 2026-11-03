@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v3.8.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.8.0) ("Yantram & Gati — Robotics, ROS2 DDS, LiDAR SLAM, PID & Drone Telemetry").
+- Latest interpreter release: [GujaratiLang v3.9.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.9.0) ("Bhuvan & Setu — Planetary Delay-Tolerant Networking, LoRaWAN / BLE Mesh, IPFS Content Addressing & Decentralized Identifiers").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v3.8.0 (810 automated test suites passing, 100% pass rate).
+  platform before publishing v3.9.0 (870 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,12 +30,29 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (810/810 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (870/870 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v3.8.0: Satya & Shuddhi — Formal Verification & Safe Memory (840 Tests Milestone)**.
+Latest commit on origin: **Release v3.9.0: Bhuvan & Setu — Planetary Delay-Tolerant Networking, LoRaWAN / BLE Mesh, IPFS Content Addressing & Decentralized Identifiers (870 Tests Milestone)**.
+
+Recent completed work includes:
+
+- Added Bhuvan (ભુવન) Delay-Tolerant Networking (DTN RFC 5050):
+  - `dtn_bundle_create`, `dtn_bundle_serialize`, `dtn_bundle_parse`, `dtn_store_forward`, `dtn_custody_accept`, `dtn_contact_plan_add`, `dtn_bundle_route_next`
+  - CLI: `gujarati dtn:route <contact_plan.json>`
+- Added Mesh (મેશ) LoRaWAN & BLE Sub-GHz Mesh Routing:
+  - `mesh_node_init`, `mesh_packet_send`, `mesh_packet_route_forward`, `mesh_peer_heartbeat`, `mesh_routing_table_get`, `mesh_packet_encrypt`, `mesh_packet_decrypt`
+  - CLI: `gujarati mesh:simulate <topology.json>`
+- Added Sanchay (સંચય) IPFS UnixFS & Content Addressing:
+  - `ipfs_cid_generate`, `ipfs_dag_node_create`, `ipfs_unixfs_chunk`, `ipfs_block_verify`, `ipfs_pin_add`, `ipfs_pin_list`
+  - CLI: `gujarati ipfs:hash <file>`
+- Added Pehchan (ઓળખ) W3C Decentralized Identifiers & Verifiable Credentials:
+  - `did_create`, `did_document_resolve`, `vc_issue`, `vc_sign`, `vc_verify`, `vp_create`
+  - CLI: `gujarati did:resolve <did>`
+- Added Pre-Coded Starter Kit 9: Dhwani Audio (`--kit=audio`, `--kit=dhwani`):
+  - `gujarati new synth_studio --kit=audio` (aliases `kit:audio`, `kit:dhwani`)
 
 Recent completed work includes:
 

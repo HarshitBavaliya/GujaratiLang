@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "3.8.0\n1\n")
+    set(expected_stdout "3.9.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "3.8.0\n")
+    set(expected_stdout "3.9.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "3.8.0\n1\n0\n")
+    set(expected_stdout "3.9.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.8.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.9.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "3.8.0\n1\n1\n3.8.0\n")
+    set(expected_stdout "3.9.0\n1\n1\n3.9.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.8.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.9.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-3.8.0
+3.9.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-3.8.0
+3.9.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.8.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.9.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.8.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.9.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-3.8.0
+3.9.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-3.8.0
+3.9.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,7 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[3.8.0
+    set(expected_stdout [=[3.9.0
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -11644,6 +11644,593 @@ elseif(TEST_CASE STREQUAL "v380_cli_mobile_kit")
 🎉 Project 'urban_drone_pilot' created successfully!
 Run with:
   cd urban_drone_pilot
+  gujarati app.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_dtn_bundle_create")
+    set(source [=[start
+b1 = dtn_bundle_create("dtn://earth.sol/node1", "dtn://mars.orbiter/rover2", "Alpha Telemetry", 86400.0);
+b2 = dtn_bundle_bnavo("dtn://earth.sol/node1", "dtn://mars.orbiter/rover2", "Alpha Telemetry", 86400.0);
+b3 = ડીટીએન_બંડલ_બનાવો("dtn://earth.sol/node1", "dtn://mars.orbiter/rover2", "Alpha Telemetry", 86400.0);
+print b1["protocol"];
+print b1["src"];
+print b1["dst"];
+print b1["payload"];
+print b1["ttl"];
+print b1["custody_transfer"];
+print b2["protocol"];
+print b3["status"];
+end]=])
+    set(expected_stdout [=[RFC5050_BUNDLE
+dtn://earth.sol/node1
+dtn://mars.orbiter/rover2
+Alpha Telemetry
+86400
+1
+RFC5050_BUNDLE
+QUEUED
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_dtn_bundle_serialize")
+    set(source [=[start
+b = dtn_bundle_create("dtn://earth", "dtn://mars", "test", 3600.0);
+s1 = dtn_bundle_serialize(b);
+s2 = dtn_bundle_kramit(b);
+s3 = ડીટીએન_બંડલ_ક્રમિત(b);
+print (s1 == s2);
+print (s2 == s3);
+print (lambai(s1) > 20);
+end]=])
+    set(expected_stdout [=[1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_dtn_bundle_parse")
+    set(source [=[start
+hex = "05001464746e3a2f2f65617274682e736f6c2f6e6f6465311864746e3a2f2f6d6172732e6f7262697465722f726f76657232010974656c656d6574727931c8";
+p1 = dtn_bundle_parse(hex);
+p2 = dtn_bundle_vancho(hex);
+p3 = ડીટીએન_બંડલ_વાંચો(hex);
+print p1["valid"];
+print p2["protocol"];
+print p3["src"];
+print p3["dst"];
+print p1["payload"];
+end]=])
+    set(expected_stdout [=[1
+RFC5050_BUNDLE
+dtn://earth.sol/node1
+dtn://mars.orbiter/rover2
+telemetry
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_dtn_store_forward")
+    set(source [=[start
+b = dtn_bundle_create("dtn://earth", "dtn://mars", "data", 1000.0);
+sf1 = dtn_store_forward(b, "/var/dtn/spool");
+sf2 = dtn_sangrah_aagal(b, "/var/dtn/spool");
+sf3 = ડીટીએન_સંગ્રહ_આગળ(b, "/var/dtn/spool");
+print sf1["stored"];
+print sf1["bytes_persisted"];
+print sf2["transit_status"];
+print sf3["stored"];
+end]=])
+    set(expected_stdout [=[1
+64
+STORED_AWAITING_WINDOW
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_dtn_custody_accept")
+    set(source [=[start
+b = dtn_bundle_create("dtn://earth", "dtn://mars", "data", 1000.0);
+c1 = dtn_custody_accept(b, "dtn://relay.moon");
+c2 = dtn_hastantaran_swikar(b, "dtn://relay.moon");
+c3 = ડીટીએન_હસ્તાંતરણ_સ્વીકાર(b, "dtn://relay.moon");
+print c1["signal"];
+print c1["custody_transferred"];
+print c2["retx_timer"];
+print c3["custodian"];
+end]=])
+    set(expected_stdout [=[CUSTODY_SIGNAL_SUCCESS
+1
+3600
+dtn://relay.moon
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_dtn_contact_plan_add")
+    set(source [=[start
+cp1 = dtn_contact_plan_add("dtn://mars.orbiter", 100.0, 700.0, 51200.0);
+cp2 = dtn_sampark_yojana("dtn://mars.orbiter", 100.0, 700.0, 51200.0);
+cp3 = ડીટીએન_સંપર્ક_યોજના("dtn://mars.orbiter", 100.0, 700.0, 51200.0);
+print cp1["scheduled"];
+print cp1["window_duration"];
+print cp2["capacity_bytes"];
+print cp3["peer"];
+end]=])
+    set(expected_stdout [=[1
+600
+30720000
+dtn://mars.orbiter
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_dtn_bundle_route_next")
+    set(source [=[start
+b = dtn_bundle_create("dtn://earth", "dtn://mars", "data", 1000.0);
+r1 = dtn_bundle_route_next(b, 150.0);
+r2 = dtn_marga_shodho(b, 150.0);
+r3 = ડીટીએન_માર્ગ_શોધો(b, 150.0);
+print r1["route_found"];
+print r1["next_hop"];
+print r2["protocol"];
+print r3["estimated_delay_sec"];
+end]=])
+    set(expected_stdout [=[1
+dtn://relay.lagrange1
+DTN_CGR
+300
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_cli_dtn_route")
+    set(program_arguments "dtn:route" "mars_contact_plan.json")
+    set(expected_stdout [=[[Bhuvan DTN RFC 5050 v3.9.0] Evaluating planetary contact graph 'mars_contact_plan.json'...
+  Destination: dtn://mars.orbiter/rover2
+  Earliest Delivery Window: T+1420s via Relay 'dtn://relay.lagrange1'
+  Custody Transfer: ACTIVE (Hop 1/2)
+✓ Contact plan validated: 100% bundle delivery guaranteed.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_mesh_node_init")
+    set(source [=[start
+n1 = mesh_node_init("node_01", 865.2, 7.0);
+n2 = mesh_node_saruaat("node_01", 865.2, 7.0);
+n3 = મેશ_નોડ_શરૂઆત("node_01", 865.2, 7.0);
+print n1["node_id"];
+print n1["freq_mhz"];
+print n1["sf"];
+print n1["status"];
+print n2["seen_packets_count"];
+print n3["neighbors_count"];
+end]=])
+    set(expected_stdout [=[node_01
+865.2
+7
+MESH_ONLINE
+0
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_mesh_packet_send")
+    set(source [=[start
+n = mesh_node_init("node_01", 865.2, 7.0);
+p1 = mesh_packet_send(n, "dest_99", "sos", 4.0);
+p2 = mesh_packet_moklo(n, "dest_99", "sos", 4.0);
+p3 = મેશ_પેકેટ_મોકલો(n, "dest_99", "sos", 4.0);
+print p1["src"];
+print p1["dst"];
+print p1["payload"];
+print p1["ttl"];
+print p1["broadcast"];
+print p2["hops_taken"];
+print (p3["broadcast"] == 1);
+end]=])
+    set(expected_stdout [=[mesh_node_01
+dest_99
+sos
+4
+1
+0
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_mesh_packet_route_forward")
+    set(source [=[start
+n = mesh_node_init("node_01", 865.2, 7.0);
+p = mesh_packet_send(n, "dest_99", "sos", 4.0);
+f1 = mesh_packet_route_forward(n, p);
+f2 = mesh_packet_aagal_moklo(n, p);
+f3 = મેશ_પેકેટ_આગળ_મોકલો(n, p);
+print f1["delivered"];
+print f1["forwarded"];
+print f1["new_ttl"];
+print f1["hops_taken"];
+print f2["forwarded"];
+print f3["delivered"];
+end]=])
+    set(expected_stdout [=[0
+1
+3
+1
+1
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_mesh_peer_heartbeat")
+    set(source [=[start
+n = mesh_node_init("node_01", 865.2, 7.0);
+h1 = mesh_peer_heartbeat(n, "peer_02", -82.0, 10.0);
+h2 = mesh_peer_dhabkaro(n, "peer_02", -82.0, 10.0);
+h3 = મેશ_પીઅર_ધબકારો(n, "peer_02", -82.0, 10.0);
+print h1["peer"];
+print h1["rssi"];
+print h1["snr"];
+print h1["link_quality"];
+print h2["status"];
+print h3["status"];
+end]=])
+    set(expected_stdout [=[peer_02
+-82
+10
+0.92
+ACTIVE
+ACTIVE
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_mesh_routing_table_get")
+    set(source [=[start
+n = mesh_node_init("node_01", 865.2, 7.0);
+rt1 = mesh_routing_table_get(n);
+rt2 = mesh_marga_takhta(n);
+rt3 = મેશ_માર્ગ_તખ્તા(n);
+print (lambai(rt1) == 1);
+print (lambai(rt2) == 1);
+print (lambai(rt3) == 1);
+e = rt1[0];
+print e["destination"];
+print e["next_hop"];
+print e["metric"];
+print e["cost"];
+end]=])
+    set(expected_stdout [=[1
+1
+1
+node_mesh_dest
+peer_node_02
+2
+15
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_mesh_packet_encrypt")
+    set(source [=[start
+c1 = mesh_packet_encrypt("emergency_beacon", "mysecretkey");
+c2 = mesh_packet_gupt("emergency_beacon", "mysecretkey");
+c3 = મેશ_પેકેટ_ગુપ્ત("emergency_beacon", "mysecretkey");
+print (c1 == c2);
+print (c2 == c3);
+print (lambai(c1) > 16);
+end]=])
+    set(expected_stdout [=[1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_mesh_packet_decrypt")
+    set(source [=[start
+c = mesh_packet_encrypt("sensor_grid_ok", "key123");
+p1 = mesh_packet_decrypt(c, "key123");
+p2 = mesh_packet_spasht(c, "key123");
+p3 = મેશ_પેકેટ_સ્પષ્ટ(c, "key123");
+print p1;
+print p2;
+print p3;
+end]=])
+    set(expected_stdout [=[sensor_grid_ok
+sensor_grid_ok
+sensor_grid_ok
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_cli_mesh_simulate")
+    set(program_arguments "mesh:simulate" "mesh_ahmedabad.json")
+    set(expected_stdout [=[[Mesh LoRaWAN/BLE Ad-Hoc Router v3.9.0] Simulating topology 'mesh_ahmedabad.json'...
+  Nodes Active: 8 | Frequency: 865.2 MHz (IN865 Band)
+  Route Traversal: Node_A -> Node_C -> Node_F -> Node_H (3 hops)
+  Packet Delivery Ratio: 100% | Avg Latency: 42ms
+✓ Mesh flood routing converged successfully.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_ipfs_cid_generate")
+    set(source [=[start
+cid0 = ipfs_cid_generate("Hello GujaratiLang", 0.0);
+cid1 = ipfs_cid_generate("Hello GujaratiLang", 1.0);
+cid_r = ipfs_cid_bnavo("Hello GujaratiLang", 1.0);
+cid_g = આઈપીએફએસ_સીઆઈડી_બનાવો("Hello GujaratiLang", 1.0);
+print (kapo(cid0, 0, 2) == "Qm");
+print (kapo(cid1, 0, 4) == "bafy");
+print (cid1 == cid_r);
+print (cid_r == cid_g);
+end]=])
+    set(expected_stdout [=[1
+1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_ipfs_dag_node_create")
+    set(source [=[start
+d1 = ipfs_dag_node_create("merkle leaf", ["QmLeaf1", "QmLeaf2"]);
+d2 = ipfs_dag_nod_bnavo("merkle leaf", ["QmLeaf1", "QmLeaf2"]);
+d3 = આઈપીએફએસ_ડેગ_નોડ_બનાવો("merkle leaf", ["QmLeaf1", "QmLeaf2"]);
+print d1["data"];
+print d1["dag_type"];
+print (kapo(d1["cid"], 0, 4) == "bafy");
+print d2["size"];
+print d3["data"];
+end]=])
+    set(expected_stdout [=[merkle leaf
+MERKLE_DAG_CBOR
+1
+11
+merkle leaf
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_ipfs_unixfs_chunk")
+    set(source [=[start
+u1 = ipfs_unixfs_chunk("GujaratiLang UnixFS distributed file test", 16.0);
+u2 = ipfs_unixfs_tukda("GujaratiLang UnixFS distributed file test", 16.0);
+u3 = આઈપીએફએસ_યુનિક્સએફએસ_ટુકડા("GujaratiLang UnixFS distributed file test", 16.0);
+print (kapo(u1["root_cid"], 0, 4) == "bafy");
+print u1["chunk_count"];
+print u1["file_size"];
+print u2["chunk_count"];
+print u3["file_size"];
+end]=])
+    set(expected_stdout [=[1
+1
+41
+1
+41
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_ipfs_block_verify")
+    set(source [=[start
+data = "Authentic data payload";
+cid = ipfs_cid_generate(data, 1.0);
+v1 = ipfs_block_verify(cid, data);
+v2 = ipfs_block_chakasani(cid, data);
+v3 = આઈપીએફએસ_બ્લોક_ચકાસણી(cid, data);
+v_bad = ipfs_block_verify(cid, "Tampered payload");
+print v1;
+print v2;
+print v3;
+print v_bad;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_ipfs_pin_add")
+    set(source [=[start
+p1 = ipfs_pin_add("QmPinned1", "recursive");
+p2 = ipfs_pin_umero("QmPinned2", "direct");
+p3 = આઈપીએફએસ_પિન_ઉમેરો("QmPinned3", "indirect");
+print p1["cid"];
+print p1["type"];
+print p1["pinned"];
+print p2["type"];
+print p3["pinned"];
+end]=])
+    set(expected_stdout [=[QmPinned1
+recursive
+1
+direct
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_ipfs_pin_list")
+    set(source [=[start
+l1 = ipfs_pin_list();
+l2 = ipfs_pin_yadi();
+l3 = આઈપીએફએસ_પિન_યાદી();
+print (lambai(l1) >= 1);
+print (lambai(l2) >= 1);
+print (lambai(l3) >= 1);
+p = l1[0];
+print p["pinned"];
+end]=])
+    set(expected_stdout [=[1
+1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_cli_ipfs_hash")
+    set(program_arguments "ipfs:hash" "document.txt")
+    set(expected_stdout [=[[Sanchay IPFS Content Addressing v3.9.0] Computing multihash for 'document.txt'...
+  Codec: raw / multicodec 0x55
+  Hash: sha2-256 (0x12) / 32 bytes
+  CIDv1: bafybeigvorisexliesje6wj4tihutz6vqdlahii7d4kpe7cz3jobxeginm
+✓ Content addressing verified.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_did_create")
+    set(source [=[start
+d1 = did_create("key", "02a1b2c3d4e5f6");
+d2 = did_bnavo("key", "02a1b2c3d4e5f6");
+d3 = ડીઆઈડી_બનાવો("guj", "02a1b2c3d4e5f6");
+print d1;
+print d2;
+print d3;
+end]=])
+    set(expected_stdout [=[did:key:z6Mk02a1b2c3d4e5f6
+did:key:z6Mk02a1b2c3d4e5f6
+did:guj:0x02a1b2c3d4e5f6
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_did_document_resolve")
+    set(source [=[start
+doc1 = did_document_resolve("did:guj:0xalice");
+doc2 = did_dastavej_shodho("did:guj:0xalice");
+doc3 = ડીઆઈડી_દસ્તાવેજ_શોધો("did:guj:0xalice");
+print doc1["id"];
+print doc1["resolved"];
+print doc2["resolved"];
+print doc3["id"];
+end]=])
+    set(expected_stdout [=[did:guj:0xalice
+1
+1
+did:guj:0xalice
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_vc_issue")
+    set(source [=[start
+claims = {"degree": "Bachelor of Computer Science", "gpa": 3.9};
+vc1 = vc_issue("did:guj:university", "did:guj:student", claims, 365.0);
+vc2 = vc_aapo("did:guj:university", "did:guj:student", claims, 365.0);
+vc3 = વીસી_આપો("did:guj:university", "did:guj:student", claims, 365.0);
+print vc1["issuer"];
+print vc1["subject_id"];
+print vc1["expirationDays"];
+print vc1["status"];
+print vc2["status"];
+print vc3["issuer"];
+end]=])
+    set(expected_stdout [=[did:guj:university
+did:guj:student
+365
+ISSUED
+ISSUED
+did:guj:university
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_vc_sign")
+    set(source [=[start
+claims = {"name": "Harshit"};
+vc = vc_issue("did:guj:issuer", "did:guj:subject", claims, 30.0);
+s1 = vc_sign(vc, "privkey123");
+s2 = vc_sahikaro(vc, "privkey123");
+s3 = વીસી_સહીકરો(vc, "privkey123");
+p = s1["proof"];
+print p["type"];
+print p["created"];
+print (lambai(p["proofValue"]) > 10);
+print (p["type"] == "Ed25519Signature2020");
+end]=])
+    set(expected_stdout [=[Ed25519Signature2020
+2026-11-03T12:00:00Z
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_vc_verify")
+    set(source [=[start
+claims = {"name": "Harshit"};
+vc = vc_issue("did:guj:issuer", "did:guj:subject", claims, 30.0);
+v_unsigned = vc_verify(vc, "pubkey123");
+vc_signed = vc_sign(vc, "privkey123");
+v1 = vc_verify(vc_signed, "pubkey123");
+v2 = vc_chakasani(vc_signed, "pubkey123");
+v3 = વીસી_ચકાસણી(vc_signed, "pubkey123");
+print v_unsigned["verified"];
+print v1["verified"];
+print v1["issuer_valid"];
+print v1["signature_valid"];
+print v1["expired"];
+print v2["verified"];
+print v3["verified"];
+end]=])
+    set(expected_stdout [=[0
+1
+1
+1
+0
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_vp_create")
+    set(source [=[start
+claims = {"kyc_verified": 1.0};
+vc = vc_issue("did:guj:bank", "did:guj:customer", claims, 90.0);
+vp1 = vp_create([vc], "did:guj:customer");
+vp2 = vp_bnavo([vc], "did:guj:customer");
+vp3 = વીપી_બનાવો([vc], "did:guj:customer");
+print vp1["holder"];
+print vp1["presentation_id"];
+print vp1["valid"];
+print vp2["valid"];
+print vp3["holder"];
+end]=])
+    set(expected_stdout [=[did:guj:customer
+urn:uuid:vp-presentation-alpha
+1
+1
+did:guj:customer
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v390_cli_audio_kit")
+    set(program_arguments "kit:audio" "dhwani_synth")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'Dhwani Spatial Audio & Synthesizer Studio' into './dhwani_synth'...
+  ✓ Created app.gj (Master Synthesizer Rack, Audio Engine & Spatial Positioning)
+  ✓ Created synths/wave_generator.gj (Multi-waveform Wavetable Oscillators & ADSR Filter Envelopes)
+  ✓ Created mixer/track_bus.gj (8-Channel Stereo Mixer Bus, Gain Staging & Reverb Send)
+  ✓ Created assets/manifest.json (Sound Effects Library, Sample Rate & Audio Buffers)
+🎉 Project 'dhwani_synth' created successfully!
+Run with:
+  cd dhwani_synth
   gujarati app.gj
 ]=])
     set(expected_stderr "")

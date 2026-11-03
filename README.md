@@ -10,6 +10,47 @@ you use Visual Studio Code, install the
 
 ## Current features
 
+### What's New in v3.9.0: Bhuvan & Setu — Planetary Delay-Tolerant Networking, LoRaWAN / BLE Mesh, IPFS Content Addressing & Decentralized Identifiers (870 Tests Milestone)
+
+GujaratiLang v3.9.0 introduces 30 decentralized and interplanetary networking capabilities across RFC 5050 Delay-Tolerant Networking (DTN) with orbital Contact Graph Routing, sub-GHz ad-hoc flood mesh networking, IPFS UnixFS Merkle DAGs and CIDv0/CIDv1 multihashes, and W3C Decentralized Identifiers (DIDs) with Ed25519 Verifiable Credentials alongside our official pre-coded **Dhwani Spatial Audio & Synthesizer Studio Starter Kit (`--kit=audio`, `--kit=dhwani`)**, expanding the automated test suite to the landmark **870 Tests Milestone (100% Pass Rate)**:
+
+- **Pillar 1: Bhuvan (ભુવન) Delay-Tolerant Networking (DTN RFC 5050)**:
+  - `dtn_bundle_create(src, dst, payload, ttl)` / `ડીટીએન_બંડલ_બનાવો`: RFC 5050 bundle creation with custody transfer.
+  - `dtn_bundle_serialize(bundle)` / `ડીટીએન_બંડલ_ક્રમિત`: Canonical RFC 5050 byte serializer.
+  - `dtn_bundle_parse(hex_data)` / `ડીટીએન_બંડલ_વાંચો`: Serialized bundle parser and validator.
+  - `dtn_store_forward(bundle, spool_dir)` / `ડીટીએન_સંગ્રહ_આગળ`: Local spool storage for intermittent links.
+  - `dtn_custody_accept(bundle, custodian)` / `ડીટીએન_હસ્તાંતરણ_સ્વીકાર`: Custody signal acknowledgment transfer.
+  - `dtn_contact_plan_add(peer, start, end, rate)` / `ડીટીએન_સંપર્ક_યોજના`: Deterministic orbital contact window scheduler.
+  - `dtn_bundle_route_next(bundle, current_time)` / `ડીટીએન_માર્ગ_શોધો`: Contact Graph Routing next-hop solver.
+  - CLI: `gujarati dtn:route <plan.json>` / `gujarati ડીટીએન:માર્ગ`.
+- **Pillar 2: Mesh (મેશ) LoRaWAN & BLE Sub-GHz Mesh Routing**:
+  - `mesh_node_init(id, freq, sf)` / `મેશ_નોડ_શરૂઆત`: Sub-GHz transceiver mesh node initialization.
+  - `mesh_packet_send(node, dst, payload, hops)` / `મેશ_પેકેટ_મોકલો`: Ad-hoc packet broadcaster.
+  - `mesh_packet_route_forward(node, pkt)` / `મેશ_પેકેટ_આગળ_મોકલો`: Hop decrement and duplicate-drop forwarding.
+  - `mesh_peer_heartbeat(node, peer, rssi, snr)` / `મેશ_પીઅર_ધબકારો`: Neighbor link quality tracker.
+  - `mesh_routing_table_get(node)` / `મેશ_માર્ગ_તખ્તા`: Active neighbor routing table.
+  - `mesh_packet_encrypt(payload, key)` / `મેશ_પેકેટ_ગુપ્ત`: Authenticated keystream over-the-air cipher.
+  - `mesh_packet_decrypt(cipher, key)` / `મેશ_પેકેટ_સ્પષ્ટ`: Mesh payload decryptor.
+  - CLI: `gujarati mesh:simulate <topology.json>` / `gujarati મેશ:સિમ્યુલેટ`.
+- **Pillar 3: Sanchay (સંચય) IPFS UnixFS & Content Addressing**:
+  - `ipfs_cid_generate(data, ver)` / `આઈપીએફએસ_સીઆઈડી_બનાવો`: Standard Base58 CIDv0 and Base32 CIDv1 multihashes.
+  - `ipfs_dag_node_create(data, links)` / `આઈપીએફએસ_ડેગ_નોડ_બનાવો`: Merkle DAG node builder.
+  - `ipfs_unixfs_chunk(content, chunk_size)` / `આઈપીએફએસ_યુનિક્સએફએસ_ટુકડા`: UnixFS chunker and root Merkle hash.
+  - `ipfs_block_verify(cid, data)` / `આઈપીએફએસ_બ્લોક_ચકાસણી`: Cryptographic CID data verification.
+  - `ipfs_pin_add(cid, type)` / `આઈપીએફએસ_પિન_ઉમેરો`: Local pin registry management.
+  - `ipfs_pin_list()` / `આઈપીએફએસ_પિન_યાદી`: List pinned CIDs and retention modes.
+  - CLI: `gujarati ipfs:hash <file>` / `gujarati આઈપીએફએસ:હેશ`.
+- **Pillar 4: Pehchan (ઓળખ) W3C Decentralized Identifiers & Verifiable Credentials**:
+  - `did_create(method, pubkey)` / `ડીઆઈડી_બનાવો`: W3C compliant DID generation (`did:key`, `did:guj`).
+  - `did_document_resolve(did)` / `ડીઆઈડી_દસ્તાવેજ_શોધો`: W3C DID Document JSON resolver.
+  - `vc_issue(issuer, subject, claims, exp)` / `વીસી_આપો`: Tamper-evident Verifiable Credential issuer.
+  - `vc_sign(vc, privkey)` / `વીસી_સહીકરો`: Ed25519 cryptographic proof signer.
+  - `vc_verify(vc_signed, pubkey)` / `વીસી_ચકાસણી`: Signature and expiration validator.
+  - `vp_create(vcs, holder)` / `વીપી_બનાવો`: Verifiable Presentation packager.
+  - CLI: `gujarati did:resolve <did>` / `gujarati ડીઆઈડી:શોધો`.
+- **Pre-Built Starter Kit 9: Dhwani Audio (`--kit=audio`, `--kit=dhwani`)**:
+  - `gujarati new synth_studio --kit=audio`: Scaffolds full spatial audio synthesis suite with wavetable oscillators, ADSR envelopes, 8-channel mixer bus, and sound sample manifest.
+
 ### What's New in v3.8.0: Yantram & Gati — Robotics, ROS2 DDS, LiDAR SLAM, PID & Drone Telemetry (840 Tests Milestone)
 
 GujaratiLang v3.8.0 introduces 30 industrial robotics and real-time autonomous systems capabilities across ROS2 DDS pub/sub messaging, LiDAR SLAM occupancy grid mapping and A*/RRT* pathfinding, closed-loop PID motor control and 6-DOF robotic arm inverse kinematics, and drone MAVLink telemetry with Kalman filter sensor fusion alongside our official pre-coded **Setu Mobile Android NDK App Starter Kit (`--kit=mobile`, `--kit=android`)**, expanding the automated test suite to the landmark **840 Tests Milestone (100% Pass Rate)**:
