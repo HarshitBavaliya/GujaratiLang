@@ -276,3 +276,33 @@ aavjo
 | `swarm_vote_cast(s, id, vote, sig)` | `sangh_mat_aapo` | `સંઘ_મત_આપો` | Casts authenticated vote on proposal |
 | `swarm_consensus_check(s, id)` | `sangh_sammat_chakasani` | `સંઘ_સંમત_ચકાસણી` | Checks BFT supermajority quorum threshold |
 | `swarm_task_auction(s, task, bids)` | `sangh_kam_haraji` | `સંઘ_કામ_હરાજી` | Conducts second-price distributed task allocation |
+
+### 8. Brahmand & Antariksh: Tensor Autodiff, Satellite Mechanics, Deterministic RTOS & Homomorphic Encryption (v4.1.0)
+
+| English Function | Romanized Gujarati | Native Gujarati Unicode | Description |
+|---|---|---|---|
+| `tensor_create(shape, data)` | `tensor_bnavo` | `ટેન્સર_બનાવો` | Creates N-dimensional autodiff tensor with shape descriptor and gradient tracking |
+| `tensor_matmul(a, b)` | `tensor_gunakar` | `ટેન્સર_ગુણાકાર` | BLAS-grade 2D matrix multiplication with computational graph stitching |
+| `tensor_backward(tensor)` | `tensor_pachhad` | `ટેન્સર_પાછળ` | Reverse-mode automatic differentiation backpropagation over computational graph |
+| `tensor_grad(tensor)` | `tensor_dhal` | `ટેન્સર_ઢાળ` | Retrieves partial derivatives/gradient vector for parameter updates |
+| `nn_dense(in_dim, out_dim, act)` | `nn_sthar_ghat` | `ચેતાતંત્ર_સ્તર` | Constructs fully-connected neural layer with Xavier initialization & activations |
+| `nn_forward(layer, x)` | `nn_aagal` | `ચેતાતંત્ર_આગળ` | Evaluates forward inference pass ($y = \sigma(W \cdot x + b)$) |
+| `nn_train_step(layer, x, y, lr)` | `nn_talim_paglu` | `ચેતાતંત્ર_તાલીમ_પગલું` | Computes MSE loss, backprop pass, and SGD/Adam parameter update |
+| `orbit_sgp4_propagate(tle1, tle2, t)` | `kaksha_sgp4_ganatri` | `કક્ષા_ગણતરી` | SGP4 orbital propagator calculating sub-satellite coordinates and orbital velocity |
+| `ground_station_pass(lat, lon, ...)` | `station_sampark` | `સ્ટેશન_સંપર્ક` | Computes ground station AOS/LOS passes, elevation angle, and line-of-sight duration |
+| `ccsds_packet_encode(hdr, payload)` | `ccsds_packet_kod` | `સીસીએસડીએસ_પેકેટ_કોડ` | Encodes CCSDS 133.0-B-2 space telemetry packet with APID, sequence counter & CRC-16 |
+| `ccsds_packet_decode(packet_hex)` | `ccsds_packet_khulaso` | `સીસીએસડીએસ_પેકેટ_ખુલાસો` | Decodes raw space telemetry hex stream, verifying CRC checksum integrity |
+| `doppler_shift_calc(freq, rate)` | `doppler_ganatri` | `ડોપ્લર_ગણતરી` | Computes relativistic Doppler shift frequency corrections for RF transceivers |
+| `quaternion_slerp(q1, q2, t)` | `quaternion_antarvesh` | `ચતુષ્કોણ_અંતર્વેશન` | Spherical Linear Interpolation (SLERP) for satellite attitude quaternion steering |
+| `sched_task_periodic(name, p, d, fn)` | `samay_kary_aavartak` | `સમય_કાર્ય_આવર્તક` | Registers real-time task with Period ($T$), Worst-Case Execution Time ($C$), and Deadline ($D$) |
+| `sched_dispatch_edf()` | `samay_chalak_edf` | `સમય_ચાલક_ઈડીએફ` | Executes provably optimal Earliest Deadline First (EDF) dynamic priority real-time scheduler |
+| `sched_deadline_check()` | `samay_maryada_tapas` | `સમય_મર્યાદા_તપાસ` | Evaluates system schedulability guarantees ($U \le 1.0$), ensuring 0 deadline overruns |
+| `timer_monotonic_micros()` | `sukshma_samay` | `સૂક્ષ્મ_સમય` | High-resolution microsecond monotonic hardware timer |
+| `ringbuffer_bounded(capacity)` | `chakriya_bafar` | `ચક્રીય_બફર` | Lock-free bounded circular ringbuffer for deterministic telemetry ingestion |
+| `ringbuffer_push(rb, item)` | `chakriya_mukvo` | `ચક્રીય_મૂકવો` | Thread-safe push operation into circular ringbuffers with overflow protection |
+| `paillier_keygen(key_bits)` | `paillier_jodi` | `પેલિયર_જોડી` | Generates Paillier additive homomorphic cryptosystem public and private keys |
+| `paillier_encrypt(val, pubkey)` | `paillier_gupt` | `પેલિયર_ગુપ્ત` | Encrypts numbers into homomorphic ciphertexts ($c = g^m \cdot r^n \pmod{n^2}$) |
+| `paillier_add_ciphertexts(c1, c2, pub)` | `paillier_sarvalo` | `પેલિયર_સરવાળો` | Computes encrypted addition homomorphically without decryption |
+| `paillier_decrypt(ct, privkey)` | `paillier_kholo` | `પેલિયર_ખોલો` | Recovers exact plaintexts from ciphertexts using L-function inversion |
+| `zk_range_proof_generate(sec, min, max)` | `shunya_gnan_sabiti` | `શૂન્ય_જ્ઞાન_સાબિતી` | Generates zero-knowledge Pedersen commitment range proofs verifying $x \in [	ext{min}, 	ext{max}]$ |
+

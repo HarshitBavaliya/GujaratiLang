@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 4.0.0 LANGUAGES C)
+project(gujaratilang VERSION 4.1.0 LANGUAGES C)
 
 include(CTest)
 
@@ -912,7 +912,37 @@ if(BUILD_TESTING)
             v400_swarm_vote_cast
             v400_swarm_consensus_check
             v400_swarm_task_auction
-            v400_cli_agent_kit)
+            v400_cli_agent_kit
+            v410_tensor_create
+            v410_tensor_matmul
+            v410_tensor_backward
+            v410_tensor_grad
+            v410_nn_dense
+            v410_nn_forward
+            v410_nn_train_step
+            v410_cli_nn_train
+            v410_sgp4_orbit_propagate
+            v410_tle_parse
+            v410_ground_station_pass
+            v410_ccsds_packet_encode
+            v410_ccsds_packet_decode
+            v410_doppler_shift_calc
+            v410_cli_orbit_track
+            v410_rtos_task_create
+            v410_rtos_schedule_edf
+            v410_rtos_now_us
+            v410_rtos_sleep_us
+            v410_rtos_ringbuf_init
+            v410_rtos_ringbuf_push_pop
+            v410_cli_rtos_profile
+            v410_paillier_keygen
+            v410_paillier_encrypt
+            v410_paillier_add
+            v410_paillier_decrypt
+            v410_zk_range_prove_verify
+            v410_cli_zk_prove
+            v410_cli_cubesat_kit
+            v410_cli_brahmand_kit)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

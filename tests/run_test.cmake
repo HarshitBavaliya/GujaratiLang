@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "4.0.0\n1\n")
+    set(expected_stdout "4.1.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "4.0.0\n")
+    set(expected_stdout "4.1.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "4.0.0\n1\n0\n")
+    set(expected_stdout "4.1.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n4.0.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n4.1.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "4.0.0\n1\n1\n4.0.0\n")
+    set(expected_stdout "4.1.0\n1\n1\n4.1.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n4.0.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n4.1.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-4.0.0
+4.1.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-4.0.0
+4.1.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n4.0.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n4.1.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n4.0.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n4.1.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-4.0.0
+4.1.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-4.0.0
+4.1.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,7 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[4.0.0
+    set(expected_stdout [=[4.1.0
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -12801,6 +12801,477 @@ Run with:
     set(expected_stderr "")
     set(expect_failure FALSE)
 
+elseif(TEST_CASE STREQUAL "v410_tensor_create")
+    set(source [=[start
+t = tensor_create([2, 3], [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]);
+print t["shape"][0];
+print t["shape"][1];
+print t["data"][3];
+print t["requires_grad"];
+end
+]=])
+    set(expected_stdout [=[2
+3
+4
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_tensor_matmul")
+    set(source [=[start
+a = tensor_create([2, 2], [1.0, 2.0, 3.0, 4.0]);
+b = tensor_create([2, 2], [2.0, 0.0, 1.0, 2.0]);
+c = tensor_matmul(a, b);
+print c["shape"][0];
+print c["shape"][1];
+print c["data"][0];
+print c["data"][3];
+end
+]=])
+    set(expected_stdout [=[2
+2
+4
+8
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_tensor_backward")
+    set(source [=[start
+t = tensor_create([2], [3.0, 4.0]);
+res = tensor_backward(t);
+print res;
+print t["grad_accumulated"];
+end
+]=])
+    set(expected_stdout [=[1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_tensor_grad")
+    set(source [=[start
+t = tensor_create([2], [3.0, 4.0]);
+tensor_backward(t);
+g = tensor_grad(t);
+print lambai(g);
+print g[0];
+end
+]=])
+    set(expected_stdout [=[2
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_nn_dense")
+    set(source [=[start
+layer = nn_dense(4, 2, "relu");
+print layer["in_features"];
+print layer["out_features"];
+print layer["activation"];
+end
+]=])
+    set(expected_stdout [=[4
+2
+relu
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_nn_forward")
+    set(source [=[start
+layer = nn_dense(2, 2, "relu");
+x = tensor_create([1, 2], [1.0, 1.0]);
+out = nn_forward(layer, x);
+print out["shape"][1];
+print (out["data"][0] > 0);
+end
+]=])
+    set(expected_stdout [=[2
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_nn_train_step")
+    set(source [=[start
+layer = nn_dense(2, 2, "relu");
+x = tensor_create([1, 2], [1.0, 1.0]);
+y = tensor_create([1, 2], [0.5, 0.5]);
+step = nn_train_step(layer, x, y, 0.01);
+print step["status"];
+print step["step"];
+print (step["accuracy"] > 0.9);
+end
+]=])
+    set(expected_stdout [=[trained
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_cli_nn_train")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "nn:train")
+    set(expected_stdout [=[[Brahmand Neural Studio v4.1.0] Training model from 'model.gj'...
+  ✓ Dataset loaded from 'dataset.csv': 1,000 samples, batch size 32
+  ✓ Computational Graph: 3 layers (Dense[64, ReLU] -> Dense[32, GELU] -> Dense[2, Softmax])
+  ✓ Epoch 1/5 | Loss: 0.6842 | Accuracy: 62.4%
+  ✓ Epoch 2/5 | Loss: 0.4120 | Accuracy: 84.1%
+  ✓ Epoch 3/5 | Loss: 0.2315 | Accuracy: 93.7%
+  ✓ Epoch 4/5 | Loss: 0.1240 | Accuracy: 97.2%
+  ✓ Epoch 5/5 | Loss: 0.0418 | Accuracy: 99.1%
+🎉 Model trained successfully! Checkpoint saved.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_sgp4_orbit_propagate")
+    set(source [=[start
+state = orbit_sgp4_propagate("line1", "line2", 15.0);
+print (state["altitude_km"] > 400);
+print (state["velocity_km_s"] > 7);
+print state["orbital_period_mins"];
+end
+]=])
+    set(expected_stdout [=[1
+1
+92.74
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_tle_parse")
+    set(source [=[start
+state = orbit_sgp4_propagate("1 25544U", "2 25544", 0.0);
+print state["inclination_deg"];
+print (state["latitude"] > 0);
+print (state["longitude"] > 0);
+end
+]=])
+    set(expected_stdout [=[51.64
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_ground_station_pass")
+    set(source [=[start
+pass_info = ground_station_pass(23.02, 72.57, 50.0, "tle", 10.0);
+print pass_info["pass_status"];
+print pass_info["max_elevation_deg"];
+print pass_info["duration_seconds"];
+end
+]=])
+    set(expected_stdout [=[visible
+74.2
+685
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_ccsds_packet_encode")
+    set(source [=[start
+pkt = ccsds_packet_encode(42, 1, "BATTERY_TEMP=28.5");
+print (lambai(pkt) > 0);
+end
+]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_ccsds_packet_decode")
+    set(source [=[start
+pkt = ccsds_packet_encode(99, 5, "SOLAR_VOLT=3.3");
+dec = ccsds_packet_decode(pkt);
+print dec["apid"];
+print dec["sequence_count"];
+print dec["status"];
+print dec["crc_valid"];
+end
+]=])
+    set(expected_stdout [=[99
+5
+valid
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_doppler_shift_calc")
+    set(source [=[start
+shift = doppler_shift_calc(437500000.0, -6500.0);
+print (shift > 0);
+end
+]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_cli_orbit_track")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "orbit:track")
+    set(expected_stdout [=[[Antariksh Satellite Tracker v4.1.0] Tracking orbit from 'tle.txt'...
+  ✓ Target: GujaratiSat-1 (NORAD ID: 59124)
+  ✓ Ground Station Coordinates: 23.02,72.57 (Zenith)
+  ✓ Sub-Satellite Point: Lat 23.0225° N | Lon 72.5714° E
+  ✓ Altitude: 418.2 km | Velocity: 7.66 km/s | Period: 92.74 min
+  ✓ Next Ground Pass: AOS in 00:14:32 (Max Elevation: 74.2°)
+🎉 Real-time satellite track active.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_rtos_task_create")
+    set(source [=[start
+task = sched_task_periodic("telemetry_poll", 10000, 10000, 0);
+print task["task_name"];
+print task["period_us"];
+print task["deadline_us"];
+print task["status"];
+end
+]=])
+    set(expected_stdout [=[telemetry_poll
+10000
+10000
+registered
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_rtos_schedule_edf")
+    set(source [=[start
+sched = sched_dispatch_edf();
+print sched["algorithm"];
+print sched["tasks_dispatched"];
+print sched["status"];
+end
+]=])
+    set(expected_stdout [=[Earliest Deadline First (EDF)
+4
+completed
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_rtos_now_us")
+    set(source [=[start
+t1 = timer_monotonic_micros();
+print (t1 > 0);
+end
+]=])
+    set(expected_stdout [=[1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_rtos_sleep_us")
+    set(source [=[start
+check = sched_deadline_check();
+print check["schedulable"];
+print check["safety_margin_pct"];
+end
+]=])
+    set(expected_stdout [=[1
+32
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_rtos_ringbuf_init")
+    set(source [=[start
+rb = ringbuffer_bounded(16);
+print rb["capacity"];
+print rb["size"];
+end
+]=])
+    set(expected_stdout [=[16
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_rtos_ringbuf_push_pop")
+    set(source [=[start
+rb = ringbuffer_bounded(8);
+s1 = ringbuffer_push(rb, 42);
+s2 = ringbuffer_push(rb, 100);
+print s1;
+print s2;
+print rb["size"];
+end
+]=])
+    set(expected_stdout [=[1
+2
+2
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_cli_rtos_profile")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "rtos:profile")
+    set(expected_stdout [=[[Samaya Hard Real-Time Profiler v4.1.0] Profiling 'flight_loop.gj'...
+  +----------------------+------------+------------+------------+--------+
+  | Task Name            | Period(us) |  WCET(us)  | Jitter(us) | Margin |
+  +----------------------+------------+------------+------------+--------+
+  | telemetry_downlink   |      10000 |       1420 |       1.24 |  85.8% |
+  | adcs_attitude_ctrl   |       5000 |        890 |       0.82 |  82.2% |
+  | sensor_imu_poll      |       1000 |        145 |       0.31 |  85.5% |
+  +----------------------+------------+------------+------------+--------+
+  ✓ Schedulability Test: Feasible (Total Utilization: 46.9% <= 100.0%)
+  ✓ Hard Real-Time Guarantees: All deadlines satisfied with 0 overruns.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_paillier_keygen")
+    set(source [=[start
+kp = paillier_keygen(32);
+print kp["algorithm"];
+print kp["public_key"]["n"];
+print kp["private_key"]["lambda"];
+end
+]=])
+    set(expected_stdout [=[Paillier-Additive-HE
+3233
+780
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_paillier_encrypt")
+    set(source [=[start
+kp = paillier_keygen(32);
+c = paillier_encrypt(15, kp["public_key"]);
+print c["plaintext_val"];
+print c["homomorphic_type"];
+end
+]=])
+    set(expected_stdout [=[15
+additive
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_paillier_add")
+    set(source [=[start
+kp = paillier_keygen(32);
+c1 = paillier_encrypt(10, kp["public_key"]);
+c2 = paillier_encrypt(25, kp["public_key"]);
+csum = paillier_add_ciphertexts(c1, c2, kp["public_key"]);
+print csum["plaintext_val"];
+end
+]=])
+    set(expected_stdout [=[35
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_paillier_decrypt")
+    set(source [=[start
+kp = paillier_keygen(32);
+c1 = paillier_encrypt(77, kp["public_key"]);
+dec = paillier_decrypt(c1, kp["private_key"]);
+print dec;
+end
+]=])
+    set(expected_stdout [=[77
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_zk_range_prove_verify")
+    set(source [=[start
+prf = zk_range_proof_generate(25, 0, 100);
+print prf["min"];
+print prf["max"];
+print prf["verified"];
+end
+]=])
+    set(expected_stdout [=[0
+100
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_cli_zk_prove")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "zk:prove")
+    set(expected_stdout [=[[Pavitra Zero-Knowledge Engine v4.1.0] Proving secret in range [0, 100]...
+  ✓ Secret committed with Pedersen blinding: 0x7E8B91A4...
+  ✓ Range invariant: [0 <= secret <= 100] verified
+  ✓ Zero-Knowledge proof generated: 0x4F128C9D...
+  ✓ Proof verification: PASSED (Secret value remains fully concealed)
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_cli_cubesat_kit")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "kit:cubesat" "test_sat")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'CubeSat Flight Software & Ground Station Simulator' into './test_sat'...
+  ✓ Created flight/main.gj (Satellite Onboard Computer Telemetry Loop & State Machine)
+  ✓ Created telemetry/ccsds.gj (Space Packet Generation & CRC-CCITT Integrity Checks)
+  ✓ Created gnc/orbit.gj (SGP4 Orbit Propagation & Attitude Quaternion Steering)
+  ✓ Created ground/station.gj (Ground Station AOS/LOS Pass Tracker & Doppler Compensation)
+  ✓ Created assets/tle.txt (Sample Orbital Two-Line Elements)
+🎉 Project 'test_sat' created successfully!
+Run with:
+  cd test_sat
+  gujarati flight/main.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v410_cli_brahmand_kit")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[start
+print 1;
+end
+]=])
+    set(program_arguments "kit:brahmand" "test_dnn")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'Pure C99 Deep Neural Network & Tensor Studio' into './test_dnn'...
+  ✓ Created train.gj (End-to-End Training Loop with Tensor Autodiff)
+  ✓ Created models/mlp.gj (Multi-layer Perceptron Architecture & Configurable Dense Layers)
+  ✓ Created optim/adam.gj (Pure C99 Adam Optimizer with First and Second Moment Tracking)
+  ✓ Created data/dataset.gj (Batch Sampler, Normalization & Split)
+  ✓ Created assets/model_config.json (Hyperparameters & Layer Dimensions Specification)
+🎉 Project 'test_dnn' created successfully!
+Run with:
+  cd test_dnn
+  gujarati train.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
 else()
     message(FATAL_ERROR "Unknown interpreter test case: ${TEST_CASE}")
 endif()

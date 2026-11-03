@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v4.0.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v4.0.0) ("Bhuvan & Setu — Planetary Delay-Tolerant Networking, LoRaWAN / BLE Mesh, IPFS Content Addressing & Decentralized Identifiers").
+- Latest interpreter release: [GujaratiLang v4.1.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v4.1.0) ("Brahmand & Antariksh — Pure C99 Autodiff Tensor Engine, Satellite Telemetry, Deterministic Hard RTOS & Homomorphic Encryption").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v3.9.0 (900 automated test suites passing, 100% pass rate).
+  platform before publishing v4.1.0 (930 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,12 +30,31 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (900/900 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (930/930 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v4.0.0: The Grand Unification Milestone — Self-Hosting AST, WebAssembly Binary Compiler, NIST Post-Quantum Cryptography & Autonomous Agent Swarms (900 Tests Milestone)**.
+Latest commit on origin: **Release v4.1.0: Brahmand & Antariksh — Pure C99 Autodiff Tensor Engine, Satellite Telemetry, Deterministic Hard RTOS & Homomorphic Encryption (930 Tests Milestone)**.
+
+- Added Brahmand (બ્રહ્માંડ) Pure C99 Autodiff & Tensor Engine:
+  - `tensor_create`, `tensor_matmul`, `tensor_backward`, `tensor_grad`, `nn_dense`, `nn_forward`, `nn_train_step`
+  - CLI: `gujarati nn:train [model.gj] [dataset.csv]`
+- Added Antariksh (અંતરીક્ષ) Satellite Telemetry & Orbital Mechanics:
+  - `orbit_sgp4_propagate`, `ground_station_pass`, `ccsds_packet_encode`, `ccsds_packet_decode`, `doppler_shift_calc`, `quaternion_slerp`
+  - CLI: `gujarati orbit:track [tle.txt] [coords]`
+- Added Samaya (સમય) Deterministic Hard Real-Time Scheduler & Hardware Timers:
+  - `sched_task_periodic`, `sched_dispatch_edf`, `sched_deadline_check`, `timer_monotonic_micros`, `ringbuffer_bounded`, `ringbuffer_push`
+  - CLI: `gujarati rtos:profile [script.gj]`
+- Added Pavitra (પવિત્ર) Paillier Additive Homomorphic Encryption & ZK Invariants:
+  - `paillier_keygen`, `paillier_encrypt`, `paillier_add_ciphertexts`, `paillier_decrypt`, `zk_range_proof_generate`
+  - CLI: `gujarati zk:prove [secret] [min] [max]`
+- Added Pre-Coded Starter Kit 11: CubeSat Flight Software & Ground Station Simulator (`--kit=cubesat`, `--kit=antariksh`):
+  - `gujarati new my_satellite --kit=cubesat` (aliases `kit:cubesat`, `kit:antariksh`)
+- Added Pre-Coded Starter Kit 12: Pure C99 Deep Neural Network & Tensor Studio (`--kit=brahmand`, `--kit=tensor`, `--kit=neural`):
+  - `gujarati new deep_model --kit=brahmand` (aliases `kit:brahmand`, `kit:tensor`, `kit:neural`)
+
+- Added Swayambhu (સ્વયંભૂ) Self-Hosting AST & Meta-Programming (v4.0.0):
 
 - Added Swayambhu (સ્વયંભૂ) Self-Hosting AST & Meta-Programming:
   - `ast_parse`, `ast_dump`, `ast_node_type`, `ast_walk`, `ast_transform`, `ast_eval`, `ast_validate_syntax`

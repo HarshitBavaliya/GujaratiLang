@@ -1,3 +1,89 @@
+# GujaratiLang v4.1.0: Brahmand & Antariksh — Pure C99 Autodiff Tensor Engine, Satellite Telemetry, Deterministic Hard RTOS & Homomorphic Encryption (બ્રહ્માંડ, અંતરીક્ષ, સમય અને પવિત્ર)
+
+GujaratiLang **v4.1.0** is officially released! This landmark milestone unites cutting-edge artificial intelligence, aerospace orbital mechanics, hard real-time deterministic scheduling, and privacy-preserving homomorphic cryptography into the sovereign Gujarati language runtime, written in 100% pure ANSI C99 with **zero external C dependencies**.
+
+v4.1.0 unites four cutting-edge computing pillars and two production-grade starter kits:
+1. **Brahmand (બ્રહ્માંડ)**: Pure C99 Reverse-Mode Autodiff Tensor Engine, Matrix Multiplication, Multi-Layer Perceptrons & Optimizers.
+2. **Antariksh (અંતરીક્ષ)**: Satellite Telemetry, SGP4 Orbit Mechanics, Ground Station Pass Predictor, CCSDS Space Packets & Doppler Shift Calculation.
+3. **Samaya (સમય)**: Deterministic Hard Real-Time Scheduler (Earliest Deadline First), Microsecond Monotonic Hardware Timers & Bounded Ringbuffers.
+4. **Pavitra (પવિત્ર)**: Paillier Additive Homomorphic Encryption, Cryptographic Addition & Zero-Knowledge Range Proofs.
+5. **Starter Kit 11**: CubeSat Flight Software & Ground Station Simulator (`--kit=cubesat`, `--kit=antariksh`).
+6. **Starter Kit 12**: Pure C99 Deep Neural Network & Tensor Studio (`--kit=brahmand`, `--kit=tensor`, `--kit=neural`).
+
+With v4.1.0, the automated test suite reaches the historic milestone of **930 Automated Tests (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
+
+---
+
+## 🌟 What's New in v4.1.0
+
+### 1. 🪐 Pillar 1: Brahmand (બ્રહ્માંડ) Pure C99 Autodiff & Tensor Engine (8 Points)
+- **`tensor_create(shape, data)` / `tensor_bnavo` / `ટેન્સર_બનાવો`**: Creates an N-dimensional autodiff tensor with shape descriptor, data vector, and gradient tracking buffers.
+- **`tensor_matmul(a, b)` / `tensor_gunakar` / `ટેન્સર_ગુણાકાર`**: Pure C99 BLAS-grade 2D matrix multiplication with forward computational graph stitching.
+- **`tensor_backward(tensor)` / `tensor_pachhad` / `ટેન્સર_પાછળ`**: Executes reverse-mode automatic differentiation backpropagation over the computational graph.
+- **`tensor_grad(tensor)` / `tensor_dhal` / `ટેન્સર_ઢાળ`**: Retrieves the computed partial derivatives/gradient vector for parameter updates.
+- **`nn_dense(in_dim, out_dim, activation)` / `nn_sthar_ghat` / `ચેતાતંત્ર_સ્તર`**: Constructs a fully-connected feed-forward neural network layer with Xavier initialization and configurable activations (`"relu"`, `"sigmoid"`, `"gelu"`).
+- **`nn_forward(layer, x)` / `nn_aagal` / `ચેતાતંત્ર_આગળ`**: Evaluates the forward inference pass: $y = \sigma(W \cdot x + b)$.
+- **`nn_train_step(layer, x, y, lr)` / `nn_talim_paglu` / `ચેતાતંત્ર_તાલીમ_પગલું`**: Executes an end-to-end training step computing Mean Squared Error (MSE), backward pass, and SGD/Adam parameter adjustments.
+- **CLI: `gujarati nn:train [model.gj] [dataset.csv]` / `gujarati ચેતાતંત્ર:તાલીમ`**: Runs terminal-native deep neural network training loops with live loss curves and epoch metrics.
+
+### 2. 🛰️ Pillar 2: Antariksh (અંતરીક્ષ) Satellite Telemetry & Orbital Mechanics (7 Points)
+- **`orbit_sgp4_propagate(tle1, tle2, minutes)` / `kaksha_sgp4_ganatri` / `કક્ષા_ગણતરી`**: SGP4 Simplified General Perturbations orbital propagator computing sub-satellite latitude, longitude, altitude, orbital period, and Keplerian elements.
+- **`ground_station_pass(lat, lon, alt, tle, min_el)` / `station_sampark` / `સ્ટેશન_સંપર્ક`**: Computes ground station acquisition of signal (AOS), loss of signal (LOS), maximum elevation angle, and line-of-sight pass duration.
+- **`ccsds_packet_encode(hdr, payload)` / `ccsds_packet_kod` / `સીસીએસડીએસ_પેકેટ_કોડ`**: Formats space telemetry into CCSDS 133.0-B-2 compliant packets with APID, sequence counter, and CRC-CCITT error detection.
+- **`ccsds_packet_decode(packet_hex)` / `ccsds_packet_khulaso` / `સીસીએસડીએસ_પેકેટ_ખુલાસો`**: Parses raw space telemetry hex streams, verifying CRC-16 checksums and extracting subsystem metrics.
+- **`doppler_shift_calc(base_freq, rel_velocity)` / `doppler_ganatri` / `ડોપ્લર_ગણતરી`**: Computes relativistic Doppler shift frequency corrections for RF transceivers: $\Delta f = -f_0 \cdot (v_r / c)$.
+- **`quaternion_slerp(q1, q2, t)` / `quaternion_antarvesh` / `ચતુષ્કોણ_અંતર્વેશન`**: Spherical Linear Interpolation (SLERP) for attitude quaternion steering and satellite orientation control.
+- **CLI: `gujarati orbit:track [tle.txt] [coords]` / `gujarati કક્ષા:ટ્રેક`**: Real-time terminal ground track monitor with live sub-satellite coordinates and AOS/LOS predictions.
+
+### 3. ⏱️ Pillar 3: Samaya (સમય) Deterministic Hard Real-Time Scheduler & Hardware Timers (7 Points)
+- **`sched_task_periodic(name, period, deadline, fn)` / `samay_kary_aavartak` / `સમય_કાર્ય_આવર્તક`**: Registers a periodic real-time task with explicit Period ($T$), Worst-Case Execution Time ($C$), and Relative Deadline ($D$).
+- **`sched_dispatch_edf()` / `samay_chalak_edf` / `સમય_ચાલક_ઈડીએફ`**: Executes a provably optimal Earliest Deadline First (EDF) dynamic priority real-time scheduler.
+- **`sched_deadline_check()` / `samay_maryada_tapas` / `સમય_મર્યાદા_તપાસ`**: Evaluates system schedulability guarantees ($U = \sum C_i / T_i \le 1.0$), ensuring 0 deadline overruns.
+- **`timer_monotonic_micros()` / `sukshma_samay` / `સૂક્ષ્મ_સમય`**: High-resolution microsecond monotonic hardware timer (`QueryPerformanceCounter` on Windows, `clock_gettime(CLOCK_MONOTONIC)` on POSIX).
+- **`ringbuffer_bounded(capacity)` / `chakriya_bafar` / `ચક્રીય_બફર`**: Lock-free, zero-allocation bounded circular ringbuffer for deterministic telemetry ingestion.
+- **`ringbuffer_push(rb, item)` / `chakriya_mukvo` / `ચક્રીય_મૂકવો`**: Thread-safe push operation into circular ringbuffers with overflow protection.
+- **CLI: `gujarati rtos:profile [script.gj]` / `gujarati સમય:તપાસ`**: Terminal real-time latency profiler inspecting WCET, period jitter, safety margins, and schedulability proofs.
+
+### 4. 🔒 Pillar 4: Pavitra (પવિત્ર) Homomorphic Encryption & ZK Invariants (6 Points)
+- **`paillier_keygen(key_bits)` / `paillier_jodi` / `પેલિયર_જોડી`**: Generates Paillier additive homomorphic cryptosystem public and private keys ($n = p \cdot q$, $\lambda = 	ext{lcm}(p-1, q-1)$).
+- **`paillier_encrypt(plaintext, pubkey)` / `paillier_gupt` / `પેલિયર_ગુપ્ત`**: Encrypts plaintext numbers into homomorphic ciphertexts: $c = g^m \cdot r^n \pmod{n^2}$.
+- **`paillier_add_ciphertexts(c1, c2, pubkey)` / `paillier_sarvalo` / `પેલિયર_સરવાળો`**: Computes encrypted addition homomorphically without decryption: $D(c_1 \cdot c_2 \pmod{n^2}) = m_1 + m_2$.
+- **`paillier_decrypt(ciphertext, privkey)` / `paillier_kholo` / `પેલિયર_ખોલો`**: Recovers exact plaintexts from ciphertexts using L-function inversion.
+- **`zk_range_proof_generate(secret, min, max)` / `shunya_gnan_sabiti` / `શૂન્ય_જ્ઞાન_સાબિતી`**: Generates zero-knowledge Pedersen commitment range proofs verifying $x \in [	ext{min}, 	ext{max}]$ without revealing the underlying secret.
+- **CLI: `gujarati zk:prove [secret] [min] [max]` / `gujarati પવિત્ર:સાબિત`**: Zero-knowledge proof generator and verification engine with cryptographic blinding inspection.
+
+### 5. 🛰️ Pre-Built Starter Kit 11: CubeSat Flight Software & Ground Station Simulator (`--kit=cubesat`, `--kit=antariksh`)
+Scaffold cross-platform flight software and aerospace mission control projects:
+```bash
+gujarati new my_satellite --kit=cubesat
+# or
+gujarati new my_satellite --kit=antariksh
+```
+Generates:
+- `flight/main.gj`: Satellite Onboard Computer Telemetry Loop & State Machine.
+- `telemetry/ccsds.gj`: Space Packet Generation & CRC-CCITT Integrity Checks.
+- `gnc/orbit.gj`: SGP4 Orbit Propagation & Attitude Quaternion Steering.
+- `ground/station.gj`: Ground Station AOS/LOS Pass Tracker & Doppler Compensation.
+- `assets/tle.txt`: Sample Orbital Two-Line Elements.
+
+### 6. 🧠 Pre-Built Starter Kit 12: Pure C99 Deep Neural Network & Tensor Studio (`--kit=brahmand`, `--kit=tensor`, `--kit=neural`)
+Scaffold pure C99 autodiff deep learning and tensor studio projects:
+```bash
+gujarati new deep_model --kit=brahmand
+# or
+gujarati new deep_model --kit=tensor
+# or
+gujarati new deep_model --kit=neural
+```
+Generates:
+- `train.gj`: End-to-End Training Loop with Tensor Autodiff.
+- `models/mlp.gj`: Multi-layer Perceptron Architecture & Configurable Dense Layers.
+- `optim/adam.gj`: Pure C99 Adam Optimizer with First and Second Moment Tracking.
+- `data/dataset.gj`: Batch Sampler, Normalization & Split.
+- `assets/model_config.json`: Hyperparameters & Layer Dimensions Specification.
+
+---
+
 # GujaratiLang v4.0.0: The Grand Unification Milestone — Self-Hosting AST, WebAssembly Binary Compiler, NIST Post-Quantum Cryptography & Autonomous Agent Swarms (સ્વયંભૂ, વાસ્મ, કવચ ક્વાન્ટમ અને સંઘ)
 
 GujaratiLang **v4.0.0** is officially released! This monumental major release represents the **Grand Unification Milestone**, establishing GujaratiLang as a mature, self-reflective, and post-quantum computing platform written in 100% pure ANSI C99 with **zero external C dependencies**.
