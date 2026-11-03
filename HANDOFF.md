@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v3.9.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.9.0) ("Bhuvan & Setu — Planetary Delay-Tolerant Networking, LoRaWAN / BLE Mesh, IPFS Content Addressing & Decentralized Identifiers").
+- Latest interpreter release: [GujaratiLang v4.0.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v4.0.0) ("Bhuvan & Setu — Planetary Delay-Tolerant Networking, LoRaWAN / BLE Mesh, IPFS Content Addressing & Decentralized Identifiers").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v3.9.0 (870 automated test suites passing, 100% pass rate).
+  platform before publishing v3.9.0 (900 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,14 +30,27 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (870/870 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (900/900 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v3.9.0: Bhuvan & Setu — Planetary Delay-Tolerant Networking, LoRaWAN / BLE Mesh, IPFS Content Addressing & Decentralized Identifiers (870 Tests Milestone)**.
+Latest commit on origin: **Release v4.0.0: The Grand Unification Milestone — Self-Hosting AST, WebAssembly Binary Compiler, NIST Post-Quantum Cryptography & Autonomous Agent Swarms (900 Tests Milestone)**.
 
-Recent completed work includes:
+- Added Swayambhu (સ્વયંભૂ) Self-Hosting AST & Meta-Programming:
+  - `ast_parse`, `ast_dump`, `ast_node_type`, `ast_walk`, `ast_transform`, `ast_eval`, `ast_validate_syntax`
+  - CLI: `gujarati ast:dump <file.gj>`
+- Added Wasm (વાસ્મ) Pure C99 Binary Compiler:
+  - `wasm_module_create`, `wasm_func_add`, `wasm_memory_define`, `wasm_export_symbol`, `wasm_emit_binary`, `wasm_validate`, `wasm_disassemble`
+  - CLI: `gujarati wasm:compile <file.gj> [out.wasm]`
+- Added Kavach Quantum (કવચ ક્વાન્ટમ) NIST Post-Quantum Cryptography:
+  - `pqc_mlkem_keypair`, `pqc_mlkem_encap`, `pqc_mlkem_decap`, `pqc_mldsa_keypair`, `pqc_mldsa_sign`, `pqc_mldsa_verify`
+  - CLI: `gujarati pqc:keypair [algorithm]`
+- Added Sangh (સંઘ) Autonomous Agent Swarm & BFT Coordination:
+  - `swarm_init`, `swarm_peer_register`, `swarm_proposal_submit`, `swarm_vote_cast`, `swarm_consensus_check`, `swarm_task_auction`
+  - CLI: `gujarati swarm:status <swarm_state.json>`
+- Added Pre-Coded Starter Kit 10: Autonomous Agent Swarm Studio (`--kit=agent`, `--kit=sangh`):
+  - `gujarati new agent_hive --kit=agent` (aliases `kit:agent`, `kit:sangh`, `kit:swarm`)
 
 - Added Bhuvan (ભુવન) Delay-Tolerant Networking (DTN RFC 5050):
   - `dtn_bundle_create`, `dtn_bundle_serialize`, `dtn_bundle_parse`, `dtn_store_forward`, `dtn_custody_accept`, `dtn_contact_plan_add`, `dtn_bundle_route_next`

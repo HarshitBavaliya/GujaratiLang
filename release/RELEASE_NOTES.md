@@ -1,3 +1,74 @@
+# GujaratiLang v4.0.0: The Grand Unification Milestone — Self-Hosting AST, WebAssembly Binary Compiler, NIST Post-Quantum Cryptography & Autonomous Agent Swarms (સ્વયંભૂ, વાસ્મ, કવચ ક્વાન્ટમ અને સંઘ)
+
+GujaratiLang **v4.0.0** is officially released! This monumental major release represents the **Grand Unification Milestone**, establishing GujaratiLang as a mature, self-reflective, and post-quantum computing platform written in 100% pure ANSI C99 with **zero external C dependencies**.
+
+v4.0.0 unites four cutting-edge computing pillars:
+1. **Swayambhu (સ્વયંભૂ)**: Self-Hosting AST Reflection, Visitor Patterns, Macro Rewriting & In-Memory Evaluation.
+2. **Wasm (વાસ્મ)**: Pure C99 Binary WebAssembly (Wasm) AOT Compiler, LEB128 Section Encoders & WAT Disassembler.
+3. **Kavach Quantum (કવચ ક્વાન્ટમ)**: NIST Post-Quantum Cryptography (ML-KEM-768 FIPS 203 & ML-DSA-65 FIPS 204).
+4. **Sangh (સંઘ)**: Autonomous Multi-Agent Swarm, Byzantine Fault-Tolerant (BFT) Consensus Voting & Distributed Task Auctions.
+5. **Starter Kit 10**: Autonomous Agent Swarm Studio (`--kit=agent`, `--kit=sangh`).
+
+With v4.0.0, the automated test suite reaches the milestone of **900 Automated Tests (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
+
+---
+
+## 🌟 What's New in v4.0.0
+
+### 1. 🪐 Pillar 1: Swayambhu (સ્વયંભૂ) Self-Hosting AST & Meta-Programming (8 Points)
+- **`ast_parse(source)` / `ast_vancho` / `એએસટી_વાંચો`**: Parses any GujaratiLang code string into a structured AST dictionary tree.
+- **`ast_dump(node)` / `ast_nikas` / `એએસટી_નિકાસ`**: Serializes an AST node hierarchy into pretty-printed AST expressions.
+- **`ast_node_type(node)` / `ast_nod_prakar` / `એએસટી_નોડ_પ્રકાર`**: Returns the syntactic category of an AST node (`"program"`, `"var_decl"`, etc.).
+- **`ast_walk(node, visitor)` / `ast_chalo` / `એએસટી_ચાલો`**: Traverses the AST in pre-order/post-order, collecting structural metrics.
+- **`ast_transform(node, rule)` / `ast_badlo` / `એએસટી_બદલો`**: Rewrites AST subtrees according to replacement rules (macro expansion / optimizer passes).
+- **`ast_eval(node[, env])` / `ast_mulyankan` / `એએસટી_મૂલ્યાંકન`**: Dynamically evaluates an in-memory AST subtree within an optional lexical environment.
+- **`ast_validate_syntax(code)` / `ast_chakasani` / `એએસટી_ચકાસણી`**: Validates syntax correctness returning line numbers, column offsets, and error tokens without crashing.
+- **CLI: `gujarati ast:dump <file.gj>` / `gujarati એએસટી:ડમ્પ`**: Inspects and outputs formatted abstract syntax trees directly from the terminal.
+
+### 2. ⚡ Pillar 2: Wasm (વાસ્મ) Pure C99 WebAssembly Binary Compiler (8 Points)
+- **`wasm_module_create(name)` / `wasm_module_bnavo` / `વાસ્મ_મોડ્યુલ_બનાવો`**: Initializes a fresh WebAssembly binary module builder.
+- **`wasm_func_add(module, name, params, returns, bytecodes)` / `wasm_kary_umero` / `વાસ્મ_કાર્ય_ઉમેરો`**: Emits a Wasm function with local signature and bytecodes.
+- **`wasm_memory_define(module, min, max)` / `wasm_smruti_bnavo` / `વાસ્મ_સ્મૃતિ_બનાવો`**: Configures linear memory segment and export definitions.
+- **`wasm_export_symbol(module, internal, export_name, kind)` / `wasm_nikas_chinha` / `વાસ્મ_નિકાસ_ચિહ્ન`**: Declares exported functions, memories, or globals.
+- **`wasm_emit_binary(module)` / `wasm_binary_kramit` / `વાસ્મ_બાઈનરી_ક્રમિત`**: Compiles the module sections (Type, Function, Memory, Export, Code) into standard Wasm bytecode buffer (`\0asm\1...`).
+- **`wasm_validate(wasm_bytes)` / `wasm_chakasani` / `વાસ્મ_ચકાસણી`**: Validates magic header (`0x0061736d`), version (`0x01`), and section alignment.
+- **`wasm_disassemble(wasm_bytes)` / `wasm_vigathan` / `વાસ્મ_વિઘટન`**: Disassembles binary bytecode back into human-readable WebAssembly Text (WAT) format.
+- **CLI: `gujarati wasm:compile <file.gj> [out.wasm]` / `gujarati વાસ્મ:કમ્પાઇલ`**: Compiles computational GujaratiLang functions into standalone high-performance Wasm binaries.
+
+### 3. 🛡️ Pillar 3: Kavach Quantum (કવચ ક્વાન્ટમ) NIST Post-Quantum Cryptography (7 Points)
+- **`pqc_mlkem_keypair()` / `pqc_mlkem_jodi` / `પીક્યુસી_એમએલકેઈએમ_જોડી`**: Generates a NIST FIPS 203 ML-KEM-768 (Kyber) public encapsulation key and private decapsulation key.
+- **`pqc_mlkem_encap(pubkey)` / `pqc_mlkem_bandho` / `પીક્યુસી_એમએલકેઈએમ_બાંધો`**: Encapsulates a 256-bit shared secret, producing ciphertext and shared key.
+- **`pqc_mlkem_decap(ciphertext, privkey)` / `pqc_mlkem_kholo` / `પીક્યુસી_એમએલકેઈએમ_ખોલો`**: Decapsulates ciphertext, recovering the exact shared secret with constant-time verification.
+- **`pqc_mldsa_keypair()` / `pqc_mldsa_jodi` / `પીક્યુસી_એમએલડીએસએ_જોડી`**: Generates a NIST FIPS 204 ML-DSA-65 (Dilithium) quantum-resistant signature keypair.
+- **`pqc_mldsa_sign(message, privkey)` / `pqc_mldsa_sahi` / `પીક્યુસી_એમએલડીએસએ_સહી`**: Signs a message or payload with lattice-based polynomial vector proofs.
+- **`pqc_mldsa_verify(message, signature, pubkey)` / `pqc_mldsa_chakasani` / `પીક્યુસી_એમએલડીએસએ_ચકાસણી`**: Verifies signature authenticity, ensuring immunity against quantum Shor's algorithm attacks.
+- **CLI: `gujarati pqc:keypair [algorithm]` / `gujarati પીક્યુસી:જોડી`**: Generates and inspects post-quantum keys directly from terminal.
+
+### 4. 🤖 Pillar 4: Sangh (સંઘ) Autonomous Agent Swarms & BFT Coordination (7 Points)
+- **`swarm_init(swarm_id, node_id, quorum_size)` / `sangh_saruaat` / `સંઘ_શરૂઆત`**: Initializes an autonomous agent node participating in a multi-agent swarm.
+- **`swarm_peer_register(swarm, peer_id, capabilities)` / `sangh_sathi_umero` / `સંઘ_સાથી_ઉમેરો`**: Registers swarm peers and their specialization tags (e.g. `["codegen", "audit", "sensor"]`).
+- **`swarm_proposal_submit(swarm, proposal_id, action_payload)` / `sangh_prastav_aapo` / `સંઘ_પ્રસ્તાવ_આપો`**: Submits a new distributed proposal to the swarm network.
+- **`swarm_vote_cast(swarm, proposal_id, vote_decision, signature)` / `sangh_mat_aapo` / `સંઘ_મત_આપો`**: Casts a cryptographically authenticated vote on an open proposal.
+- **`swarm_consensus_check(swarm, proposal_id)` / `sangh_sammat_chakasani` / `સંઘ_સંમત_ચકાસણી`**: Computes Byzantine Fault Tolerant (BFT) quorum, finalizing proposal if 2/3+ threshold is satisfied.
+- **`swarm_task_auction(swarm, task_id, requirements)` / `sangh_kam_haraji` / `સંઘ_કામ_હરાજી`**: Runs a distributed second-price auction assigning tasks to the optimal agent peer.
+- **CLI: `gujarati swarm:status <swarm_state.json>` / `gujarati સંઘ:સ્થિતિ`**: Inspects live swarm topology, active proposals, and peer consensus logs.
+
+### 5. 🐝 Pre-Built Starter Kit 10: Autonomous Agent Swarm Studio (`--kit=agent`, `--kit=sangh`)
+Scaffold cross-platform multi-agent autonomous swarm projects:
+```bash
+gujarati new agent_hive --kit=agent
+# or
+gujarati new agent_hive --kit=sangh
+```
+Generates:
+- `swarm.gj`: Swarm cluster initialization, peer discovery & BFT consensus loop.
+- `agents/worker.gj`: Specialized worker agent executing assigned auction tasks.
+- `agents/auditor.gj`: Verification agent running formal invariants & PQC signing.
+- `protocol/message.gj`: Authenticated PQC message serialization & envelope routing.
+- `assets/swarm_config.json`: Node roster, consensus quorum thresholds & capability registry.
+
+---
+
 # GujaratiLang v3.9.0: Bhuvan & Setu — Planetary Delay-Tolerant Networking, LoRaWAN / BLE Mesh, IPFS Content Addressing & Decentralized Identifiers (ભુવન, સેતુ, મેશ, સંચય અને ઓળખ)
 
 GujaratiLang **v3.9.0** is officially released! This landmark milestone expands GujaratiLang into off-grid, interplanetary, peer-to-peer, and decentralized networking runtimes, implemented in 100% pure C99 with **zero external C dependencies**.

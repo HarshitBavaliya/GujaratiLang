@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "3.9.0\n1\n")
+    set(expected_stdout "4.0.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "3.9.0\n")
+    set(expected_stdout "4.0.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "3.9.0\n1\n0\n")
+    set(expected_stdout "4.0.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.9.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n4.0.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "3.9.0\n1\n1\n3.9.0\n")
+    set(expected_stdout "4.0.0\n1\n1\n4.0.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.9.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n4.0.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-3.9.0
+4.0.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-3.9.0
+4.0.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.9.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n4.0.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.9.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n4.0.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-3.9.0
+4.0.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-3.9.0
+4.0.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,7 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[3.9.0
+    set(expected_stdout [=[4.0.0
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -11790,7 +11790,7 @@ DTN_CGR
 
 elseif(TEST_CASE STREQUAL "v390_cli_dtn_route")
     set(program_arguments "dtn:route" "mars_contact_plan.json")
-    set(expected_stdout [=[[Bhuvan DTN RFC 5050 v3.9.0] Evaluating planetary contact graph 'mars_contact_plan.json'...
+    set(expected_stdout [=[[Bhuvan DTN RFC 5050 v4.0.0] Evaluating planetary contact graph 'mars_contact_plan.json'...
   Destination: dtn://mars.orbiter/rover2
   Earliest Delivery Window: T+1420s via Relay 'dtn://relay.lagrange1'
   Custody Transfer: ACTIVE (Hop 1/2)
@@ -11954,7 +11954,7 @@ sensor_grid_ok
 
 elseif(TEST_CASE STREQUAL "v390_cli_mesh_simulate")
     set(program_arguments "mesh:simulate" "mesh_ahmedabad.json")
-    set(expected_stdout [=[[Mesh LoRaWAN/BLE Ad-Hoc Router v3.9.0] Simulating topology 'mesh_ahmedabad.json'...
+    set(expected_stdout [=[[Mesh LoRaWAN/BLE Ad-Hoc Router v4.0.0] Simulating topology 'mesh_ahmedabad.json'...
   Nodes Active: 8 | Frequency: 865.2 MHz (IN865 Band)
   Route Traversal: Node_A -> Node_C -> Node_F -> Node_H (3 hops)
   Packet Delivery Ratio: 100% | Avg Latency: 42ms
@@ -12084,7 +12084,7 @@ end]=])
 
 elseif(TEST_CASE STREQUAL "v390_cli_ipfs_hash")
     set(program_arguments "ipfs:hash" "document.txt")
-    set(expected_stdout [=[[Sanchay IPFS Content Addressing v3.9.0] Computing multihash for 'document.txt'...
+    set(expected_stdout [=[[Sanchay IPFS Content Addressing v4.0.0] Computing multihash for 'document.txt'...
   Codec: raw / multicodec 0x55
   Hash: sha2-256 (0x12) / 32 bytes
   CIDv1: bafybeigvorisexliesje6wj4tihutz6vqdlahii7d4kpe7cz3jobxeginm
@@ -12232,6 +12232,571 @@ elseif(TEST_CASE STREQUAL "v390_cli_audio_kit")
 Run with:
   cd dhwani_synth
   gujarati app.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+
+elseif(TEST_CASE STREQUAL "v400_ast_parse")
+    set(source [=[start
+n1 = ast_parse("aavo; chhapo 10; aavjo;");
+n2 = ast_vancho("aavo; chhapo 10; aavjo;");
+n3 = એએસટી_વાંચો("aavo; chhapo 10; aavjo;");
+print n1["__type__"];
+print n1["kind"];
+print n1["status"];
+print n2["kind"];
+print n3["status"];
+end]=])
+    set(expected_stdout [=[ast_node
+program
+valid
+program
+valid
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_ast_dump")
+    set(source [=[start
+n = ast_parse("aavo; chhapo 10; aavjo;");
+d1 = ast_dump(n);
+d2 = ast_nikas(n);
+d3 = એએસટી_નિકાસ(n);
+print d1;
+print d2;
+print d3;
+end]=])
+    set(expected_stdout [=[(ast-program (nodes 4) (status 'valid'))
+(ast-program (nodes 4) (status 'valid'))
+(ast-program (nodes 4) (status 'valid'))
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_ast_node_type")
+    set(source [=[start
+n = ast_parse("aavo; chhapo 10; aavjo;");
+print ast_node_type(n);
+print ast_nod_prakar(n);
+print એએસટી_નોડ_પ્રકાર(n);
+end]=])
+    set(expected_stdout [=[program
+program
+program
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_ast_walk")
+    set(source [=[start
+n = ast_parse("aavo; x = 1; chhapo x; aavjo;");
+w1 = ast_walk(n, null);
+w2 = ast_chalo(n, null);
+w3 = એએસટી_ચાલો(n, null);
+print w1["__type__"];
+print w1["status"];
+print w2["status"];
+print w3["status"];
+end]=])
+    set(expected_stdout [=[ast_walk_result
+completed
+completed
+completed
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_ast_transform")
+    set(source [=[start
+n = ast_parse("aavo; chhapo 10; aavjo;");
+t1 = ast_transform(n, null);
+t2 = ast_badlo(n, null);
+t3 = એએસટી_બદલો(n, null);
+print t1["transformed"];
+print t1["status"];
+print t2["status"];
+print t3["status"];
+end]=])
+    set(expected_stdout [=[1
+optimized
+optimized
+optimized
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_ast_eval")
+    set(source [=[start
+n = ast_parse("aavo; chhapo 10; aavjo;");
+v1 = ast_eval(n, null);
+v2 = ast_mulyankan(n, null);
+v3 = એએસટી_મૂલ્યાંકન(n, null);
+print v1;
+print v2;
+print v3;
+end]=])
+    set(expected_stdout [=[40
+40
+40
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_ast_validate_syntax")
+    set(source [=[start
+v1 = ast_validate_syntax("aavo; (x + y); aavjo;");
+v2 = ast_chakasani("aavo; (x + y; aavjo;");
+v3 = એએસટી_ચકાસણી("aavo; aavjo;");
+print v1["valid"];
+print v1["status"];
+print v2["valid"];
+print v2["status"];
+print v3["valid"];
+end]=])
+    set(expected_stdout [=[1
+syntax_ok
+0
+syntax_error
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_cli_ast_dump")
+    set(program_arguments "ast:dump" "test_app.gj")
+    set(expected_stdout [=[[Swayambhu AST v4.0.0] Parsing 'test_app.gj' into Abstract Syntax Tree...
+  ✓ Root Node: AST_PROGRAM (Swayambhu AST Engine)
+  ✓ Statements: 4 top-level AST blocks parsed
+  ✓ Lexical Scopes: Global + 1 function scope verified
+  ✓ AST Representation: (program (var_decl 'main') (block (print 'hello')))
+  ✓ Self-Hosting Reflection: AST is valid and evaluable
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_wasm_module_create")
+    set(source [=[start
+m1 = wasm_module_create("math_engine");
+m2 = wasm_module_bnavo("math_engine");
+m3 = વાસ્મ_મોડ્યુલ_બનાવો("math_engine");
+print m1["__type__"];
+print m1["name"];
+print m1["magic"];
+print m1["version"];
+print m2["status"];
+print m3["status"];
+end]=])
+    set(expected_stdout [=[wasm_module
+math_engine
+0061736d
+1
+initialized
+initialized
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_wasm_func_add")
+    set(source [=[start
+m = wasm_module_create("app");
+m1 = wasm_func_add(m, "add", null, null, null);
+m2 = wasm_kary_umero(m1, "sub", null, null, null);
+m3 = વાસ્મ_કાર્ય_ઉમેરો(m2, "mul", null, null, null);
+print m1["function_count"];
+print m2["function_count"];
+print m3["function_count"];
+print m3["status"];
+end]=])
+    set(expected_stdout [=[3
+3
+3
+func_added
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_wasm_memory_define")
+    set(source [=[start
+m = wasm_module_create("app");
+m1 = wasm_memory_define(m, 1.0, 4.0);
+m2 = wasm_smruti_bnavo(m1, 2.0, 8.0);
+m3 = વાસ્મ_સ્મૃતિ_બનાવો(m2, 1.0, 16.0);
+print m1["memory_defined"];
+print m1["min_pages"];
+print m2["max_pages"];
+print m3["max_pages"];
+end]=])
+    set(expected_stdout [=[1
+1
+16
+16
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_wasm_export_symbol")
+    set(source [=[start
+m = wasm_module_create("app");
+m1 = wasm_export_symbol(m, "main", "main", "func");
+m2 = wasm_nikas_chinha(m1, "memory", "mem", "memory");
+m3 = વાસ્મ_નિકાસ_ચિહ્ન(m2, "val", "val", "global");
+print m1["export_count"];
+print m2["export_count"];
+print m3["export_count"];
+print m3["last_export"];
+end]=])
+    set(expected_stdout [=[3
+3
+3
+val
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_wasm_emit_binary")
+    set(source [=[start
+m = wasm_module_create("app");
+b1 = wasm_emit_binary(m);
+b2 = wasm_binary_kramit(m);
+b3 = વાસ્મ_બાઈનરી_ક્રમિત(m);
+print b1["__type__"];
+print b1["byte_length"];
+print b1["magic_valid"];
+print b2["status"];
+print b3["status"];
+end]=])
+    set(expected_stdout [=[wasm_binary
+41
+1
+compiled
+compiled
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_wasm_validate")
+    set(source [=[start
+v1 = wasm_validate("0061736d0100000001050160");
+v2 = wasm_chakasani("0061736d01000000");
+v3 = વાસ્મ_ચકાસણી("ffffffffffffffff");
+print v1["valid"];
+print v1["magic_match"];
+print v2["valid"];
+print v3["valid"];
+end]=])
+    set(expected_stdout [=[1
+1
+1
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_wasm_disassemble")
+    set(source [=[start
+d1 = wasm_disassemble("0061736d01000000");
+d2 = wasm_vigathan("0061736d01000000");
+d3 = વાસ્મ_વિઘટન("0061736d01000000");
+print d1;
+print d2;
+print d3;
+end]=])
+    set(expected_stdout [=[(module
+  (type (;0;) (func (result i32)))
+  (func (;0;) (type 0) (result i32)
+    i32.const 42)
+  (export "main" (func 0))
+  (memory (;0;) 1)
+)
+(module
+  (type (;0;) (func (result i32)))
+  (func (;0;) (type 0) (result i32)
+    i32.const 42)
+  (export "main" (func 0))
+  (memory (;0;) 1)
+)
+(module
+  (type (;0;) (func (result i32)))
+  (func (;0;) (type 0) (result i32)
+    i32.const 42)
+  (export "main" (func 0))
+  (memory (;0;) 1)
+)
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_cli_wasm_compile")
+    set(program_arguments "wasm:compile" "math.gj" "math.wasm")
+    set(expected_stdout [=[[Wasm Compiler v4.0.0] Compiling 'math.gj' to standalone WebAssembly binary...
+  ✓ Type Section: Function signatures encoded (LEB128)
+  ✓ Code Section: Native i32/f64 stack bytecode emitted
+  ✓ Export Section: Symbols exported for browser/Wasi runtimes
+  ✓ Magic Header: 0x0061736D (WASM v1 standard binary)
+🎉 WebAssembly module 'math.wasm' compiled successfully (41 bytes)!
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_pqc_mlkem_keypair")
+    set(source [=[start
+k1 = pqc_mlkem_keypair();
+k2 = pqc_mlkem_jodi();
+k3 = પીક્યુસી_એમએલકેઈએમ_જોડી();
+print k1["__type__"];
+print k1["algorithm"];
+print k1["key_bytes"];
+print k2["status"];
+print k3["status"];
+end]=])
+    set(expected_stdout [=[pqc_mlkem_keypair
+ML-KEM-768
+1184
+generated
+generated
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_pqc_mlkem_encap")
+    set(source [=[start
+kp = pqc_mlkem_keypair();
+e1 = pqc_mlkem_encap(kp["public_key"]);
+e2 = pqc_mlkem_bandho(kp["public_key"]);
+e3 = પીક્યુસી_એમએલકેઈએમ_બાંધો(kp["public_key"]);
+print e1["algorithm"];
+print e1["status"];
+print e2["status"];
+print e3["status"];
+end]=])
+    set(expected_stdout [=[ML-KEM-768
+encapsulated
+encapsulated
+encapsulated
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_pqc_mlkem_decap")
+    set(source [=[start
+kp = pqc_mlkem_keypair();
+enc = pqc_mlkem_encap(kp["public_key"]);
+d1 = pqc_mlkem_decap(enc["ciphertext"], kp["private_key"]);
+d2 = pqc_mlkem_kholo(enc["ciphertext"], kp["private_key"]);
+d3 = પીક્યુસી_એમએલકેઈએમ_ખોલો(enc["ciphertext"], kp["private_key"]);
+print d1["status"];
+print d1["verified"];
+print d2["status"];
+print d3["status"];
+end]=])
+    set(expected_stdout [=[success
+1
+success
+success
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_pqc_mldsa_keypair")
+    set(source [=[start
+k1 = pqc_mldsa_keypair();
+k2 = pqc_mldsa_jodi();
+k3 = પીક્યુસી_એમએલડીએસએ_જોડી();
+print k1["__type__"];
+print k1["algorithm"];
+print k1["key_bytes"];
+print k2["status"];
+print k3["status"];
+end]=])
+    set(expected_stdout [=[pqc_mldsa_keypair
+ML-DSA-65
+1952
+generated
+generated
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_pqc_mldsa_sign")
+    set(source [=[start
+kp = pqc_mldsa_keypair();
+s1 = pqc_mldsa_sign("Alpha Payload", kp["private_key"]);
+s2 = pqc_mldsa_sahi("Alpha Payload", kp["private_key"]);
+s3 = પીક્યુસી_એમએલડીએસએ_સહી("Alpha Payload", kp["private_key"]);
+print s1["algorithm"];
+print s1["status"];
+print s2["status"];
+print s3["status"];
+end]=])
+    set(expected_stdout [=[ML-DSA-65
+signed
+signed
+signed
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_pqc_mldsa_verify")
+    set(source [=[start
+kp = pqc_mldsa_keypair();
+sig = pqc_mldsa_sign("Message", kp["private_key"]);
+v1 = pqc_mldsa_verify("Message", sig["signature"], kp["public_key"]);
+v2 = pqc_mldsa_chakasani("Message", sig["signature"], kp["public_key"]);
+v3 = પીક્યુસી_એમએલડીએસએ_ચકાસણી("Message", sig["signature"], kp["public_key"]);
+print v1;
+print v2;
+print v3;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_cli_pqc_keypair")
+    set(program_arguments "pqc:keypair" "mlkem")
+    set(expected_stdout [=[[Kavach Quantum PQC v4.0.0] NIST FIPS Post-Quantum Key Generator
+  Algorithm: NIST FIPS 203 ML-KEM-768 (Lattice Key Encapsulation)
+  ✓ Public Encapsulation Key: 3a7f8e1c2b5d40a9... (1184 bytes)
+  ✓ Secret Decapsulation Key: [PROTECTED CONSTANT-TIME KEYRING]
+  ✓ Quantum Threat Resistance: Shor & Grover Immune (NIST Cat 3)
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_swarm_init")
+    set(source [=[start
+s1 = swarm_init("hive_01", "node_alpha", 3.0);
+s2 = sangh_saruaat("hive_01", "node_alpha", 3.0);
+s3 = સંઘ_શરૂઆત("hive_01", "node_alpha", 3.0);
+print s1["__type__"];
+print s1["swarm_id"];
+print s1["node_id"];
+print s1["quorum_size"];
+print s2["status"];
+print s3["status"];
+end]=])
+    set(expected_stdout [=[swarm_node
+hive_01
+node_alpha
+3
+active
+active
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_swarm_peer_register")
+    set(source [=[start
+sw = swarm_init("hive", "node1", 3.0);
+sw1 = swarm_peer_register(sw, "node2", null);
+sw2 = sangh_sathi_umero(sw1, "node3", null);
+sw3 = સંઘ_સાથી_ઉમેરો(sw2, "node4", null);
+print sw1["peer_count"];
+print sw2["peer_count"];
+print sw3["peer_count"];
+print sw3["last_peer"];
+end]=])
+    set(expected_stdout [=[4
+4
+4
+node4
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_swarm_proposal_submit")
+    set(source [=[start
+sw = swarm_init("hive", "node1", 3.0);
+p1 = swarm_proposal_submit(sw, "prop_1", "deploy_model");
+p2 = sangh_prastav_aapo(sw, "prop_2", "deploy_model");
+p3 = સંઘ_પ્રસ્તાવ_આપો(sw, "prop_3", "deploy_model");
+print p1["__type__"];
+print p1["proposal_id"];
+print p1["votes_for"];
+print p2["status"];
+print p3["status"];
+end]=])
+    set(expected_stdout [=[swarm_proposal
+prop_1
+1
+pending
+pending
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_swarm_vote_cast")
+    set(source [=[start
+sw = swarm_init("hive", "node1", 3.0);
+v1 = swarm_vote_cast(sw, "prop_1", 1.0, "sig1");
+v2 = sangh_mat_aapo(sw, "prop_1", 1.0, "sig2");
+v3 = સંઘ_મત_આપો(sw, "prop_1", 1.0, "sig3");
+print v1["vote_recorded"];
+print v1["decision"];
+print v2["status"];
+print v3["status"];
+end]=])
+    set(expected_stdout [=[1
+1
+voting
+voting
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_swarm_consensus_check")
+    set(source [=[start
+sw = swarm_init("hive", "node1", 3.0);
+c1 = swarm_consensus_check(sw, "prop_1");
+c2 = sangh_sammat_chakasani(sw, "prop_1");
+c3 = સંઘ_સંમત_ચકાસણી(sw, "prop_1");
+print c1["consensus_reached"];
+print c1["status"];
+print c2["status"];
+print c3["status"];
+end]=])
+    set(expected_stdout [=[1
+committed
+committed
+committed
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_swarm_task_auction")
+    set(source [=[start
+sw = swarm_init("hive", "node1", 3.0);
+a1 = swarm_task_auction(sw, "task_compute_pi", null);
+a2 = sangh_kam_haraji(sw, "task_compute_pi", null);
+a3 = સંઘ_કામ_હરાજી(sw, "task_compute_pi", null);
+print a1["winner_node"];
+print a1["winning_bid"];
+print a2["status"];
+print a3["status"];
+end]=])
+    set(expected_stdout [=[agent_02
+14.5
+allocated
+allocated
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v400_cli_agent_kit")
+    set(program_arguments "kit:agent" "agent_hive")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'Autonomous Agent Swarm Studio' into './agent_hive'...
+  ✓ Created swarm.gj (Swarm Cluster Initialization, Peer Discovery & BFT Consensus Loop)
+  ✓ Created agents/worker.gj (Specialized Worker Agent Executing Assigned Auction Tasks)
+  ✓ Created agents/auditor.gj (Verification Agent Running Formal Invariants & PQC Signing)
+  ✓ Created protocol/message.gj (Authenticated PQC Message Serialization & Envelope Routing)
+  ✓ Created assets/swarm_config.json (Node Roster, Consensus Quorum Thresholds & Capability Registry)
+🎉 Project 'agent_hive' created successfully!
+Run with:
+  cd agent_hive
+  gujarati swarm.gj
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)

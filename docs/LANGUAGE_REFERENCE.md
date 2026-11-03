@@ -244,3 +244,35 @@ aavjo
 | `vc_issue(...)` | `vc_aapo` | `વીસી_આપો` | W3C Verifiable Credential issuer |
 | `vc_sign(...)` | `vc_sahikaro` | `વીસી_સહીકરો` | Cryptographic proof signer |
 | `vc_verify(...)` | `vc_chakasani` | `વીસી_ચકાસણી` | Signature & claim validator |
+
+
+### 7. Self-Hosting AST, Wasm, Post-Quantum & Multi-Agent (v4.0.0 Grand Unification)
+
+| English Function | Romanized Gujarati | Native Gujarati Unicode | Description |
+|---|---|---|---|
+| `ast_parse(source)` | `ast_vancho` | `એએસટી_વાંચો` | Parses source code into an in-memory AST dictionary |
+| `ast_dump(node)` | `ast_nikas` | `એએસટી_નિકાસ` | Serializes an AST node hierarchy into S-expression text |
+| `ast_node_type(node)` | `ast_nod_prakar` | `એએસટી_નોડ_પ્રકાર` | Returns syntax categorization of an AST node |
+| `ast_walk(node, visitor)` | `ast_chalo` | `એએસટી_ચાલો` | Traverses AST tree calculating metrics & visiting nodes |
+| `ast_transform(node, rule)` | `ast_badlo` | `એએસટી_બદલો` | In-memory AST tree rewriting and macro expansions |
+| `ast_eval(node[, env])` | `ast_mulyankan` | `એએસટી_મૂલ્યાંકન` | Dynamically evaluates an in-memory AST subtree |
+| `ast_validate_syntax(code)` | `ast_chakasani` | `એએસટી_ચકાસણી` | Validates syntax without raising runtime errors |
+| `wasm_module_create(name)` | `wasm_module_bnavo` | `વાસ્મ_મોડ્યુલ_બનાવો` | Initializes a binary WebAssembly module builder |
+| `wasm_func_add(m, n, p, r, b)` | `wasm_kary_umero` | `વાસ્મ_કાર્ય_ઉમેરો` | Emits a WebAssembly function with bytecode instructions |
+| `wasm_memory_define(m, min, max)` | `wasm_smruti_bnavo` | `વાસ્મ_સ્મૃતિ_બનાવો` | Configures WebAssembly linear memory bounds |
+| `wasm_export_symbol(m, i, e, k)` | `wasm_nikas_chinha` | `વાસ્મ_નિકાસ_ચિહ્ન` | Exports a symbol (function, memory, global) |
+| `wasm_emit_binary(module)` | `wasm_binary_kramit` | `વાસ્મ_બાઈનરી_ક્રમિત` | Compiles module into standard `.wasm` bytecode binary |
+| `wasm_validate(bytes)` | `wasm_chakasani` | `વાસ્મ_ચકાસણી` | Validates binary WebAssembly magic bytes & sections |
+| `wasm_disassemble(bytes)` | `wasm_vigathan` | `વાસ્મ_વિઘટન` | Disassembles `.wasm` binary into WebAssembly Text (WAT) |
+| `pqc_mlkem_keypair()` | `pqc_mlkem_jodi` | `પીક્યુસી_એમએલકેઈએમ_જોડી` | Generates NIST FIPS 203 ML-KEM-768 lattice keypair |
+| `pqc_mlkem_encap(pubkey)` | `pqc_mlkem_bandho` | `પીક્યુસી_એમએલકેઈએમ_બાંધો` | Encapsulates 256-bit symmetric shared key |
+| `pqc_mlkem_decap(ct, privkey)` | `pqc_mlkem_kholo` | `પીક્યુસી_એમએલકેઈએમ_ખોલો` | Decapsulates and verifies shared secret in constant-time |
+| `pqc_mldsa_keypair()` | `pqc_mldsa_jodi` | `પીક્યુસી_એમએલડીએસએ_જોડી` | Generates NIST FIPS 204 ML-DSA-65 signature keypair |
+| `pqc_mldsa_sign(msg, privkey)` | `pqc_mldsa_sahi` | `પીક્યુસી_એમએલડીએસએ_સહી` | Signs payload with lattice polynomial vector proofs |
+| `pqc_mldsa_verify(msg, sig, pub)` | `pqc_mldsa_chakasani` | `પીક્યુસી_એમએલડીએસએ_ચકાસણી` | Verifies post-quantum digital signature |
+| `swarm_init(swarm, node, q)` | `sangh_saruaat` | `સંઘ_શરૂઆત` | Initializes autonomous agent swarm coordinator |
+| `swarm_peer_register(s, p, caps)` | `sangh_sathi_umero` | `સંઘ_સાથી_ઉમેરો` | Registers swarm peers and capability tags |
+| `swarm_proposal_submit(s, id, p)` | `sangh_prastav_aapo` | `સંઘ_પ્રસ્તાવ_આપો` | Submits distributed proposal to swarm |
+| `swarm_vote_cast(s, id, vote, sig)` | `sangh_mat_aapo` | `સંઘ_મત_આપો` | Casts authenticated vote on proposal |
+| `swarm_consensus_check(s, id)` | `sangh_sammat_chakasani` | `સંઘ_સંમત_ચકાસણી` | Checks BFT supermajority quorum threshold |
+| `swarm_task_auction(s, task, bids)` | `sangh_kam_haraji` | `સંઘ_કામ_હરાજી` | Conducts second-price distributed task allocation |

@@ -20,7 +20,7 @@ Extract the archive and add the directory to your system's `PATH`:
 ```bash
 # Verify installation
 gujarati --version
-# Output: 3.9.0
+# Output: 4.0.0
 ```
 
 ### Option B: Build from Source (Any Platform with C99 & CMake)
@@ -91,7 +91,7 @@ gujarati hello.gj
 Run `gujarati` with no arguments to enter the interactive Read-Eval-Print Loop:
 ```text
 $ gujarati
-=== ગુજરાતીલેંગ્વેજ (GujaratiLang) v3.9.0 Interactive Shell ===
+=== ગુજરાતીલેંગ્વેજ (GujaratiLang) v4.0.0 Interactive Shell ===
 ટાઇપ કરો 'bahar' અથવા 'exit' બહાર નીકળવા માટે.
 >> a = 10;
 10

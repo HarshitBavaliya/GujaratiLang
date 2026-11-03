@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 2.6.0 LANGUAGES C)
+project(gujaratilang VERSION 4.0.0 LANGUAGES C)
 
 include(CTest)
 
@@ -882,7 +882,37 @@ if(BUILD_TESTING)
             v390_vc_sign
             v390_vc_verify
             v390_vp_create
-            v390_cli_audio_kit)
+            v390_cli_audio_kit
+            v400_ast_parse
+            v400_ast_dump
+            v400_ast_node_type
+            v400_ast_walk
+            v400_ast_transform
+            v400_ast_eval
+            v400_ast_validate_syntax
+            v400_cli_ast_dump
+            v400_wasm_module_create
+            v400_wasm_func_add
+            v400_wasm_memory_define
+            v400_wasm_export_symbol
+            v400_wasm_emit_binary
+            v400_wasm_validate
+            v400_wasm_disassemble
+            v400_cli_wasm_compile
+            v400_pqc_mlkem_keypair
+            v400_pqc_mlkem_encap
+            v400_pqc_mlkem_decap
+            v400_pqc_mldsa_keypair
+            v400_pqc_mldsa_sign
+            v400_pqc_mldsa_verify
+            v400_cli_pqc_keypair
+            v400_swarm_init
+            v400_swarm_peer_register
+            v400_swarm_proposal_submit
+            v400_swarm_vote_cast
+            v400_swarm_consensus_check
+            v400_swarm_task_auction
+            v400_cli_agent_kit)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"
