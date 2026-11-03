@@ -8,6 +8,16 @@ New to GujaratiLang? Visit the official website and try the interactive playgrou
 you use Visual Studio Code, install the
 [GujaratiLang syntax-highlighting extension](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati).
 
+## 📚 Developer Documentation
+
+Whether you are writing applications in GujaratiLang or contributing to the C99 engine itself, explore our comprehensive developer guides:
+
+- 🚀 **[Getting Started Guide](docs/GETTING_STARTED.md)**: Quick installation, writing programs across all 3 language styles, REPL usage, and scaffolding projects with the 9 pre-coded starter kits.
+- 🛠️ **[Core Engine Developer Guide](docs/DEVELOPER_GUIDE.md)**: Definitive guide for contributing to the C99 interpreter, compiler, build workflows (MSVC / GCC / Clang), and a step-by-step tutorial on adding new built-in functions.
+- 🏛️ **[Runtime Architecture](docs/ARCHITECTURE.md)**: Deep dive into lexical analysis, recursive descent AST parsing, the tagged union `Value` system, environment scoping, and zero-dependency subsystems.
+- 📖 **[Complete Language Reference](docs/LANGUAGE_REFERENCE.md)**: Exhaustive catalog of trilingual keywords, operators, control flow, object-oriented classes, and standard library built-ins.
+- 🤝 **[Contributing Guidelines](CONTRIBUTING.md)**: Code of conduct, pull request checklist, and quality assurance rules (C99 purity, trilingual parity, 100% test pass rate).
+
 ## Current features
 
 ### What's New in v3.9.0: Bhuvan & Setu — Planetary Delay-Tolerant Networking, LoRaWAN / BLE Mesh, IPFS Content Addressing & Decentralized Identifiers (870 Tests Milestone)
