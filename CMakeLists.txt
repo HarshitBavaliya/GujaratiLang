@@ -822,7 +822,37 @@ if(BUILD_TESTING)
             v370_race_detect_conflicts
             v370_race_check_memory_order
             v370_cli_check_race
-            v370_cli_kasauti_kit)
+            v370_cli_kasauti_kit
+            v380_ros2_node_create
+            v380_ros2_publisher_create
+            v380_ros2_subscriber_create
+            v380_ros2_publish_msg
+            v380_ros2_spin_once
+            v380_ros2_cdr_serialize
+            v380_ros2_lifecycle_set
+            v380_cli_ros2_node
+            v380_slam_grid_create
+            v380_slam_point_cloud_filter
+            v380_slam_astar_pathfind
+            v380_slam_robot_pose
+            v380_slam_occupancy_update
+            v380_slam_raycast_scan
+            v380_slam_rrt_plan
+            v380_cli_slam_map
+            v380_motor_pid_create
+            v380_motor_pid_update
+            v380_motor_trajectory_plan
+            v380_motor_inverse_kinematics
+            v380_motor_forward_kinematics
+            v380_motor_encoder_read
+            v380_cli_motor_tune
+            v380_drone_mavlink_connect
+            v380_drone_mavlink_heartbeat
+            v380_drone_waypoint_add
+            v380_drone_sensor_fusion
+            v380_drone_arm_failsafe
+            v380_cli_drone_telemetry
+            v380_cli_mobile_kit)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

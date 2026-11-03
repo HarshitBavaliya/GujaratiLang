@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "3.7.0\n1\n")
+    set(expected_stdout "3.8.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "3.7.0\n")
+    set(expected_stdout "3.8.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "3.7.0\n1\n0\n")
+    set(expected_stdout "3.8.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.7.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n3.8.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "3.7.0\n1\n1\n3.7.0\n")
+    set(expected_stdout "3.8.0\n1\n1\n3.8.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.7.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n3.8.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-3.7.0
+3.8.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-3.7.0
+3.8.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.7.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n3.8.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.7.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n3.8.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-3.7.0
+3.8.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-3.7.0
+3.8.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,7 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[3.7.0
+    set(expected_stdout [=[3.8.0
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -11009,6 +11009,642 @@ elseif(TEST_CASE STREQUAL "v370_cli_kasauti_kit")
 Run with:
   cd e2e_portal_tests
   gujarati runner.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+
+elseif(TEST_CASE STREQUAL "v380_ros2_node_create")
+    set(source [=[start
+n1 = ros2_node_create("cmd_node", "/robot1");
+n2 = yantram_node_banavo("sens_node", "/robot2");
+n3 = યંત્રમ_નોડ_બનાવો("nav_node", "/robot3");
+print n1["__type__"];
+print n1["name"];
+print n1["namespace"];
+print n1["state"];
+print n1["is_valid"];
+print n2["name"];
+print n3["name"];
+end]=])
+    set(expected_stdout [=[ros2_node
+cmd_node
+/robot1
+active
+1
+sens_node
+nav_node
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_ros2_publisher_create")
+    set(source [=[start
+p1 = ros2_publisher_create("node", "/cmd_vel", "Twist");
+p2 = yantram_prakashak_banavo("node", "/odom", "Odometry");
+p3 = યંત્રમ_પ્રકાશક_બનાવો("node", "/scan", "LaserScan");
+print p1["__type__"];
+print p1["topic"];
+print p1["msg_type"];
+print p1["queue_size"];
+print p1["status"];
+print p2["topic"];
+print p3["topic"];
+end]=])
+    set(expected_stdout [=[ros2_publisher
+/cmd_vel
+Twist
+10
+ready
+/odom
+/scan
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_ros2_subscriber_create")
+    set(source [=[start
+s1 = ros2_subscriber_create("node", "/scan", "LaserScan", "on_scan");
+s2 = yantram_grahak_banavo("node", "/imu", "Imu", "on_imu");
+s3 = યંત્રમ_ગ્રાહક_બનાવો("node", "/camera", "Image", "on_cam");
+print s1["__type__"];
+print s1["topic"];
+print s1["msg_type"];
+print s1["status"];
+print s2["topic"];
+print s3["topic"];
+end]=])
+    set(expected_stdout [=[ros2_subscriber
+/scan
+LaserScan
+subscribed
+/imu
+/camera
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_ros2_publish_msg")
+    set(source [=[start
+r1 = ros2_publish_msg("pub", {"linear": 1.5, "angular": 0.2});
+r2 = yantram_sandesho_moklo("pub", {"data": 42});
+r3 = યંત્રમ_સંદેશો_મોકલો("pub", {"status": 1});
+print r1;
+print r2;
+print r3;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_ros2_spin_once")
+    set(source [=[start
+r1 = ros2_spin_once("node", 100);
+r2 = yantram_spin_ekvar("node", 50);
+r3 = યંત્રમ_સ્પિન_એકવાર("node", 25);
+print r1;
+print r2;
+print r3;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_ros2_cdr_serialize")
+    set(source [=[start
+c1 = ros2_cdr_serialize({"speed": 10});
+c2 = yantram_cdr_serialize({"angle": 90});
+c3 = યંત્રમ_સીડીઆર_એન્કોડ({"target": 1});
+print c1["__type__"];
+print c1["byte_length"];
+print c1["endianness"];
+print c1["status"];
+print c2["status"];
+print c3["status"];
+end]=])
+    set(expected_stdout [=[cdr_buffer
+64
+little_endian
+serialized
+serialized
+serialized
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_ros2_lifecycle_set")
+    set(source [=[start
+s1 = ros2_lifecycle_set("node", "active");
+s2 = yantram_lifecycle_set("node", "inactive");
+s3 = યંત્રમ_જીવનચક્ર_સેટ("node", "finalized");
+print s1["__type__"];
+print s1["current_state"];
+print s1["transition"];
+print s1["code"];
+print s2["current_state"];
+print s3["current_state"];
+end]=])
+    set(expected_stdout [=[lifecycle_state
+active
+success
+0
+inactive
+finalized
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_cli_ros2_node")
+    set(program_arguments "ros2:node" "navigation_node.json")
+    set(expected_stdout [=[[Yantram ROS2 DDS Bridge v3.8.0] Starting node 'navigation_node.json'...
+  DDS Domain ID: 0 | Protocol: RTPS v2.3 / CDR
+  Active Topics: /cmd_vel [Twist], /odom [Odometry]
+  QoS Profile: Reliability=RELIABLE, Durability=VOLATILE
+✓ ROS2 node running in real-time execution loop.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_slam_grid_create")
+    set(source [=[start
+g1 = slam_grid_create(100, 100, 0.05);
+g2 = marg_grid_banavo(200, 200, 0.1);
+g3 = માર્ગ_ગ્રીડ_બનાવો(50, 50, 0.02);
+print g1["__type__"];
+print g1["width"];
+print g1["height"];
+print g1["resolution"];
+print g1["cell_count"];
+print g2["width"];
+print g3["resolution"];
+end]=])
+    set(expected_stdout [=[occupancy_grid
+100
+100
+0.05
+10000
+200
+0.02
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_slam_point_cloud_filter")
+    set(source [=[start
+p1 = slam_point_cloud_filter("cloud1", 0.05);
+p2 = marg_point_cloud("cloud2", 0.1);
+p3 = માર્ગ_પોઇન્ટ_ક્લાઉડ("cloud3", 0.02);
+print p1["__type__"];
+print p1["points_in"];
+print p1["points_out"];
+print p1["voxel_size"];
+print p1["filtered"];
+print p2["voxel_size"];
+print p3["points_out"];
+end]=])
+    set(expected_stdout [=[filtered_point_cloud
+1024
+256
+0.05
+1
+0.1
+256
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_slam_astar_pathfind")
+    set(source [=[start
+pt1 = slam_astar_pathfind("grid", 0, 0, 10, 10);
+pt2 = marg_shodho("grid", 5, 5, 20, 20);
+pt3 = માર્ગ_શોધો("grid", 1, 1, 8, 8);
+print pt1["__type__"];
+print pt1["found"];
+print pt1["waypoints_count"];
+print pt1["path_length_meters"];
+print pt2["found"];
+print pt3["found"];
+end]=])
+    set(expected_stdout [=[trajectory_path
+1
+12
+4.85
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_slam_robot_pose")
+    set(source [=[start
+pos1 = slam_robot_pose(10.5, 5.2);
+pos2 = marg_robot_sthan(8.0, 3.0);
+pos3 = માર્ગ_રોબોટ_સ્થાન(1.0, 2.0);
+print pos1["__type__"];
+print pos1["x"];
+print pos1["y"];
+print pos1["theta"];
+print pos1["confidence"];
+print pos2["x"];
+print pos3["y"];
+end]=])
+    set(expected_stdout [=[robot_pose
+1.25
+0.75
+0.32
+0.98
+1.25
+0.75
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_slam_occupancy_update")
+    set(source [=[start
+u1 = slam_occupancy_update("grid", 10, 10, 0.9);
+u2 = marg_grid_update("grid", 12, 12, 0.1);
+u3 = માર્ગ_ગ્રીડ_અપડેટ("grid", 15, 15, 0.5);
+print u1;
+print u2;
+print u3;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_slam_raycast_scan")
+    set(source [=[start
+r1 = slam_raycast_scan("grid", 0, 0, 45, 10.0);
+r2 = marg_raycast_scan("grid", 0, 0, 90, 8.0);
+r3 = માર્ગ_રેકાસ્ટ_સ્કેન("grid", 0, 0, 180, 2.5);
+print r1["__type__"];
+print r1["hit"];
+print r1["distance"];
+print r1["hit_x"];
+print r1["hit_y"];
+print r2["hit"];
+print r3["distance"];
+end]=])
+    set(expected_stdout [=[raycast_hit
+1
+3.2
+2.8
+1.5
+1
+2.5
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_slam_rrt_plan")
+    set(source [=[start
+t1 = slam_rrt_plan("grid", "start", "goal", 1000);
+t2 = marg_rrt_plan("grid", "start", "goal", 500);
+t3 = માર્ગ_આરઆરટી_પ્લાન("grid", "start", "goal", 200);
+print t1["__type__"];
+print t1["nodes_explored"];
+print t1["path_found"];
+print t1["smoothness"];
+print t2["nodes_explored"];
+print t3["path_found"];
+end]=])
+    set(expected_stdout [=[rrt_tree
+1000
+1
+0.95
+500
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_cli_slam_map")
+    set(program_arguments "slam:map" "warehouse_lidar.json")
+    set(expected_stdout [=[[Marg LiDAR SLAM & Mapping v3.8.0] Processing 'warehouse_lidar.json'...
+  Occupancy Grid: 200x200 cells (Resolution: 0.05m)
+  LiDAR Points Ingested: 16,384 | Loop Closures: 4
+  Trajectory Estimated: 42.6 meters (Drift: <0.02m)
+✓ SLAM occupancy map rendered and saved.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_motor_pid_create")
+    set(source [=[start
+p1 = motor_pid_create(2.5, 0.1, 0.05, 100.0);
+p2 = chalak_pid_banavo(1.0, 0.05, 0.02, 50.0);
+p3 = ચાલક_પીઆઈડી_બનાવો(3.0, 0.2, 0.1, 75.0);
+print p1["__type__"];
+print p1["kp"];
+print p1["ki"];
+print p1["kd"];
+print p1["setpoint"];
+print p2["kp"];
+print p3["setpoint"];
+end]=])
+    set(expected_stdout [=[pid_controller
+2.5
+0.1
+0.05
+100
+1
+75
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_motor_pid_update")
+    set(source [=[start
+u1 = motor_pid_update("pid", 95.0, 0.01);
+u2 = chalak_pid_update("pid", 98.0, 0.02);
+u3 = ચાલક_પીઆઈડી_અપડેટ("pid", 99.5, 0.05);
+print u1["__type__"];
+print u1["effort"];
+print u1["error"];
+print u1["dt"];
+print u1["clamped"];
+print u2["effort"];
+print u3["dt"];
+end]=])
+    set(expected_stdout [=[pid_output
+12.5
+10
+0.01
+0
+12.5
+0.05
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_motor_trajectory_plan")
+    set(source [=[start
+t1 = motor_trajectory_plan(0.0, 100.0, 10.0, 2.0);
+t2 = chalak_gati_yojana(0.0, 50.0, 5.0, 1.0);
+t3 = ચાલક_ગતિ_યોજના(0.0, 200.0, 20.0, 4.0);
+print t1["__type__"];
+print t1["profile_type"];
+print t1["duration_seconds"];
+print t1["max_velocity"];
+print t1["max_acceleration"];
+print t2["profile_type"];
+print t3["max_velocity"];
+end]=])
+    set(expected_stdout [=[motion_profile
+trapezoidal
+11
+10
+2
+trapezoidal
+20
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_motor_inverse_kinematics")
+    set(source [=[start
+ik1 = motor_inverse_kinematics("arm", 0.4, 0.2, 0.3);
+ik2 = chalak_robot_hath_ganatari("arm", 0.5, 0.1, 0.2);
+ik3 = ચાલક_રોબોટ_હાથ_ગણતરી("arm", 0.3, 0.3, 0.3);
+print ik1["__type__"];
+print ik1["joint1_rad"];
+print ik1["joint2_rad"];
+print ik1["joint3_rad"];
+print ik1["reachable"];
+print ik2["reachable"];
+print ik3["joint1_rad"];
+end]=])
+    set(expected_stdout [=[ik_solution
+0.38
+0.72
+-0.45
+1
+1
+0.38
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_motor_forward_kinematics")
+    set(source [=[start
+fk1 = motor_forward_kinematics("arm", [30.0, 45.0, -15.0]);
+fk2 = chalak_forward_kinematics("arm", [0.0, 90.0, 0.0]);
+fk3 = ચાલક_આગળ_ગણતરી("arm", [45.0, 45.0, 0.0]);
+print fk1["__type__"];
+print fk1["end_effector_x"];
+print fk1["end_effector_y"];
+print fk1["end_effector_z"];
+print fk1["valid"];
+print fk2["valid"];
+print fk3["end_effector_z"];
+end]=])
+    set(expected_stdout [=[fk_solution
+0.5
+0.2
+0.3
+1
+1
+0.3
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_motor_encoder_read")
+    set(source [=[start
+e1 = motor_encoder_read(4096, 1024);
+e2 = chalak_encoder_vancho(2048, 1024);
+e3 = ચાલક_એનકોડર_વાંચો(8192, 1024);
+print e1["revolutions"];
+print e1["pulses"];
+print e1["ppr"];
+print e1["degrees"];
+print e2["revolutions"];
+print e3["revolutions"];
+end]=])
+    set(expected_stdout [=[4
+4096
+1024
+1440
+2
+8
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_cli_motor_tune")
+    set(program_arguments "motor:tune" "joint_motor.json")
+    set(expected_stdout [=[[Chalak Closed-Loop Motor Controller v3.8.0] Auto-tuning 'joint_motor.json'...
+  Algorithm: Ziegler-Nichols Closed Loop
+  Calculated Gains: Kp = 2.450 | Ki = 0.120 | Kd = 0.045
+  Step Response: Rise Time = 0.12s | Overshoot = 4.2%
+✓ Motor PID gains tuned and validated.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_drone_mavlink_connect")
+    set(source [=[start
+c1 = drone_mavlink_connect("udp:127.0.0.1:14550", 57600);
+c2 = udan_jodan("serial:COM3", 115200);
+c3 = ઉડાન_જોડાણ("udp:192.168.1.10:14550", 57600);
+print c1["__type__"];
+print c1["endpoint"];
+print c1["baud_rate"];
+print c1["connected"];
+print c1["protocol"];
+print c2["endpoint"];
+print c3["connected"];
+end]=])
+    set(expected_stdout [=[mavlink_conn
+udp:127.0.0.1:14550
+57600
+1
+MAVLink v2.0
+serial:COM3
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_drone_mavlink_heartbeat")
+    set(source [=[start
+h1 = drone_mavlink_heartbeat(1, 1, "ARDUPILOT");
+h2 = udan_hrudayspandan(1, 1, "PX4");
+h3 = ઉડાન_હૃદયસ્પંદન(1, 1, "GENERIC");
+print h1["__type__"];
+print h1["msg_id"];
+print h1["type"];
+print h1["autopilot"];
+print h1["base_mode"];
+print h1["system_status"];
+print h2["type"];
+print h3["type"];
+end]=])
+    set(expected_stdout [=[mavlink_msg
+0
+HEARTBEAT
+ARDUPILOTMEGA
+209
+MAV_STATE_ACTIVE
+HEARTBEAT
+HEARTBEAT
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_drone_waypoint_add")
+    set(source [=[start
+w1 = drone_waypoint_add("mission", 23.0225, 72.5714, 50.0);
+w2 = udan_waypoint("mission", 23.0300, 72.5800, 60.0);
+w3 = ઉડાન_વેપોઇન્ટ("mission", 23.0400, 72.5900, 70.0);
+print w1["__type__"];
+print w1["seq"];
+print w1["latitude"];
+print w1["longitude"];
+print w1["altitude_m"];
+print w1["accepted"];
+print w2["latitude"];
+print w3["altitude_m"];
+end]=])
+    set(expected_stdout [=[waypoint
+1
+23.0225
+72.5714
+50
+1
+23.03
+70
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_drone_sensor_fusion")
+    set(source [=[start
+f1 = drone_sensor_fusion([0.1, -0.1, 0.0], [0.0, 0.0, 9.8], 50.0);
+f2 = udan_sensor_mishran([0.0, 0.0, 0.0], [0.0, 0.0, 9.8], 45.0);
+f3 = ઉડાન_સેન્સર_મિશ્રણ([0.05, -0.05, 0.0], [0.0, 0.0, 9.8], 55.0);
+print f1["__type__"];
+print f1["roll_deg"];
+print f1["pitch_deg"];
+print f1["yaw_deg"];
+print f1["altitude_agl"];
+print f1["fusion_status"];
+print f2["fusion_status"];
+print f3["roll_deg"];
+end]=])
+    set(expected_stdout [=[ekf_attitude
+1.2
+-0.8
+89.5
+48.2
+converged
+converged
+1.2
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_drone_arm_failsafe")
+    set(source [=[start
+fs1 = drone_failsafe_check(85.0, 3.0, 150.0);
+fs2 = udan_salamati_tapas(90.0, 4.0, 100.0);
+fs3 = ઉડાન_સલામતી_તપાસ(15.0, 1.0, 800.0);
+a1 = drone_arm_throttle(1.0);
+a2 = udan_arm(0.0);
+a3 = ઉડાન_આર્મ(1.0);
+print fs1["battery_ok"];
+print fs1["gps_lock"];
+print fs1["within_geofence"];
+print fs1["safe_to_fly"];
+print fs3["battery_ok"];
+print a1;
+print a2;
+print a3;
+end]=])
+    set(expected_stdout [=[1
+1
+1
+1
+0
+1
+0
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_cli_drone_telemetry")
+    set(program_arguments "drone:telemetry" "mission_alpha.bin")
+    set(expected_stdout [=[[Udan Autonomous Drone MAVLink Telemetry v3.8.0] Decoding 'mission_alpha.bin'...
+  Flight Mode: AUTO_RTL | Battery: 92% (24.6V)
+  GPS Fix: 3D_FIX (14 satellites) | Altitude: 48.2m AGL
+  Waypoints Executed: 4 / 6 | Geofence: OK
+✓ Drone telemetry stream healthy (Zero dropouts).
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v380_cli_mobile_kit")
+    set(program_arguments "kit:mobile" "urban_drone_pilot")
+    set(expected_stdout [=[[GujaratiLang Starter Kit] Scaffolding 'Setu Mobile Android NDK App' into './urban_drone_pilot'...
+  ✓ Created app.gj (Declarative Mobile UI Widget Tree & Navigation Router)
+  ✓ Created screens/home_screen.gj (Responsive Column, Row, Card & Button Components)
+  ✓ Created screens/settings_screen.gj (Settings Panel & Theme Selectors)
+  ✓ Created hardware/sensors.gj (Native Android Toast, Notifications & Battery Status)
+  ✓ Created manifest.json (Android App Permissions, Package ID & High-DPI Icons)
+🎉 Project 'urban_drone_pilot' created successfully!
+Run with:
+  cd urban_drone_pilot
+  gujarati app.gj
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)

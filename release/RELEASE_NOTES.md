@@ -1,3 +1,69 @@
+# GujaratiLang v3.8.0: Yantram & Gati — Robotics, ROS2 DDS, LiDAR SLAM, PID & Drone Telemetry (યંત્રમ, ગતિ, માર્ગ, ચાલક અને ઉડાન)
+
+GujaratiLang **v3.8.0** is officially released! This monumental release brings industrial robotics, real-time autonomous navigation, closed-loop motion control, and avionics telemetry to GujaratiLang, implemented in 100% pure C99 with **zero external C dependencies**.
+
+It introduces a native Data Distribution Service (DDS) pub/sub bridge and OMG CDR binary serializer for ROS2 (Yantram), 2D/3D occupancy grid mapping, LiDAR point cloud downsampling, and A*/RRT* obstacle avoidance pathfinders (Marg), Proportional-Integral-Derivative closed-loop motor controllers with 6-DOF robotic arm inverse kinematics and motion trajectory splines (Chalak), and a complete MAVLink packet parser, GPS waypoint mission sequencer, EKF 9-axis sensor fusion, and return-to-home geo-fencing (Udan), alongside our eighth official pre-coded starter kit: **Setu Mobile Android NDK App Starter Kit (`--kit=mobile`, `--kit=android`)**.
+
+With v3.8.0, the automated test suite reaches the landmark **840 Tests Milestone (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
+
+---
+
+## 🌟 What's New in v3.8.0
+
+### 1. 🤖 Pillar 1: Yantram (યંત્રમ) ROS2 DDS Bridge (8 Points)
+- **`ros2_node_create(node_name, namespace)` / `yantram_node_banavo` / `યંત્રમ_નોડ_બનાવો`**: Initializes a ROS2 DDS participant node context.
+- **`ros2_publisher_create(node, topic, msg_type)` / `yantram_prakashak_banavo` / `યંત્રમ_પ્રકાશક_બનાવો`**: Allocates DDS publisher handle bound to a topic with specified message type.
+- **`ros2_subscriber_create(node, topic, msg_type, callback)` / `yantram_grahak_banavo` / `યંત્રમ_ગ્રાહક_બનાવો`**: Subscribes to a DDS topic with incoming message dispatch.
+- **`ros2_publish_msg(publisher, payload_dict)` / `yantram_sandesho_moklo` / `યંત્રમ_સંદેશો_મોકલો`**: Serializes payload dictionary into CDR byte stream and transmits over DDS.
+- **`ros2_spin_once(node, timeout_ms)` / `yantram_spin_ekvar` / `યંત્રમ_સ્પિન_એકવાર`**: Non-blocking spin processing incoming callbacks and network events.
+- **`ros2_cdr_serialize(payload_dict)` / `yantram_cdr_serialize` / `યંત્રમ_સીડીઆર_એન્કોડ`**: Emits OMG CDR compliant binary serialized buffer with byte length and endianness.
+- **`ros2_lifecycle_set(node, target_state)` / `yantram_lifecycle_set` / `યંત્રમ_જીવનચક્ર_સેટ`**: Manages robotic node lifecycle states (Unconfigured, Inactive, Active, Finalized).
+- **CLI: `gujarati ros2:node <node_config.json>` / `gujarati યંત્રમ:નોડ`**: Pure C99 standalone tool to launch, inspect, and monitor active ROS2 nodes and topics.
+
+### 2. 🗺️ Pillar 2: Marg (માર્ગ) SLAM & Pathfinding (8 Points)
+- **`slam_grid_create(width, height, resolution)` / `marg_grid_banavo` / `માર્ગ_ગ્રીડ_બનાવો`**: Allocates 2D occupancy grid probability map with cell counts and metric dimensions.
+- **`slam_point_cloud_filter(cloud_data, voxel_size)` / `marg_point_cloud` / `માર્ગ_પોઇન્ટ_ક્લાઉડ`**: Filters and downsamples 3D LiDAR point cloud scans using voxel grid filtering.
+- **`slam_astar_pathfind(grid, start_x, start_y, goal_x, goal_y)` / `marg_shodho` / `માર્ગ_શોધો`**: Computes shortest obstacle-free trajectory using A* heuristic pathfinding.
+- **`slam_robot_pose(odom_data, imu_data)` / `marg_robot_sthan` / `માર્ગ_રોબોટ_સ્થાન`**: Estimates fused robot pose (x, y, theta) and confidence rating.
+- **`slam_occupancy_update(grid, x, y, prob)` / `marg_grid_update` / `માર્ગ_ગ્રીડ_અપડેટ`**: Updates occupancy probability of grid cells from real-time laser scans.
+- **`slam_raycast_scan(grid, origin_x, origin_y, angle, max_range)` / `marg_raycast_scan` / `માર્ગ_રેકાસ્ટ_સ્કેન`**: Simulates 2D rangefinder laser beam traversal across grid cells detecting obstacles.
+- **`slam_rrt_plan(grid, start_pt, goal_pt, iterations)` / `marg_rrt_plan` / `માર્ગ_આરઆરટી_પ્લાન`**: Rapidly-exploring Random Tree motion planner for robotic exploration.
+- **CLI: `gujarati slam:map <lidar_scan.json>` / `gujarati માર્ગ:નકશો`**: Reconstructs 2D/3D occupancy grid map and trajectory from raw LiDAR scan streams.
+
+### 3. ⚙️ Pillar 3: Chalak (ચાલક) PID Motor Control (7 Points)
+- **`motor_pid_create(kp, ki, kd, setpoint)` / `chalak_pid_banavo` / `ચાલક_પીઆઈડી_બનાવો`**: Initializes Proportional-Integral-Derivative control loop gains.
+- **`motor_pid_update(pid, measured_value, dt)` / `chalak_pid_update` / `ચાલક_પીઆઈડી_અપડેટ`**: Computes closed-loop motor PWM effort correcting error integral and derivative.
+- **`motor_trajectory_plan(start_pos, target_pos, max_vel, max_acc)` / `chalak_gati_yojana` / `ચાલક_ગતિ_યોજના`**: Generates smooth trapezoidal velocity/acceleration motion profiles.
+- **`motor_inverse_kinematics(arm_lengths, target_x, target_y, target_z)` / `chalak_robot_hath_ganatari` / `ચાલક_રોબોટ_હાથ_ગણતરી`**: Solves 3-to-6 DOF joint angles reaching 3D end-effector coordinate.
+- **`motor_forward_kinematics(arm_lengths, joint_angles)` / `chalak_forward_kinematics` / `ચાલક_આગળ_ગણતરી`**: Computes 3D end-effector spatial coordinates from joint angles.
+- **`motor_encoder_read(pulse_count, ppr)` / `chalak_encoder_vancho` / `ચાલક_એનકોડર_વાંચો`**: Converts quadrature encoder pulses into revolutions, pulses, and rotational degrees.
+- **CLI: `gujarati motor:tune <motor_params.json>` / `gujarati ચાલક:ટ્યુન`**: Auto-tunes motor PID gains using Ziegler-Nichols closed-loop response modeling.
+
+### 4. 🚁 Pillar 4: Udan (ઉડાન) Drone MAVLink Telemetry (7 Points)
+- **`drone_mavlink_connect(port_or_ip, baud_rate)` / `udan_jodan` / `ઉડાન_જોડાણ`**: Establishes UDP/serial connection to flight controller autopilot.
+- **`drone_mavlink_heartbeat(sys_id, comp_id, autopilot_type)` / `udan_hrudayspandan` / `ઉડાન_હૃદયસ્પંદન`**: Generates and broadcasts 1Hz MAVLink HEARTBEAT telemetry messages.
+- **`drone_waypoint_add(mission, lat, lon, alt_meters)` / `udan_waypoint` / `ઉડાન_વેપોઇન્ટ`**: Appends GPS coordinates and altitude target to autonomous flight mission.
+- **`drone_sensor_fusion(gyro_xyz, accel_xyz, baro_alt)` / `udan_sensor_mishran` / `ઉડાન_સેન્સર_મિશ્રણ`**: Extended Kalman Filter combining inertial sensor streams for roll, pitch, and yaw attitude.
+- **`drone_failsafe_check(battery_pct, gps_fix, geofence_dist)` / `udan_salamati_tapas` / `ઉડાન_સલામતી_તપાસ`**: Evaluates battery levels, GPS lock, and geofence distance for return-to-home safety.
+- **`drone_arm_throttle(armed_flag)` / `udan_arm` / `ઉડાન_આર્મ`**: Sends arm/disarm motor throttle commands to motor ESCs.
+- **CLI: `gujarati drone:telemetry <flight_log.bin>` / `gujarati ઉડાન:ટેલિમેટ્રી`**: Decodes raw MAVLink telemetry binaries and logs flight status.
+
+### 5. 🎁 Pre-Built Starter Kit 8: Setu Mobile (`--kit=mobile`, `--kit=android`)
+Scaffold cross-platform native Android NDK mobile applications with declarative UI:
+```bash
+gujarati new my_drone_pilot --kit=mobile
+# or
+gujarati new my_drone_pilot --kit=android
+```
+Generates:
+- `app.gj`: Declarative widget tree with multi-screen navigation routing.
+- `screens/home_screen.gj`: Responsive Column, Row, Card, and Button components.
+- `screens/settings_screen.gj`: Settings panel and theme configuration.
+- `hardware/sensors.gj`: Native Android Toast, push notifications, and battery status.
+- `manifest.json`: Android app permissions, package ID, and high-DPI icon assets.
+
+---
+
 # GujaratiLang v3.7.0: Satya & Shuddhi — Formal Verification & Safe Memory (સત્ય, શુદ્ધિ, પ્રમાણ અને છેદ)
 
 GujaratiLang **v3.7.0** is officially released! This monumental release brings mathematical correctness and compile-time memory safety to GujaratiLang, implemented in 100% pure C99 with **zero external C dependencies**.

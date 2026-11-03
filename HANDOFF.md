@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v3.7.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.7.0) ("Satya & Shuddhi — Formal Verification & Safe Memory").
+- Latest interpreter release: [GujaratiLang v3.8.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v3.8.0) ("Yantram & Gati — Robotics, ROS2 DDS, LiDAR SLAM, PID & Drone Telemetry").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v3.7.0 (810 automated test suites passing, 100% pass rate).
+  platform before publishing v3.8.0 (810 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -35,7 +35,7 @@ can change.
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v3.7.0: Satya & Shuddhi — Formal Verification & Safe Memory (810 Tests Milestone)**.
+Latest commit on origin: **Release v3.8.0: Satya & Shuddhi — Formal Verification & Safe Memory (840 Tests Milestone)**.
 
 Recent completed work includes:
 
