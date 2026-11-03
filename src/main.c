@@ -39,6 +39,7 @@ typedef SOCKET socket_t;
 #include <sys/wait.h>
 #include <netdb.h>
 #include <strings.h>
+#include <fcntl.h>
 #ifndef MAX_PATH
 #define MAX_PATH 1024
 #endif
