@@ -2399,5 +2399,423 @@
       "val = cache_get(\"${1:key}\");"
     ],
     "description": "v2.4.0 Redis-style key-value cache operations"
+  },
+  "Weather Numerical Forecast (v4.3.0)": {
+    "prefix": [
+      "weather_coriolis",
+      "vatavaran_coriolis",
+      "વાતાવરણ_કોરિઓલિસ"
+    ],
+    "body": [
+      "// Calculate Coriolis frequency parameter f = 2*Omega*sin(phi) at latitude ${1:23.2}",
+      "f = weather_coriolis_param(${1:23.2});",
+      "wind = weather_geostrophic_wind(${2:0.002}, ${1:23.2}, ${3:1.225});",
+      "chhapo wind[\"speed_m_s\"];"
+    ],
+    "description": "Calculate Coriolis parameter and geostrophic wind (v4.3.0)"
+  },
+  "Ocean Tide Harmonic Synthesis (v4.3.0)": {
+    "prefix": [
+      "ocean_tide",
+      "samudra_tide",
+      "સમુદ્ર_ઓટ_ભરતી"
+    ],
+    "body": [
+      "// Multi-constituent astronomical tide prediction (M2, S2, K1, O1)",
+      "constituents = [",
+      "    {\"name\": \"M2\", \"amp\": ${1:1.5}, \"speed_deg_hr\": 28.984},",
+      "    {\"name\": \"S2\", \"amp\": ${2:0.4}, \"speed_deg_hr\": 30.000}",
+      "];",
+      "elev = ocean_tide_harmonic(constituents, ${3:6.0});",
+      "chhapo elev;"
+    ],
+    "description": "Synthesize astronomical tidal elevation curves (v4.3.0)"
+  },
+  "Seismic Epicenter Triangulation (v4.3.0)": {
+    "prefix": [
+      "seismic_triangulate",
+      "bhukamp_kendrabindu",
+      "ભૂકંપ_કેન્દ્રબિંદુ"
+    ],
+    "body": [
+      "// Triangulate earthquake epicenter coordinates from 3 seismic stations",
+      "st1 = {\"x\": 0.0, \"y\": 0.0, \"distance\": ${1:100.0}};",
+      "st2 = {\"x\": 200.0, \"y\": 0.0, \"distance\": ${2:100.0}};",
+      "st3 = {\"x\": 100.0, \"y\": 150.0, \"distance\": ${3:80.0}};",
+      "loc = seismic_triangulate_epicenter(st1, st2, st3);",
+      "chhapo loc[\"x\"];",
+      "chhapo loc[\"y\"];"
+    ],
+    "description": "Multilateration seismic epicenter pinpointing (v4.3.0)"
+  },
+  "Climate FAO-56 Penman-Monteith (v4.3.0)": {
+    "prefix": [
+      "climate_et0",
+      "jalvayu_bhavan",
+      "જળવાયુ_બાષ્પીભવન"
+    ],
+    "body": [
+      "// FAO-56 Penman-Monteith reference evapotranspiration (ET0 mm/day)",
+      "et0 = climate_penman_monteith(${1:18.5}, ${2:28.0}, ${3:3.2}, ${4:1.4});",
+      "chhapo et0;"
+    ],
+    "description": "FAO-56 reference evapotranspiration calculation (v4.3.0)"
+  },
+  "Quantum Circuit Simulation (v4.2.0)": {
+    "prefix": [
+      "quantum_circuit",
+      "kvontam_circuit",
+      "ક્વોન્ટમ_સર્કિટ"
+    ],
+    "body": [
+      "// Create a 2-qubit register in |00> state",
+      "circ = quantum_circuit_create(${1:2});",
+      "quantum_gate_apply(circ, \"H\", 0);",
+      "quantum_gate_apply(circ, \"CNOT\", 0, 1);",
+      "res = quantum_measure(circ, ${2:1024});",
+      "chhapo res[\"shots\"];"
+    ],
+    "description": "Create and simulate quantum circuits with gates and measurement (v4.2.0)"
+  },
+  "Gati-SIMD Vector Add & Dot (v4.2.0)": {
+    "prefix": [
+      "simd_vector",
+      "gati_vector",
+      "ગતિ_વેક્ટર"
+    ],
+    "body": [
+      "v1 = simd_vector_create(${1:[1.0, 2.0, 3.0, 4.0]});",
+      "v2 = simd_vector_create(${2:[5.0, 6.0, 7.0, 8.0]});",
+      "v_sum = simd_vector_add(v1, v2);",
+      "dot = simd_vector_dot(v1, v2);",
+      "chhapo dot;"
+    ],
+    "description": "64-byte aligned SIMD vector operations (v4.2.0)"
+  },
+  "Shakti Smart Power Grid Flow (v4.2.0)": {
+    "prefix": [
+      "grid_power_flow",
+      "shakti_grid",
+      "શક્તિ_ગ્રીડ"
+    ],
+    "body": [
+      "buses = [",
+      "    {\"id\": 1, \"type\": \"slack\", \"voltage\": 1.0, \"angle\": 0.0},",
+      "    {\"id\": 2, \"type\": \"load\", \"p_mw\": 50.0, \"q_mvar\": 20.0}",
+      "];",
+      "branches = [{\"from\": 1, \"to\": 2, \"r\": 0.02, \"x\": 0.08}];",
+      "flow = grid_power_flow_solve(buses, branches);",
+      "chhapo flow[\"converged\"];"
+    ],
+    "description": "Newton-Raphson AC/DC power flow solver (v4.2.0)"
+  },
+  "Taral Lattice Boltzmann CFD (v4.2.0)": {
+    "prefix": [
+      "lbm_fluid",
+      "taral_cfd",
+      "તરલ_પ્રવાહ"
+    ],
+    "body": [
+      "// Allocate 2D D2Q9 Lattice Boltzmann fluid mesh",
+      "lattice = lbm_lattice_create(${1:100}, ${2:50}, ${3:0.60});",
+      "lattice = lbm_step_collide_stream(lattice);",
+      "field = lbm_velocity_field(lattice);",
+      "chhapo field[\"cells\"];"
+    ],
+    "description": "2D D2Q9 Lattice Boltzmann fluid dynamics simulation (v4.2.0)"
+  },
+  "Deep Neural Network & Autodiff (v4.1.0)": {
+    "prefix": [
+      "nn_dense",
+      "chetantantra",
+      "ચેતાતંત્ર"
+    ],
+    "body": [
+      "// Dense neural layer (in_dim, out_dim, activation)",
+      "layer = nn_dense(${1:4}, ${2:2}, \"relu\");",
+      "pred = nn_forward(layer, ${3:[0.5, 0.2, 0.9, 0.1]});",
+      "chhapo pred;"
+    ],
+    "description": "Feed-forward neural network inference pass (v4.1.0)"
+  },
+  "Satellite SGP4 Orbit Propagation (v4.1.0)": {
+    "prefix": [
+      "orbit_sgp4",
+      "kaksha_sgp4",
+      "કક્ષા_ગણતરી"
+    ],
+    "body": [
+      "pos = orbit_sgp4_propagate(\"${1:tle_line_1}\", \"${2:tle_line_2}\", ${3:10.0});",
+      "chhapo pos[\"lat\"];",
+      "chhapo pos[\"lon\"];",
+      "chhapo pos[\"alt_km\"];"
+    ],
+    "description": "SGP4 satellite orbital propagation and ground tracking (v4.1.0)"
+  },
+  "Hard Real-Time EDF Scheduler (v4.1.0)": {
+    "prefix": [
+      "sched_edf",
+      "samay_chalak",
+      "સમય_ચાલક_ઈડીએફ"
+    ],
+    "body": [
+      "sched_task_periodic(\"${1:telemetry_task}\", ${2:10.0}, ${3:10.0}, \"${4:fn_name}\");",
+      "ok = sched_dispatch_edf();",
+      "chhapo ok;"
+    ],
+    "description": "Earliest Deadline First deterministic real-time scheduler (v4.1.0)"
+  },
+  "Paillier Homomorphic Encryption (v4.1.0)": {
+    "prefix": [
+      "paillier_crypto",
+      "paillier_gupt",
+      "પેલિયર_ગુપ્ત"
+    ],
+    "body": [
+      "keys = paillier_keygen(${1:1024});",
+      "c1 = paillier_encrypt(${2:42}, keys[\"public\"]);",
+      "c2 = paillier_encrypt(${3:58}, keys[\"public\"]);",
+      "c_sum = paillier_add_ciphertexts(c1, c2, keys[\"public\"]);",
+      "decrypted = paillier_decrypt(c_sum, keys[\"private\"]);",
+      "chhapo decrypted; // 100"
+    ],
+    "description": "Additive homomorphic encryption and ciphertext arithmetic (v4.1.0)"
+  },
+  "Self-Hosting AST Parsing (v4.0.0)": {
+    "prefix": [
+      "ast_parse",
+      "ast_vancho",
+      "એએસટી_વાંચો"
+    ],
+    "body": [
+      "code = \"a = 10 + 20; chhapo a;\";",
+      "ast = ast_parse(code);",
+      "dump = ast_dump(ast);",
+      "chhapo dump;"
+    ],
+    "description": "Parse source into recursive AST nodes and meta-inspect (v4.0.0)"
+  },
+  "WebAssembly Pure C99 Compiler (v4.0.0)": {
+    "prefix": [
+      "wasm_module",
+      "wasm_bnavo",
+      "વાસ્મ_મોડ્યુલ"
+    ],
+    "body": [
+      "mod = wasm_module_create(\"${1:calculator}\");",
+      "wasm_func_add(mod, \"add\", [\"i32\", \"i32\"], \"i32\");",
+      "wasm_export_symbol(mod, \"add\");",
+      "bin = wasm_emit_binary(mod);",
+      "chhapo bin[\"size\"];"
+    ],
+    "description": "Construct and emit Wasm binary modules in pure C99 (v4.0.0)"
+  },
+  "Post-Quantum Cryptography (v4.0.0)": {
+    "prefix": [
+      "pqc_mlkem",
+      "kavach_quantum",
+      "કવચ_ક્વાન્ટમ"
+    ],
+    "body": [
+      "keys = pqc_mlkem_keypair(${1:768});",
+      "enc = pqc_mlkem_encap(keys[\"public\"]);",
+      "ss = pqc_mlkem_decap(enc[\"ciphertext\"], keys[\"private\"]);",
+      "chhapo (enc[\"shared_secret\"] == ss); // 1"
+    ],
+    "description": "NIST ML-KEM post-quantum key encapsulation (v4.0.0)"
+  },
+  "Autonomous Agent Swarm (v4.0.0)": {
+    "prefix": [
+      "swarm_init",
+      "sangh_mandali",
+      "સંઘ_મંડળી"
+    ],
+    "body": [
+      "s = swarm_init(\"${1:cluster_alpha}\");",
+      "swarm_peer_register(s, \"${2:peer_1}\", \"${3:role_worker}\");",
+      "prop = swarm_proposal_submit(s, \"${4:deploy_task}\");",
+      "res = swarm_consensus_check(s, prop);",
+      "chhapo res;"
+    ],
+    "description": "Autonomous multi-agent BFT consensus and task auction (v4.0.0)"
+  },
+  "DTN Delay-Tolerant Bundle (v3.9.0)": {
+    "prefix": [
+      "dtn_bundle",
+      "bhuvan_bundle",
+      "ભુવન_બંડલ"
+    ],
+    "body": [
+      "b = dtn_bundle_create(\"${1:dtn://earth/node1}\", \"${2:dtn://mars/lander}\", \"${3:telemetry}\");",
+      "hex_data = dtn_bundle_serialize(b);",
+      "chhapo hex_data;"
+    ],
+    "description": "RFC 5050 Delay-Tolerant interplanetary data bundles (v3.9.0)"
+  },
+  "IPFS Content-Addressed Pinning (v3.9.0)": {
+    "prefix": [
+      "ipfs_pin",
+      "sanchay_ipfs",
+      "સંચય_આઈપીએફએસ"
+    ],
+    "body": [
+      "cid = ipfs_cid_generate(\"${1:immutable_dataset}\");",
+      "ok = ipfs_pin_add(cid);",
+      "pins = ipfs_pin_list();",
+      "chhapo cid;"
+    ],
+    "description": "IPFS UnixFS CID generation and content addressing (v3.9.0)"
+  },
+  "W3C Decentralized Identity & VC (v3.9.0)": {
+    "prefix": [
+      "did_create",
+      "pehchan_did",
+      "ઓળખ_ડીઆઈડી"
+    ],
+    "body": [
+      "did = did_create(\"key\");",
+      "vc = vc_issue(did, {\"${1:degree}\": \"${2:B.Tech}\"});",
+      "valid = vc_verify(vc);",
+      "chhapo valid; // 1"
+    ],
+    "description": "W3C Decentralized Identifiers & Verifiable Credentials (v3.9.0)"
+  },
+  "ROS 2 Robotics Node (v3.8.0)": {
+    "prefix": [
+      "ros2_node",
+      "yantram_node",
+      "યંત્રમ_નોડ"
+    ],
+    "body": [
+      "node = ros2_node_create(\"${1:rover_controller}\");",
+      "pub = ros2_publisher_create(node, \"/odom\", \"nav_msgs/Odometry\");",
+      "ros2_lifecycle_set(node, \"active\");"
+    ],
+    "description": "ROS 2 DDS communication node & topic publisher (v3.8.0)"
+  },
+  "SLAM 2D Occupancy Grid & A* Pathfind (v3.8.0)": {
+    "prefix": [
+      "slam_astar",
+      "slam_path",
+      "સ્લેમ_પાથ"
+    ],
+    "body": [
+      "grid = slam_grid_create(${1:50}, ${2:50}, ${3:0.1});",
+      "slam_occupancy_update(grid, ${4:25}, ${5:25}, 1.0);",
+      "path = slam_astar_pathfind(grid, 0, 0, 40, 40);",
+      "chhapo path[\"length\"];"
+    ],
+    "description": "2D LiDAR SLAM occupancy grid & A* pathfinder (v3.8.0)"
+  },
+  "Shuddhi Borrow Checker (v3.7.0)": {
+    "prefix": [
+      "borrow_check",
+      "shuddhi_borrow",
+      "શુદ્ધિ_બોરો"
+    ],
+    "body": [
+      "owner = borrow_owner_create(\"${1:my_resource}\");",
+      "ref = borrow_ref_immutable(owner);",
+      "borrow_release(ref);",
+      "borrow_release(owner);"
+    ],
+    "description": "Rust-inspired zero-cost memory ownership & borrow checking (v3.7.0)"
+  },
+  "Satya SMT Theorem Prover (v3.7.0)": {
+    "prefix": [
+      "smt_solver",
+      "satya_smt",
+      "સત્ય_એસએમટી"
+    ],
+    "body": [
+      "solver = smt_solver_create();",
+      "smt_assert_formula(solver, \"x > 0\");",
+      "smt_assert_formula(solver, \"x < 10\");",
+      "res = smt_check_sat(solver);",
+      "chhapo res; // sat"
+    ],
+    "description": "Pure C99 SMT solver & formal proof engine (v3.7.0)"
+  },
+  "Praman Design-by-Contract (v3.7.0)": {
+    "prefix": [
+      "praman_contract",
+      "praman_sharat",
+      "પ્રમાણ_શરત"
+    ],
+    "body": [
+      "praman_requires(${1:n > 0}, \"n must be positive\");",
+      "praman_ensures(${2:result >= 0}, \"result non-negative\");",
+      "praman_invariant(${3:balance >= 0});"
+    ],
+    "description": "Design-by-Contract preconditions, postconditions & invariants (v3.7.0)"
+  },
+  "Double-Entry Ledger & Balance Sheet (v3.6.0)": {
+    "prefix": [
+      "khata_entry",
+      "vepar_khata",
+      "ખાતાવહી_નોંધ"
+    ],
+    "body": [
+      "k = khata_create();",
+      "khata_entry(k, \"${1:Cash}\", \"${2:Sales}\", ${3:15000.0});",
+      "bs = khata_balance_sheet(k);",
+      "chhapo bs[\"balanced\"]; // 1"
+    ],
+    "description": "GAAP double-entry bookkeeping & balance sheet validation (v3.6.0)"
+  },
+  "GST Tax & HSN Code Lookup (v3.6.0)": {
+    "prefix": [
+      "gst_calc",
+      "gst_kar",
+      "જીએસટી_ગણતરી"
+    ],
+    "body": [
+      "tax = gst_calculate(${1:10000.0}, ${2:18.0}, \"${3:intra_state}\");",
+      "chhapo tax[\"cgst\"];",
+      "chhapo tax[\"sgst\"];",
+      "chhapo tax[\"total\"];"
+    ],
+    "description": "Indian GST multi-tier tax computation with CGST/SGST/IGST (v3.6.0)"
+  },
+  "2D Game Canvas & Graphics (v3.5.0)": {
+    "prefix": [
+      "canvas_create",
+      "ranga_canvas",
+      "રંગ_કેનવાસ"
+    ],
+    "body": [
+      "c = canvas_create(${1:320}, ${2:240});",
+      "canvas_draw_rect(c, ${3:10}, ${4:10}, ${5:50}, ${6:30}, color_rgb(255, 128, 0));",
+      "canvas_present(c);"
+    ],
+    "description": "Create 2D retro game graphics canvas (v3.5.0)"
+  },
+  "Arbitrary Precision BigNum (v3.4.0)": {
+    "prefix": [
+      "bignum_math",
+      "maha_sankhya",
+      "મહા_સંખ્યા"
+    ],
+    "body": [
+      "b1 = bignum_create(\"${1:123456789012345678901234567890}\");",
+      "b2 = bignum_create(\"${2:987654321098765432109876543210}\");",
+      "b_sum = bignum_add(b1, b2);",
+      "chhapo b_sum;"
+    ],
+    "description": "Arbitrary precision 1024-bit integer arithmetic (v3.4.0)"
+  },
+  "AI LLM Prompt & Chat (v3.3.0)": {
+    "prefix": [
+      "ai_chat",
+      "chetana_ai",
+      "ચેતના_વાર્તાલાપ"
+    ],
+    "body": [
+      "p = ai_prompt_template(\"Translate {{text}} to Gujarati\");",
+      "prompt = ai_prompt_render(p, {\"text\": \"${1:Hello World}\"});",
+      "resp = ai_chat(\"${2:openai}\", prompt);",
+      "chhapo resp;"
+    ],
+    "description": "AI Large Language Model prompt and completion (v3.3.0)"
   }
 }

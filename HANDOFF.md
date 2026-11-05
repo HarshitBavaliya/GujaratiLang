@@ -23,7 +23,7 @@ can change.
   platform before publishing v4.2.0 (990 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
-  published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
+  published as `HarshitBavaliya.gujarati`, currently v4.3.0 (packaged as `gujarati-4.3.0.vsix`).
 - Install the extension with:
 
   ```powershell
