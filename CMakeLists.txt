@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 4.4.0 LANGUAGES C)
+project(gujaratilang VERSION 4.5.0 LANGUAGES C)
 
 include(CTest)
 
@@ -1032,7 +1032,57 @@ if(BUILD_TESTING)
             v440_cli_vision_detect
             v440_cli_audio_synth
             v440_cli_speech_mfcc
-            v440_cli_synth_kit)
+            v440_cli_synth_kit
+            v450_cas_expr_parse
+            v450_cas_simplify
+            v450_cas_diff
+            v450_cas_integrate_poly
+            v450_cas_eval
+            v450_cas_taylor_series
+            v450_cas_poly_roots_approx
+            v450_graph_triple_store_create
+            v450_graph_triple_insert
+            v450_graph_pattern_match
+            v450_graph_reachability_bfs
+            v450_graph_transitive_closure
+            v450_graph_export_turtle
+            v450_prover_clause_create
+            v450_prover_unify_terms
+            v450_prover_resolve_clauses
+            v450_prover_dpll_sat
+            v450_prover_to_cnf
+            v450_prover_entailment_check
+            v450_prover_horn_forward_chain
+            v450_arrow_schema_create
+            v450_arrow_column_create
+            v450_arrow_record_batch_create
+            v450_arrow_compress_rle
+            v450_arrow_dictionary_encode
+            v450_arrow_ipc_stream_serialize
+            v450_web_server_scaffold
+            v450_web_router_create
+            v450_web_api_endpoint
+            v450_web_static_serve
+            v450_web_ws_upgrade
+            v450_web_template_render
+            v450_desktop_window_scaffold
+            v450_desktop_menu_create
+            v450_desktop_canvas_init
+            v450_desktop_widget_tree
+            v450_desktop_dispatch_async
+            v450_desktop_dialog_file
+            v450_android_app_scaffold
+            v450_android_input_poll
+            v450_android_asset_read
+            v450_android_storage_dir
+            v450_android_manifest_generate
+            v450_cli_cas_solve
+            v450_cli_graph_query
+            v450_cli_prover_prove
+            v450_cli_ipc_arrow
+            v450_cli_template_web
+            v450_cli_template_desktop
+            v450_cli_template_android)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

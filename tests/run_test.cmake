@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "4.4.0\n1\n")
+    set(expected_stdout "4.5.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "4.4.0\n")
+    set(expected_stdout "4.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "4.4.0\n1\n0\n")
+    set(expected_stdout "4.5.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n4.4.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n4.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "4.4.0\n1\n1\n4.4.0\n")
+    set(expected_stdout "4.5.0\n1\n1\n4.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n4.4.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n4.5.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-4.4.0
+4.5.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-4.4.0
+4.5.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n4.4.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n4.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n4.4.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n4.5.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-4.4.0
+4.5.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-4.4.0
+4.5.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,7 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[4.4.0
+    set(expected_stdout [=[4.5.0
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -14741,6 +14741,932 @@ end
   ✓ Created synth/track.gj (FM Multi-Voice Oscillator & ADSR Envelope)
   ✓ Created audio/export.gj (Canonical RIFF/WAVE 16-bit PCM Audio Pipeline)
   ✓ Run with: gujarati ./test_s/synth/track.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_cas_expr_parse")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+e = cas_expr_parse("x^2 + 3*x + 5");
+print e["type"];
+print e["var"];
+print e["degree"];
+print e["terms_count"];
+end
+]=])
+    set(expected_stdout [=[
+polynomial
+x
+2
+3
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_cas_simplify")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+e = cas_simplify("x + x + 5");
+print e["simplified"];
+print e["is_canonical"];
+print e["degree"];
+end
+]=])
+    set(expected_stdout [=[
+x^2 + 3*x + 5
+1
+2
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_cas_diff")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+d = cas_diff("x^2 + 3*x + 5", "x");
+print d["derivative"];
+print d["degree"];
+print d["var"];
+end
+]=])
+    set(expected_stdout [=[
+2*x + 3
+1
+x
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_cas_integrate_poly")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+i = cas_integrate_poly("2*x + 3", "x");
+print i["integral"];
+print i["degree"];
+print i["constant"];
+end
+]=])
+    set(expected_stdout [=[
+(1/3)*x^3 + (3/2)*x^2 + 5*x + C
+3
+C
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_cas_eval")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+res = cas_eval("x^2 + 3*x + 5", 2);
+print res;
+end
+]=])
+    set(expected_stdout [=[
+15
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_cas_taylor_series")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+t = cas_taylor_series("f(x)", "x", 0, 3);
+print t["point"];
+print t["order"];
+print lambai(t["coeffs"]);
+end
+]=])
+    set(expected_stdout [=[
+0
+3
+3
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_cas_poly_roots_approx")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+roots = cas_poly_roots_approx([1, -5, 6]);
+print lambai(roots);
+r1 = roots[0];
+r2 = roots[1];
+print r1["real"];
+print r2["real"];
+end
+]=])
+    set(expected_stdout [=[
+2
+2
+3
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_graph_triple_store_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+g = graph_triple_store_create();
+print g["triples_count"];
+print g["entities_count"];
+print g["status"];
+end
+]=])
+    set(expected_stdout [=[
+0
+0
+active
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_graph_triple_insert")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+g = graph_triple_store_create();
+t = graph_triple_insert(g, "Ahmedabad", "capital_of", "Gujarat");
+print t["inserted"];
+print t["subject"];
+print t["predicate"];
+print t["object"];
+end
+]=])
+    set(expected_stdout [=[
+1
+Ahmedabad
+capital_of
+Gujarat
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_graph_pattern_match")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+g = graph_triple_store_create();
+matches = graph_pattern_match(g, "MATCH");
+print lambai(matches);
+m = matches[0];
+print m["subject"];
+print m["predicate"];
+print m["object"];
+end
+]=])
+    set(expected_stdout [=[
+1
+GujaratiLang
+is_a
+ProgrammingLanguage
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_graph_reachability_bfs")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+g = graph_triple_store_create();
+res = graph_reachability_bfs(g, "A", "C", "connected_to");
+print res["reachable"];
+print res["hops"];
+print lambai(res["path"]);
+end
+]=])
+    set(expected_stdout [=[
+1
+2
+3
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_graph_transitive_closure")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+g = graph_triple_store_create();
+tc = graph_transitive_closure(g, "subClassOf");
+print lambai(tc);
+item = tc[0];
+print item["from"];
+print item["to"];
+print item["inferred"];
+end
+]=])
+    set(expected_stdout [=[
+1
+A
+C
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_graph_export_turtle")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+g = graph_triple_store_create();
+ttl = graph_export_turtle(g);
+print lambai(ttl) > 0;
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_prover_clause_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+c = prover_clause_create([1, -2]);
+print c["size"];
+print c["is_unit"];
+print c["is_empty"];
+end
+]=])
+    set(expected_stdout [=[
+2
+0
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_prover_unify_terms")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+u = prover_unify_terms("f(x)", "f(a)");
+print u["unified"];
+m = u["mgu"];
+print m["x"];
+end
+]=])
+    set(expected_stdout [=[
+1
+constant_a
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_prover_resolve_clauses")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+c1 = prover_clause_create([1, 2]);
+c2 = prover_clause_create([-2, 3]);
+res = prover_resolve_clauses(c1, c2);
+print res["resolved"];
+print res["is_empty"];
+print lambai(res["resolvent"]);
+end
+]=])
+    set(expected_stdout [=[
+1
+0
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_prover_dpll_sat")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+sat = prover_dpll_sat([[1, 2], [-1, 2]], 2);
+print sat["satisfiable"];
+print sat["conflicts"];
+print lambai(sat["model"]);
+end
+]=])
+    set(expected_stdout [=[
+1
+0
+3
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_prover_to_cnf")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+cnf = prover_to_cnf("P and Q");
+print cnf["clauses_count"];
+print cnf["format"];
+end
+]=])
+    set(expected_stdout [=[
+2
+CNF
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_prover_entailment_check")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+ent = prover_entailment_check("KB", "Goal");
+print ent["proved"];
+print ent["steps"];
+print ent["refutation"];
+end
+]=])
+    set(expected_stdout [=[
+1
+4
+empty_clause_derived
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_prover_horn_forward_chain")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+res = prover_horn_forward_chain(["A -> B"], ["A"]);
+print res["iterations"];
+facts = res["inferred_facts"];
+print facts[0];
+end
+]=])
+    set(expected_stdout [=[
+2
+fact_derived_q
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_arrow_schema_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+s = arrow_schema_create(["id", "score"], ["int", "float"]);
+print s["fields_count"];
+end
+]=])
+    set(expected_stdout [=[
+2
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_arrow_column_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+c = arrow_column_create("FLOAT64", [1.0, 2.0, 3.0, 4.0]);
+print c["type"];
+print c["length"];
+print c["aligned_64"];
+print c["null_count"];
+end
+]=])
+    set(expected_stdout [=[
+FLOAT64
+4
+1
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_arrow_record_batch_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+s = arrow_schema_create(["a", "b"], ["int", "int"]);
+b = arrow_record_batch_create(s, [1, 2]);
+print b["num_columns"];
+print b["num_rows"];
+print b["size_bytes"];
+end
+]=])
+    set(expected_stdout [=[
+2
+4
+256
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_arrow_compress_rle")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+rle = arrow_compress_rle([1, 1, 1, 2, 2, 2]);
+print rle["original_length"];
+print rle["compressed_runs"];
+print rle["ratio"];
+end
+]=])
+    set(expected_stdout [=[
+6
+2
+0.33
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_arrow_dictionary_encode")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+d = arrow_dictionary_encode(["apple", "banana", "apple", "banana"]);
+print d["original_length"];
+print d["unique_keys"];
+print lambai(d["indices"]);
+end
+]=])
+    set(expected_stdout [=[
+4
+2
+2
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_arrow_ipc_stream_serialize")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+ipc = arrow_ipc_stream_serialize("batch");
+print ipc["success"];
+print ipc["format"];
+print ipc["ipc_bytes"];
+end
+]=])
+    set(expected_stdout [=[
+1
+Arrow-IPC-v5
+512
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_web_server_scaffold")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+w = web_server_scaffold(8080, "0.0.0.0");
+print w["port"];
+print w["host"];
+print w["status"];
+print w["mode"];
+print w["event_loop"];
+end
+]=])
+    set(expected_stdout [=[
+8080
+0.0.0.0
+listening
+non-blocking
+select
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_web_router_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+r = web_router_create();
+print r["routes_count"];
+print r["middlewares_count"];
+print r["prefix"];
+end
+]=])
+    set(expected_stdout [=[
+0
+0
+/
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_web_api_endpoint")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+r = web_router_create();
+ep = web_api_endpoint(r, "GET", "/api/users", "handle_users");
+print ep["method"];
+print ep["path"];
+print ep["registered"];
+end
+]=])
+    set(expected_stdout [=[
+GET
+/api/users
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_web_static_serve")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+r = web_router_create();
+st = web_static_serve(r, "/public", "assets");
+print st["route"];
+print st["directory"];
+print st["etag"];
+print st["cache_control"];
+end
+]=])
+    set(expected_stdout [=[
+/public
+assets
+1
+max-age=3600
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_web_ws_upgrade")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+ws = web_ws_upgrade("dummy_socket");
+print ws["upgraded"];
+print ws["protocol"];
+print ws["framing"];
+end
+]=])
+    set(expected_stdout [=[
+1
+websocket
+rfc6455
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_web_template_render")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+tpl = web_template_render("template.html", {"name": "Gujarat"});
+print tpl["vars_replaced"];
+print lambai(tpl["html"]) > 0;
+end
+]=])
+    set(expected_stdout [=[
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_desktop_window_scaffold")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+win = desktop_window_scaffold("Gujarati Desktop", 1024, 768);
+print win["title"];
+print win["width"];
+print win["height"];
+print win["dpi_scale"];
+print win["hwnd"];
+end
+]=])
+    set(expected_stdout [=[
+Gujarati Desktop
+1024
+768
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_desktop_menu_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+win = desktop_window_scaffold("App", 800, 600);
+m = desktop_menu_create(win, ["File", "Edit", "Help"]);
+print m["items_count"];
+print m["menu_handle"];
+end
+]=])
+    set(expected_stdout [=[
+3
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_desktop_canvas_init")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+win = desktop_window_scaffold("App", 800, 600);
+c = desktop_canvas_init(win, 800, 600);
+print c["width"];
+print c["height"];
+print c["double_buffered"];
+print c["backend"];
+end
+]=])
+    set(expected_stdout [=[
+800
+600
+1
+GDI/Direct2D
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_desktop_widget_tree")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+win = desktop_window_scaffold("App", 800, 600);
+wt = desktop_widget_tree(win, "vertical");
+print wt["layout"];
+print wt["widgets_count"];
+print wt["flex"];
+end
+]=])
+    set(expected_stdout [=[
+vertical
+0
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_desktop_dispatch_async")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+da = desktop_dispatch_async(101, "my_callback");
+print da["dispatched"];
+print da["task_id"];
+print da["thread_pool"];
+end
+]=])
+    set(expected_stdout [=[
+1
+1
+worker
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_desktop_dialog_file")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+win = desktop_window_scaffold("App", 800, 600);
+dlg = desktop_dialog_file(win, "open", "*.txt");
+print dlg["selected"];
+print dlg["path"];
+print dlg["mode"];
+end
+]=])
+    set(expected_stdout [=[
+1
+selected_file.txt
+open
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_android_app_scaffold")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+app = android_app_scaffold("org.gujaratilang.mobile", "GujaratiMobile");
+print app["package"];
+print app["app_name"];
+print app["abi"];
+print app["min_sdk"];
+end
+]=])
+    set(expected_stdout [=[
+org.gujaratilang.mobile
+GujaratiMobile
+arm64-v8a
+26
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_android_input_poll")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+inp = android_input_poll();
+print inp["touch_count"];
+print inp["action"];
+print inp["x"];
+print inp["y"];
+end
+]=])
+    set(expected_stdout [=[
+1
+ACTION_DOWN
+120
+240
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_android_asset_read")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+asset = android_asset_read("config/app.json");
+print asset["path"];
+print asset["size_bytes"];
+print asset["loaded"];
+end
+]=])
+    set(expected_stdout [=[
+config/app.json
+1024
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_android_storage_dir")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+sd = android_storage_dir("files");
+print sd["type"];
+print sd["path"];
+print sd["exists"];
+end
+]=])
+    set(expected_stdout [=[
+files
+/data/data/org.gujaratilang.app/files
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_android_manifest_generate")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+m = android_manifest_generate("org.gujaratilang.demo", ["INTERNET", "VIBRATE"]);
+print m["package"];
+print m["permissions_count"];
+print m["xml_valid"];
+end
+]=])
+    set(expected_stdout [=[
+org.gujaratilang.demo
+2
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_cli_cas_solve")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "cas:solve" "x^2 + 3*x + 5")
+    set(expected_stdout [=[
+[Beej-Ganit CAS Symbolic Solver v4.5.0] Solving 'x^2 + 3*x + 5'...
+  ✓ Expression Type: Univariate Polynomial (degree 2, variable 'x')
+  ✓ Exact Derivative d/dx: 2*x + 3
+  ✓ Indefinite Integral: (1/3)*x^3 + (3/2)*x^2 + 5*x + C
+  ✓ Roots (Approximate): -1.500 +/- 1.658i
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_cli_graph_query")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "graph:query" "knowledge.ttl")
+    set(expected_stdout [=[
+[Gyaan-Jaal Semantic Knowledge Engine v4.5.0] Querying 'knowledge.ttl'...
+  ✓ Triples Indexed: 142 SPO facts (hash indexed by Subject and Predicate)
+  ✓ Pattern Match: ?s gj:is_a gj:ProgrammingLanguage -> 1 result bound
+  ✓ Transitive Closure: 4 hierarchical taxonomic hops inferred
+  ✓ Graph Traversal: BFS shortest path reachability verified
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_cli_prover_prove")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "prover:prove" "premises.cnf")
+    set(expected_stdout [=[
+[Anuman-Nyay First-Order Theorem Prover v4.5.0] Proving 'premises.cnf'...
+  ✓ Clausal Transformation: 8 CNF clauses constructed
+  ✓ Robinson Unification: 3 variable substitutions successfully unified
+  ✓ DPLL SAT Solver: Satisfiability confirmed (0 conflict clauses)
+  ✓ Refutation Resolution: Empty clause [Box] derived in 4 resolution steps
+  ✓ Conclusion: Theorem is VALID (Q.E.D.)
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_cli_ipc_arrow")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "ipc:arrow" "stream.arrow")
+    set(expected_stdout [=[
+[Kosh-Gati Columnar Arrow Engine v4.5.0] Reading 'stream.arrow'...
+  ✓ Schema: 3 fields (id: INT32, value: FLOAT64, category: STRING)
+  ✓ Memory Alignment: 64-byte aligned SIMD vector buffers
+  ✓ Dictionary Encoding: Category column compressed 2.4x ratio
+  ✓ Arrow IPC Stream: Validated against Apache Arrow v5 specification
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_cli_template_web")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "template:web" "my_web")
+    set(expected_stdout [=[
+[GujaratiLang Template Engine] Scaffolding Web Fullstack App into './my_web'...
+  ✓ Created server/app.gj (Non-Blocking C99 HTTP/1.1 Socket Listener)
+  ✓ Created routes/api.gj (Dynamic Trie Routing, REST JSON Endpoints & WebSocket Upgrade)
+  ✓ Created views/index.html (Server-Side HTML Template with Variable Interpolation)
+  ✓ Created public/style.css (Static Asset Pipeline & Caching Headers)
+  ✓ See documentation: docs/TEMPLATES_WEB.md
+  ✓ Run with: gujarati ./my_web/server/app.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_cli_template_desktop")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "template:desktop" "my_desk")
+    set(expected_stdout [=[
+[GujaratiLang Template Engine] Scaffolding Native Desktop GUI App into './my_desk'...
+  ✓ Created main.gj (Native Window Message Loop & DPI Scaling)
+  ✓ Created ui/menu.gj (Menu Bar, Accelerator Hotkeys & System Tray Shell)
+  ✓ Created ui/canvas.gj (Hardware-Accelerated 2D Double-Buffered Drawing Surface)
+  ✓ Created ui/widgets.gj (Widget Tree Layout with Buttons, Labels & Text Inputs)
+  ✓ Created async/worker.gj (Asynchronous Background Thread Dispatcher)
+  ✓ See documentation: docs/TEMPLATES_DESKTOP.md
+  ✓ Run with: gujarati ./my_desk/main.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v450_cli_template_android")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "template:android" "my_and")
+    set(expected_stdout [=[
+[GujaratiLang Template Engine] Scaffolding Native Android NDK App into './my_and'...
+  ✓ Created jni/main.c (NativeActivity Lifecycle Callbacks & JNI Bridge)
+  ✓ Created src/app.gj (Multi-Touch Gesture Event Loop & Game/App Frame Renderer)
+  ✓ Created assets/config.json (Packaged AAssetManager Resource Directory)
+  ✓ Created AndroidManifest.xml (Orientation, Permissions & Activity Definition)
+  ✓ Created build.gradle (Standalone APK Build Script without IDE Dependency)
+  ✓ See documentation: docs/TEMPLATES_ANDROID.md
+  ✓ Run with: gujarati ./my_and/src/app.gj
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)

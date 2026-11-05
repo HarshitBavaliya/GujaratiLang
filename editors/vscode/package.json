@@ -1,8 +1,8 @@
 {
   "name": "gujarati",
   "displayName": "GujaratiLang",
-  "description": "Syntax highlighting, autocomplete snippets, and language tooling for GujaratiLang source files (v4.4.0 Chitra & Dhvani).",
-  "version": "4.4.0",
+  "description": "Syntax highlighting, autocomplete snippets, and language tooling for GujaratiLang source files (v4.5.0 Yantra-Bodh, Gyaan & Rachana).",
+  "version": "4.5.0",
   "publisher": "harshitbavaliya",
   "icon": "images/icon.png",
   "engines": {

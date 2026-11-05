@@ -20,7 +20,7 @@ Extract the archive and add the directory to your system's `PATH`:
 ```bash
 # Verify installation
 gujarati --version
-# Output: 4.4.0
+# Output: 4.5.0
 ```
 
 ### Option B: Build from Source (Any Platform with C99 & CMake)

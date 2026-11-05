@@ -2881,5 +2881,122 @@
       "chhapo dist[\"distance\"];"
     ],
     "description": "Extract 13-coefficient Mel-Frequency Cepstral Coefficients and DTW distance (v4.4.0)"
+  },
+  "Beej-Ganit Symbolic CAS Calculus (v4.5.0)": {
+    "prefix": [
+      "cas_expr",
+      "beej_expression",
+      "બીજ_સમીકરણ",
+      "cas_diff",
+      "cas_integrate"
+    ],
+    "body": [
+      "// Symbolic polynomial parsing, differentiation, and integration",
+      "expr = cas_expr_parse(\"${1:x^2 + 3*x + 5}\");",
+      "diff_res = cas_diff(expr[\"repr\"], \"${2:x}\");",
+      "int_res = cas_integrate_poly(expr[\"repr\"], \"${2:x}\");",
+      "chhapo diff_res[\"derivative\"];",
+      "chhapo int_res[\"integral\"];"
+    ],
+    "description": "Parse symbolic polynomial expressions and calculate derivatives/integrals (v4.5.0)"
+  },
+  "Gyaan-Jaal Semantic Knowledge Graph (v4.5.0)": {
+    "prefix": [
+      "graph_triple",
+      "gyaan_sangrah",
+      "જ્ઞાન_સંગ્રહ",
+      "graph_pattern"
+    ],
+    "body": [
+      "// In-memory RDF semantic triple store and pattern matching",
+      "store = graph_triple_store_create();",
+      "graph_triple_insert(store, \"${1:Gujarat}\", \"${2:capital}\", \"${3:Gandhinagar}\");",
+      "matches = graph_pattern_match(store, \"MATCH\");",
+      "path = graph_reachability_bfs(store, \"${1:Gujarat}\", \"${3:Gandhinagar}\", \"${2:capital}\");",
+      "chhapo path[\"reachable\"];"
+    ],
+    "description": "Initialize in-memory RDF triple store and run BFS semantic queries (v4.5.0)"
+  },
+  "Anuman-Nyay First-Order Theorem Prover (v4.5.0)": {
+    "prefix": [
+      "prover_clause",
+      "nyay_khand",
+      "ન્યાય_ખંડ",
+      "prover_dpll"
+    ],
+    "body": [
+      "// Propositional clausal CNF, DPLL SAT solver & resolution refutation",
+      "c1 = prover_clause_create([1, -2]);",
+      "c2 = prover_clause_create([2, 3]);",
+      "res = prover_resolve_clauses(c1, c2);",
+      "sat = prover_dpll_sat([[1, 2], [-1, 2]], 2);",
+      "chhapo sat[\"satisfiable\"];"
+    ],
+    "description": "Construct CNF clauses and execute resolution refutation or DPLL SAT solving (v4.5.0)"
+  },
+  "Kosh-Gati Columnar Apache Arrow IPC (v4.5.0)": {
+    "prefix": [
+      "arrow_schema",
+      "kosh_schema",
+      "કોષ_નમૂનો",
+      "arrow_batch"
+    ],
+    "body": [
+      "// 64-byte SIMD-aligned Apache Arrow Columnar RecordBatch & IPC serialization",
+      "schema = arrow_schema_create([\"id\", \"score\"], [\"int\", \"float\"]);",
+      "col = arrow_column_create(\"FLOAT64\", [10.5, 20.2, 30.8, 40.1]);",
+      "batch = arrow_record_batch_create(schema, [col]);",
+      "ipc = arrow_ipc_stream_serialize(batch);",
+      "chhapo ipc[\"ipc_bytes\"];"
+    ],
+    "description": "Create Apache Arrow columnar buffers and serialize to zero-copy IPC stream (v4.5.0)"
+  },
+  "Fullstack Web App Scaffold (v4.5.0)": {
+    "prefix": [
+      "web_server_scaffold",
+      "web_server_bnavo",
+      "વેબ_સર્વર_બનાવો",
+      "web_router"
+    ],
+    "body": [
+      "// Non-blocking C99 socket listener, dynamic routing, and REST endpoint",
+      "server = web_server_scaffold(${1:8080}, \"${2:0.0.0.0}\");",
+      "router = web_router_create();",
+      "web_api_endpoint(router, \"GET\", \"/api/health\", \"handle_health\");",
+      "chhapo server[\"status\"];"
+    ],
+    "description": "Initialize non-blocking HTTP web server with dynamic routing (v4.5.0)"
+  },
+  "Native Desktop Window Scaffold (v4.5.0)": {
+    "prefix": [
+      "desktop_window_scaffold",
+      "desktop_window_bnavo",
+      "ડેસ્કટોપ_વિન્ડો_બનાવો",
+      "desktop_canvas"
+    ],
+    "body": [
+      "// High-DPI native OS window, Canvas 2D double buffering & widget tree",
+      "win = desktop_window_scaffold(\"${1:Gujarati Studio}\", ${2:1024}, ${3:768});",
+      "canvas = desktop_canvas_init(win, ${2:1024}, ${3:768});",
+      "widgets = desktop_widget_tree(win, \"vertical\");",
+      "chhapo win[\"title\"];"
+    ],
+    "description": "Create high-DPI native desktop GUI window with double-buffered canvas (v4.5.0)"
+  },
+  "Android NativeActivity App Scaffold (v4.5.0)": {
+    "prefix": [
+      "android_app_scaffold",
+      "android_app_bnavo",
+      "એન્ડ્રોઇડ_એપ_બનાવો",
+      "android_manifest"
+    ],
+    "body": [
+      "// Android NDK NativeActivity, touch polling & manifest generation",
+      "app = android_app_scaffold(\"${1:org.gujaratilang.app}\", \"${2:GujaratiApp}\");",
+      "manifest = android_manifest_generate(app[\"package\"], [\"INTERNET\", \"VIBRATE\"]);",
+      "input = android_input_poll();",
+      "chhapo app[\"package\"];"
+    ],
+    "description": "Scaffold Android NDK native application with multi-touch event polling (v4.5.0)"
   }
 }

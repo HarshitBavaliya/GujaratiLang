@@ -16,26 +16,26 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v4.4.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v4.4.0) ("Chitra & Dhvani — Numerical Weather Prediction, Physical Oceanography, Seismic Geophysics & Earth Climate Systems").
+- Latest interpreter release: [GujaratiLang v4.5.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v4.5.0) ("Yantra-Bodh, Gyaan & Rachana — Numerical Weather Prediction, Physical Oceanography, Seismic Geophysics & Earth Climate Systems").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v4.2.0 (1,020 automated test suites passing, 100% pass rate).
+  platform before publishing v4.2.0 (1,070 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
-  published as `HarshitBavaliya.gujarati`, currently v4.4.0 (packaged as `gujarati-4.3.0.vsix`).
+  published as `HarshitBavaliya.gujarati`, currently v4.5.0 (packaged as `gujarati-4.3.0.vsix`).
 - Install the extension with:
 
   ```powershell
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (1,020/1,020 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (1,070/1,070 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v4.4.0: Chitra & Dhvani — Numerical Weather Prediction, Physical Oceanography, Seismic Geophysics & Earth Climate Systems (1,020 Tests Milestone)**.
+Latest commit on origin: **Release v4.5.0: Yantra-Bodh, Gyaan & Rachana — Numerical Weather Prediction, Physical Oceanography, Seismic Geophysics & Earth Climate Systems (1,070 Tests Milestone)**.
 
 - Added Vatavaran (વાતાવરણ-ગતિ) Numerical Weather Prediction & Atmospheric Dynamics:
   - `weather_coriolis_param`, `weather_geostrophic_wind`, `weather_hypsometric_thickness`, `weather_arakawa_grid_create`, `weather_advection_2d_step`, `weather_potential_temperature`, `weather_relative_humidity`

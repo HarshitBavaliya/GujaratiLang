@@ -1,3 +1,94 @@
+# GujaratiLang v4.5.0: Yantra-Bodh, Gyaan & Rachana — Computer Algebra System, Knowledge Graphs, Automated Theorem Prover, Apache Arrow IPC & Multi-Platform App Templates (યંત્ર-બોધ, જ્ઞાન અને રચના)
+
+GujaratiLang **v4.5.0** is officially released! This milestone introduces symbolic computer algebra, semantic RDF knowledge graphs, automated first-order theorem proving with DPLL SAT solving, columnar Apache Arrow zero-copy memory & IPC streaming, and comprehensive from-scratch scaffolding for Web, Desktop, and Android mobile applications — engineered in 100% pure ANSI C99 with **zero external C dependencies**.
+
+v4.5.0 introduces an expanded **50-Point Specification** spanning 5 computational pillars, 2 new domain starter kits, and 3 production application template guides:
+1. **Beej-Ganit (બીજ-ગણિત)**: Symbolic computer algebra system (CAS), univariate/multivariate polynomial parsing, symbolic differentiation ($d/dx$), analytical polynomial integration, symbolic simplification, polynomial root approximation via companion matrices, Taylor series polynomial expansions & CLI `cas:solve`.
+2. **Gyaan-Jaal (જ્ઞાન-જાળ)**: Semantic RDF knowledge graph triple store, subject-predicate-object (SPO) hash indexing, SPARQL-style graph pattern matching, breadth-first search (BFS) graph traversal with shortest-path reachability, transitive taxonomic closure computation, W3C Turtle (`.ttl`) export & CLI `graph:query`.
+3. **Anuman-Nyay (અનુમાન-ન્યાય)**: Automated first-order theorem prover, clausal CNF normalizer, Robinson syntactic unification, propositional refutation resolution step with empty clause derivation, Davis-Putnam-Logemann-Loveland (DPLL) SAT solver, Horn-clause forward chaining deduction & CLI `prover:prove`.
+4. **Kosh-Gati (કોષ-ગતિ)**: Columnar memory architecture, 64-byte SIMD vector alignment, Apache Arrow Schema & RecordBatch builders, dictionary-encoding compression, Run-Length Encoding (RLE), zero-copy IPC stream serialization & CLI `ipc:arrow`.
+5. **Shilp-Setu & Rachana Templates (શિલ્પ-સેતુ અને રચના)**: Comprehensive from-scratch implementation guides and scaffolding engines for **Fullstack Web** (`docs/TEMPLATES_WEB.md`, `template:web`), **Native Desktop GUI** (`docs/TEMPLATES_DESKTOP.md`, `template:desktop`), and **Android NDK Mobile** (`docs/TEMPLATES_ANDROID.md`, `template:android`).
+6. **Starter Kit 19**: Computer Algebra System & Symbolic Math (`--kit=cas`).
+7. **Starter Kit 20**: Knowledge Graph & Automated Theorem Prover (`--kit=knowledge`).
+
+With v4.5.0, the automated test suite expands to **1,070 Automated Tests (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
+
+---
+
+## 🌟 What's New in v4.5.0
+
+### 1. 🧮 Pillar 1: Beej-Ganit (બીજ-ગણિત) Symbolic CAS & Calculus (7 Builtins + CLI)
+- **`cas_expr_parse(expr)` / `beej_expression_parse` / `બીજ_સમીકરણ_વાંચો`**: Parses algebraic polynomial expressions into structured AST dictionaries.
+- **`cas_simplify(expr)` / `beej_saral` / `બીજ_સરળ`**: Applies canonical symbolic algebraic simplification rules.
+- **`cas_diff(expr, var)` / `beej_vikalan` / `બીજ_વિકલન`**: Computes exact symbolic derivatives using product, quotient, and power rules.
+- **`cas_integrate_poly(expr, var)` / `beej_sankalan` / `બીજ_સંકલન`**: Computes analytical indefinite anti-derivatives with integration constants.
+- **`cas_eval(expr, val)` / `beej_mulyankan` / `બીજ_મૂલ્યાંકન`**: Evaluates algebraic polynomials at concrete real values.
+- **`cas_taylor_series(expr, var, pt, ord)` / `beej_taylor_shreni` / `બીજ_ટેલર_શ્રેણી`**: Generates Taylor series polynomial approximations around expansion points.
+- **`cas_poly_roots_approx(coeffs)` / `beej_mool_shodh` / `બીજ_મૂળ_શોધો`**: Calculates numerical real and complex roots for polynomial coefficient arrays.
+- **Terminal CLI Command `cas:solve [expr]` / `બીજ:ઉકેલ`**: Symbolic polynomial solver with step-by-step factorization and derivative outputs.
+
+### 2. 🕸️ Pillar 2: Gyaan-Jaal (જ્ઞાન-જાળ) Semantic Knowledge Graphs & RDF (6 Builtins + CLI)
+- **`graph_triple_store_create()` / `gyaan_sangrah_bnavo` / `જ્ઞાન_સંગ્રહ_બનાવો`**: Initializes an in-memory SPO RDF semantic triple store.
+- **`graph_triple_insert(store, s, p, o)` / `gyaan_triple_umero` / `જ્ઞાન_ત્રિપુટી_ઉમેરો`**: Adds semantic facts indexed by subject and predicate.
+- **`graph_pattern_match(store, pat)` / `gyaan_tarah_shodh` / `જ્ઞાન_તરાહ_શોધો`**: Executes SPARQL-style graph pattern matching queries.
+- **`graph_reachability_bfs(store, src, dst, max_d)` / `gyaan_pahoch_shodh` / `જ્ઞાન_પહોંચ_શોધો`**: Determines entity reachability and path reconstruction via BFS.
+- **`graph_transitive_closure(store, pred)` / `gyaan_anuvritti_jaal` / `જ્ઞાન_અનુવૃત્તિ_જાળ`**: Computes transitive taxonomic relationship closures.
+- **`graph_export_turtle(store)` / `gyaan_turtle_nikas` / `જ્ઞાન_ટર્ટલ_નિકાસ`**: Serializes in-memory knowledge graphs into W3C Turtle (`.ttl`) notation.
+- **Terminal CLI Command `graph:query [graph.ttl]` / `જ્ઞાન:શોધ`**: Cypher and SPARQL pattern matcher with index scans and transitive hops.
+
+### 3. ⚖️ Pillar 3: Anuman-Nyay (અનુમાન-ન્યાય) Automated Theorem Prover & SAT (7 Builtins + CLI)
+- **`prover_clause_create(lits)` / `nyay_khand_bnavo` / `ન્યાય_ખંડ_બનાવો`**: Constructs clausal CNF disjunctive clauses with unit and empty checks.
+- **`prover_unify_terms(t1, t2)` / `nyay_ekikaran` / `ન્યાય_એકીકરણ`**: Performs Robinson syntactic first-order term unification generating MGUs.
+- **`prover_resolve_clauses(c1, c2)` / `nyay_khand_sankalp` / `ન્યાય_ખંડ_સંકલ્પ`**: Derives resolution resolvents between conflicting literals.
+- **`prover_dpll_sat(clauses, vars)` / `nyay_sat_ukel` / `ન્યાય_સેટ_ઉકેલ`**: Solves propositional Boolean satisfiability with unit propagation.
+- **`prover_to_cnf(expr)` / `nyay_cnf_rupantar` / `ન્યાય_સીએનએફ_રૂપાંતર`**: Converts propositional logical expressions into Conjunctive Normal Form.
+- **`prover_entailment_check(kb, goal)` / `nyay_tark_tapas` / `ન્યાય_તર્ક_તપાસ`**: Checks logical entailment and constructs refutation proofs.
+- **`prover_horn_forward_chain(rules, facts)` / `nyay_aagal_shrunkhala` / `ન્યાય_આગળ_શૃંખલા`**: Executes forward chaining deduction across Horn clause rulebases.
+- **Terminal CLI Command `prover:prove [premises.cnf]` / `ન્યાય:સાબિત`**: Automated resolution refutation theorem prover.
+
+### 4. ⚡ Pillar 4: Kosh-Gati (કોષ-ગતિ) Columnar Arrow Memory & IPC (6 Builtins + CLI)
+- **`arrow_schema_create(names, types)` / `kosh_schema_bnavo` / `કોષ_નમૂનો_બનાવો`**: Defines Apache Arrow columnar schema metadata.
+- **`arrow_column_create(type, data)` / `kosh_stambh_bnavo` / `કોષ_સ્તંભ_બનાવો`**: Allocates 64-byte aligned SIMD columnar data buffers.
+- **`arrow_record_batch_create(schema, cols)` / `kosh_batch_bnavo` / `કોષ_બેચ_બનાવો`**: Assembles multi-column RecordBatches for zero-copy sharing.
+- **`arrow_compress_rle(data)` / `kosh_rle_sankoch` / `કોષ_આરએલઈ_સંકોચ`**: Compresses repetitive array sequences using Run-Length Encoding.
+- **`arrow_dictionary_encode(data)` / `kosh_kosh_encode` / `કોષ_શબ્દકોષ_એનકોડ`**: Performs dictionary encoding with unique key indices.
+- **`arrow_ipc_stream_serialize(batch)` / `kosh_ipc_stream` / `કોષ_આઈપીસી_પ્રવાહ`**: Serializes RecordBatches into standard Apache Arrow IPC byte streams.
+- **Terminal CLI Command `ipc:arrow [stream.arrow]` / `કોષ:આઈપીસી`**: Inspects Arrow IPC streams, verifying SIMD buffers and dictionary ratios.
+
+### 5. 🏛️ Pillar 5: Shilp-Setu & Rachana Templates (Web, Desktop, Android) (17 Builtins, Guides & CLIs)
+- **Fullstack Web Application Architecture**:
+  - `web_server_scaffold(port, host)` / `web_server_bnavo` / `વેબ_સર્વર_બનાવો`: Non-blocking C99 socket listener.
+  - `web_router_create()` / `web_router_bnavo` / `વેબ_રૂટર_બનાવો`: Dynamic trie routing table.
+  - `web_api_endpoint(router, meth, path, hdlr)` / `web_api_nodho` / `વેબ_એપીઆઈ_નોંધો`: REST JSON route registrar.
+  - `web_static_serve(router, route, dir)` / `web_static_seva` / `વેબ_સ્થિર_સેવા`: Static file server with caching.
+  - `web_ws_upgrade(sock)` / `web_ws_upgrade_shodh` / `વેબ_સોકેટ_અપગ્રેડ`: RFC 6455 WebSocket handshaker.
+  - `web_template_render(tpl, ctx)` / `web_template_chitra` / `વેબ_ટેમ્પલેટ_રેન્ડર`: Server-side HTML template renderer.
+  - Documentation: [`docs/TEMPLATES_WEB.md`](../docs/TEMPLATES_WEB.md).
+  - CLI: `template:web [name]` / `રચના:વેબ`.
+- **Native Desktop GUI Application Architecture**:
+  - `desktop_window_scaffold(title, w, h)` / `desktop_window_bnavo` / `ડેસ્કટોપ_વિન્ડો_બનાવો`: Native OS high-DPI window.
+  - `desktop_menu_create(win, items)` / `desktop_menu_bnavo` / `ડેસ્કટોપ_મેનુ_બનાવો`: Application menu bar and accelerator shell.
+  - `desktop_canvas_init(win, w, h)` / `desktop_canvas_bnavo` / `ડેસ્કટોપ_કેનવાસ_બનાવો`: Double-buffered Canvas 2D surface.
+  - `desktop_widget_tree(win, layout)` / `desktop_widget_vruksh` / `ડેસ્કટોપ_વિજેટ_વૃક્ષ`: Reactive widget hierarchy.
+  - `desktop_dispatch_async(task, cb)` / `desktop_kary_moklo` / `ડેસ્કટોપ_કાર્ય_મોકલો`: Background worker thread dispatcher.
+  - `desktop_dialog_file(win, mode, filter)` / `desktop_dialog_pasand` / `ડેસ્કટોપ_સંવાદ_ફાઈલ`: Native OS open/save dialogs.
+  - Documentation: [`docs/TEMPLATES_DESKTOP.md`](../docs/TEMPLATES_DESKTOP.md).
+  - CLI: `template:desktop [name]` / `રચના:ડેસ્કટોપ`.
+- **Android NDK Native Mobile Application Architecture**:
+  - `android_app_scaffold(pkg, name)` / `android_app_bnavo` / `એન્ડ્રોઇડ_એપ_બનાવો`: Standalone NDK Gradle scaffold.
+  - `android_input_poll()` / `android_input_tapas` / `એન્ડ્રોઇડ_ઇનપુટ_તપાસ`: Multi-touch and gesture event dispatcher.
+  - `android_asset_read(path)` / `android_sampatti_vancho` / `એન્ડ્રોઇડ_સંપત્તિ_વાંચો`: APK embedded asset reader via AAssetManager.
+  - `android_storage_dir(type)` / `android_sangrah_marg` / `એન્ડ્રોઇડ_સંગ્રહ_માર્ગ`: Sandboxed internal app directory locator.
+  - `android_manifest_generate(pkg, perms)` / `android_manifest_bnavo` / `એન્ડ્રોઇડ_મેનિફેસ્ટ_બનાવો`: AndroidManifest.xml generator.
+  - Documentation: [`docs/TEMPLATES_ANDROID.md`](../docs/TEMPLATES_ANDROID.md).
+  - CLI: `template:android [name]` / `રચના:એન્ડ્રોઇડ`.
+
+### 6. 📦 Starter Kits 19 & 20
+- **Starter Kit 19**: Computer Algebra System & Symbolic Math (`--kit=cas`, `kit:cas`).
+- **Starter Kit 20**: Knowledge Graph & Automated Theorem Prover (`--kit=knowledge`, `kit:knowledge`).
+
+---
+
 # GujaratiLang v4.4.0: Chitra & Dhvani — Digital Signal Processing, Computer Vision, Audio Synthesis & Speech MFCC (ચિત્ર, ધ્વનિ, સંગીત અને વાચા)
 
 GujaratiLang **v4.4.0** is officially released! This historic release marks the **1,000+ Automated Tests Milestone** (reaching 1,020 tests), introducing pure C99 digital signal processing, advanced 2D computer vision feature detection, multi-voice acoustic sound synthesis, and Mel-frequency speech recognition acoustic modeling directly into the sovereign Gujarati language runtime, engineered in 100% pure ANSI C99 with **zero external C dependencies**.

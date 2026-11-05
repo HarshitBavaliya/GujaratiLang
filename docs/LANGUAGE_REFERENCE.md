@@ -521,7 +521,8 @@ GujaratiLang v4.4.0 introduces digital signal processing, advanced 2D computer v
 - `vision_gaussian_blur(grid, sigma)` / `chitra_gaussian_blur` / `ચિત્ર_ગોસિયન_બ્લર`: 2D separable Gaussian smoothing convolution.
 - `vision_sobel_gradients(grid)` / `chitra_sobel_dhal` / `ચિત્ર_સોબેલ_ઢાળ`: Directional spatial gradients $G_x, G_y$, magnitude, and angle.
 - `vision_canny_edge(grid, low, high)` / `chitra_canny_kinari` / `ચિત્ર_કેની_કિનારી`: Canny edge detector featuring non-maximum suppression (NMS) and hysteresis thresholding.
-- `vision_hough_lines(edge_grid, thresh, min_len)` / `chitra_hough_rekha` / `ચિત્ર_હોફ_રેખા`: Hough transform parameter accumulator voting for straight line detection ($ho, 	heta$).
+- `vision_hough_lines(edge_grid, thresh, min_len)` / `chitra_hough_rekha` / `ચિત્ર_હોફ_રેખા`: Hough transform parameter accumulator voting for straight line detection ($
+ho, 	heta$).
 - `vision_harris_corners(grid, k, thresh)` / `chitra_harris_khuna` / `ચિત્ર_હેરીસ_ખૂણા`: Harris corner response $R = \det(M) - k \operatorname{Tr}(M)^2$ localized feature extractor.
 - `vision_fast_keypoints(grid, thresh)` / `chitra_fast_bindu` / `ચિત્ર_ફાસ્ટ_બિંદુ`: FAST corner keypoint detector over 16-pixel Bresenham circles.
 
@@ -541,3 +542,60 @@ GujaratiLang v4.4.0 introduces digital signal processing, advanced 2D computer v
 - `speech_mfcc_extract(signal, sr, n_ceps)` / `bhasha_mfcc_nikas` / `ભાષા_એમએફસીસી_નિકાસ``: 13-coefficient Mel-Frequency Cepstral Coefficients via DCT-II.
 - `speech_dtw_distance(seq1, seq2)` / `bhasha_dtw_antar` / `ભાષા_ડીટીડબલ્યુ_અંતર`: Dynamic Time Warping acoustic sequence alignment distance.
 - `speech_zero_crossing_rate(frame)` / `bhasha_shunya_chhed_dar` / `ભાષા_શૂન્ય_છેદ_દર`: Zero-Crossing Rate & Short-Time Energy for voice activity detection (VAD).
+
+### 12. Yantra-Bodh, Gyaan & Rachana: Computer Algebra, Knowledge Graphs, Theorem Prover, Arrow IPC & App Templates (v4.5.0)
+
+GujaratiLang v4.5.0 introduces symbolic computer algebra, semantic RDF knowledge graphs, automated theorem proving, columnar Apache Arrow IPC streaming, and native multi-platform application scaffolding.
+
+#### 12.1 Pillar 1: Beej-Ganit (બીજ-ગણિત) Symbolic CAS & Calculus
+- `cas_expr_parse(expr)` / `beej_expression_parse` / `બીજ_સમીકરણ_વાંચો`: Parse polynomial expression into structured dictionary.
+- `cas_simplify(expr)` / `beej_saral` / `બીજ_સરળ`: Canonical algebraic polynomial simplification.
+- `cas_diff(expr, var)` / `beej_vikalan` / `બીજ_વિકલન`: Exact symbolic differentiation.
+- `cas_integrate_poly(expr, var)` / `beej_sankalan` / `બીજ_સંકલન`: Analytical polynomial integration.
+- `cas_eval(expr, val)` / `beej_mulyankan` / `બીજ_મૂલ્યાંકન`: Numerical polynomial evaluation.
+- `cas_taylor_series(expr, var, pt, ord)` / `beej_taylor_shreni` / `બીજ_ટેલર_શ્રેણી`: Taylor series approximation.
+- `cas_poly_roots_approx(coeffs)` / `beej_mool_shodh` / `બીજ_મૂળ_શોધો`: Companion matrix polynomial root finder.
+
+#### 12.2 Pillar 2: Gyaan-Jaal (જ્ઞાન-જાળ) Semantic Knowledge Graphs & RDF
+- `graph_triple_store_create()` / `gyaan_sangrah_bnavo` / `જ્ઞાન_સંગ્રહ_બનાવો`: Initialize SPO RDF store.
+- `graph_triple_insert(store, s, p, o)` / `gyaan_triple_umero` / `જ્ઞાન_ત્રિપુટી_ઉમેરો`: Insert semantic fact triple.
+- `graph_pattern_match(store, pat)` / `gyaan_tarah_shodh` / `જ્ઞાન_તરાહ_શોધો`: Query triple store pattern.
+- `graph_reachability_bfs(store, src, dst, max_d)` / `gyaan_pahoch_shodh` / `જ્ઞાન_પહોંચ_શોધો`: BFS graph reachability.
+- `graph_transitive_closure(store, pred)` / `gyaan_anuvritti_jaal` / `જ્ઞાન_અનુવૃત્તિ_જાળ`: Transitive taxonomic closure.
+- `graph_export_turtle(store)` / `gyaan_turtle_nikas` / `જ્ઞાન_ટર્ટલ_નિકાસ`: Export store to W3C Turtle format.
+
+#### 12.3 Pillar 3: Anuman-Nyay (અનુમાન-ન્યાય) Automated Theorem Prover & SAT
+- `prover_clause_create(lits)` / `nyay_khand_bnavo` / `ન્યાય_ખંડ_બનાવો`: Create CNF clause.
+- `prover_unify_terms(t1, t2)` / `nyay_ekikaran` / `ન્યાય_એકીકરણ`: Syntactic term unification.
+- `prover_resolve_clauses(c1, c2)` / `nyay_khand_sankalp` / `ન્યાય_ખંડ_સંકલ્પ`: Resolution step derivation.
+- `prover_dpll_sat(clauses, vars)` / `nyay_sat_ukel` / `ન્યાય_સેટ_ઉકેલ`: DPLL SAT satisfiability solver.
+- `prover_to_cnf(expr)` / `nyay_cnf_rupantar` / `ન્યાય_સીએનએફ_રૂપાંતર`: Convert formula to CNF.
+- `prover_entailment_check(kb, goal)` / `nyay_tark_tapas` / `ન્યાય_તર્ક_તપાસ`: Check theorem entailment.
+- `prover_horn_forward_chain(rules, facts)` / `nyay_aagal_shrunkhala` / `ન્યાય_આગળ_શૃંખલા`: Horn-clause forward deduction.
+
+#### 12.4 Pillar 4: Kosh-Gati (કોષ-ગતિ) Columnar Arrow Memory & IPC
+- `arrow_schema_create(names, types)` / `kosh_schema_bnavo` / `કોષ_નમૂનો_બનાવો`: Columnar schema builder.
+- `arrow_column_create(type, data)` / `kosh_stambh_bnavo` / `કોષ_સ્તંભ_બનાવો`: 64-byte aligned SIMD column buffer.
+- `arrow_record_batch_create(schema, cols)` / `kosh_batch_bnavo` / `કોષ_બેચ_બનાવો`: Columnar RecordBatch.
+- `arrow_compress_rle(data)` / `kosh_rle_sankoch` / `કોષ_આરએલઈ_સંકોચ`: Run-Length Encoding compression.
+- `arrow_dictionary_encode(data)` / `kosh_kosh_encode` / `કોષ_શબ્દકોષ_એનકોડ`: Dictionary encoding for strings.
+- `arrow_ipc_stream_serialize(batch)` / `kosh_ipc_stream` / `કોષ_આઈપીસી_પ્રવાહ`: Apache Arrow IPC byte stream.
+
+#### 12.5 Pillar 5: Shilp-Setu & Rachana Templates (Web, Desktop, Android)
+- `web_server_scaffold(port, host)` / `web_server_bnavo` / `વેબ_સર્વર_બનાવો`: Non-blocking C99 socket server.
+- `web_router_create()` / `web_router_bnavo` / `વેબ_રૂટર_બનાવો`: Dynamic route tree.
+- `web_api_endpoint(router, meth, path, hdlr)` / `web_api_nodho` / `વેબ_એપીઆઈ_નોંધો`: REST JSON endpoint.
+- `web_static_serve(router, route, dir)` / `web_static_seva` / `વેબ_સ્થિર_સેવા`: Static assets engine.
+- `web_ws_upgrade(sock)` / `web_ws_upgrade_shodh` / `વેબ_સોકેટ_અપગ્રેડ`: RFC 6455 WebSocket handshaker.
+- `web_template_render(tpl, ctx)` / `web_template_chitra` / `વેબ_ટેમ્પલેટ_રેન્ડર`: Server-side HTML templating.
+- `desktop_window_scaffold(title, w, h)` / `desktop_window_bnavo` / `ડેસ્કટોપ_વિન્ડો_બનાવો`: High-DPI native OS window.
+- `desktop_menu_create(win, items)` / `desktop_menu_bnavo` / `ડેસ્કટોપ_મેનુ_બનાવો`: Menu bar & hotkeys.
+- `desktop_canvas_init(win, w, h)` / `desktop_canvas_bnavo` / `ડેસ્કટોપ_કેનવાસ_બનાવો`: Double-buffered 2D canvas.
+- `desktop_widget_tree(win, layout)` / `desktop_widget_vruksh` / `ડેસ્કટોપ_વિજેટ_વૃક્ષ`: Reactive widget hierarchy.
+- `desktop_dispatch_async(task, cb)` / `desktop_kary_moklo` / `ડેસ્કટોપ_કાર્ય_મોકલો`: Async background worker.
+- `desktop_dialog_file(win, mode, filter)` / `desktop_dialog_pasand` / `ડેસ્કટોપ_સંવાદ_ફાઈલ`: File open/save dialog.
+- `android_app_scaffold(pkg, name)` / `android_app_bnavo` / `એન્ડ્રોઇડ_એપ_બનાવો`: Standalone NDK Gradle scaffold.
+- `android_input_poll()` / `android_input_tapas` / `એન્ડ્રોઇડ_ઇનપુટ_તપાસ`: Touch & gesture event polling.
+- `android_asset_read(path)` / `android_sampatti_vancho` / `એન્ડ્રોઇડ_સંપત્તિ_વાંચો`: AAssetManager file loader.
+- `android_storage_dir(type)` / `android_sangrah_marg` / `એન્ડ્રોઇડ_સંગ્રહ_માર્ગ`: Sandboxed internal app path.
+- `android_manifest_generate(pkg, perms)` / `android_manifest_bnavo` / `એન્ડ્રોઇડ_મેનિફેસ્ટ_બનાવો`: AndroidManifest.xml generator.
