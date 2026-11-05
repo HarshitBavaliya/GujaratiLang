@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 4.1.0 LANGUAGES C)
+project(gujaratilang VERSION 4.2.0 LANGUAGES C)
 
 include(CTest)
 
@@ -942,7 +942,37 @@ if(BUILD_TESTING)
             v410_zk_range_prove_verify
             v410_cli_zk_prove
             v410_cli_cubesat_kit
-            v410_cli_brahmand_kit)
+            v410_cli_brahmand_kit
+            v420_quantum_circuit_create
+            v420_quantum_gate_apply_hadamard
+            v420_quantum_gate_apply_cnot
+            v420_quantum_statevector
+            v420_quantum_measure_shots
+            v420_quantum_bell_state
+            v420_quantum_entropy
+            v420_cli_quantum_simulate
+            v420_simd_vector_create
+            v420_simd_vector_add
+            v420_simd_vector_dot
+            v420_simd_vector_scale
+            v420_simd_vector_norm
+            v420_simd_parallel_reduce
+            v420_cli_simd_bench
+            v420_grid_power_flow_solve
+            v420_battery_soc_update
+            v420_solar_irradiance_calc
+            v420_microgrid_balance_load
+            v420_grid_frequency_droop
+            v420_grid_carbon_intensity
+            v420_cli_grid_flow
+            v420_lbm_lattice_create
+            v420_lbm_collide_and_stream
+            v420_lbm_boundary_bounceback
+            v420_lbm_velocity_field
+            v420_lbm_reynolds_number
+            v420_cli_cfd_simulate
+            v420_cli_quantum_kit
+            v420_cli_energy_kit)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

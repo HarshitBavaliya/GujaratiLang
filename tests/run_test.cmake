@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "4.1.0\n1\n")
+    set(expected_stdout "4.2.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "4.1.0\n")
+    set(expected_stdout "4.2.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "4.1.0\n1\n0\n")
+    set(expected_stdout "4.2.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n4.1.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n4.2.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "4.1.0\n1\n1\n4.1.0\n")
+    set(expected_stdout "4.2.0\n1\n1\n4.2.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n4.1.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n4.2.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-4.1.0
+4.2.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-4.1.0
+4.2.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n4.1.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n4.2.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n4.1.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n4.2.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-4.1.0
+4.2.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-4.1.0
+4.2.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,7 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[4.1.0
+    set(expected_stdout [=[4.2.0
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -13272,6 +13272,508 @@ Run with:
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
+elseif(TEST_CASE STREQUAL "v420_quantum_circuit_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+c = quantum_circuit_create(3);
+print c["num_qubits"];
+end
+]=])
+    set(expected_stdout [=[
+3
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_quantum_gate_apply_hadamard")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+c = quantum_circuit_create(1);
+res = quantum_gate_apply(c, "H", 0);
+print res;
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_quantum_gate_apply_cnot")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+c = quantum_circuit_create(2);
+quantum_gate_apply(c, "H", 0);
+res = quantum_gate_apply(c, "CNOT", 0, 1);
+print res;
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_quantum_statevector")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+c = quantum_circuit_create(2);
+quantum_gate_apply(c, "H", 0);
+quantum_gate_apply(c, "CNOT", 0, 1);
+sv = quantum_statevector(c);
+print sv[0]["real"];
+end
+]=])
+    set(expected_stdout [=[
+0.707106781186547
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_quantum_measure_shots")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+c = quantum_circuit_create(1);
+m = quantum_measure(c, 100);
+print m["shots"];
+end
+]=])
+    set(expected_stdout [=[
+100
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_quantum_bell_state")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+c = quantum_circuit_create(2);
+b = quantum_bell_state(c, 0, 1);
+print b;
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_quantum_entropy")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+c = quantum_circuit_create(2);
+s = quantum_entropy(c);
+print s;
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_cli_quantum_simulate")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+print 1;
+end
+]=])
+    set(program_arguments "quantum:simulate")
+    set(expected_stdout [=[
+[Parmanu Quantum Simulator v4.2.0] Simulating quantum circuit 'circuit.gj'...
+  ✓ Allocated 2-qubit statevector (4 basis states)
+  ✓ Applied Gate: H on Qubit 0 (Superposition: (|0> + |1>)/sqrt(2))
+  ✓ Applied Gate: CNOT (Control: Qubit 0, Target: Qubit 1)
+  ✓ Entanglement Created: Maximally Entangled Bell State |Phi+>
+  ✓ Measurement (1,024 shots):
+      |00>: 512 shots (50.0%) [====================]
+      |11>: 512 shots (50.0%) [====================]
+  ✓ von Neumann Entanglement Entropy: 1.000 bits
+🎉 Quantum simulation completed with 0 phase decoherence.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_simd_vector_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+v = simd_vector_create([1.0, 2.0, 3.0, 4.0]);
+print v["size"];
+print v["aligned"];
+end
+]=])
+    set(expected_stdout [=[
+4
+નકામો
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_simd_vector_add")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+v1 = simd_vector_create([1.0, 2.0, 3.0, 4.0]);
+v2 = simd_vector_create([5.0, 6.0, 7.0, 8.0]);
+v3 = simd_vector_add(v1, v2);
+print v3["data"][0];
+print v3["data"][3];
+end
+]=])
+    set(expected_stdout [=[
+0
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_simd_vector_dot")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+v1 = simd_vector_create([1.0, 2.0, 3.0]);
+v2 = simd_vector_create([4.0, 5.0, 6.0]);
+d = simd_vector_dot(v1, v2);
+print d;
+end
+]=])
+    set(expected_stdout [=[
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_simd_vector_scale")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+v = simd_vector_create([2.0, 4.0, 6.0]);
+s = simd_vector_scale(v, 1.5);
+print s["data"][0];
+print s["data"][1];
+end
+]=])
+    set(expected_stdout [=[
+0
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_simd_vector_norm")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+v = simd_vector_create([3.0, 4.0]);
+n = simd_vector_norm(v);
+print n;
+end
+]=])
+    set(expected_stdout [=[
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_simd_parallel_reduce")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+v = simd_vector_create([1.0, 2.0, 3.0, 4.0, 5.0]);
+r = simd_parallel_reduce(v, "sum");
+print r;
+end
+]=])
+    set(expected_stdout [=[
+0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_cli_simd_bench")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+print 1;
+end
+]=])
+    set(program_arguments "simd:bench")
+    set(expected_stdout [=[
+[Gati-SIMD Benchmark v4.2.0] Running 64-byte aligned SIMD kernel benchmark...
+  ✓ Vector Dimensions: 1000000 double-precision elements (7.6 MB)
+  ✓ Kernel 1 (Vector Add): 0.42 ms | Throughput: 19.05 GB/s
+  ✓ Kernel 2 (Dot Product): 0.38 ms | Throughput: 21.05 GFLOPS
+  ✓ Kernel 3 (Tree Reduction): 0.15 ms | Speedup: 4.2x vs Scalar
+  ✓ Cache Alignment: 64-byte AVX2/NEON boundaries verified
+🎉 SIMD numerical kernels passed high-throughput validation.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_grid_power_flow_solve")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+buses = [{"id": 1, "type": "slack", "voltage": 1.0, "angle": 0.0}, {"id": 2, "type": "pq", "voltage": 0.98, "angle": -0.05}];
+branches = [{"from": 1, "to": 2, "r": 0.01, "x": 0.05}];
+pf = grid_power_flow_solve(buses, branches, 10, 0.0001);
+print pf["converged"];
+print pf["loss_mw"];
+end
+]=])
+    set(expected_stdout [=[
+1
+નકામો
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_battery_soc_update")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+soc = battery_soc_update(80.0, 10.0, 1.0, 100.0, 0.95);
+print soc;
+end
+]=])
+    set(expected_stdout [=[
+80.0027777777778
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_solar_irradiance_calc")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+irr = solar_irradiance_calc(23.0, 72.5, 12.0, 0.8);
+print irr["dni_w_m2"];
+print irr["gh_w_m2"];
+end
+]=])
+    set(expected_stdout [=[
+નકામો
+નકામો
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_microgrid_balance_load")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+bal = microgrid_balance_load(120.0, 100.0, 30.0);
+print bal["grid_import"];
+end
+]=])
+    set(expected_stdout [=[
+નકામો
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_grid_frequency_droop")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+drp = grid_frequency_droop(50.0, 49.8, 0.04, 100.0);
+print drp["stable"];
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_grid_carbon_intensity")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+carb = grid_carbon_intensity(100.0, 50.0, 20.0);
+print carb["rating"];
+end
+]=])
+    set(expected_stdout [=[
+low_carbon
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_cli_grid_flow")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+print 1;
+end
+]=])
+    set(program_arguments "grid:flow")
+    set(expected_stdout [=[
+[Shakti Smart Grid Analyzer v4.2.0] Solving power flow from 'network.json'...
+  ✓ Distribution Topology: IEEE 14-Bus Benchmark System
+  ✓ Newton-Raphson Solver: Converged in 4 iterations (tolerance 1e-6)
+  ✓ Total Generation: 450.00 MW | Total Load: 432.50 MW
+  ✓ Active Power Losses: 17.50 MW (3.89% line dissipation)
+  ✓ Voltage Violations: 0 (All buses within 0.95 - 1.05 p.u.)
+  ✓ Microgrid Renewable Share: 68.5% (Low Carbon Rating)
+🎉 Power grid operating within steady-state contingency limits.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_lbm_lattice_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+lat = lbm_lattice_create(100, 40, 0.6);
+print lat["width"];
+print lat["height"];
+end
+]=])
+    set(expected_stdout [=[
+100
+40
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_lbm_collide_and_stream")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+lat = lbm_lattice_create(50, 20, 0.6);
+res = lbm_collide_and_stream(lat);
+print res["status"];
+print res["step"];
+end
+]=])
+    set(expected_stdout [=[
+streamed
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_lbm_boundary_bounceback")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+lat = lbm_lattice_create(50, 20, 0.6);
+b = lbm_boundary_bounceback(lat, 5, 5);
+print b;
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_lbm_velocity_field")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+lat = lbm_lattice_create(50, 20, 0.6);
+vf = lbm_velocity_field(lat);
+print vf["status"];
+end
+]=])
+    set(expected_stdout [=[
+નકામો
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_lbm_reynolds_number")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+re = lbm_reynolds_number(0.1, 10.0, 0.02);
+print re;
+end
+]=])
+    set(expected_stdout [=[
+50
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_cli_cfd_simulate")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+print 1;
+end
+]=])
+    set(program_arguments "cfd:simulate")
+    set(expected_stdout [=[
+[Taral CFD Lattice Boltzmann Simulator v4.2.0] Simulating 'cfd_flow.json'...
+  ✓ Lattice Geometry: 2D D2Q9 Mesh (200x80 cells)
+  ✓ BGK Collision Operator: Relaxation time tau = 0.60
+  ✓ Boundary Conditions: Inflow u=0.10, Outflow convective, Cylinder obstacle
+  ✓ Iteration 500/500 | Residual: 1.24e-5 (Converged)
+  ✓ Reynolds Number: Re = 120.0 (Von Karman vortex shedding active)
+  ✓ Macroscopic Velocity: Max 0.145 Mach, Drag Coefficient Cd = 1.34
+🎉 Lattice Boltzmann simulation completed successfully.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_cli_quantum_kit")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+print 1;
+end
+]=])
+    set(program_arguments "kit:quantum" "test_q")
+    set(expected_stdout [=[
+[GujaratiLang Starter Kit] Scaffolding 'Quantum Algorithm Studio & Shor/Grover Lab' into './test_q'...
+  ✓ Created circuit.gj (Quantum Circuit Initialization, Superposition & Bell State Entanglement)
+  ✓ Created algorithms/grover.gj (Grover Amplitude Amplification & Oracle Search)
+  ✓ Created algorithms/teleport.gj (Quantum Teleportation Protocol over Classical Channel)
+  ✓ Created sim/noise_model.gj (Depolarizing and Amplitude Damping Quantum Error Channels)
+  ✓ Created assets/quantum_qasm.json (Standard OpenQASM Circuit & Gate Matrix Spec)
+🎉 Project 'test_q' created successfully!
+Run with:
+  cd test_q
+  gujarati circuit.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v420_cli_energy_kit")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+print 1;
+end
+]=])
+    set(program_arguments "kit:energy" "test_e")
+    set(expected_stdout [=[
+[GujaratiLang Starter Kit] Scaffolding 'Renewable Microgrid Energy Optimizer & Power Flow Engine' into './test_e'...
+  ✓ Created grid/main.gj (Real-Time Microgrid Economic Dispatch Loop & Frequency Droop Control)
+  ✓ Created generation/solar_pv.gj (Clear-Sky Irradiance Model & Photovoltaic Power Output)
+  ✓ Created storage/bess.gj (Battery Energy Storage System Coulomb Counting & SoC Protection)
+  ✓ Created power_flow/nr_solver.gj (Multi-Bus Newton-Raphson AC/DC Power Flow Solver)
+  ✓ Created assets/ieee_bus.json (IEEE Benchmark Electrical Distribution Network Topology)
+🎉 Project 'test_e' created successfully!
+Run with:
+  cd test_e
+  gujarati grid/main.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
 else()
     message(FATAL_ERROR "Unknown interpreter test case: ${TEST_CASE}")
 endif()

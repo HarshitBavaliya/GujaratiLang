@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v4.1.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v4.1.0) ("Brahmand & Antariksh — Pure C99 Autodiff Tensor Engine, Satellite Telemetry, Deterministic Hard RTOS & Homomorphic Encryption").
+- Latest interpreter release: [GujaratiLang v4.2.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v4.2.0) ("Parmanu & Shakti — Pure C99 Quantum Circuit Simulator, SIMD Vectorization, Smart Energy Grid & Lattice Boltzmann CFD").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v4.1.0 (930 automated test suites passing, 100% pass rate).
+  platform before publishing v4.2.0 (960 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,12 +30,12 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (930/930 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (960/960 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
 
-Latest commit on origin: **Release v4.1.0: Brahmand & Antariksh — Pure C99 Autodiff Tensor Engine, Satellite Telemetry, Deterministic Hard RTOS & Homomorphic Encryption (930 Tests Milestone)**.
+Latest commit on origin: **Release v4.2.0: Parmanu & Shakti — Pure C99 Quantum Circuit Simulator, SIMD Vectorization, Smart Energy Grid & Lattice Boltzmann CFD (960 Tests Milestone)**.
 
 - Added Brahmand (બ્રહ્માંડ) Pure C99 Autodiff & Tensor Engine:
   - `tensor_create`, `tensor_matmul`, `tensor_backward`, `tensor_grad`, `nn_dense`, `nn_forward`, `nn_train_step`

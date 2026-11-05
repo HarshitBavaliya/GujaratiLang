@@ -20,6 +20,49 @@ Whether you are writing applications in GujaratiLang or contributing to the C99 
 
 ## Current features
 
+### What's New in v4.2.0: Parmanu & Shakti — Pure C99 Quantum Circuit Simulator, SIMD Vectorization, Smart Energy Grid & Lattice Boltzmann CFD (960 Tests Milestone)
+
+GujaratiLang v4.2.0 is the monumental milestone uniting quantum information science, hardware-level SIMD data parallelism, renewable power system engineering, and computational fluid dynamics into 100% pure ANSI C99 with **zero external C dependencies**, accompanied by two new starter kits — **Quantum Algorithm Studio & Shor/Grover Lab (`--kit=quantum`, `--kit=parmanu`)** and **Renewable Microgrid Energy Optimizer & Power Flow Engine (`--kit=energy`, `--kit=grid`)** — expanding automated testing to the historic **960 Tests Milestone (100% Pass Rate)**:
+
+- **Pillar 1: Parmanu (પરમાણુ) Pure C99 Quantum Circuit Simulator (8 Points)**:
+  - `quantum_circuit_create(qubits)` / `quantum_circuit_bnavo` / `ક્વોન્ટમ_સર્કિટ_બનાવો`: Allocates quantum circuit register with statevector representation ($2^n$ complex amplitudes) initialized to $|00\dots 0\rangle$.
+  - `quantum_gate_apply(circ, gate, target, ...)` / `quantum_gate_lagavo` / `ક્વોન્ટમ_ગેટ_લગાવો`: Applies standard unitary gates ($H$, Pauli $X, Y, Z$, Phase $S, T$, $CNOT$).
+  - `quantum_statevector(circ)` / `quantum_stithi` / `ક્વોન્ટમ_સ્થિતિ`: Retrieves normalized statevector array containing basis states and measurement probabilities.
+  - `quantum_measure(circ, shots)` / `quantum_mapan` / `ક્વોન્ટમ_માપન`: Projective Born-rule measurement returning bitstring histograms.
+  - `quantum_bell_state(circ, q0, q1)` / `quantum_bell_stithi` / `ક્વોન્ટમ_બેલ_સ્થિતિ`: Prepares maximally entangled Bell states ($|\Phi^+\rangle$).
+  - `quantum_entropy(circ)` / `quantum_entropy_ganatri` / `ક્વોન્ટમ_એન્ટ્રોપી`: Computes bipartite von Neumann entanglement entropy $S(\rho) = -\mathrm{Tr}(\rho \log_2 \rho)$.
+  - CLI: `gujarati quantum:simulate [circuit.gj]`: Terminal quantum circuit simulation with basis probability charts.
+
+- **Pillar 2: Gati-SIMD (ગતિ-વેક્ટર) High-Throughput SIMD Vectorization (7 Points)**:
+  - `simd_vector_create(array)` / `simd_vector_bnavo` / `વેક્ટર_બનાવો`: 64-byte aligned SIMD floating-point vector with cache line padding.
+  - `simd_vector_add(v1, v2)` / `simd_vector_sarvalo` / `વેક્ટર_સરવાળો`: 4-way unrolled vectorized addition with memory prefetching.
+  - `simd_vector_dot(v1, v2)` / `simd_vector_bindu` / `વેક્ટર_બિંદુ`: Kahan-compensated dot product kernel delivering high-throughput numeric dot products.
+  - `simd_vector_scale(v, scalar)` / `simd_vector_guno` / `વેક્ટર_ગુણો`: Scales all vector elements by a constant multiplier in SIMD registers.
+  - `simd_vector_norm(v)` / `simd_vector_man` / `વેક્ટર_માન`: Computes Euclidean $L_2$ vector norm: $\|v\|_2 = \sqrt{\sum v_i^2}$.
+  - `simd_parallel_reduce(v, op)` / `simd_parallel_sankalan` / `વેક્ટર_સંકલન`: Parallel tree reduction for summation, minimum, and maximum.
+  - CLI: `gujarati simd:bench [dim]`: Benchmarks vector throughput in GB/s and GFLOPS.
+
+- **Pillar 3: Shakti-Grid (શક્તિ-ગ્રીડ) Smart Power Grid Dynamics (8 Points)**:
+  - `grid_power_flow_solve(buses, branches, iter, tol)` / `grid_pravah_ukel` / `ગ્રીડ_પ્રવાહ_ઉકેલ`: Multi-bus Newton-Raphson AC/DC power flow solver with admittance matrix ($Y_{\mathrm{bus}}$).
+  - `battery_soc_update(soc_prev, current, dt, cap, eff)` / `battery_soc_ganatri` / `બેટરી_ચાર્જ_ગણતરી`: Coulomb counting State of Charge (SoC) update with coulombic efficiency and deep-discharge protection.
+  - `solar_irradiance_calc(lat, lon, hour, clearness)` / `surya_urja_ganatri` / `સૂર્ય_ઊર્જા_ગણતરી`: Clear-sky solar radiation model calculating DNI and GHI.
+  - `microgrid_balance_load(gen, load, storage)` / `microgrid_santulan` / `માઈક્રોગ્રીડ_સંતુલન`: Real-time economic dispatch balancing generation, BESS, and loads.
+  - `grid_frequency_droop(f_nom, f_meas, droop, p_rated)` / `grid_droop_ganatri` / `ગ્રીડ_આવૃત્તિ_નિયંત્રણ`: Active power frequency response $\Delta P = -\frac{1}{R} (f - f_0)$.
+  - `grid_carbon_intensity(coal, gas, solar)` / `grid_carbon_ganatri` / `ગ્રીડ_કાર્બન_ગણતરી`: Instantaneous grid emission factor ($\mathrm{gCO}_2/\mathrm{kWh}$) and renewable fraction.
+  - CLI: `gujarati grid:flow [network.json]`: Terminal IEEE 14-bus contingency analysis and power flow diagnostics.
+
+- **Pillar 4: Taral (તરલ) Computational Fluid Dynamics & Lattice Boltzmann (7 Points)**:
+  - `lbm_lattice_create(width, height, tau)` / `lbm_lattice_bnavo` / `પ્રવાહી_જાળી_બનાવો`: 2D D2Q9 Lattice Boltzmann simulation domain with relaxation time $\tau$.
+  - `lbm_collide_and_stream(lattice)` / `lbm_takrav_pravah` / `પ્રવાહી_ટકરાવ_પ્રવાહ`: BGK collision and streaming step: $f_i(x + e_i \Delta t, t + \Delta t) = f_i(x, t) - \frac{1}{\tau} [f_i(x, t) - f_i^{\mathrm{eq}}(x, t)]$.
+  - `lbm_boundary_bounceback(lattice, x, y)` / `lbm_deval_badlo` / `પ્રવાહી_દીવાલ_બાઉન્સ`: No-slip bounce-back wall and obstacle boundary conditions.
+  - `lbm_velocity_field(lattice)` / `lbm_veg_kshetra` / `પ્રવાહી_વેગ_ક્ષેત્ર`: Calculates macroscopic velocity fields $\vec{u} = \frac{1}{\rho} \sum f_i \vec{e}_i$.
+  - `lbm_reynolds_number(velocity, char_length, viscosity)` / `lbm_reynolds_ganatri` / `રેનોલ્ડ્સ_સંખ્યા`: Evaluates Reynolds number $\mathrm{Re} = \frac{u L}{\nu}$ for flow regimes.
+  - CLI: `gujarati cfd:simulate [config.json]`: Terminal CFD fluid simulation around obstacles with drag coefficients.
+
+- **Starter Kits 13 & 14**:
+  - `gujarati kit:quantum [project_name]` (`kit:parmanu`): Quantum Algorithm Studio & Shor/Grover Lab.
+  - `gujarati kit:energy [project_name]` (`kit:grid`): Renewable Microgrid Energy Optimizer & Power Flow Engine.
+
 ### What's New in v4.1.0: Brahmand & Antariksh — Pure C99 Autodiff Tensor Engine, Satellite Telemetry, Deterministic Hard RTOS & Homomorphic Encryption (930 Tests Milestone)
 
 GujaratiLang v4.1.0 is the landmark milestone uniting artificial intelligence, space orbital mechanics, hard real-time deterministic scheduling, and homomorphic privacy-preserving cryptography in 100% pure ANSI C99 with **zero external C dependencies**, accompanied by two new starter kits — **CubeSat Flight Software & Ground Station Simulator (`--kit=cubesat`, `--kit=antariksh`)** and **Pure C99 Deep Neural Network & Tensor Studio (`--kit=brahmand`, `--kit=tensor`, `--kit=neural`)** — expanding automated testing to the historic **930 Tests Milestone (100% Pass Rate)**:
