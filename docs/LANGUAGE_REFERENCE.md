@@ -503,3 +503,41 @@ end
 | `climate_planetary_temp(solar, alb, emis)` | `jalvayu_graha_taman` | `જળવાયુ_ગ્રહ_તાપમાન` | Solves Stefan-Boltzmann equilibrium temperature $T_{eq}$ |
 | `climate_scs_runoff(rain_mm, cn)` | `jalvayu_pani_pravah` | `જળવાયુ_પાણી_પ્રવાહ` | Direct surface runoff depth via USDA SCS Runoff Curve Number model |
 | `climate_carbon_box_model(emiss_gt, years)` | `jalvayu_carbon_chakra` | `જળવાયુ_કાર્બન_ચક્ર` | Multi-box carbon partitioning between atmosphere, ocean, and biosphere |
+
+### 11. Chitra & Dhvani: Digital Signal Processing, Computer Vision, Audio Synthesis & Speech MFCC (v4.4.0)
+
+GujaratiLang v4.4.0 introduces digital signal processing, advanced 2D computer vision feature detection, polyphonic acoustic sound synthesis, and Mel-frequency speech recognition acoustic modeling into the sovereign Gujarati language runtime.
+
+#### 11.1 Pillar 1: Tarang (તરંગ-ગણિત) Digital Signal Processing & Wavelets
+- `dsp_fft_radix2(real, imag)` / `tarang_fft` / `તરંગ_એફએફટી`: Radix-2 Cooley-Tukey discrete Fourier transform ($O(N \log N)$ complexity).
+- `dsp_ifft_radix2(real, imag)` / `tarang_ifft` / `તરંગ_આઇએફએફટી`: Inverse Radix-2 FFT with $1/N$ normalization.
+- `dsp_power_spectrum(real, imag)` / `tarang_shakti_spectrum` / `તરંગ_શક્તિ_સ્પેક્ટ્રમ`: Power spectral density array with peak bin detection.
+- `dsp_filter_butterworth(cutoff, sample_rate, order, type)` / `tarang_filter_butterworth` / `તરંગ_ફિલ્ટર_બટરવર્થ`: Bilinear transformed digital Butterworth filter coefficients ($b_0, b_1, b_2, a_1, a_2$).
+- `dsp_biquad_apply(signal, coeffs)` / `tarang_biquad_lagavo` / `તરંગ_બાયક્વાડ_લગાવો`: Direct Form II transposed biquad IIR filtering.
+- `dsp_dwt_haar_step(signal)` / `tarang_dwt_haar` / `તરંગ_ડીડબલ્યુટી_હાર`: 1D Discrete Wavelet Transform single-level Haar decomposition.
+- `dsp_convolution_1d(sig_a, sig_b)` / `tarang_sanvalan` / `તરંગ_સંવલન`: Discrete 1D linear convolution $(f * g)[n]$.
+
+#### 11.2 Pillar 2: Chitra (ચિત્ર-પ્રક્રિયા) Computer Vision & Feature Detection
+- `vision_gaussian_blur(grid, sigma)` / `chitra_gaussian_blur` / `ચિત્ર_ગોસિયન_બ્લર`: 2D separable Gaussian smoothing convolution.
+- `vision_sobel_gradients(grid)` / `chitra_sobel_dhal` / `ચિત્ર_સોબેલ_ઢાળ`: Directional spatial gradients $G_x, G_y$, magnitude, and angle.
+- `vision_canny_edge(grid, low, high)` / `chitra_canny_kinari` / `ચિત્ર_કેની_કિનારી`: Canny edge detector featuring non-maximum suppression (NMS) and hysteresis thresholding.
+- `vision_hough_lines(edge_grid, thresh, min_len)` / `chitra_hough_rekha` / `ચિત્ર_હોફ_રેખા`: Hough transform parameter accumulator voting for straight line detection ($ho, 	heta$).
+- `vision_harris_corners(grid, k, thresh)` / `chitra_harris_khuna` / `ચિત્ર_હેરીસ_ખૂણા`: Harris corner response $R = \det(M) - k \operatorname{Tr}(M)^2$ localized feature extractor.
+- `vision_fast_keypoints(grid, thresh)` / `chitra_fast_bindu` / `ચિત્ર_ફાસ્ટ_બિંદુ`: FAST corner keypoint detector over 16-pixel Bresenham circles.
+
+#### 11.3 Pillar 3: Dhwani (ધ્વનિ-સંગીત) Sound Synthesis Engine
+- `synth_oscillator_generate(type, freq, duration, sr)` / `dhwani_oscillator_bnavo` / `ધ્વનિ_ઓસિલેટર_બનાવો`: Multi-waveform generator (sine, saw, square, triangle).
+- `synth_adsr_envelope(sig, a, d, s, r, sr)` / `dhwani_adsr_envelope` / `ધ્વનિ_એડીએસઆર_એન્વેલોપ`: Attack, Decay, Sustain, Release linear envelope shaper.
+- `synth_fm_modulate(fc, fm, index, dur, sr)` / `dhwani_fm_modulate` / `ધ્વનિ_એફએમ_મોડ્યુલેટ`: 2-operator frequency modulation synthesis.
+- `synth_chord_compose(freqs, dur, sr)` / `dhwani_sur_sangam` / `ધ્વનિ_સુર_સંગમ`: Multi-voice harmonic chord synthesizer.
+- `synth_convolution_reverb(sig, ir)` / `dhwani_padgho_reverb` / `ધ્વનિ_પડઘો_રીવર્બ`: Time-domain acoustic impulse response convolution reverb.
+- `synth_wav_write(samples, sr, channels, file)` / `dhwani_wav_lakho` / `ધ્વનિ_વેવ_લખો`: Canonical RIFF/WAVE 16-bit PCM multi-channel audio writer.
+- `synth_wav_read(file)` / `dhwani_wav_vancho` / `ધ્વનિ_વેવ_વાંચો`: Canonical RIFF/WAVE parser and sample loader.
+
+#### 11.4 Pillar 4: Bhasha-Dhvani (ભાષા-ધ્વનિ) Speech Processing & MFCC
+- `speech_preemphasis(signal, alpha)` / `bhasha_purva_jorkari` / `ભાષા_પૂર્વ_જોરકારી`: High-frequency spectral tilt boost filter ($y[n] = x[n] - lpha x[n-1]$).
+- `speech_hamming_window(signal, frame, hop)` / `bhasha_hamming_jharokho` / `ભાષા_હેમિંગ_ઝરૂખો`: Overlapping short-time signal framing with generalized Hamming windowing.
+- `speech_mel_filterbank(n_filt, fft_sz, sr)` / `bhasha_mel_filterbank` / `ભાષા_મેલ_ફિલ્ટરબેંક`: Triangular Mel scale filterbank bank generator.
+- `speech_mfcc_extract(signal, sr, n_ceps)` / `bhasha_mfcc_nikas` / `ભાષા_એમએફસીસી_નિકાસ``: 13-coefficient Mel-Frequency Cepstral Coefficients via DCT-II.
+- `speech_dtw_distance(seq1, seq2)` / `bhasha_dtw_antar` / `ભાષા_ડીટીડબલ્યુ_અંતર`: Dynamic Time Warping acoustic sequence alignment distance.
+- `speech_zero_crossing_rate(frame)` / `bhasha_shunya_chhed_dar` / `ભાષા_શૂન્ય_છેદ_દર`: Zero-Crossing Rate & Short-Time Energy for voice activity detection (VAD).

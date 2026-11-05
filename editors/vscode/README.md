@@ -1,6 +1,6 @@
 # GujaratiLang Visual Studio Code Extension
 
-Official syntax highlighting, rich autocomplete snippets, and language tooling for GujaratiLang source files (`.gj`, `.gjc`) in Visual Studio Code, updated for **GujaratiLang v4.3.0: Samudra & Hava**.
+Official syntax highlighting, rich autocomplete snippets, and language tooling for GujaratiLang source files (`.gj`, `.gjc`) in Visual Studio Code, updated for **GujaratiLang v4.4.0: Chitra & Dhvani**.
 
 Highlights Gujarati Unicode keywords, lowercase Romanized Gujarati keywords, and English keywords, comments, strings, numbers, operators, and 2,300+ standard library functions. Includes 250+ starter snippets covering foundational control flow, object-oriented classes, data structures, and all advanced computational domains.
 
@@ -8,6 +8,7 @@ Highlights Gujarati Unicode keywords, lowercase Romanized Gujarati keywords, and
 
 - 🌈 **Complete Trilingual Parity**: Highlights all language constructs in native Gujarati (`જો`, `નહિતર`, `છાપો`, `કાર્ય`), Romanized Gujarati (`jo`, `nahi_to`, `chhapo`, `kary`), and English (`if`, `else`, `print`, `fn`).
 - ⚡ **2,300+ Standard Library Built-ins**: Full syntax recognition for:
+  - **Chitra & Dhvani (v4.4.0)**: Radix-2 Cooley-Tukey FFT, 2D Gaussian blur, Canny edge detection, Harris corners, FM sound synthesis, RIFF/WAVE PCM audio, and 13-coefficient MFCC speech recognition.
   - **Samudra & Hava (v4.3.0)**: Numerical weather prediction, Coriolis frequency, tidal harmonics, seismic geophysics, and Earth climate models.
   - **Parmanu & Shakti (v4.2.0)**: Quantum circuit simulation ($H$, $CNOT$, Bell states), 64-byte aligned SIMD kernels, smart renewable microgrids, and Lattice Boltzmann CFD.
   - **Brahmand & Antariksh (v4.1.0)**: Autodiff tensor engine, SGP4 orbital mechanics, real-time EDF scheduler, and Paillier homomorphic encryption.
@@ -33,7 +34,7 @@ To try the extension locally, package it from this directory with:
 
 ```powershell
 npx @vscode/vsce package --no-git-tag-version
-code --install-extension .\gujarati-4.3.0.vsix
+code --install-extension .\gujarati-4.4.0.vsix
 ```
 
 ## Extension Release Workflow

@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "4.3.0\n1\n")
+    set(expected_stdout "4.4.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "4.3.0\n")
+    set(expected_stdout "4.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "4.3.0\n1\n0\n")
+    set(expected_stdout "4.4.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n4.3.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n4.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "4.3.0\n1\n1\n4.3.0\n")
+    set(expected_stdout "4.4.0\n1\n1\n4.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n4.3.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n4.4.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-4.3.0
+4.4.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-4.3.0
+4.4.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n4.3.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n4.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n4.3.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n4.4.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-4.3.0
+4.4.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-4.3.0
+4.4.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,7 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[4.3.0
+    set(expected_stdout [=[4.4.0
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -13888,7 +13888,7 @@ end
 ]=])
     set(program_arguments "weather:forecast")
     set(expected_stdout [=[
-[Vatavaran NWP Weather Predictor v4.3.0] Simulating atmospheric forecast 'weather_grid.json'...
+[Vatavaran NWP Weather Predictor v4.4.0] Simulating atmospheric forecast 'weather_grid.json'...
   ✓ Horizontal Grid: 64x64 Arakawa-C Staggered Grid (10 km resolution)
   ✓ Primitive Equations: Shallow Water Equations with Coriolis Force f = 2*Omega*sin(phi)
   ✓ Geostrophic Wind: 14.8 m/s (28.7 knots) from 245 deg WSW
@@ -14001,7 +14001,7 @@ end
 ]=])
     set(program_arguments "ocean:tide")
     set(expected_stdout [=[
-[Samudra Oceanographic Engine v4.3.0] Calculating tidal harmonics from 'station_tide.json'...
+[Samudra Oceanographic Engine v4.4.0] Calculating tidal harmonics from 'station_tide.json'...
   ✓ Harmonic Constituents Loaded: M2 (Principal Lunar), S2 (Principal Solar), K1, O1
   ✓ Predicted Sea Surface Height: +1.64 m Above Mean Sea Level (MSL)
   ✓ Next High Tide: +2.15 m at 14:32 UTC (Spring Tide Active)
@@ -14135,7 +14135,7 @@ end
 ]=])
     set(program_arguments "seismic:locate")
     set(expected_stdout [=[
-[Bhukamp Seismic Triangulator v4.3.0] Triangulating earthquake epicenter 'seismic_stations.json'...
+[Bhukamp Seismic Triangulator v4.4.0] Triangulating earthquake epicenter 'seismic_stations.json'...
   ✓ Ingested Real-Time Telemetry: 6 Geophone/Seismograph Stations (Sampling 100 Hz)
   ✓ Crustal Velocity Model: Vp = 6.20 km/s, Vs = 3.58 km/s (Vp/Vs = 1.73)
   ✓ Multilateration Solution: Lat 23.412 N, Lon 70.185 E (Residual RMS: 0.042 s)
@@ -14218,7 +14218,7 @@ end
 ]=])
     set(program_arguments "climate:model")
     set(expected_stdout [=[
-[Jal-Vayu Planetary Climate Simulator v4.3.0] Running scenario 'scenario_rcp.json'...
+[Jal-Vayu Planetary Climate Simulator v4.4.0] Running scenario 'scenario_rcp.json'...
   ✓ Solar Insolation: S0 = 1361.0 W/m2, Planetary Albedo alpha = 0.300
   ✓ Radiative Equilibrium: Surface Temp 288.2 K (+15.0 C with greenhouse forcing)
   ✓ Carbon Mass Balance: Annual Emissions 10.5 GtC/yr (Airborne Fraction 45.7%)
@@ -14271,6 +14271,476 @@ end
 Run with:
   cd test_s
   gujarati solver/triangulate.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_dsp_fft_radix2")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+sig = [1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0];
+res = dsp_fft_radix2(sig, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
+print (res["n"] == 8);
+print (res["real"][0] == 4.0);
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_dsp_ifft_radix2")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+res = dsp_ifft_radix2([4.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
+print (res["n"] == 8);
+print (res["real"][0] > 0.49 && res["real"][0] < 0.51);
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_dsp_power_spectrum")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+psd = dsp_power_spectrum([1.0, 2.0, 1.0, -1.0], [0.0, 0.0, 0.0, 0.0]);
+print (psd["bins"] == 3);
+print (psd["peak_bin"] >= 0);
+print (psd["max_power"] > 0);
+end
+]=])
+    set(expected_stdout "1
+1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_dsp_filter_butterworth")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+b = dsp_filter_butterworth(1000.0, 8000.0, 2, "lowpass");
+print (b["type"] == "lowpass");
+print (b["b0"] > 0);
+print (b["a1"] != 0);
+end
+]=])
+    set(expected_stdout "1
+1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_dsp_biquad_apply")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+sig = [1.0, 0.5, 0.25, 0.125];
+b = dsp_filter_butterworth(1000.0, 8000.0, 2, "lowpass");
+out = dsp_biquad_apply(sig, b);
+print (out[0] > 0.0);
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_dsp_dwt_haar")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+dwt = dsp_dwt_haar_step([1.0, 2.0, 3.0, 4.0]);
+print (dwt["length"] == 2);
+print (dwt["approx"][0] > 2.1 && dwt["approx"][0] < 2.2);
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_dsp_convolution_1d")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+conv = dsp_convolution_1d([1.0, 2.0], [3.0, 4.0]);
+print (conv[0] == 3.0);
+print (conv[1] == 10.0);
+print (conv[2] == 8.0);
+end
+]=])
+    set(expected_stdout "1
+1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_vision_gaussian_blur")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+img = {"width": 3, "height": 3, "pixels": [10.0, 10.0, 10.0, 10.0, 50.0, 10.0, 10.0, 10.0, 10.0]};
+blur = vision_gaussian_blur(img, 1.0);
+print (blur["width"] == 3);
+print (blur["height"] == 3);
+print (blur["pixels"][4] > 10.0);
+end
+]=])
+    set(expected_stdout "1
+1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_vision_sobel_gradients")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+img = {"width": 3, "height": 3, "pixels": [0.0, 0.0, 100.0, 0.0, 0.0, 100.0, 0.0, 0.0, 100.0]};
+sob = vision_sobel_gradients(img);
+print (sob["width"] == 3);
+print (sob["magnitude"][4] >= 0.0);
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_vision_canny_edge")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+img = {"width": 3, "height": 3, "pixels": [0.0, 0.0, 100.0, 0.0, 0.0, 100.0, 0.0, 0.0, 100.0]};
+canny = vision_canny_edge(img, 20.0, 50.0);
+print (canny["width"] == 3);
+print (canny["edge_count"] >= 0);
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_vision_hough_lines")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+img = {"width": 3, "height": 3, "edges": [0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0]};
+lines = vision_hough_lines(img, 1.0, 2.0);
+print (lines[0]["votes"] >= 1);
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_vision_harris_corners")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+img = {"width": 3, "height": 3, "pixels": [0.0, 0.0, 0.0, 0.0, 100.0, 0.0, 0.0, 0.0, 0.0]};
+h = vision_harris_corners(img, 0.04, -1000000.0);
+print (h[0]["x"] == 1);
+print (h[0]["y"] == 1);
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_vision_fast_keypoints")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+img = {"width": 8, "height": 8, "pixels": [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, 0.0,0.0,0.0,100.0,0.0,0.0,0.0,0.0, 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0, 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]};
+f = vision_fast_keypoints(img, 10.0);
+print (f[0]["x"] == 3);
+print (f[0]["y"] == 3);
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_synth_oscillator")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+osc = synth_oscillator_generate("sine", 440.0, 0.01, 8000);
+print (osc[0] >= -1.0 && osc[0] <= 1.0);
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_synth_adsr_envelope")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+osc = synth_oscillator_generate("saw", 440.0, 0.01, 8000);
+env = synth_adsr_envelope(osc, 0.002, 0.002, 0.5, 0.002, 8000);
+print (env[0] >= 0.0);
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_synth_fm_modulate")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+fm = synth_fm_modulate(440.0, 220.0, 2.0, 0.01, 8000);
+print (fm[0] >= -1.0 && fm[0] <= 1.0);
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_synth_chord_compose")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+chord = synth_chord_compose([440.0, 554.37, 659.25], 0.01, 8000);
+print (chord[0] >= -1.0 && chord[0] <= 1.0);
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_synth_convolution_reverb")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+rev = synth_convolution_reverb([0.5, 0.4, 0.3], [1.0, 0.5]);
+print (rev[0] > 0.0);
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_synth_wav_read_write")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+samples = [0.1, 0.2, -0.2, -0.1];
+res_w = synth_wav_write(samples, 8000, 1, "test_audio_io.wav");
+print (res_w["success"] == 1);
+res_r = synth_wav_read("test_audio_io.wav");
+print (res_r["sample_rate"] == 8000);
+print (res_r["channels"] == 1);
+end
+]=])
+    set(expected_stdout "1
+1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_speech_preemphasis")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+sig = [1.0, 2.0, 3.0, 4.0];
+pe = speech_preemphasis(sig, 0.97);
+print (pe[0] == 1.0);
+print (pe[1] > 1.0 && pe[1] < 1.1);
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_speech_hamming_window")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+sig = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
+hw = speech_hamming_window(sig, 4, 2);
+print (hw[0][0] > 0.0);
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_speech_mel_filterbank")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+mel = speech_mel_filterbank(8, 32, 8000);
+print (mel["num_filters"] == 8);
+print (mel["fft_bins"] == 17);
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_speech_mfcc_extract")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+sig = [0.1, 0.2, -0.1, 0.3, 0.0, -0.2, 0.1, 0.2, 0.1, -0.1, 0.2, 0.0, 0.1, 0.2, -0.1, 0.1];
+mfcc = speech_mfcc_extract(sig, 8000, 13);
+print (mfcc["num_ceps"] == 13);
+print (mfcc["sample_rate"] == 8000);
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_speech_dtw_distance")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+s1 = [1.0, 2.0, 3.0];
+s2 = [1.0, 2.0, 3.0];
+dtw = speech_dtw_distance(s1, s2);
+print (dtw["distance"] < 0.001);
+end
+]=])
+    set(expected_stdout "1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_speech_zero_crossing")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+sig = [1.0, -1.0, 1.0, -1.0, 1.0];
+zcr = speech_zero_crossing_rate(sig);
+print (zcr["zcr"] == 0.5);
+print (zcr["ste"] > 0.0);
+end
+]=])
+    set(expected_stdout "1
+1
+")
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_cli_dsp_fft")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "dsp:fft" "signal.csv")
+    set(expected_stdout [=[
+[Tarang DSP Spectral Analyzer v4.4.0] Analyzing signal 'signal.csv'...
+  ✓ Sample Window: 256 points (Cooley-Tukey Radix-2 FFT)
+  ✓ Peak Frequency: 50.0 Hz | Amplitude: 1.00 | Phase: 0.0 rad
+  ✓ Harmonic Peak: 120.0 Hz | Amplitude: 0.42 | SNR: 32.4 dB
+  ✓ Spectral Centroid: 74.2 Hz | Total Power: 0.589 W
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_cli_vision_detect")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "vision:detect" "image.bmp")
+    set(expected_stdout [=[
+[Chitra Computer Vision Inspector v4.4.0] Detecting features in 'image.bmp'...
+  ✓ Preprocessing: 2D Separable Gaussian Smoothing (sigma = 1.2)
+  ✓ Canny Edge Detector: 142 edge pixels detected (thresholds: 20/50)
+  ✓ Hough Transform: 4 collinear line segments identified
+  ✓ Harris Corner Response: 8 prominent corners localized
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_cli_audio_synth")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "audio:synth" "score.json" "out.wav")
+    set(expected_stdout [=[
+[Dhwani Sound Synthesizer v4.4.0] Synthesizing score 'score.json' to 'out.wav'...
+  ✓ Multi-Voice FM Oscillator: 44.1 kHz, 16-bit PCM Stereo
+  ✓ Modulators: Carrier 440 Hz (A4) | Modulator 220 Hz | Index 2.5
+  ✓ Envelope: ADSR (attack 0.05s, decay 0.10s, sustain 0.70, release 0.20s)
+  ✓ Export: Canonical RIFF/WAVE container written successfully (88,244 bytes)
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_cli_speech_mfcc")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "speech:mfcc" "speech.wav")
+    set(expected_stdout [=[
+[Bhasha-Dhvani Acoustic Speech Analyzer v4.4.0] Processing 'speech.wav'...
+  ✓ Pre-emphasis filter: alpha = 0.97
+  ✓ Frame Blocking: 25ms Hamming windows with 10ms hop step
+  ✓ Mel Filterbank: 26 triangular bandpass filters (0 - 8000 Hz)
+  ✓ MFCC Matrix: 13 cepstral coefficients extracted across 64 frames
+  ✓ Voice Activity: VAD active (ZCR = 0.082, STE = 0.341)
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v440_cli_synth_kit")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "kit:synth" "test_s")
+    set(expected_stdout [=[
+[GujaratiLang Starter Kit] Scaffolding 'Algorithmic Synthesizer & Digital Audio Workstation' into './test_s'...
+  ✓ Created synth/track.gj (FM Multi-Voice Oscillator & ADSR Envelope)
+  ✓ Created audio/export.gj (Canonical RIFF/WAVE 16-bit PCM Audio Pipeline)
+  ✓ Run with: gujarati ./test_s/synth/track.gj
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)

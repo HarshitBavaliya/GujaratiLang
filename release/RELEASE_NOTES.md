@@ -1,3 +1,73 @@
+# GujaratiLang v4.4.0: Chitra & Dhvani — Digital Signal Processing, Computer Vision, Audio Synthesis & Speech MFCC (ચિત્ર, ધ્વનિ, સંગીત અને વાચા)
+
+GujaratiLang **v4.4.0** is officially released! This historic release marks the **1,000+ Automated Tests Milestone** (reaching 1,020 tests), introducing pure C99 digital signal processing, advanced 2D computer vision feature detection, multi-voice acoustic sound synthesis, and Mel-frequency speech recognition acoustic modeling directly into the sovereign Gujarati language runtime, engineered in 100% pure ANSI C99 with **zero external C dependencies**.
+
+v4.4.0 unites four computational media pillars and two production-grade starter kits:
+1. **Tarang (તરંગ-ગણિત)**: Radix-2 Cooley-Tukey FFT & IFFT ($O(N \log N)$), power spectral density, bilinear Butterworth filters, Direct Form II biquad IIR filtering, Haar discrete wavelet transform (DWT), 1D discrete convolution & CLI `dsp:fft`.
+2. **Chitra (ચિત્ર-પ્રક્રિયા)**: 2D separable Gaussian blur, Sobel directional gradients & angle, Canny edge detector (NMS + hysteresis), Hough line transform, Harris corner response ($R = \det(M) - k \operatorname{Tr}(M)^2$), FAST keypoints & CLI `vision:detect`.
+3. **Dhwani (ધ્વનિ-સંગીત)**: Multi-waveform oscillator (sine, saw, square, triangle), ADSR amplitude envelopes, 2-operator FM synthesis, harmonic chord composition, acoustic convolution reverb, RIFF/WAVE 16-bit PCM loader/writer & CLI `audio:synth`.
+4. **Bhasha-Dhvani (ભાષા-ધ્વનિ)**: High-frequency pre-emphasis, Hamming windowed framing, triangular Mel filterbanks, 13-coefficient MFCC extraction, Dynamic Time Warping (DTW) speech distance, zero-crossing rate (ZCR) & CLI `speech:mfcc`.
+5. **Starter Kit 17**: Algorithmic Synthesizer & Digital Audio Workstation (`--kit=synth`, `--kit=daw`).
+6. **Starter Kit 18**: Computer Vision Edge Inspector & OCR Feature Extractor (`--kit=vision`, `--kit=ocr`).
+
+With v4.4.0, the automated test suite expands to the historic milestone of **1,020 Automated Tests (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
+
+---
+
+## 🌟 What's New in v4.4.0
+
+### 1. 🌊 Pillar 1: Tarang (તરંગ-ગણિત) Digital Signal Processing & Wavelets (8 Points)
+- **`dsp_fft_radix2(real, imag)` / `tarang_fft` / `તરંગ_એફએફટી`**: Radix-2 Cooley-Tukey discrete Fourier transform ($O(N \log N)$ complexity).
+- **`dsp_ifft_radix2(real, imag)` / `tarang_ifft` / `તરંગ_આઇએફએફટી`**: Inverse Radix-2 FFT with $1/N$ normalization.
+- **`dsp_power_spectrum(real, imag)` / `tarang_shakti_spectrum` / `તરંગ_શક્તિ_સ્પેક્ટ્રમ`**: Power spectral density analysis with peak frequency bin detection.
+- **`dsp_filter_butterworth(cutoff, sample_rate, order, type)` / `tarang_filter_butterworth` / `તરંગ_ફિલ્ટર_બટરવર્થ`**: Bilinear transformed digital Butterworth filter coefficients ($b_0, b_1, b_2, a_1, a_2$).
+- **`dsp_biquad_apply(signal, coeffs)` / `tarang_biquad_lagavo` / `તરંગ_બાયક્વાડ_લગાવો`**: Direct Form II transposed biquad IIR filtering.
+- **`dsp_dwt_haar_step(signal)` / `tarang_dwt_haar` / `તરંગ_ડીડબલ્યુટી_હાર`**: 1D Discrete Wavelet Transform single-level Haar decomposition (approximation and detail subbands).
+- **`dsp_convolution_1d(sig_a, sig_b)` / `tarang_sanvalan` / `તરંગ_સંવલન`**: Discrete 1D linear convolution $(f * g)[n]$.
+- **Terminal CLI Command `dsp:fft [signal.csv]` / `તરંગ:એફએફટી`**: Power spectrum analyzer with peak harmonic detection and SNR metrics.
+
+### 2. 👁️ Pillar 2: Chitra (ચિત્ર-પ્રક્રિયા) Computer Vision & Feature Detection (7 Points)
+- **`vision_gaussian_blur(grid, sigma)` / `chitra_gaussian_blur` / `ચિત્ર_ગોસિયન_બ્લર`**: 2D separable Gaussian smoothing convolution.
+- **`vision_sobel_gradients(grid)` / `chitra_sobel_dhal` / `ચિત્ર_સોબેલ_ઢાળ`**: Directional spatial gradients $G_x, G_y$, gradient magnitude, and orientation angles.
+- **`vision_canny_edge(grid, low, high)` / `chitra_canny_kinari` / `ચિત્ર_કેની_કિનારી`**: Complete Canny edge detector featuring non-maximum suppression (NMS) and hysteresis thresholding.
+- **`vision_hough_lines(edge_grid, thresh, min_len)` / `chitra_hough_rekha` / `ચિત્ર_હોફ_રેખા`**: Hough transform parameter accumulator voting for straight line detection ($ho, 	heta$).
+- **`vision_harris_corners(grid, k, thresh)` / `chitra_harris_khuna` / `ચિત્ર_હેરીસ_ખૂણા`**: Harris corner response $R = \det(M) - k \operatorname{Tr}(M)^2$ localized feature extractor.
+- **`vision_fast_keypoints(grid, thresh)` / `chitra_fast_bindu` / `ચિત્ર_ફાસ્ટ_બિંદુ`**: High-speed FAST corner keypoint detector over 16-pixel Bresenham circles.
+- **Terminal CLI Command `vision:detect [image.bmp]` / `ચિત્ર:શોધો`**: Edge and corner feature detection CLI with bounding boxes and keypoint summaries.
+
+### 3. 🎵 Pillar 3: Dhwani (ધ્વનિ-સંગીત) Sound Synthesis Engine (8 Points)
+- **`synth_oscillator_generate(type, freq, duration, sr)` / `dhwani_oscillator_bnavo` / `ધ્વનિ_ઓસિલેટર_બનાવો`**: Multi-waveform generator supporting sine, sawtooth, square, and triangle waves.
+- **`synth_adsr_envelope(sig, a, d, s, r, sr)` / `dhwani_adsr_envelope` / `ધ્વનિ_એડીએસઆર_એન્વેલોપ`**: Attack, Decay, Sustain, Release linear envelope shaper.
+- **`synth_fm_modulate(fc, fm, index, dur, sr)` / `dhwani_fm_modulate` / `ધ્વનિ_એફએમ_મોડ્યુલેટ`**: 2-operator frequency modulation synthesis with harmonic Bessel sidebands.
+- **`synth_chord_compose(freqs, dur, sr)` / `dhwani_sur_sangam` / `ધ્વનિ_સુર_સંગમ`**: Multi-voice harmonic chord synthesizer.
+- **`synth_convolution_reverb(sig, ir)` / `dhwani_padgho_reverb` / `ધ્વનિ_પડઘો_રીવર્બ`**: Time-domain acoustic impulse response convolution reverb.
+- **`synth_wav_write(samples, sr, channels, file)` / `dhwani_wav_lakho` / `ધ્વનિ_વેવ_લખો`**: Canonical RIFF/WAVE 16-bit PCM multi-channel audio writer.
+- **`synth_wav_read(file)` / `dhwani_wav_vancho` / `ધ્વનિ_વેવ_વાંચો`**: Canonical RIFF/WAVE parser and sample loader.
+- **Terminal CLI Command `audio:synth [score.json] [out.wav]` / `ધ્વનિ:સિન્થ`**: Algorithmic music score synthesizer exporting standard WAV audio files.
+
+### 4. 🗣️ Pillar 4: Bhasha-Dhvani (ભાષા-ધ્વનિ) Speech Processing & MFCC (7 Points)
+- **`speech_preemphasis(signal, alpha)` / `bhasha_purva_jorkari` / `ભાષા_પૂર્વ_જોરકારી`**: High-frequency spectral tilt boost filter ($y[n] = x[n] - lpha x[n-1]$).
+- **`speech_hamming_window(signal, frame, hop)` / `bhasha_hamming_jharokho` / `ભાષા_હેમિંગ_ઝરૂખો`**: Overlapping short-time signal framing with generalized Hamming windowing.
+- **`speech_mel_filterbank(n_filt, fft_sz, sr)` / `bhasha_mel_filterbank` / `ભાષા_મેલ_ફિલ્ટરબેંક`**: Triangular Mel scale filterbank bank generator.
+- **`speech_mfcc_extract(signal, sr, n_ceps)` / `bhasha_mfcc_nikas` / `ભાષા_એમએફસીસી_નિકાસ`**: 13-coefficient Mel-Frequency Cepstral Coefficients via DCT-II.
+- **`speech_dtw_distance(seq1, seq2)` / `bhasha_dtw_antar` / `ભાષા_ડીટીડબલ્યુ_અંતર`**: Dynamic Time Warping acoustic sequence alignment distance.
+- **`speech_zero_crossing_rate(frame)` / `bhasha_shunya_chhed_dar` / `ભાષા_શૂન્ય_છેદ_દર`**: Zero-Crossing Rate & Short-Time Energy for voice activity detection (VAD).
+- **Terminal CLI Command `speech:mfcc [audio.wav]` / `ભાષા:ધ્વનિ`**: Voice acoustics analyzer extracting MFCC matrices and VAD statistics.
+
+---
+
+### 5. 📦 Starter Kits 17 & 18
+
+#### Starter Kit 17: Algorithmic Synthesizer & Digital Audio Workstation
+- Scaffolding: `gujarati kit:synth <project_name>` / `gujarati --kit=synth <project_name>`
+- Scaffolds a complete digital audio workstation generating FM polyphonic chord progressions, ADSR envelope shaping, and automated RIFF WAV export.
+
+#### Starter Kit 18: Computer Vision Edge Inspector & OCR Feature Extractor
+- Scaffolding: `gujarati kit:vision <project_name>` / `gujarati --kit=vision <project_name>`
+- Scaffolds an image processing pipeline executing 2D separable Gaussian blur, Sobel gradient calculations, Canny edge detection, and Harris corner keypoint localization.
+
+---
+
 # GujaratiLang v4.3.0: Samudra & Hava — Numerical Weather Prediction, Physical Oceanography, Seismic Geophysics & Earth Climate Systems (સમુદ્ર, હવા, ભૂકંપ અને જળવાયુ)
 
 GujaratiLang **v4.3.0** is officially released! This landmark milestone brings geophysical fluid dynamics, numerical weather prediction, physical oceanography, seismic geophysics, and Earth climate modeling directly into the sovereign Gujarati language runtime, engineered in 100% pure ANSI C99 with **zero external C dependencies**.

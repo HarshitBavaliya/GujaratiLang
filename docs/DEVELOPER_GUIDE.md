@@ -24,7 +24,7 @@ Every contribution to the GujaratiLang core engine must strictly uphold three fo
 
 ### 3. 100% Automated Test Pass Rate
 - Every single test case in the regression test suite must pass across all target operating systems (Windows x64, Linux x64, macOS x64, macOS Apple Silicon ARM64).
-- As of v4.3.0, GujaratiLang has **990 / 990 tests passing 100%**. No regression or flaky test is permitted in `main`.
+- As of v4.4.0, GujaratiLang has **1,020 / 1,020 tests passing 100%**. No regression or flaky test is permitted in `main`.
 
 ---
 

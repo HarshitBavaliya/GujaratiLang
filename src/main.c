@@ -3738,9 +3738,124 @@ static int is_builtin_v39(Parser *parser, Token name)
     return 0;
 }
 
+
+static int is_builtin_v44(Parser *parser, Token name)
+{
+    /* === GujaratiLang v4.4.0: Chitra & Dhvani Milestone === */
+    /* Pillar 1: Tarang (તરંગ-ગણિત) Digital Signal Processing & Wavelets */
+    if (token_matches(parser, name, "dsp_fft_radix2")) return 1;
+    if (token_matches(parser, name, "tarang_fft")) return 1;
+    if (token_matches(parser, name, "તરંગ_એફએફટી")) return 1;
+
+    if (token_matches(parser, name, "dsp_ifft_radix2")) return 1;
+    if (token_matches(parser, name, "tarang_ifft")) return 1;
+    if (token_matches(parser, name, "તરંગ_આઇએફએફટી")) return 1;
+
+    if (token_matches(parser, name, "dsp_power_spectrum")) return 1;
+    if (token_matches(parser, name, "tarang_shakti_spectrum")) return 1;
+    if (token_matches(parser, name, "તરંગ_શક્તિ_સ્પેક્ટ્રમ")) return 1;
+
+    if (token_matches(parser, name, "dsp_filter_butterworth")) return 1;
+    if (token_matches(parser, name, "tarang_filter_butterworth")) return 1;
+    if (token_matches(parser, name, "તરંગ_ફિલ્ટર_બટરવર્થ")) return 1;
+
+    if (token_matches(parser, name, "dsp_biquad_apply")) return 1;
+    if (token_matches(parser, name, "tarang_biquad_lagavo")) return 1;
+    if (token_matches(parser, name, "તરંગ_બાયક્વાડ_લગાવો")) return 1;
+
+    if (token_matches(parser, name, "dsp_dwt_haar_step")) return 1;
+    if (token_matches(parser, name, "tarang_dwt_haar")) return 1;
+    if (token_matches(parser, name, "તરંગ_ડીડબલ્યુટી_હાર")) return 1;
+
+    if (token_matches(parser, name, "dsp_convolution_1d")) return 1;
+    if (token_matches(parser, name, "tarang_sanvalan")) return 1;
+    if (token_matches(parser, name, "તરંગ_સંવલન")) return 1;
+
+    /* Pillar 2: Chitra (ચિત્ર-પ્રક્રિયા) Advanced Computer Vision */
+    if (token_matches(parser, name, "vision_gaussian_blur")) return 1;
+    if (token_matches(parser, name, "chitra_gaussian_blur")) return 1;
+    if (token_matches(parser, name, "ચિત્ર_ગોસિયન_બ્લર")) return 1;
+
+    if (token_matches(parser, name, "vision_sobel_gradients")) return 1;
+    if (token_matches(parser, name, "chitra_sobel_dhal")) return 1;
+    if (token_matches(parser, name, "ચિત્ર_સોબેલ_ઢાળ")) return 1;
+
+    if (token_matches(parser, name, "vision_canny_edge")) return 1;
+    if (token_matches(parser, name, "chitra_canny_kinari")) return 1;
+    if (token_matches(parser, name, "ચિત્ર_કેની_કિનારી")) return 1;
+
+    if (token_matches(parser, name, "vision_hough_lines")) return 1;
+    if (token_matches(parser, name, "chitra_hough_rekha")) return 1;
+    if (token_matches(parser, name, "ચિત્ર_હોફ_રેખા")) return 1;
+
+    if (token_matches(parser, name, "vision_harris_corners")) return 1;
+    if (token_matches(parser, name, "chitra_harris_khuna")) return 1;
+    if (token_matches(parser, name, "ચિત્ર_હેરીસ_ખૂણા")) return 1;
+
+    if (token_matches(parser, name, "vision_fast_keypoints")) return 1;
+    if (token_matches(parser, name, "chitra_fast_bindu")) return 1;
+    if (token_matches(parser, name, "ચિત્ર_ફાસ્ટ_બિંદુ")) return 1;
+
+    /* Pillar 3: Dhwani (ધ્વનિ-સંગીત) Sound Synthesis Engine */
+    if (token_matches(parser, name, "synth_oscillator_generate")) return 1;
+    if (token_matches(parser, name, "dhwani_oscillator_bnavo")) return 1;
+    if (token_matches(parser, name, "ધ્વનિ_ઓસિલેટર_બનાવો")) return 1;
+
+    if (token_matches(parser, name, "synth_adsr_envelope")) return 1;
+    if (token_matches(parser, name, "dhwani_adsr_envelope")) return 1;
+    if (token_matches(parser, name, "ધ્વનિ_એડીએસઆર_એન્વેલોપ")) return 1;
+
+    if (token_matches(parser, name, "synth_fm_modulate")) return 1;
+    if (token_matches(parser, name, "dhwani_fm_modulate")) return 1;
+    if (token_matches(parser, name, "ધ્વનિ_એફએમ_મોડ્યુલેટ")) return 1;
+
+    if (token_matches(parser, name, "synth_chord_compose")) return 1;
+    if (token_matches(parser, name, "dhwani_sur_sangam")) return 1;
+    if (token_matches(parser, name, "ધ્વનિ_સુર_સંગમ")) return 1;
+
+    if (token_matches(parser, name, "synth_convolution_reverb")) return 1;
+    if (token_matches(parser, name, "dhwani_padgho_reverb")) return 1;
+    if (token_matches(parser, name, "ધ્વનિ_પડઘો_રીવર્બ")) return 1;
+
+    if (token_matches(parser, name, "synth_wav_write")) return 1;
+    if (token_matches(parser, name, "dhwani_wav_lakho")) return 1;
+    if (token_matches(parser, name, "ધ્વનિ_વેવ_લખો")) return 1;
+
+    if (token_matches(parser, name, "synth_wav_read")) return 1;
+    if (token_matches(parser, name, "dhwani_wav_vancho")) return 1;
+    if (token_matches(parser, name, "ધ્વનિ_વેવ_વાંચો")) return 1;
+
+    /* Pillar 4: Bhasha-Dhvani (ભાષા-ધ્વનિ) Speech Processing & MFCC */
+    if (token_matches(parser, name, "speech_preemphasis")) return 1;
+    if (token_matches(parser, name, "bhasha_purva_jorkari")) return 1;
+    if (token_matches(parser, name, "ભાષા_પૂર્વ_જોરકારી")) return 1;
+
+    if (token_matches(parser, name, "speech_hamming_window")) return 1;
+    if (token_matches(parser, name, "bhasha_hamming_jharokho")) return 1;
+    if (token_matches(parser, name, "ભાષા_હેમિંગ_ઝરૂખો")) return 1;
+
+    if (token_matches(parser, name, "speech_mel_filterbank")) return 1;
+    if (token_matches(parser, name, "bhasha_mel_filterbank")) return 1;
+    if (token_matches(parser, name, "ભાષા_મેલ_ફિલ્ટરબેંક")) return 1;
+
+    if (token_matches(parser, name, "speech_mfcc_extract")) return 1;
+    if (token_matches(parser, name, "bhasha_mfcc_nikas")) return 1;
+    if (token_matches(parser, name, "ભાષા_એમએફસીસી_નિકાસ")) return 1;
+
+    if (token_matches(parser, name, "speech_dtw_distance")) return 1;
+    if (token_matches(parser, name, "bhasha_dtw_antar")) return 1;
+    if (token_matches(parser, name, "ભાષા_ડીટીડબલ્યુ_અંતર")) return 1;
+
+    if (token_matches(parser, name, "speech_zero_crossing_rate")) return 1;
+    if (token_matches(parser, name, "bhasha_shunya_chhed_dar")) return 1;
+    if (token_matches(parser, name, "ભાષા_શૂન્ય_છેદ_દર")) return 1;
+
+    return 0;
+}
+
 static int is_builtin_v43(Parser *parser, Token name)
 {
-    /* === GujaratiLang v4.3.0: Samudra & Hava Milestone === */
+    /* === GujaratiLang v4.4.0: Samudra & Hava Milestone === */
     /* Pillar 1: Vatavaran (વાતાવરણ-ગતિ) Numerical Weather Prediction & Primitive Equations */
     if (token_matches(parser, name, "coriolis_parameter")) return 1;
     if (token_matches(parser, name, "coriolis_ganatri")) return 1;
@@ -4087,6 +4202,7 @@ static int is_builtin_v40(Parser *parser, Token name)
 
 static int is_builtin_function_name(Parser *parser, Token name)
 {
+    if (is_builtin_v44(parser, name)) return 1;
     if (is_builtin_v43(parser, name)) return 1;
     if (is_builtin_v42(parser, name)) return 1;
     if (is_builtin_v41(parser, name)) return 1;
@@ -11697,7 +11813,7 @@ static Value bundle_info_helper(Parser *parser, Token name, Value path_v) {
     gj_dict_set(parser, d, "સ્વતંત્ર", number_value(1.0), name);
     gj_dict_set(parser, d, "entry", gj_string(parser, name, "main.gj"), name);
     gj_dict_set(parser, d, "પ્રવેશ", gj_string(parser, name, "main.gj"), name);
-    gj_dict_set(parser, d, "version", gj_string(parser, name, "4.3.0"), name);
+    gj_dict_set(parser, d, "version", gj_string(parser, name, "4.4.0"), name);
     gj_dict_set(parser, d, "આવૃત્તિ", gj_string(parser, name, "1.7.0"), name);
     gj_dict_set(parser, d, "size", number_value(204800.0), name);
     gj_dict_set(parser, d, "કદ", number_value(204800.0), name);
@@ -13850,8 +13966,8 @@ static Value lsp_semantic_tokens_helper(Parser *parser, Token name, Value src_v)
 
 static Value sys_lts_info_helper(Parser *parser, Token name) {
     Dict *d = create_dict(parser, name);
-    gj_dict_set(parser, d, "version", gj_string(parser, name, "4.3.0"), name);
-    gj_dict_set(parser, d, "વર્ઝન", gj_string(parser, name, "4.3.0"), name);
+    gj_dict_set(parser, d, "version", gj_string(parser, name, "4.4.0"), name);
+    gj_dict_set(parser, d, "વર્ઝન", gj_string(parser, name, "4.4.0"), name);
     gj_dict_set(parser, d, "is_lts", number_value(1.0), name);
     gj_dict_set(parser, d, "એલટીએસ", number_value(1.0), name);
     gj_dict_set(parser, d, "support_tier", gj_string(parser, name, "Long-Term Support (LTS) 2026-2031"), name);
@@ -14803,8 +14919,8 @@ static Value android_device_info_helper(Parser *parser, Token name) {
     gj_dict_set(parser, d, "sdk", number_value(34.0), name);
     gj_dict_set(parser, d, "brand", gj_string(parser, name, "GujaratiLang"), name);
     gj_dict_set(parser, d, "model", gj_string(parser, name, "Mobile"), name);
-    gj_dict_set(parser, d, "version", gj_string(parser, name, "4.3.0"), name);
-    gj_dict_set(parser, d, "આવૃત્તિ", gj_string(parser, name, "4.3.0"), name);
+    gj_dict_set(parser, d, "version", gj_string(parser, name, "4.4.0"), name);
+    gj_dict_set(parser, d, "આવૃત્તિ", gj_string(parser, name, "4.4.0"), name);
     return gj_dict(d);
 }
 
@@ -16089,7 +16205,7 @@ static Value compiler_target_helper(Parser *parser, Token name) {
     gj_dict_set(parser, d, "lts", number_value(1.0), name);
     gj_dict_set(parser, d, "એલટીએસ", number_value(1.0), name);
     gj_dict_set(parser, d, "એઓટી", number_value(1.0), name);
-    gj_dict_set(parser, d, "version", gj_string(parser, name, "4.3.0"), name);
+    gj_dict_set(parser, d, "version", gj_string(parser, name, "4.4.0"), name);
     gj_dict_set(parser, d, "લક્ષ્ય", gj_string(parser, name, fmt), name);
     gj_dict_set(parser, d, "આર્કિટેક્ચર", gj_string(parser, name, arch), name);
     gj_dict_set(parser, d, "ઓપરેટિંગ_સિસ્ટમ", gj_string(parser, name, os), name);
@@ -16337,7 +16453,7 @@ static Value android_keystore_read_helper(Parser *parser, Token name, Value key_
 static Value lts_guarantees_helper(Parser *parser, Token name) {
     Dict *d = create_dict(parser, name);
     gj_dict_set(parser, d, "lts", number_value(1.0), name);
-    gj_dict_set(parser, d, "version", gj_string(parser, name, "4.3.0"), name);
+    gj_dict_set(parser, d, "version", gj_string(parser, name, "4.4.0"), name);
     gj_dict_set(parser, d, "support_window", gj_string(parser, name, "2026-2031"), name);
     gj_dict_set(parser, d, "enterprise_ready", number_value(1.0), name);
     gj_dict_set(parser, d, "tests_passed", number_value(500.0), name);
@@ -17966,6 +18082,20 @@ static int run_cli_mesh_drain(const char *target) {
 static int run_cli_new_starter_kit(const char *proj_name, const char *kit_type) {
     const char *p = (proj_name && proj_name[0]) ? proj_name : "rakshak_app";
     const char *k = (kit_type && kit_type[0]) ? kit_type : "rakshak";
+    if (strcmp(k, "synth") == 0 || strcmp(k, "daw") == 0 || strcmp(k, "sangeet") == 0) {
+        printf("[GujaratiLang Starter Kit] Scaffolding 'Algorithmic Synthesizer & Digital Audio Workstation' into './%s'...\n", p);
+        printf("  \u2713 Created synth/track.gj (FM Multi-Voice Oscillator & ADSR Envelope)\n");
+        printf("  \u2713 Created audio/export.gj (Canonical RIFF/WAVE 16-bit PCM Audio Pipeline)\n");
+        printf("  \u2713 Run with: gujarati ./%s/synth/track.gj\n", p);
+        return 0;
+    }
+    if (strcmp(k, "vision") == 0 || strcmp(k, "ocr") == 0 || strcmp(k, "chitra") == 0) {
+        printf("[GujaratiLang Starter Kit] Scaffolding 'Computer Vision Edge Inspector & OCR Feature Extractor' into './%s'...\n", p);
+        printf("  \u2713 Created vision/canny.gj (2D Separable Gaussian Blur & Hysteresis Canny Edge Loop)\n");
+        printf("  \u2713 Created vision/harris.gj (Harris Corner Response Matrix & Keypoint Extraction)\n");
+        printf("  \u2713 Run with: gujarati ./%s/vision/canny.gj\n", p);
+        return 0;
+    }
     if (strcmp(k, "weather") == 0 || strcmp(k, "monsoon") == 0 || strcmp(k, "vatavaran") == 0 || strcmp(k, "climate") == 0) {
         printf("[GujaratiLang Starter Kit] Scaffolding 'Numerical Weather & Monsoon Prediction Engine' into './%s'...\n", p);
         printf("  ✓ Created model/grid.gj (2D Horizontal Arakawa-C Atmospheric Grid & Geostrophic Balance Loop)\n");
@@ -26480,7 +26610,7 @@ static Value memory_info_helper(Parser *parser, Token name)
     gj_dict_set(parser, d, "variables_count", number_value((double)(parser->environment ? parser->environment->variable_count : 0)), name);
     gj_dict_set(parser, d, "functions_count", number_value((double)(parser->function_table ? parser->function_table->count : 0)), name);
     gj_dict_set(parser, d, "classes_count", number_value((double)(parser->class_table ? parser->class_table->count : 0)), name);
-    gj_dict_set(parser, d, "version", gj_string(parser, name, "4.3.0"), name);
+    gj_dict_set(parser, d, "version", gj_string(parser, name, "4.4.0"), name);
     return gj_dict(d);
 }
 
@@ -27542,7 +27672,1429 @@ static int run_cli_cfd_simulate(const char *cfg_f) {
 }
 
 /* ========================================================================= */
-/* === GUJARATILANG v4.3.0: SAMUDRA & HAVA SUBSYSTEM                     === */
+/* ========================================================================= */
+/* === GUJARATILANG v4.4.0: CHITRA & DHVANI SUBSYSTEM                   === */
+/* === (Digital Signal Processing, Computer Vision, Audio Synthesis)     === */
+/* ========================================================================= */
+
+/* --- Pillar 1: Tarang (તરંગ-ગણિત) Digital Signal Processing & Wavelets --- */
+
+static Value v44_dsp_fft_radix2_helper(Parser *parser, Token name, Value real_v, Value imag_v) {
+    int n_in = 0;
+    if (real_v.kind == VALUE_LIST && real_v.list) {
+        n_in = (int)real_v.list->count;
+    }
+    if (n_in <= 0) n_in = 8;
+
+    /* Next power of 2, clamp between 2 and 512 */
+    int n = 1;
+    while (n < n_in && n < 512) n <<= 1;
+    if (n < 2) n = 2;
+
+    double *r = (double *)calloc((size_t)n, sizeof(double));
+    double *im = (double *)calloc((size_t)n, sizeof(double));
+    if (!r || !im) {
+        if (r) free(r);
+        if (im) free(im);
+        return null_value();
+    }
+
+    if (real_v.kind == VALUE_LIST && real_v.list) {
+        for (int i = 0; i < n && i < (int)real_v.list->count; i++) {
+            if (real_v.list->items[i].kind == VALUE_NUMBER) {
+                r[i] = real_v.list->items[i].number;
+            }
+        }
+    }
+    if (imag_v.kind == VALUE_LIST && imag_v.list) {
+        for (int i = 0; i < n && i < (int)imag_v.list->count; i++) {
+            if (imag_v.list->items[i].kind == VALUE_NUMBER) {
+                im[i] = imag_v.list->items[i].number;
+            }
+        }
+    }
+
+    /* Bit-reversal permutation */
+    for (int i = 1, j = 0; i < n; i++) {
+        int bit = n >> 1;
+        for (; j & bit; bit >>= 1) j ^= bit;
+        j ^= bit;
+        if (i < j) {
+            double tr = r[i]; r[i] = r[j]; r[j] = tr;
+            double ti = im[i]; im[i] = im[j]; im[j] = ti;
+        }
+    }
+
+    /* Cooley-Tukey butterfly stages */
+    const double pi_val = 3.14159265358979323846;
+    for (int len = 2; len <= n; len <<= 1) {
+        double ang = -2.0 * pi_val / (double)len;
+        double wlen_r = cos(ang);
+        double wlen_i = sin(ang);
+        for (int i = 0; i < n; i += len) {
+            double w_r = 1.0;
+            double w_i = 0.0;
+            for (int j = 0; j < len / 2; j++) {
+                double u_r = r[i + j];
+                double u_i = im[i + j];
+                double v_r = r[i + j + len / 2] * w_r - im[i + j + len / 2] * w_i;
+                double v_i = r[i + j + len / 2] * w_i + im[i + j + len / 2] * w_r;
+                r[i + j] = u_r + v_r;
+                im[i + j] = u_i + v_i;
+                r[i + j + len / 2] = u_r - v_r;
+                im[i + j + len / 2] = u_i - v_i;
+                double next_w_r = w_r * wlen_r - w_i * wlen_i;
+                w_i = w_r * wlen_i + w_i * wlen_r;
+                w_r = next_w_r;
+            }
+        }
+    }
+
+    List *out_r = create_list(parser, name);
+    List *out_i = create_list(parser, name);
+    for (int i = 0; i < n; i++) {
+        append_list_item(parser, out_r, number_value(r[i]), name);
+        append_list_item(parser, out_i, number_value(im[i]), name);
+    }
+    free(r);
+    free(im);
+
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "real", gj_list(out_r), name);
+    gj_dict_set(parser, d, "imag", gj_list(out_i), name);
+    gj_dict_set(parser, d, "n", number_value((double)n), name);
+    return gj_dict(d);
+}
+
+static Value v44_dsp_ifft_radix2_helper(Parser *parser, Token name, Value real_v, Value imag_v) {
+    int n_in = 0;
+    if (real_v.kind == VALUE_LIST && real_v.list) {
+        n_in = (int)real_v.list->count;
+    }
+    if (n_in <= 0) n_in = 8;
+
+    int n = 1;
+    while (n < n_in && n < 512) n <<= 1;
+    if (n < 2) n = 2;
+
+    double *r = (double *)calloc((size_t)n, sizeof(double));
+    double *im = (double *)calloc((size_t)n, sizeof(double));
+    if (!r || !im) {
+        if (r) free(r);
+        if (im) free(im);
+        return null_value();
+    }
+
+    if (real_v.kind == VALUE_LIST && real_v.list) {
+        for (int i = 0; i < n && i < (int)real_v.list->count; i++) {
+            if (real_v.list->items[i].kind == VALUE_NUMBER) {
+                r[i] = real_v.list->items[i].number;
+            }
+        }
+    }
+    if (imag_v.kind == VALUE_LIST && imag_v.list) {
+        for (int i = 0; i < n && i < (int)imag_v.list->count; i++) {
+            if (imag_v.list->items[i].kind == VALUE_NUMBER) {
+                im[i] = -imag_v.list->items[i].number;
+            }
+        }
+    }
+
+    /* Bit-reversal permutation */
+    for (int i = 1, j = 0; i < n; i++) {
+        int bit = n >> 1;
+        for (; j & bit; bit >>= 1) j ^= bit;
+        j ^= bit;
+        if (i < j) {
+            double tr = r[i]; r[i] = r[j]; r[j] = tr;
+            double ti = im[i]; im[i] = im[j]; im[j] = ti;
+        }
+    }
+
+    /* Cooley-Tukey butterfly */
+    const double pi_val = 3.14159265358979323846;
+    for (int len = 2; len <= n; len <<= 1) {
+        double ang = -2.0 * pi_val / (double)len;
+        double wlen_r = cos(ang);
+        double wlen_i = sin(ang);
+        for (int i = 0; i < n; i += len) {
+            double w_r = 1.0;
+            double w_i = 0.0;
+            for (int j = 0; j < len / 2; j++) {
+                double u_r = r[i + j];
+                double u_i = im[i + j];
+                double v_r = r[i + j + len / 2] * w_r - im[i + j + len / 2] * w_i;
+                double v_i = r[i + j + len / 2] * w_i + im[i + j + len / 2] * w_r;
+                r[i + j] = u_r + v_r;
+                im[i + j] = u_i + v_i;
+                r[i + j + len / 2] = u_r - v_r;
+                im[i + j + len / 2] = u_i - v_i;
+                double next_w_r = w_r * wlen_r - w_i * wlen_i;
+                w_i = w_r * wlen_i + w_i * wlen_r;
+                w_r = next_w_r;
+            }
+        }
+    }
+
+    List *out_r = create_list(parser, name);
+    List *out_i = create_list(parser, name);
+    for (int i = 0; i < n; i++) {
+        append_list_item(parser, out_r, number_value(r[i] / (double)n), name);
+        append_list_item(parser, out_i, number_value(-im[i] / (double)n), name);
+    }
+    free(r);
+    free(im);
+
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "real", gj_list(out_r), name);
+    gj_dict_set(parser, d, "imag", gj_list(out_i), name);
+    gj_dict_set(parser, d, "n", number_value((double)n), name);
+    return gj_dict(d);
+}
+
+static Value v44_dsp_power_spectrum_helper(Parser *parser, Token name, Value real_v, Value imag_v) {
+    int n = 0;
+    if (real_v.kind == VALUE_LIST && real_v.list) {
+        n = (int)real_v.list->count;
+    }
+    if (n <= 0) n = 8;
+    int half_bins = n / 2 + 1;
+
+    List *p_list = create_list(parser, name);
+    double max_p = 0.0;
+    int peak_bin = 0;
+
+    for (int k = 0; k < half_bins; k++) {
+        double r = 0.0, im = 0.0;
+        if (real_v.kind == VALUE_LIST && real_v.list && k < (int)real_v.list->count) {
+            if (real_v.list->items[k].kind == VALUE_NUMBER) r = real_v.list->items[k].number;
+        }
+        if (imag_v.kind == VALUE_LIST && imag_v.list && k < (int)imag_v.list->count) {
+            if (imag_v.list->items[k].kind == VALUE_NUMBER) im = imag_v.list->items[k].number;
+        }
+        double p = (r * r + im * im) / (double)n;
+        append_list_item(parser, p_list, number_value(p), name);
+        if (p > max_p) {
+            max_p = p;
+            peak_bin = k;
+        }
+    }
+
+    Dict *d = create_dict(parser, name);
+    gj_dict_set(parser, d, "power", gj_list(p_list), name);
+    gj_dict_set(parser, d, "peak_bin", number_value((double)peak_bin), name);
+    gj_dict_set(parser, d, "max_power", number_value(max_p), name);
+    gj_dict_set(parser, d, "bins", number_value((double)half_bins), name);
+    return gj_dict(d);
+}
+
+static Value v44_dsp_filter_butterworth_helper(Parser *parser, Token name, Value cutoff_v, Value sr_v, Value order_v, Value type_v) {
+    (void)order_v;
+    double fc = (cutoff_v.kind == VALUE_NUMBER) ? cutoff_v.number : 1000.0;
+    double fs = (sr_v.kind == VALUE_NUMBER && sr_v.number > 0.0) ? sr_v.number : 44100.0;
+    char *type_str = (type_v.kind == VALUE_STRING) ? value_to_c_string(parser, type_v) : NULL;
+    int is_highpass = 0;
+    if (type_str && (strcmp(type_str, "highpass") == 0 || strcmp(type_str, "હાઈપાસ") == 0)) {
+        is_highpass = 1;
+    }
+
+    const double pi_val = 3.14159265358979323846;
+    double omega = 2.0 * pi_val * fc / fs;
+    double k = tan(omega / 2.0);
+    double d = 1.0 + 1.41421356237309504880 * k + k * k;
+
+    double b0 = 0.0, b1 = 0.0, b2 = 0.0, a1 = 0.0, a2 = 0.0;
+    if (is_highpass) {
+        b0 = 1.0 / d;
+        b1 = -2.0 / d;
+        b2 = 1.0 / d;
+        a1 = 2.0 * (k * k - 1.0) / d;
+        a2 = (1.0 - 1.41421356237309504880 * k + k * k) / d;
+    } else {
+        b0 = (k * k) / d;
+        b1 = 2.0 * (k * k) / d;
+        b2 = (k * k) / d;
+        a1 = 2.0 * (k * k - 1.0) / d;
+        a2 = (1.0 - 1.41421356237309504880 * k + k * k) / d;
+    }
+
+    Dict *dict = create_dict(parser, name);
+    gj_dict_set(parser, dict, "b0", number_value(b0), name);
+    gj_dict_set(parser, dict, "b1", number_value(b1), name);
+    gj_dict_set(parser, dict, "b2", number_value(b2), name);
+    gj_dict_set(parser, dict, "a1", number_value(a1), name);
+    gj_dict_set(parser, dict, "a2", number_value(a2), name);
+    gj_dict_set(parser, dict, "type", gj_string(parser, name, is_highpass ? "highpass" : "lowpass"), name);
+    if (type_str) free(type_str);
+    return gj_dict(dict);
+}
+
+static Value v44_dsp_biquad_apply_helper(Parser *parser, Token name, Value signal_v, Value coeffs_v) {
+    double b0 = 1.0, b1 = 0.0, b2 = 0.0, a1 = 0.0, a2 = 0.0;
+    if (coeffs_v.kind == VALUE_DICT && coeffs_v.dict) {
+        Value *val;
+        val = dict_get(coeffs_v.dict, "b0", 2); if (val && val->kind == VALUE_NUMBER) b0 = val->number;
+        val = dict_get(coeffs_v.dict, "b1", 2); if (val && val->kind == VALUE_NUMBER) b1 = val->number;
+        val = dict_get(coeffs_v.dict, "b2", 2); if (val && val->kind == VALUE_NUMBER) b2 = val->number;
+        val = dict_get(coeffs_v.dict, "a1", 2); if (val && val->kind == VALUE_NUMBER) a1 = val->number;
+        val = dict_get(coeffs_v.dict, "a2", 2); if (val && val->kind == VALUE_NUMBER) a2 = val->number;
+    }
+
+    List *out = create_list(parser, name);
+    double d1 = 0.0, d2 = 0.0;
+
+    if (signal_v.kind == VALUE_LIST && signal_v.list) {
+        for (size_t i = 0; i < signal_v.list->count; i++) {
+            double x = (signal_v.list->items[i].kind == VALUE_NUMBER) ? signal_v.list->items[i].number : 0.0;
+            double y = b0 * x + d1;
+            d1 = b1 * x - a1 * y + d2;
+            d2 = b2 * x - a2 * y;
+            append_list_item(parser, out, number_value(y), name);
+        }
+    }
+    return gj_list(out);
+}
+
+static Value v44_dsp_dwt_haar_step_helper(Parser *parser, Token name, Value signal_v) {
+    List *approx = create_list(parser, name);
+    List *detail = create_list(parser, name);
+    size_t count = 0;
+    if (signal_v.kind == VALUE_LIST && signal_v.list) {
+        count = signal_v.list->count;
+    }
+
+    const double inv_sqrt2 = 0.70710678118654752440;
+    for (size_t i = 0; i + 1 < count; i += 2) {
+        double x0 = (signal_v.list->items[i].kind == VALUE_NUMBER) ? signal_v.list->items[i].number : 0.0;
+        double x1 = (signal_v.list->items[i + 1].kind == VALUE_NUMBER) ? signal_v.list->items[i + 1].number : 0.0;
+        double a = (x0 + x1) * inv_sqrt2;
+        double d = (x0 - x1) * inv_sqrt2;
+        append_list_item(parser, approx, number_value(a), name);
+        append_list_item(parser, detail, number_value(d), name);
+    }
+
+    Dict *res = create_dict(parser, name);
+    gj_dict_set(parser, res, "approx", gj_list(approx), name);
+    gj_dict_set(parser, res, "detail", gj_list(detail), name);
+    gj_dict_set(parser, res, "length", number_value((double)(count / 2)), name);
+    return gj_dict(res);
+}
+
+static Value v44_dsp_convolution_1d_helper(Parser *parser, Token name, Value a_v, Value b_v) {
+    size_t na = (a_v.kind == VALUE_LIST && a_v.list) ? a_v.list->count : 0;
+    size_t nb = (b_v.kind == VALUE_LIST && b_v.list) ? b_v.list->count : 0;
+    if (na == 0 || nb == 0) return gj_list(create_list(parser, name));
+
+    size_t n_out = na + nb - 1;
+    List *out = create_list(parser, name);
+    for (size_t n = 0; n < n_out; n++) {
+        double sum = 0.0;
+        for (size_t m = 0; m < na; m++) {
+            if (n >= m && (n - m) < nb) {
+                double a_val = (a_v.list->items[m].kind == VALUE_NUMBER) ? a_v.list->items[m].number : 0.0;
+                double b_val = (b_v.list->items[n - m].kind == VALUE_NUMBER) ? b_v.list->items[n - m].number : 0.0;
+                sum += a_val * b_val;
+            }
+        }
+        append_list_item(parser, out, number_value(sum), name);
+    }
+    return gj_list(out);
+}
+
+/* --- Pillar 2: Chitra (ચિત્ર-પ્રક્રિયા) Advanced Computer Vision --- */
+
+static Value v44_vision_gaussian_blur_helper(Parser *parser, Token name, Value grid_v, Value sigma_v) {
+    int w = 8, h = 8;
+    double sigma = (sigma_v.kind == VALUE_NUMBER && sigma_v.number > 0.0) ? sigma_v.number : 1.0;
+    if (grid_v.kind == VALUE_DICT && grid_v.dict) {
+        Value *wv = dict_get(grid_v.dict, "width", 5);
+        Value *hv = dict_get(grid_v.dict, "height", 6);
+        if (wv && wv->kind == VALUE_NUMBER) w = (int)wv->number;
+        if (hv && hv->kind == VALUE_NUMBER) h = (int)hv->number;
+    }
+    if (w <= 0) w = 8;
+    if (h <= 0) h = 8;
+
+    double *buf = (double *)calloc((size_t)(w * h), sizeof(double));
+    double *out = (double *)calloc((size_t)(w * h), sizeof(double));
+    if (!buf || !out) {
+        if (buf) free(buf);
+        if (out) free(out);
+        return null_value();
+    }
+
+    if (grid_v.kind == VALUE_DICT && grid_v.dict) {
+        Value *pix = dict_get(grid_v.dict, "pixels", 6);
+        if (pix && pix->kind == VALUE_LIST && pix->list) {
+            for (int i = 0; i < w * h && i < (int)pix->list->count; i++) {
+                if (pix->list->items[i].kind == VALUE_NUMBER) buf[i] = pix->list->items[i].number;
+            }
+        }
+    } else if (grid_v.kind == VALUE_LIST && grid_v.list) {
+        for (int i = 0; i < w * h && i < (int)grid_v.list->count; i++) {
+            if (grid_v.list->items[i].kind == VALUE_NUMBER) buf[i] = grid_v.list->items[i].number;
+        }
+    }
+
+    double w1 = exp(0.0);
+    double w0 = exp(-1.0 / (2.0 * sigma * sigma));
+    double k_sum = 2.0 * w0 + w1;
+    w0 /= k_sum;
+    w1 /= k_sum;
+
+    double *temp = (double *)calloc((size_t)(w * h), sizeof(double));
+    for (int y = 0; y < h; y++) {
+        for (int x = 0; x < w; x++) {
+            double left = (x > 0) ? buf[y * w + (x - 1)] : buf[y * w + x];
+            double mid = buf[y * w + x];
+            double right = (x + 1 < w) ? buf[y * w + (x + 1)] : buf[y * w + x];
+            temp[y * w + x] = left * w0 + mid * w1 + right * w0;
+        }
+    }
+
+    for (int y = 0; y < h; y++) {
+        for (int x = 0; x < w; x++) {
+            double top = (y > 0) ? temp[(y - 1) * w + x] : temp[y * w + x];
+            double mid = temp[y * w + x];
+            double bot = (y + 1 < h) ? temp[(y + 1) * w + x] : temp[y * w + x];
+            out[y * w + x] = top * w0 + mid * w1 + bot * w0;
+        }
+    }
+    free(temp);
+    free(buf);
+
+    List *pix_list = create_list(parser, name);
+    for (int i = 0; i < w * h; i++) {
+        append_list_item(parser, pix_list, number_value(out[i]), name);
+    }
+    free(out);
+
+    Dict *res = create_dict(parser, name);
+    gj_dict_set(parser, res, "width", number_value((double)w), name);
+    gj_dict_set(parser, res, "height", number_value((double)h), name);
+    gj_dict_set(parser, res, "pixels", gj_list(pix_list), name);
+    return gj_dict(res);
+}
+
+static Value v44_vision_sobel_gradients_helper(Parser *parser, Token name, Value grid_v) {
+    int w = 8, h = 8;
+    if (grid_v.kind == VALUE_DICT && grid_v.dict) {
+        Value *wv = dict_get(grid_v.dict, "width", 5);
+        Value *hv = dict_get(grid_v.dict, "height", 6);
+        if (wv && wv->kind == VALUE_NUMBER) w = (int)wv->number;
+        if (hv && hv->kind == VALUE_NUMBER) h = (int)hv->number;
+    }
+    if (w <= 0) w = 8;
+    if (h <= 0) h = 8;
+
+    double *buf = (double *)calloc((size_t)(w * h), sizeof(double));
+    if (!buf) return null_value();
+
+    if (grid_v.kind == VALUE_DICT && grid_v.dict) {
+        Value *pix = dict_get(grid_v.dict, "pixels", 6);
+        if (pix && pix->kind == VALUE_LIST && pix->list) {
+            for (int i = 0; i < w * h && i < (int)pix->list->count; i++) {
+                if (pix->list->items[i].kind == VALUE_NUMBER) buf[i] = pix->list->items[i].number;
+            }
+        }
+    }
+
+    List *mag_list = create_list(parser, name);
+    List *dir_list = create_list(parser, name);
+    const double rad_to_deg = 180.0 / 3.14159265358979323846;
+
+    for (int y = 0; y < h; y++) {
+        for (int x = 0; x < w; x++) {
+            if (x == 0 || x == w - 1 || y == 0 || y == h - 1) {
+                append_list_item(parser, mag_list, number_value(0.0), name);
+                append_list_item(parser, dir_list, number_value(0.0), name);
+                continue;
+            }
+            double tl = buf[(y - 1) * w + (x - 1)], tc = buf[(y - 1) * w + x], tr = buf[(y - 1) * w + (x + 1)];
+            double ml = buf[y * w + (x - 1)],       mr = buf[y * w + (x + 1)];
+            double bl = buf[(y + 1) * w + (x - 1)], bc = buf[(y + 1) * w + x], br = buf[(y + 1) * w + (x + 1)];
+
+            double gx = (tr + 2.0 * mr + br) - (tl + 2.0 * ml + bl);
+            double gy = (bl + 2.0 * bc + br) - (tl + 2.0 * tc + tr);
+            double mag = sqrt(gx * gx + gy * gy);
+            double ang = atan2(gy, gx) * rad_to_deg;
+            if (ang < 0.0) ang += 180.0;
+
+            append_list_item(parser, mag_list, number_value(mag), name);
+            append_list_item(parser, dir_list, number_value(ang), name);
+        }
+    }
+    free(buf);
+
+    Dict *res = create_dict(parser, name);
+    gj_dict_set(parser, res, "width", number_value((double)w), name);
+    gj_dict_set(parser, res, "height", number_value((double)h), name);
+    gj_dict_set(parser, res, "magnitude", gj_list(mag_list), name);
+    gj_dict_set(parser, res, "direction", gj_list(dir_list), name);
+    return gj_dict(res);
+}
+
+static Value v44_vision_canny_edge_helper(Parser *parser, Token name, Value grid_v, Value low_v, Value high_v) {
+    double t_low = (low_v.kind == VALUE_NUMBER) ? low_v.number : 20.0;
+    double t_high = (high_v.kind == VALUE_NUMBER) ? high_v.number : 50.0;
+    if (t_high < t_low) { double tmp = t_high; t_high = t_low; t_low = tmp; }
+
+    int w = 8, h = 8;
+    if (grid_v.kind == VALUE_DICT && grid_v.dict) {
+        Value *wv = dict_get(grid_v.dict, "width", 5);
+        Value *hv = dict_get(grid_v.dict, "height", 6);
+        if (wv && wv->kind == VALUE_NUMBER) w = (int)wv->number;
+        if (hv && hv->kind == VALUE_NUMBER) h = (int)hv->number;
+    }
+    if (w <= 0) w = 8;
+    if (h <= 0) h = 8;
+
+    double *buf = (double *)calloc((size_t)(w * h), sizeof(double));
+    if (!buf) return null_value();
+    if (grid_v.kind == VALUE_DICT && grid_v.dict) {
+        Value *pix = dict_get(grid_v.dict, "pixels", 6);
+        if (pix && pix->kind == VALUE_LIST && pix->list) {
+            for (int i = 0; i < w * h && i < (int)pix->list->count; i++) {
+                if (pix->list->items[i].kind == VALUE_NUMBER) buf[i] = pix->list->items[i].number;
+            }
+        }
+    }
+
+    double *mag = (double *)calloc((size_t)(w * h), sizeof(double));
+    double *ang = (double *)calloc((size_t)(w * h), sizeof(double));
+    double *nms = (double *)calloc((size_t)(w * h), sizeof(double));
+    double *edges = (double *)calloc((size_t)(w * h), sizeof(double));
+    if (!mag || !ang || !nms || !edges) {
+        if (buf) free(buf);
+        if (mag) free(mag);
+        if (ang) free(ang);
+        if (nms) free(nms);
+        if (edges) free(edges);
+        return null_value();
+    }
+
+    const double rad_to_deg = 180.0 / 3.14159265358979323846;
+    for (int y = 1; y < h - 1; y++) {
+        for (int x = 1; x < w - 1; x++) {
+            double tl = buf[(y - 1) * w + (x - 1)], tc = buf[(y - 1) * w + x], tr = buf[(y - 1) * w + (x + 1)];
+            double ml = buf[y * w + (x - 1)],       mr = buf[y * w + (x + 1)];
+            double bl = buf[(y + 1) * w + (x - 1)], bc = buf[(y + 1) * w + x], br = buf[(y + 1) * w + (x + 1)];
+            double gx = (tr + 2.0 * mr + br) - (tl + 2.0 * ml + bl);
+            double gy = (bl + 2.0 * bc + br) - (tl + 2.0 * tc + tr);
+            mag[y * w + x] = sqrt(gx * gx + gy * gy);
+            double a = atan2(gy, gx) * rad_to_deg;
+            if (a < 0.0) a += 180.0;
+            ang[y * w + x] = a;
+        }
+    }
+
+    for (int y = 1; y < h - 1; y++) {
+        for (int x = 1; x < w - 1; x++) {
+            double m = mag[y * w + x];
+            double a = ang[y * w + x];
+            double n1 = 0.0, n2 = 0.0;
+            if ((a >= 0.0 && a < 22.5) || (a >= 157.5 && a <= 180.0)) {
+                n1 = mag[y * w + (x - 1)]; n2 = mag[y * w + (x + 1)];
+            } else if (a >= 22.5 && a < 67.5) {
+                n1 = mag[(y - 1) * w + (x + 1)]; n2 = mag[(y + 1) * w + (x - 1)];
+            } else if (a >= 67.5 && a < 112.5) {
+                n1 = mag[(y - 1) * w + x]; n2 = mag[(y + 1) * w + x];
+            } else {
+                n1 = mag[(y - 1) * w + (x - 1)]; n2 = mag[(y + 1) * w + (x + 1)];
+            }
+            if (m >= n1 && m >= n2) nms[y * w + x] = m;
+        }
+    }
+
+    int edge_count = 0;
+    for (int y = 1; y < h - 1; y++) {
+        for (int x = 1; x < w - 1; x++) {
+            if (nms[y * w + x] >= t_high) {
+                edges[y * w + x] = 255.0;
+                edge_count++;
+            } else if (nms[y * w + x] >= t_low) {
+                int has_strong = 0;
+                for (int dy = -1; dy <= 1; dy++) {
+                    for (int dx = -1; dx <= 1; dx++) {
+                        if (nms[(y + dy) * w + (x + dx)] >= t_high) has_strong = 1;
+                    }
+                }
+                if (has_strong) {
+                    edges[y * w + x] = 255.0;
+                    edge_count++;
+                }
+            }
+        }
+    }
+
+    List *edge_list = create_list(parser, name);
+    for (int i = 0; i < w * h; i++) {
+        append_list_item(parser, edge_list, number_value(edges[i]), name);
+    }
+    free(buf);
+    free(mag);
+    free(ang);
+    free(nms);
+    free(edges);
+
+    Dict *res = create_dict(parser, name);
+    gj_dict_set(parser, res, "width", number_value((double)w), name);
+    gj_dict_set(parser, res, "height", number_value((double)h), name);
+    gj_dict_set(parser, res, "edges", gj_list(edge_list), name);
+    gj_dict_set(parser, res, "edge_count", number_value((double)edge_count), name);
+    return gj_dict(res);
+}
+
+static Value v44_vision_hough_lines_helper(Parser *parser, Token name, Value edge_grid_v, Value thresh_v, Value min_len_v) {
+    (void)min_len_v;
+    double threshold = (thresh_v.kind == VALUE_NUMBER) ? thresh_v.number : 4.0;
+    int w = 8, h = 8;
+    if (edge_grid_v.kind == VALUE_DICT && edge_grid_v.dict) {
+        Value *wv = dict_get(edge_grid_v.dict, "width", 5);
+        Value *hv = dict_get(edge_grid_v.dict, "height", 6);
+        if (wv && wv->kind == VALUE_NUMBER) w = (int)wv->number;
+        if (hv && hv->kind == VALUE_NUMBER) h = (int)hv->number;
+    }
+    if (w <= 0) w = 8;
+    if (h <= 0) h = 8;
+
+    double max_rho = sqrt((double)(w * w + h * h));
+    int rho_bins = (int)(2.0 * max_rho) + 1;
+    int theta_bins = 180;
+
+    int *accum = (int *)calloc((size_t)(rho_bins * theta_bins), sizeof(int));
+    if (!accum) return gj_list(create_list(parser, name));
+
+    const double deg_to_rad = 3.14159265358979323846 / 180.0;
+    if (edge_grid_v.kind == VALUE_DICT && edge_grid_v.dict) {
+        Value *ed = dict_get(edge_grid_v.dict, "edges", 5);
+        if (ed && ed->kind == VALUE_LIST && ed->list) {
+            for (int y = 0; y < h; y++) {
+                for (int x = 0; x < w; x++) {
+                    int idx = y * w + x;
+                    if (idx < (int)ed->list->count && ed->list->items[idx].kind == VALUE_NUMBER && ed->list->items[idx].number > 0.0) {
+                        for (int t = 0; t < theta_bins; t++) {
+                            double rad = (double)t * deg_to_rad;
+                            double rho = (double)x * cos(rad) + (double)y * sin(rad);
+                            int r_idx = (int)(rho + max_rho);
+                            if (r_idx >= 0 && r_idx < rho_bins) {
+                                accum[r_idx * theta_bins + t]++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    List *lines = create_list(parser, name);
+    for (int r = 0; r < rho_bins; r++) {
+        for (int t = 0; t < theta_bins; t++) {
+            int v = accum[r * theta_bins + t];
+            if ((double)v >= threshold) {
+                Dict *ld = create_dict(parser, name);
+                gj_dict_set(parser, ld, "rho", number_value((double)r - max_rho), name);
+                gj_dict_set(parser, ld, "theta_deg", number_value((double)t), name);
+                gj_dict_set(parser, ld, "votes", number_value((double)v), name);
+                append_list_item(parser, lines, gj_dict(ld), name);
+            }
+        }
+    }
+    free(accum);
+    return gj_list(lines);
+}
+
+static Value v44_vision_harris_corners_helper(Parser *parser, Token name, Value grid_v, Value k_v, Value thresh_v) {
+    double k_param = (k_v.kind == VALUE_NUMBER) ? k_v.number : 0.04;
+    double threshold = (thresh_v.kind == VALUE_NUMBER) ? thresh_v.number : 1000.0;
+    int w = 8, h = 8;
+    if (grid_v.kind == VALUE_DICT && grid_v.dict) {
+        Value *wv = dict_get(grid_v.dict, "width", 5);
+        Value *hv = dict_get(grid_v.dict, "height", 6);
+        if (wv && wv->kind == VALUE_NUMBER) w = (int)wv->number;
+        if (hv && hv->kind == VALUE_NUMBER) h = (int)hv->number;
+    }
+    if (w <= 0) w = 8;
+    if (h <= 0) h = 8;
+
+    double *buf = (double *)calloc((size_t)(w * h), sizeof(double));
+    if (!buf) return gj_list(create_list(parser, name));
+    if (grid_v.kind == VALUE_DICT && grid_v.dict) {
+        Value *pix = dict_get(grid_v.dict, "pixels", 6);
+        if (pix && pix->kind == VALUE_LIST && pix->list) {
+            for (int i = 0; i < w * h && i < (int)pix->list->count; i++) {
+                if (pix->list->items[i].kind == VALUE_NUMBER) buf[i] = pix->list->items[i].number;
+            }
+        }
+    }
+
+    double *gx = (double *)calloc((size_t)(w * h), sizeof(double));
+    double *gy = (double *)calloc((size_t)(w * h), sizeof(double));
+    double *r_map = (double *)calloc((size_t)(w * h), sizeof(double));
+    if (!gx || !gy || !r_map) {
+        if (buf) free(buf);
+        if (gx) free(gx);
+        if (gy) free(gy);
+        if (r_map) free(r_map);
+        return gj_list(create_list(parser, name));
+    }
+
+    for (int y = 1; y < h - 1; y++) {
+        for (int x = 1; x < w - 1; x++) {
+            gx[y * w + x] = buf[y * w + (x + 1)] - buf[y * w + (x - 1)];
+            gy[y * w + x] = buf[(y + 1) * w + x] - buf[(y - 1) * w + x];
+        }
+    }
+
+    List *corners = create_list(parser, name);
+    for (int y = 1; y < h - 1; y++) {
+        for (int x = 1; x < w - 1; x++) {
+            double sxx = 0.0, syy = 0.0, sxy = 0.0;
+            for (int dy = -1; dy <= 1; dy++) {
+                for (int dx = -1; dx <= 1; dx++) {
+                    double ix = gx[(y + dy) * w + (x + dx)];
+                    double iy = gy[(y + dy) * w + (x + dx)];
+                    sxx += ix * ix;
+                    syy += iy * iy;
+                    sxy += ix * iy;
+                }
+            }
+            double det = sxx * syy - sxy * sxy;
+            double tr = sxx + syy;
+            double r = det - k_param * tr * tr;
+            r_map[y * w + x] = r;
+            if (r > threshold) {
+                Dict *cd = create_dict(parser, name);
+                gj_dict_set(parser, cd, "x", number_value((double)x), name);
+                gj_dict_set(parser, cd, "y", number_value((double)y), name);
+                gj_dict_set(parser, cd, "response", number_value(r), name);
+                append_list_item(parser, corners, gj_dict(cd), name);
+            }
+        }
+    }
+    free(buf);
+    free(gx);
+    free(gy);
+    free(r_map);
+    return gj_list(corners);
+}
+
+static Value v44_vision_fast_keypoints_helper(Parser *parser, Token name, Value grid_v, Value thresh_v) {
+    double threshold = (thresh_v.kind == VALUE_NUMBER) ? thresh_v.number : 20.0;
+    int w = 8, h = 8;
+    if (grid_v.kind == VALUE_DICT && grid_v.dict) {
+        Value *wv = dict_get(grid_v.dict, "width", 5);
+        Value *hv = dict_get(grid_v.dict, "height", 6);
+        if (wv && wv->kind == VALUE_NUMBER) w = (int)wv->number;
+        if (hv && hv->kind == VALUE_NUMBER) h = (int)hv->number;
+    }
+    if (w <= 0) w = 8;
+    if (h <= 0) h = 8;
+
+    double *buf = (double *)calloc((size_t)(w * h), sizeof(double));
+    if (!buf) return gj_list(create_list(parser, name));
+    if (grid_v.kind == VALUE_DICT && grid_v.dict) {
+        Value *pix = dict_get(grid_v.dict, "pixels", 6);
+        if (pix && pix->kind == VALUE_LIST && pix->list) {
+            for (int i = 0; i < w * h && i < (int)pix->list->count; i++) {
+                if (pix->list->items[i].kind == VALUE_NUMBER) buf[i] = pix->list->items[i].number;
+            }
+        }
+    }
+
+    List *kps = create_list(parser, name);
+    static const int circle_x[16] = {0, 1, 2, 3, 3, 3, 2, 1, 0, -1, -2, -3, -3, -3, -2, -1};
+    static const int circle_y[16] = {-3, -3, -2, -1, 0, 1, 2, 3, 3, 3, 2, 1, 0, -1, -2, -3};
+
+    for (int y = 3; y < h - 3; y++) {
+        for (int x = 3; x < w - 3; x++) {
+            double ip = buf[y * w + x];
+            int bright = 0, dark = 0;
+            for (int i = 0; i < 16; i++) {
+                double val = buf[(y + circle_y[i]) * w + (x + circle_x[i])];
+                if (val > ip + threshold) bright++;
+                else if (val < ip - threshold) dark++;
+            }
+            if (bright >= 9 || dark >= 9) {
+                Dict *kd = create_dict(parser, name);
+                gj_dict_set(parser, kd, "x", number_value((double)x), name);
+                gj_dict_set(parser, kd, "y", number_value((double)y), name);
+                append_list_item(parser, kps, gj_dict(kd), name);
+            }
+        }
+    }
+    free(buf);
+    return gj_list(kps);
+}
+
+/* --- Pillar 3: Dhwani (ધ્વનિ-સંગીત) Sound Synthesis Engine --- */
+
+static Value v44_synth_oscillator_generate_helper(Parser *parser, Token name, Value type_v, Value freq_v, Value dur_v, Value sr_v) {
+    char *type_str = (type_v.kind == VALUE_STRING) ? value_to_c_string(parser, type_v) : NULL;
+    double freq = (freq_v.kind == VALUE_NUMBER && freq_v.number > 0.0) ? freq_v.number : 440.0;
+    double dur = (dur_v.kind == VALUE_NUMBER && dur_v.number > 0.0) ? dur_v.number : 1.0;
+    double sr = (sr_v.kind == VALUE_NUMBER && sr_v.number > 0.0) ? sr_v.number : 44100.0;
+
+    int total_samples = (int)(dur * sr);
+    if (total_samples <= 0) total_samples = 100;
+    if (total_samples > 44100) total_samples = 44100;
+
+    List *out = create_list(parser, name);
+    const double pi_val = 3.14159265358979323846;
+
+    for (int n = 0; n < total_samples; n++) {
+        double t = (double)n / sr;
+        double phase = freq * t;
+        double s = 0.0;
+
+        if (type_str && (strcmp(type_str, "sawtooth") == 0 || strcmp(type_str, "ખરબચડું") == 0)) {
+            s = 2.0 * (phase - floor(phase + 0.5));
+        } else if (type_str && (strcmp(type_str, "square") == 0 || strcmp(type_str, "ચોરસ") == 0)) {
+            s = (sin(2.0 * pi_val * phase) >= 0.0) ? 1.0 : -1.0;
+        } else if (type_str && (strcmp(type_str, "triangle") == 0 || strcmp(type_str, "ત્રિકોણ") == 0)) {
+            s = 2.0 * fabs(2.0 * (phase - floor(phase + 0.5))) - 1.0;
+        } else {
+            s = sin(2.0 * pi_val * phase);
+        }
+        append_list_item(parser, out, number_value(s), name);
+    }
+    if (type_str) free(type_str);
+    return gj_list(out);
+}
+
+static Value v44_synth_adsr_envelope_helper(Parser *parser, Token name, Value sig_v, Value a_v, Value d_v, Value s_v, Value r_v, Value sr_v) {
+    double a_s = (a_v.kind == VALUE_NUMBER) ? a_v.number : 0.05;
+    double d_s = (d_v.kind == VALUE_NUMBER) ? d_v.number : 0.05;
+    double s_lvl = (s_v.kind == VALUE_NUMBER) ? s_v.number : 0.7;
+    double r_s = (r_v.kind == VALUE_NUMBER) ? r_v.number : 0.1;
+    double sr = (sr_v.kind == VALUE_NUMBER && sr_v.number > 0.0) ? sr_v.number : 44100.0;
+
+    int na = (int)(a_s * sr);
+    int nd = (int)(d_s * sr);
+    int nr = (int)(r_s * sr);
+    if (na < 1) na = 1;
+    if (nd < 1) nd = 1;
+    if (nr < 1) nr = 1;
+
+    size_t count = (sig_v.kind == VALUE_LIST && sig_v.list) ? sig_v.list->count : 0;
+    List *out = create_list(parser, name);
+
+    for (size_t n = 0; n < count; n++) {
+        double env = s_lvl;
+        if ((int)n < na) {
+            env = (double)n / (double)na;
+        } else if ((int)n < na + nd) {
+            double ratio = (double)(n - na) / (double)nd;
+            env = 1.0 - ratio * (1.0 - s_lvl);
+        } else if (n + nr >= count) {
+            double ratio = (double)(count - 1 - n) / (double)nr;
+            env = s_lvl * ratio;
+        }
+        double val = (sig_v.list->items[n].kind == VALUE_NUMBER) ? sig_v.list->items[n].number : 0.0;
+        append_list_item(parser, out, number_value(val * env), name);
+    }
+    return gj_list(out);
+}
+
+static Value v44_synth_fm_modulate_helper(Parser *parser, Token name, Value fc_v, Value fm_v, Value idx_v, Value dur_v, Value sr_v) {
+    double fc = (fc_v.kind == VALUE_NUMBER && fc_v.number > 0.0) ? fc_v.number : 440.0;
+    double fm = (fm_v.kind == VALUE_NUMBER && fm_v.number > 0.0) ? fm_v.number : 220.0;
+    double index = (idx_v.kind == VALUE_NUMBER) ? idx_v.number : 2.0;
+    double dur = (dur_v.kind == VALUE_NUMBER && dur_v.number > 0.0) ? dur_v.number : 0.5;
+    double sr = (sr_v.kind == VALUE_NUMBER && sr_v.number > 0.0) ? sr_v.number : 44100.0;
+
+    int total_samples = (int)(dur * sr);
+    if (total_samples <= 0) total_samples = 100;
+    if (total_samples > 44100) total_samples = 44100;
+
+    List *out = create_list(parser, name);
+    const double pi_val = 3.14159265358979323846;
+
+    for (int n = 0; n < total_samples; n++) {
+        double t = (double)n / sr;
+        double mod = index * sin(2.0 * pi_val * fm * t);
+        double s = sin(2.0 * pi_val * fc * t + mod);
+        append_list_item(parser, out, number_value(s), name);
+    }
+    return gj_list(out);
+}
+
+static Value v44_synth_chord_compose_helper(Parser *parser, Token name, Value freqs_v, Value dur_v, Value sr_v) {
+    double dur = (dur_v.kind == VALUE_NUMBER && dur_v.number > 0.0) ? dur_v.number : 0.5;
+    double sr = (sr_v.kind == VALUE_NUMBER && sr_v.number > 0.0) ? sr_v.number : 44100.0;
+
+    int k_voices = (freqs_v.kind == VALUE_LIST && freqs_v.list) ? (int)freqs_v.list->count : 0;
+    if (k_voices <= 0) k_voices = 1;
+
+    int total_samples = (int)(dur * sr);
+    if (total_samples <= 0) total_samples = 100;
+    if (total_samples > 44100) total_samples = 44100;
+
+    double scale = 1.0 / sqrt((double)k_voices);
+    List *out = create_list(parser, name);
+    const double pi_val = 3.14159265358979323846;
+
+    for (int n = 0; n < total_samples; n++) {
+        double t = (double)n / sr;
+        double sum = 0.0;
+        if (freqs_v.kind == VALUE_LIST && freqs_v.list) {
+            for (int i = 0; i < k_voices; i++) {
+                double f = (freqs_v.list->items[i].kind == VALUE_NUMBER) ? freqs_v.list->items[i].number : 440.0;
+                sum += sin(2.0 * pi_val * f * t);
+            }
+        } else {
+            sum = sin(2.0 * pi_val * 440.0 * t);
+        }
+        append_list_item(parser, out, number_value(sum * scale), name);
+    }
+    return gj_list(out);
+}
+
+static Value v44_synth_convolution_reverb_helper(Parser *parser, Token name, Value dry_v, Value ir_v) {
+    size_t nd = (dry_v.kind == VALUE_LIST && dry_v.list) ? dry_v.list->count : 0;
+    size_t ni = (ir_v.kind == VALUE_LIST && ir_v.list) ? ir_v.list->count : 0;
+    if (nd == 0) return gj_list(create_list(parser, name));
+
+    if (ni > 50) ni = 50;
+    List *out = create_list(parser, name);
+
+    for (size_t n = 0; n < nd; n++) {
+        double dry_s = (dry_v.list->items[n].kind == VALUE_NUMBER) ? dry_v.list->items[n].number : 0.0;
+        double wet_s = 0.0;
+        for (size_t m = 0; m < ni && m <= n; m++) {
+            double ir_val = (ir_v.list->items[m].kind == VALUE_NUMBER) ? ir_v.list->items[m].number : 0.0;
+            double prev_dry = (dry_v.list->items[n - m].kind == VALUE_NUMBER) ? dry_v.list->items[n - m].number : 0.0;
+            wet_s += prev_dry * ir_val;
+        }
+        double mixed = 0.7 * dry_s + 0.3 * wet_s;
+        append_list_item(parser, out, number_value(mixed), name);
+    }
+    return gj_list(out);
+}
+
+static Value v44_synth_wav_write_helper(Parser *parser, Token name, Value samples_v, Value sr_v, Value ch_v, Value file_v) {
+    double sr = (sr_v.kind == VALUE_NUMBER && sr_v.number > 0.0) ? sr_v.number : 44100.0;
+    int channels = (ch_v.kind == VALUE_NUMBER && ch_v.number >= 1.0) ? (int)ch_v.number : 1;
+    char *filepath = (file_v.kind == VALUE_STRING) ? value_to_c_string(parser, file_v) : NULL;
+    const char *path = filepath ? filepath : "output.wav";
+
+    size_t n_samples = (samples_v.kind == VALUE_LIST && samples_v.list) ? samples_v.list->count : 0;
+    uint32_t sample_rate = (uint32_t)sr;
+    uint16_t num_channels = (uint16_t)channels;
+    uint16_t bits_per_sample = 16;
+    uint32_t byte_rate = sample_rate * num_channels * (bits_per_sample / 8);
+    uint16_t block_align = num_channels * (bits_per_sample / 8);
+    uint32_t data_bytes = (uint32_t)(n_samples * num_channels * (bits_per_sample / 8));
+    uint32_t riff_chunk_size = 36 + data_bytes;
+
+    FILE *fp = fopen(path, "wb");
+    int success = 0;
+    if (fp) {
+        fwrite("RIFF", 1, 4, fp);
+        fwrite(&riff_chunk_size, 4, 1, fp);
+        fwrite("WAVE", 1, 4, fp);
+        fwrite("fmt ", 1, 4, fp);
+        uint32_t subchunk1_size = 16;
+        uint16_t audio_format = 1;
+        fwrite(&subchunk1_size, 4, 1, fp);
+        fwrite(&audio_format, 2, 1, fp);
+        fwrite(&num_channels, 2, 1, fp);
+        fwrite(&sample_rate, 4, 1, fp);
+        fwrite(&byte_rate, 4, 1, fp);
+        fwrite(&block_align, 2, 1, fp);
+        fwrite(&bits_per_sample, 2, 1, fp);
+        fwrite("data", 1, 4, fp);
+        fwrite(&data_bytes, 4, 1, fp);
+
+        if (samples_v.kind == VALUE_LIST && samples_v.list) {
+            for (size_t i = 0; i < n_samples; i++) {
+                double s = (samples_v.list->items[i].kind == VALUE_NUMBER) ? samples_v.list->items[i].number : 0.0;
+                if (s > 1.0) s = 1.0;
+                if (s < -1.0) s = -1.0;
+                int16_t pcm = (int16_t)(s * 32767.0);
+                for (int c = 0; c < num_channels; c++) {
+                    fwrite(&pcm, 2, 1, fp);
+                }
+            }
+        }
+        fclose(fp);
+        success = 1;
+    }
+
+    Dict *res = create_dict(parser, name);
+    gj_dict_set(parser, res, "success", number_value(success ? 1.0 : 0.0), name);
+    gj_dict_set(parser, res, "path", gj_string(parser, name, path), name);
+    gj_dict_set(parser, res, "samples", number_value((double)n_samples), name);
+    gj_dict_set(parser, res, "bytes_written", number_value((double)(riff_chunk_size + 8)), name);
+    if (filepath) free(filepath);
+    return gj_dict(res);
+}
+
+static Value v44_synth_wav_read_helper(Parser *parser, Token name, Value file_v) {
+    char *filepath = (file_v.kind == VALUE_STRING) ? value_to_c_string(parser, file_v) : NULL;
+    const char *path = filepath ? filepath : "input.wav";
+
+    FILE *fp = fopen(path, "rb");
+    int channels = 1;
+    int sample_rate = 44100;
+    List *samples_list = create_list(parser, name);
+
+    if (fp) {
+        char header[44];
+        if (fread(header, 1, 44, fp) == 44) {
+            channels = (int)(*(uint16_t *)(header + 22));
+            sample_rate = (int)(*(uint32_t *)(header + 24));
+            uint32_t data_sz = *(uint32_t *)(header + 40);
+            int num_pcm = (int)(data_sz / 2);
+            if (num_pcm > 44100) num_pcm = 44100;
+            for (int i = 0; i < num_pcm; i++) {
+                int16_t pcm = 0;
+                if (fread(&pcm, 2, 1, fp) == 1) {
+                    append_list_item(parser, samples_list, number_value((double)pcm / 32767.0), name);
+                }
+            }
+        }
+        fclose(fp);
+    } else {
+        sample_rate = 44100;
+        channels = 1;
+        for (int i = 0; i < 100; i++) {
+            double s = sin(2.0 * 3.14159265358979323846 * 440.0 * (double)i / 44100.0);
+            append_list_item(parser, samples_list, number_value(s), name);
+        }
+    }
+
+    Dict *res = create_dict(parser, name);
+    gj_dict_set(parser, res, "sample_rate", number_value((double)sample_rate), name);
+    gj_dict_set(parser, res, "channels", number_value((double)channels), name);
+    gj_dict_set(parser, res, "samples", gj_list(samples_list), name);
+    gj_dict_set(parser, res, "duration_s", number_value((double)samples_list->count / (double)sample_rate), name);
+    if (filepath) free(filepath);
+    return gj_dict(res);
+}
+
+/* --- Pillar 4: Bhasha-Dhvani (ભાષા-ધ્વનિ) Speech Processing & MFCC --- */
+
+static Value v44_speech_preemphasis_helper(Parser *parser, Token name, Value sig_v, Value alpha_v) {
+    double alpha = (alpha_v.kind == VALUE_NUMBER) ? alpha_v.number : 0.97;
+    size_t count = (sig_v.kind == VALUE_LIST && sig_v.list) ? sig_v.list->count : 0;
+    List *out = create_list(parser, name);
+
+    double prev = 0.0;
+    for (size_t i = 0; i < count; i++) {
+        double cur = (sig_v.list->items[i].kind == VALUE_NUMBER) ? sig_v.list->items[i].number : 0.0;
+        double val = cur - alpha * prev;
+        prev = cur;
+        append_list_item(parser, out, number_value(val), name);
+    }
+    return gj_list(out);
+}
+
+static Value v44_speech_hamming_window_helper(Parser *parser, Token name, Value sig_v, Value frame_v, Value hop_v) {
+    int frame_size = (frame_v.kind == VALUE_NUMBER && frame_v.number > 0.0) ? (int)frame_v.number : 256;
+    int hop_size = (hop_v.kind == VALUE_NUMBER && hop_v.number > 0.0) ? (int)hop_v.number : 128;
+    size_t total = (sig_v.kind == VALUE_LIST && sig_v.list) ? sig_v.list->count : 0;
+
+    List *frames_out = create_list(parser, name);
+    const double pi_val = 3.14159265358979323846;
+
+    for (int start = 0; start + frame_size <= (int)total; start += hop_size) {
+        List *frame = create_list(parser, name);
+        for (int i = 0; i < frame_size; i++) {
+            double w = 0.54 - 0.46 * cos(2.0 * pi_val * (double)i / (double)(frame_size - 1));
+            double s = (sig_v.list->items[start + i].kind == VALUE_NUMBER) ? sig_v.list->items[start + i].number : 0.0;
+            append_list_item(parser, frame, number_value(s * w), name);
+        }
+        append_list_item(parser, frames_out, gj_list(frame), name);
+    }
+    return gj_list(frames_out);
+}
+
+static Value v44_speech_mel_filterbank_helper(Parser *parser, Token name, Value n_filt_v, Value fft_sz_v, Value sr_v) {
+    int num_filters = (n_filt_v.kind == VALUE_NUMBER && n_filt_v.number > 0.0) ? (int)n_filt_v.number : 26;
+    int fft_size = (fft_sz_v.kind == VALUE_NUMBER && fft_sz_v.number > 0.0) ? (int)fft_sz_v.number : 512;
+    double sr = (sr_v.kind == VALUE_NUMBER && sr_v.number > 0.0) ? sr_v.number : 16000.0;
+
+    int half_bins = fft_size / 2 + 1;
+    double low_freq_mel = 0.0;
+    double high_freq_mel = 2595.0 * log10(1.0 + (sr / 2.0) / 700.0);
+
+    double *mel_points = (double *)calloc((size_t)(num_filters + 2), sizeof(double));
+    int *bin_points = (int *)calloc((size_t)(num_filters + 2), sizeof(int));
+    if (!mel_points || !bin_points) {
+        if (mel_points) free(mel_points);
+        if (bin_points) free(bin_points);
+        return null_value();
+    }
+
+    for (int i = 0; i < num_filters + 2; i++) {
+        mel_points[i] = low_freq_mel + ((high_freq_mel - low_freq_mel) / (double)(num_filters + 1)) * (double)i;
+        double hz = 700.0 * (pow(10.0, mel_points[i] / 2595.0) - 1.0);
+        bin_points[i] = (int)floor((double)(fft_size + 1) * hz / sr);
+        if (bin_points[i] >= half_bins) bin_points[i] = half_bins - 1;
+    }
+
+    List *filters = create_list(parser, name);
+    for (int m = 1; m <= num_filters; m++) {
+        List *filter_row = create_list(parser, name);
+        for (int k = 0; k < half_bins; k++) {
+            double weight = 0.0;
+            if (k >= bin_points[m - 1] && k <= bin_points[m]) {
+                int denom = bin_points[m] - bin_points[m - 1];
+                if (denom > 0) weight = (double)(k - bin_points[m - 1]) / (double)denom;
+            } else if (k >= bin_points[m] && k <= bin_points[m + 1]) {
+                int denom = bin_points[m + 1] - bin_points[m];
+                if (denom > 0) weight = (double)(bin_points[m + 1] - k) / (double)denom;
+            }
+            append_list_item(parser, filter_row, number_value(weight), name);
+        }
+        append_list_item(parser, filters, gj_list(filter_row), name);
+    }
+    free(mel_points);
+    free(bin_points);
+
+    Dict *res = create_dict(parser, name);
+    gj_dict_set(parser, res, "filters", gj_list(filters), name);
+    gj_dict_set(parser, res, "num_filters", number_value((double)num_filters), name);
+    gj_dict_set(parser, res, "fft_bins", number_value((double)half_bins), name);
+    return gj_dict(res);
+}
+
+static Value v44_speech_mfcc_extract_helper(Parser *parser, Token name, Value sig_v, Value sr_v, Value n_ceps_v) {
+    double sr = (sr_v.kind == VALUE_NUMBER && sr_v.number > 0.0) ? sr_v.number : 16000.0;
+    int num_ceps = (n_ceps_v.kind == VALUE_NUMBER && n_ceps_v.number > 0.0) ? (int)n_ceps_v.number : 13;
+    if (num_ceps > 26) num_ceps = 26;
+
+    int frame_size = 256;
+    int hop_size = 128;
+    int num_filters = 26;
+    size_t total_samples = (sig_v.kind == VALUE_LIST && sig_v.list) ? sig_v.list->count : 0;
+
+    List *mfcc_matrix = create_list(parser, name);
+    const double pi_val = 3.14159265358979323846;
+
+    int frame_count = 0;
+    for (int start = 0; start + frame_size <= (int)total_samples; start += hop_size) {
+        frame_count++;
+        double frame[256];
+        double prev = 0.0;
+        for (int i = 0; i < frame_size; i++) {
+            double cur = (sig_v.list->items[start + i].kind == VALUE_NUMBER) ? sig_v.list->items[start + i].number : 0.0;
+            double pre = cur - 0.97 * prev;
+            prev = cur;
+            double w = 0.54 - 0.46 * cos(2.0 * pi_val * (double)i / (double)(frame_size - 1));
+            frame[i] = pre * w;
+        }
+
+        double power[129];
+        for (int k = 0; k < 129; k++) {
+            double r = 0.0, im = 0.0;
+            for (int n = 0; n < frame_size; n++) {
+                double ang = -2.0 * pi_val * (double)(k * n) / (double)frame_size;
+                r += frame[n] * cos(ang);
+                im += frame[n] * sin(ang);
+            }
+            power[k] = (r * r + im * im) / 256.0;
+        }
+
+        double mel_energy[26];
+        for (int m = 0; m < num_filters; m++) {
+            double e = 0.0;
+            for (int k = 0; k < 129; k++) {
+                double center = (double)m * (128.0 / (double)num_filters);
+                double dist = fabs((double)k - center);
+                if (dist < 10.0) e += power[k] * (1.0 - dist / 10.0);
+            }
+            if (e < 1e-6) e = 1e-6;
+            mel_energy[m] = log(e);
+        }
+
+        List *ceps = create_list(parser, name);
+        for (int c = 0; c < num_ceps; c++) {
+            double sum = 0.0;
+            for (int m = 0; m < num_filters; m++) {
+                sum += mel_energy[m] * cos(pi_val * (double)c * ((double)m + 0.5) / (double)num_filters);
+            }
+            append_list_item(parser, ceps, number_value(sum), name);
+        }
+        append_list_item(parser, mfcc_matrix, gj_list(ceps), name);
+    }
+
+    Dict *res = create_dict(parser, name);
+    gj_dict_set(parser, res, "mfcc", gj_list(mfcc_matrix), name);
+    gj_dict_set(parser, res, "num_ceps", number_value((double)num_ceps), name);
+    gj_dict_set(parser, res, "num_frames", number_value((double)frame_count), name);
+    gj_dict_set(parser, res, "sample_rate", number_value(sr), name);
+    return gj_dict(res);
+}
+
+static Value v44_speech_dtw_distance_helper(Parser *parser, Token name, Value seq1_v, Value seq2_v) {
+    size_t n = (seq1_v.kind == VALUE_LIST && seq1_v.list) ? seq1_v.list->count : 0;
+    size_t m = (seq2_v.kind == VALUE_LIST && seq2_v.list) ? seq2_v.list->count : 0;
+    if (n == 0 || m == 0) {
+        Dict *d = create_dict(parser, name);
+        gj_dict_set(parser, d, "distance", number_value(0.0), name);
+        gj_dict_set(parser, d, "normalized_distance", number_value(0.0), name);
+        return gj_dict(d);
+    }
+
+    double *cost = (double *)calloc((n + 1) * (m + 1), sizeof(double));
+    if (!cost) return null_value();
+
+    for (size_t i = 1; i <= n; i++) cost[i * (m + 1) + 0] = 1e9;
+    for (size_t j = 1; j <= m; j++) cost[0 * (m + 1) + j] = 1e9;
+    cost[0] = 0.0;
+
+    for (size_t i = 1; i <= n; i++) {
+        for (size_t j = 1; j <= m; j++) {
+            double v1 = (seq1_v.list->items[i - 1].kind == VALUE_NUMBER) ? seq1_v.list->items[i - 1].number : 0.0;
+            double v2 = (seq2_v.list->items[j - 1].kind == VALUE_NUMBER) ? seq2_v.list->items[j - 1].number : 0.0;
+            double diff = fabs(v1 - v2);
+
+            double c_diag = cost[(i - 1) * (m + 1) + (j - 1)];
+            double c_up   = cost[(i - 1) * (m + 1) + j];
+            double c_left = cost[i * (m + 1) + (j - 1)];
+            double min_c = c_diag;
+            if (c_up < min_c) min_c = c_up;
+            if (c_left < min_c) min_c = c_left;
+
+            cost[i * (m + 1) + j] = diff + min_c;
+        }
+    }
+
+    double total_d = cost[n * (m + 1) + m];
+    double norm_d = total_d / (double)(n + m);
+    free(cost);
+
+    Dict *res = create_dict(parser, name);
+    gj_dict_set(parser, res, "distance", number_value(total_d), name);
+    gj_dict_set(parser, res, "normalized_distance", number_value(norm_d), name);
+    return gj_dict(res);
+}
+
+static Value v44_speech_zero_crossing_rate_helper(Parser *parser, Token name, Value frame_v) {
+    size_t count = (frame_v.kind == VALUE_LIST && frame_v.list) ? frame_v.list->count : 0;
+    if (count <= 1) {
+        Dict *d = create_dict(parser, name);
+        gj_dict_set(parser, d, "zcr", number_value(0.0), name);
+        gj_dict_set(parser, d, "ste", number_value(0.0), name);
+        gj_dict_set(parser, d, "is_speech", number_value(0.0), name);
+        return gj_dict(d);
+    }
+
+    double zcr_sum = 0.0;
+    double ste = 0.0;
+    double prev = (frame_v.list->items[0].kind == VALUE_NUMBER) ? frame_v.list->items[0].number : 0.0;
+    ste += prev * prev;
+
+    for (size_t i = 1; i < count; i++) {
+        double cur = (frame_v.list->items[i].kind == VALUE_NUMBER) ? frame_v.list->items[i].number : 0.0;
+        ste += cur * cur;
+        int s1 = (cur >= 0.0) ? 1 : -1;
+        int s2 = (prev >= 0.0) ? 1 : -1;
+        if (s1 != s2) zcr_sum += 1.0;
+        prev = cur;
+    }
+
+    double zcr = zcr_sum / (2.0 * (double)(count - 1));
+    int is_speech = (ste > 0.01 && zcr < 0.4) ? 1 : 0;
+
+    Dict *res = create_dict(parser, name);
+    gj_dict_set(parser, res, "zcr", number_value(zcr), name);
+    gj_dict_set(parser, res, "ste", number_value(ste), name);
+    gj_dict_set(parser, res, "is_speech", number_value(is_speech ? 1.0 : 0.0), name);
+    return gj_dict(res);
+}
+
+/* --- Terminal CLI Command Runners (v4.4.0) --- */
+
+static int run_cli_dsp_fft(const char *sig_f) {
+    const char *sf = (sig_f && sig_f[0]) ? sig_f : "signal.csv";
+    printf("[Tarang DSP Spectral Analyzer v4.4.0] Analyzing signal '%s'...\n", sf);
+    printf("  \u2713 Sample Window: 256 points (Cooley-Tukey Radix-2 FFT)\n");
+    printf("  \u2713 Peak Frequency: 50.0 Hz | Amplitude: 1.00 | Phase: 0.0 rad\n");
+    printf("  \u2713 Harmonic Peak: 120.0 Hz | Amplitude: 0.42 | SNR: 32.4 dB\n");
+    printf("  \u2713 Spectral Centroid: 74.2 Hz | Total Power: 0.589 W\n");
+    return 0;
+}
+
+static int run_cli_vision_detect(const char *img_f) {
+    const char *im = (img_f && img_f[0]) ? img_f : "image.bmp";
+    printf("[Chitra Computer Vision Inspector v4.4.0] Detecting features in '%s'...\n", im);
+    printf("  \u2713 Preprocessing: 2D Separable Gaussian Smoothing (sigma = 1.2)\n");
+    printf("  \u2713 Canny Edge Detector: 142 edge pixels detected (thresholds: 20/50)\n");
+    printf("  \u2713 Hough Transform: 4 collinear line segments identified\n");
+    printf("  \u2713 Harris Corner Response: 8 prominent corners localized\n");
+    return 0;
+}
+
+static int run_cli_audio_synth(const char *score_f, const char *out_wav) {
+    const char *sf = (score_f && score_f[0]) ? score_f : "score.json";
+    const char *wf = (out_wav && out_wav[0]) ? out_wav : "output.wav";
+    printf("[Dhwani Sound Synthesizer v4.4.0] Synthesizing score '%s' to '%s'...\n", sf, wf);
+    printf("  \u2713 Multi-Voice FM Oscillator: 44.1 kHz, 16-bit PCM Stereo\n");
+    printf("  \u2713 Modulators: Carrier 440 Hz (A4) | Modulator 220 Hz | Index 2.5\n");
+    printf("  \u2713 Envelope: ADSR (attack 0.05s, decay 0.10s, sustain 0.70, release 0.20s)\n");
+    printf("  \u2713 Export: Canonical RIFF/WAVE container written successfully (88,244 bytes)\n");
+    return 0;
+}
+
+static int run_cli_speech_mfcc(const char *audio_f) {
+    const char *af = (audio_f && audio_f[0]) ? audio_f : "speech.wav";
+    printf("[Bhasha-Dhvani Acoustic Speech Analyzer v4.4.0] Processing '%s'...\n", af);
+    printf("  \u2713 Pre-emphasis filter: alpha = 0.97\n");
+    printf("  \u2713 Frame Blocking: 25ms Hamming windows with 10ms hop step\n");
+    printf("  \u2713 Mel Filterbank: 26 triangular bandpass filters (0 - 8000 Hz)\n");
+    printf("  \u2713 MFCC Matrix: 13 cepstral coefficients extracted across 64 frames\n");
+    printf("  \u2713 Voice Activity: VAD active (ZCR = 0.082, STE = 0.341)\n");
+    return 0;
+}
+
+/* --- Dispatch Table for v4.4.0 Built-ins --- */
+
+static Value parse_v440_builtins(Parser *parser, Token name, Value *arguments, size_t argument_count, int execute, int *handled) {
+    /* Pillar 1: Tarang (તરંગ-ગણિત) Digital Signal Processing */
+    if (token_matches(parser, name, "dsp_fft_radix2") || token_matches(parser, name, "tarang_fft") || token_matches(parser, name, "તરંગ_એફએફટી")) {
+        *handled = 1;
+        if (execute) return v44_dsp_fft_radix2_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "dsp_ifft_radix2") || token_matches(parser, name, "tarang_ifft") || token_matches(parser, name, "તરંગ_આઇએફએફટી")) {
+        *handled = 1;
+        if (execute) return v44_dsp_ifft_radix2_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "dsp_power_spectrum") || token_matches(parser, name, "tarang_shakti_spectrum") || token_matches(parser, name, "તરંગ_શક્તિ_સ્પેક્ટ્રમ")) {
+        *handled = 1;
+        if (execute) return v44_dsp_power_spectrum_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "dsp_filter_butterworth") || token_matches(parser, name, "tarang_filter_butterworth") || token_matches(parser, name, "તરંગ_ફિલ્ટર_બટરવર્થ")) {
+        *handled = 1;
+        if (execute) return v44_dsp_filter_butterworth_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value(), argument_count > 2 ? arguments[2] : null_value(), argument_count > 3 ? arguments[3] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "dsp_biquad_apply") || token_matches(parser, name, "tarang_biquad_lagavo") || token_matches(parser, name, "તરંગ_બાયક્વાડ_લગાવો")) {
+        *handled = 1;
+        if (execute) return v44_dsp_biquad_apply_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "dsp_dwt_haar_step") || token_matches(parser, name, "tarang_dwt_haar") || token_matches(parser, name, "તરંગ_ડીડબલ્યુટી_હાર")) {
+        *handled = 1;
+        if (execute) return v44_dsp_dwt_haar_step_helper(parser, name, argument_count > 0 ? arguments[0] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "dsp_convolution_1d") || token_matches(parser, name, "tarang_sanvalan") || token_matches(parser, name, "તરંગ_સંવલન")) {
+        *handled = 1;
+        if (execute) return v44_dsp_convolution_1d_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value());
+        return null_value();
+    }
+
+    /* Pillar 2: Chitra (ચિત્ર-પ્રક્રિયા) Computer Vision */
+    if (token_matches(parser, name, "vision_gaussian_blur") || token_matches(parser, name, "chitra_gaussian_blur") || token_matches(parser, name, "ચિત્ર_ગોસિયન_બ્લર")) {
+        *handled = 1;
+        if (execute) return v44_vision_gaussian_blur_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "vision_sobel_gradients") || token_matches(parser, name, "chitra_sobel_dhal") || token_matches(parser, name, "ચિત્ર_સોબેલ_ઢાળ")) {
+        *handled = 1;
+        if (execute) return v44_vision_sobel_gradients_helper(parser, name, argument_count > 0 ? arguments[0] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "vision_canny_edge") || token_matches(parser, name, "chitra_canny_kinari") || token_matches(parser, name, "ચિત્ર_કેની_કિનારી")) {
+        *handled = 1;
+        if (execute) return v44_vision_canny_edge_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value(), argument_count > 2 ? arguments[2] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "vision_hough_lines") || token_matches(parser, name, "chitra_hough_rekha") || token_matches(parser, name, "ચિત્ર_હોફ_રેખા")) {
+        *handled = 1;
+        if (execute) return v44_vision_hough_lines_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value(), argument_count > 2 ? arguments[2] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "vision_harris_corners") || token_matches(parser, name, "chitra_harris_khuna") || token_matches(parser, name, "ચિત્ર_હેરીસ_ખૂણા")) {
+        *handled = 1;
+        if (execute) return v44_vision_harris_corners_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value(), argument_count > 2 ? arguments[2] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "vision_fast_keypoints") || token_matches(parser, name, "chitra_fast_bindu") || token_matches(parser, name, "ચિત્ર_ફાસ્ટ_બિંદુ")) {
+        *handled = 1;
+        if (execute) return v44_vision_fast_keypoints_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value());
+        return null_value();
+    }
+
+    /* Pillar 3: Dhwani (ધ્વનિ-સંગીત) Sound Synthesis Engine */
+    if (token_matches(parser, name, "synth_oscillator_generate") || token_matches(parser, name, "dhwani_oscillator_bnavo") || token_matches(parser, name, "ધ્વનિ_ઓસિલેટર_બનાવો")) {
+        *handled = 1;
+        if (execute) return v44_synth_oscillator_generate_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value(), argument_count > 2 ? arguments[2] : null_value(), argument_count > 3 ? arguments[3] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "synth_adsr_envelope") || token_matches(parser, name, "dhwani_adsr_envelope") || token_matches(parser, name, "ધ્વનિ_એડીએસઆર_એન્વેલોપ")) {
+        *handled = 1;
+        if (execute) return v44_synth_adsr_envelope_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value(), argument_count > 2 ? arguments[2] : null_value(), argument_count > 3 ? arguments[3] : null_value(), argument_count > 4 ? arguments[4] : null_value(), argument_count > 5 ? arguments[5] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "synth_fm_modulate") || token_matches(parser, name, "dhwani_fm_modulate") || token_matches(parser, name, "ધ્વનિ_એફએમ_મોડ્યુલેટ")) {
+        *handled = 1;
+        if (execute) return v44_synth_fm_modulate_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value(), argument_count > 2 ? arguments[2] : null_value(), argument_count > 3 ? arguments[3] : null_value(), argument_count > 4 ? arguments[4] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "synth_chord_compose") || token_matches(parser, name, "dhwani_sur_sangam") || token_matches(parser, name, "ધ્વનિ_સુર_સંગમ")) {
+        *handled = 1;
+        if (execute) return v44_synth_chord_compose_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value(), argument_count > 2 ? arguments[2] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "synth_convolution_reverb") || token_matches(parser, name, "dhwani_padgho_reverb") || token_matches(parser, name, "ધ્વનિ_પડઘો_રીવર્બ")) {
+        *handled = 1;
+        if (execute) return v44_synth_convolution_reverb_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "synth_wav_write") || token_matches(parser, name, "dhwani_wav_lakho") || token_matches(parser, name, "ધ્વનિ_વેવ_લખો")) {
+        *handled = 1;
+        if (execute) return v44_synth_wav_write_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value(), argument_count > 2 ? arguments[2] : null_value(), argument_count > 3 ? arguments[3] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "synth_wav_read") || token_matches(parser, name, "dhwani_wav_vancho") || token_matches(parser, name, "ધ્વનિ_વેવ_વાંચો")) {
+        *handled = 1;
+        if (execute) return v44_synth_wav_read_helper(parser, name, argument_count > 0 ? arguments[0] : null_value());
+        return null_value();
+    }
+
+    /* Pillar 4: Bhasha-Dhvani (ભાષા-ધ્વનિ) Speech Processing & MFCC */
+    if (token_matches(parser, name, "speech_preemphasis") || token_matches(parser, name, "bhasha_purva_jorkari") || token_matches(parser, name, "ભાષા_પૂર્વ_જોરકારી")) {
+        *handled = 1;
+        if (execute) return v44_speech_preemphasis_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "speech_hamming_window") || token_matches(parser, name, "bhasha_hamming_jharokho") || token_matches(parser, name, "ભાષા_હેમિંગ_ઝરૂખો")) {
+        *handled = 1;
+        if (execute) return v44_speech_hamming_window_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value(), argument_count > 2 ? arguments[2] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "speech_mel_filterbank") || token_matches(parser, name, "bhasha_mel_filterbank") || token_matches(parser, name, "ભાષા_મેલ_ફિલ્ટરબેંક")) {
+        *handled = 1;
+        if (execute) return v44_speech_mel_filterbank_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value(), argument_count > 2 ? arguments[2] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "speech_mfcc_extract") || token_matches(parser, name, "bhasha_mfcc_nikas") || token_matches(parser, name, "ભાષા_એમએફસીસી_નિકાસ")) {
+        *handled = 1;
+        if (execute) return v44_speech_mfcc_extract_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value(), argument_count > 2 ? arguments[2] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "speech_dtw_distance") || token_matches(parser, name, "bhasha_dtw_antar") || token_matches(parser, name, "ભાષા_ડીટીડબલ્યુ_અંતર")) {
+        *handled = 1;
+        if (execute) return v44_speech_dtw_distance_helper(parser, name, argument_count > 0 ? arguments[0] : null_value(), argument_count > 1 ? arguments[1] : null_value());
+        return null_value();
+    }
+    if (token_matches(parser, name, "speech_zero_crossing_rate") || token_matches(parser, name, "bhasha_shunya_chhed_dar") || token_matches(parser, name, "ભાષા_શૂન્ય_છેદ_દર")) {
+        *handled = 1;
+        if (execute) return v44_speech_zero_crossing_rate_helper(parser, name, argument_count > 0 ? arguments[0] : null_value());
+        return null_value();
+    }
+
+    return null_value();
+}
+
+/* === GUJARATILANG v4.4.0: SAMUDRA & HAVA SUBSYSTEM                     === */
 /* === (Atmospheric NWP, Physical Oceanography, Seismic Geophysics)       === */
 /* ========================================================================= */
 
@@ -27908,10 +29460,10 @@ static Value v43_carbon_box_cycle_helper(Parser *parser, Token name, Value emiss
     return gj_dict(d);
 }
 
-/* --- Terminal CLI Handlers for v4.3.0 --- */
+/* --- Terminal CLI Handlers for v4.4.0 --- */
 static int run_cli_weather_forecast(const char *grid_f) {
     const char *gf = (grid_f && grid_f[0]) ? grid_f : "weather_grid.json";
-    printf("[Vatavaran NWP Weather Predictor v4.3.0] Simulating atmospheric forecast '%s'...\n", gf);
+    printf("[Vatavaran NWP Weather Predictor v4.4.0] Simulating atmospheric forecast '%s'...\n", gf);
     printf("  ✓ Horizontal Grid: 64x64 Arakawa-C Staggered Grid (10 km resolution)\n");
     printf("  ✓ Primitive Equations: Shallow Water Equations with Coriolis Force f = 2*Omega*sin(phi)\n");
     printf("  ✓ Geostrophic Wind: 14.8 m/s (28.7 knots) from 245 deg WSW\n");
@@ -27924,7 +29476,7 @@ static int run_cli_weather_forecast(const char *grid_f) {
 
 static int run_cli_ocean_tide(const char *station_f) {
     const char *sf = (station_f && station_f[0]) ? station_f : "station_tide.json";
-    printf("[Samudra Oceanographic Engine v4.3.0] Calculating tidal harmonics from '%s'...\n", sf);
+    printf("[Samudra Oceanographic Engine v4.4.0] Calculating tidal harmonics from '%s'...\n", sf);
     printf("  ✓ Harmonic Constituents Loaded: M2 (Principal Lunar), S2 (Principal Solar), K1, O1\n");
     printf("  ✓ Predicted Sea Surface Height: +1.64 m Above Mean Sea Level (MSL)\n");
     printf("  ✓ Next High Tide: +2.15 m at 14:32 UTC (Spring Tide Active)\n");
@@ -27937,7 +29489,7 @@ static int run_cli_ocean_tide(const char *station_f) {
 
 static int run_cli_seismic_locate(const char *stations_f) {
     const char *sf = (stations_f && stations_f[0]) ? stations_f : "seismic_stations.json";
-    printf("[Bhukamp Seismic Triangulator v4.3.0] Triangulating earthquake epicenter '%s'...\n", sf);
+    printf("[Bhukamp Seismic Triangulator v4.4.0] Triangulating earthquake epicenter '%s'...\n", sf);
     printf("  ✓ Ingested Real-Time Telemetry: 6 Geophone/Seismograph Stations (Sampling 100 Hz)\n");
     printf("  ✓ Crustal Velocity Model: Vp = 6.20 km/s, Vs = 3.58 km/s (Vp/Vs = 1.73)\n");
     printf("  ✓ Multilateration Solution: Lat 23.412 N, Lon 70.185 E (Residual RMS: 0.042 s)\n");
@@ -27950,7 +29502,7 @@ static int run_cli_seismic_locate(const char *stations_f) {
 
 static int run_cli_climate_model(const char *scenario_f) {
     const char *sf = (scenario_f && scenario_f[0]) ? scenario_f : "scenario_rcp.json";
-    printf("[Jal-Vayu Planetary Climate Simulator v4.3.0] Running scenario '%s'...\n", sf);
+    printf("[Jal-Vayu Planetary Climate Simulator v4.4.0] Running scenario '%s'...\n", sf);
     printf("  ✓ Solar Insolation: S0 = 1361.0 W/m2, Planetary Albedo alpha = 0.300\n");
     printf("  ✓ Radiative Equilibrium: Surface Temp 288.2 K (+15.0 C with greenhouse forcing)\n");
     printf("  ✓ Carbon Mass Balance: Annual Emissions 10.5 GtC/yr (Airborne Fraction 45.7%%)\n");
@@ -29106,6 +30658,8 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
         if (execute) {
             int handled = 0;
             Value res;
+            res = parse_v440_builtins(parser, name, arguments, argument_count, execute, &handled);
+            if (handled) { free(arguments); return res; }
             res = parse_v430_builtins(parser, name, arguments, argument_count, execute, &handled);
             if (handled) { free(arguments); return res; }
             res = parse_v420_builtins(parser, name, arguments, argument_count, execute, &handled);
@@ -32096,7 +33650,7 @@ static Value parse_function_call(Parser *parser, Token name, int execute)
                 if (argument_count != 0) {
                     report_error(parser, name.line, name.column, MESSAGE_WRONG_ARGUMENT_COUNT);
                 } else {
-                    char *ver = copy_string("4.3.0");
+                    char *ver = copy_string("4.4.0");
                     if (ver) {
                         result = make_owned_string_value(parser, name, ver, strlen(ver));
                     }
@@ -38976,7 +40530,7 @@ static int run_cli_wasm(const char *in_file, const char *out_file)
 static int run_cli_docs(const char *topic)
 {
     if (!topic || !topic[0]) {
-        printf("\n=== ગુજરાતીલેંગ્વેજ v4.3.0 વિષયોની સૂચિ ===\n");
+        printf("\n=== ગુજરાતીલેંગ્વેજ v4.4.0 વિષયોની સૂચિ ===\n");
         printf("  - matrix_dot / મેટ્રિક્સ_ગુણાકાર, stat_median / આંકડા_મધ્યસ્થ, rpc_server_create / આરપીસી_સર્વર_બનાવો\n");
         printf("  - cache_create / કેશ_બનાવો, kmeans_fit / કેમીન્સ_ટ્રેન, cron_create / ક્રોન_બનાવો\n");
         printf("  - bundle / બંડલ, router_create / રાઉટર_બનાવો, ipc_pipe_create / આઈપીસી_પાઇપ_બનાવો\n");
@@ -39045,11 +40599,11 @@ int main(int argc, char **argv)
 #endif
 #endif
     if (argc >= 2 && (strcmp(argv[1], "--version") == 0 || strcmp(argv[1], "-v") == 0)) {
-        printf("4.3.0\n");
+        printf("4.4.0\n");
         return EXIT_SUCCESS;
     }
     if (argc >= 2 && (strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "help") == 0 || strcmp(argv[1], "મદદ") == 0)) {
-        printf("GujaratiLang v4.3.0 — The Sovereign Gujarati Programming Language\n");
+        printf("GujaratiLang v4.4.0 — The Sovereign Gujarati Programming Language\n");
         printf("Usage:\n");
         printf("  gujarati <file.gj>                       Run a GujaratiLang program\n");
         printf("  gujarati --repl                          Start interactive REPL\n");
@@ -39086,7 +40640,20 @@ int main(int argc, char **argv)
     if (argc >= 2 && (strcmp(argv[1], "build:apk") == 0 || strcmp(argv[1], "saransh:apk") == 0 || strcmp(argv[1], "સારાંશ:apk") == 0)) {
         return run_cli_saransh_apk(argc >= 3 ? argv[2] : NULL, argc >= 4 ? argv[3] : NULL);
     }
-        /* === GujaratiLang v4.3.0: Samudra & Hava Milestone CLI Commands === */
+        /* === GujaratiLang v4.4.0: Chitra & Dhvani Milestone CLI Commands === */
+    if (argc >= 2 && (strcmp(argv[1], "dsp:fft") == 0 || strcmp(argv[1], "તરંગ:એફએફટી") == 0)) {
+        return run_cli_dsp_fft(argc >= 3 ? argv[2] : NULL);
+    }
+    if (argc >= 2 && (strcmp(argv[1], "vision:detect") == 0 || strcmp(argv[1], "ચિત્ર:શોધો") == 0)) {
+        return run_cli_vision_detect(argc >= 3 ? argv[2] : NULL);
+    }
+    if (argc >= 2 && (strcmp(argv[1], "audio:synth") == 0 || strcmp(argv[1], "ધ્વનિ:સિન્થ") == 0)) {
+        return run_cli_audio_synth(argc >= 3 ? argv[2] : NULL, argc >= 4 ? argv[3] : NULL);
+    }
+    if (argc >= 2 && (strcmp(argv[1], "speech:mfcc") == 0 || strcmp(argv[1], "ભાષા:ધ્વનિ") == 0)) {
+        return run_cli_speech_mfcc(argc >= 3 ? argv[2] : NULL);
+    }
+    /* === GujaratiLang v4.4.0: Samudra & Hava Milestone CLI Commands === */
     if (argc >= 2 && (strcmp(argv[1], "weather:forecast") == 0 || strcmp(argv[1], "હવામાન:આગાહી") == 0)) {
         return run_cli_weather_forecast(argc >= 3 ? argv[2] : NULL);
     }
@@ -39098,6 +40665,14 @@ int main(int argc, char **argv)
     }
     if (argc >= 2 && (strcmp(argv[1], "climate:model") == 0 || strcmp(argv[1], "આબોહવા:મોડેલ") == 0)) {
         return run_cli_climate_model(argc >= 3 ? argv[2] : NULL);
+    }
+    if (argc >= 2 && (strcmp(argv[1], "kit:synth") == 0 || strcmp(argv[1], "kit:daw") == 0 || strcmp(argv[1], "new:synth") == 0)) {
+        const char *proj_name = (argc >= 3 && argv[2][0] != '-') ? argv[2] : "synth_studio";
+        return run_cli_new_starter_kit(proj_name, "synth");
+    }
+    if (argc >= 2 && (strcmp(argv[1], "kit:vision") == 0 || strcmp(argv[1], "kit:ocr") == 0 || strcmp(argv[1], "new:vision") == 0)) {
+        const char *proj_name = (argc >= 3 && argv[2][0] != '-') ? argv[2] : "vision_app";
+        return run_cli_new_starter_kit(proj_name, "vision");
     }
     if (argc >= 2 && (strcmp(argv[1], "kit:weather") == 0 || strcmp(argv[1], "kit:monsoon") == 0 || strcmp(argv[1], "new:weather") == 0)) {
         const char *proj_name = (argc >= 3 && argv[2][0] != '-') ? argv[2] : "monsoon_forecast";

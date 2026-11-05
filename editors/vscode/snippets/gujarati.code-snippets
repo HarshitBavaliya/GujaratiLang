@@ -2817,5 +2817,69 @@
       "chhapo resp;"
     ],
     "description": "AI Large Language Model prompt and completion (v3.3.0)"
+  },
+  "Tarang Cooley-Tukey FFT & Power Spectrum (v4.4.0)": {
+    "prefix": [
+      "dsp_fft",
+      "tarang_fft",
+      "તરંગ_એફએફટી",
+      "dsp_power_spectrum"
+    ],
+    "body": [
+      "// Radix-2 Cooley-Tukey FFT and Power Spectrum analysis",
+      "sig = ${1:[1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]};",
+      "fft_res = dsp_fft_radix2(sig, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);",
+      "psd = dsp_power_spectrum(fft_res[\"real\"], fft_res[\"imag\"]);",
+      "chhapo psd[\"peak_bin\"];"
+    ],
+    "description": "Compute Radix-2 Cooley-Tukey FFT and power spectral density (v4.4.0)"
+  },
+  "Chitra Canny Edge & Harris Corner Detector (v4.4.0)": {
+    "prefix": [
+      "vision_canny",
+      "chitra_canny",
+      "ચિત્ર_કેની_કિનારી",
+      "vision_harris"
+    ],
+    "body": [
+      "// 2D Gaussian blur, Canny edge detection & Harris corner response",
+      "img = {\"width\": ${1:8}, \"height\": ${2:8}, \"pixels\": ${3:[...]} };",
+      "blurred = vision_gaussian_blur(img, ${4:1.2});",
+      "edges = vision_canny_edge(blurred, ${5:20.0}, ${6:50.0});",
+      "corners = vision_harris_corners(img, 0.04, 100.0);",
+      "chhapo edges[\"edge_count\"];"
+    ],
+    "description": "Canny edge detector and Harris corner feature extraction (v4.4.0)"
+  },
+  "Dhwani FM Synthesizer & ADSR Envelope (v4.4.0)": {
+    "prefix": [
+      "synth_fm",
+      "dhwani_fm",
+      "ધ્વનિ_એફએમ",
+      "synth_adsr"
+    ],
+    "body": [
+      "// 2-Operator FM sound synthesis with ADSR amplitude envelope",
+      "audio = synth_fm_modulate(${1:440.0}, ${2:220.0}, ${3:2.5}, ${4:1.0}, ${5:44100});",
+      "shaped = synth_adsr_envelope(audio, 0.05, 0.10, 0.70, 0.20, 44100);",
+      "synth_wav_write(shaped, 44100, 1, \"${6:synth_out.wav}\");"
+    ],
+    "description": "2-operator FM audio synthesis with ADSR envelope and WAV export (v4.4.0)"
+  },
+  "Bhasha-Dhvani Speech MFCC & DTW Distance (v4.4.0)": {
+    "prefix": [
+      "speech_mfcc",
+      "bhasha_mfcc",
+      "ભાષા_એમએફસીસી",
+      "speech_dtw"
+    ],
+    "body": [
+      "// Acoustic speech recognition feature extraction: 13-dim MFCC and DTW distance",
+      "pre = speech_preemphasis(${1:signal_samples}, 0.97);",
+      "mfcc = speech_mfcc_extract(pre, 8000, 13);",
+      "dist = speech_dtw_distance(mfcc[\"mfcc\"][0], ${2:template_frame});",
+      "chhapo dist[\"distance\"];"
+    ],
+    "description": "Extract 13-coefficient Mel-Frequency Cepstral Coefficients and DTW distance (v4.4.0)"
   }
 }

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 4.3.0 LANGUAGES C)
+project(gujaratilang VERSION 4.4.0 LANGUAGES C)
 
 include(CTest)
 
@@ -1002,7 +1002,37 @@ if(BUILD_TESTING)
             v430_carbon_box_cycle
             v430_cli_climate_model
             v430_cli_weather_kit
-            v430_cli_seismic_kit)
+            v430_cli_seismic_kit
+            v440_dsp_fft_radix2
+            v440_dsp_ifft_radix2
+            v440_dsp_power_spectrum
+            v440_dsp_filter_butterworth
+            v440_dsp_biquad_apply
+            v440_dsp_dwt_haar
+            v440_dsp_convolution_1d
+            v440_vision_gaussian_blur
+            v440_vision_sobel_gradients
+            v440_vision_canny_edge
+            v440_vision_hough_lines
+            v440_vision_harris_corners
+            v440_vision_fast_keypoints
+            v440_synth_oscillator
+            v440_synth_adsr_envelope
+            v440_synth_fm_modulate
+            v440_synth_chord_compose
+            v440_synth_convolution_reverb
+            v440_synth_wav_read_write
+            v440_speech_preemphasis
+            v440_speech_hamming_window
+            v440_speech_mel_filterbank
+            v440_speech_mfcc_extract
+            v440_speech_dtw_distance
+            v440_speech_zero_crossing
+            v440_cli_dsp_fft
+            v440_cli_vision_detect
+            v440_cli_audio_synth
+            v440_cli_speech_mfcc
+            v440_cli_synth_kit)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

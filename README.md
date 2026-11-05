@@ -20,6 +20,17 @@ Whether you are writing applications in GujaratiLang or contributing to the C99 
 
 ## Current features
 
+### What's New in v4.4.0: Chitra & Dhvani — Pure C99 Digital Signal Processing, Computer Vision, Audio Synthesis & Speech MFCC (1,000+ Automated Tests Milestone)
+
+GujaratiLang v4.4.0 marks the historic **1,000+ Automated Tests Milestone** (reaching 1,020 tests), introducing pure C99 digital signal processing, advanced 2D computer vision feature detection, polyphonic acoustic sound synthesis, and Mel-frequency speech recognition acoustic modeling into the core runtime with **zero external C dependencies**, accompanied by two new starter kits — **Algorithmic Synthesizer & DAW (`--kit=synth`, `--kit=daw`)** and **Computer Vision Edge Inspector (`--kit=vision`, `--kit=ocr`)**:
+
+- **Tarang (તરંગ-ગણિત)**: Radix-2 Cooley-Tukey FFT & IFFT ($O(N \log N)$), power spectral density, bilinear Butterworth filters, Direct Form II biquad IIR filtering, Haar discrete wavelet transform (DWT), 1D discrete convolution, and CLI `dsp:fft`.
+- **Chitra (ચિત્ર-પ્રક્રિયા)**: 2D separable Gaussian blur, Sobel directional gradients & angle, Canny edge detector (NMS + hysteresis), Hough line transform, Harris corner response ($R = \det(M) - k \operatorname{Tr}(M)^2$), FAST keypoints, and CLI `vision:detect`.
+- **Dhwani (ધ્વનિ-સંગીત)**: Multi-waveform oscillator (sine, saw, square, triangle), ADSR amplitude envelopes, 2-operator FM synthesis, harmonic chord composition, acoustic convolution reverb, RIFF/WAVE 16-bit PCM loader/writer, and CLI `audio:synth`.
+- **Bhasha-Dhvani (ભાષા-ધ્વનિ)**: High-frequency pre-emphasis, Hamming windowed framing, triangular Mel filterbanks, 13-coefficient MFCC extraction, Dynamic Time Warping (DTW) speech distance, zero-crossing rate (ZCR), and CLI `speech:mfcc`.
+- **Starter Kits 17 & 18**: Algorithmic Synthesizer & Digital Audio Workstation (`--kit=synth`) and Computer Vision Edge Inspector (`--kit=vision`), expanding the built-in starter kit catalog to **18 domain templates**.
+- **Automated Test Suite Expansion**: Reached **1,020 Automated Tests (100% Pass Rate)** across Windows x64, Linux x64, macOS x64, and macOS Apple Silicon (ARM64).
+
 ### What's New in v4.3.0: Samudra & Hava — Pure C99 Numerical Weather Prediction, Physical Oceanography, Seismic Geophysics & Earth Climate Systems (990 Tests Milestone)
 
 GujaratiLang v4.3.0 is the planetary milestone uniting numerical weather prediction, physical oceanography, seismic geophysics, and Earth climate modeling into 100% pure ANSI C99 with **zero external C dependencies**, accompanied by two new production-grade starter kits — **Numerical Weather & Monsoon Prediction Engine (`--kit=weather`, `--kit=monsoon`)** and **Earthquake Early Warning & Seismic Triangulator (`--kit=seismic`, `--kit=earthquake`)** — expanding automated testing to the historic **990 Tests Milestone (100% Pass Rate)**:

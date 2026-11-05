@@ -1,3 +1,15 @@
+## [4.4.0] - 2026-11-05
+
+### Historic Major Release — Synchronized with GujaratiLang v4.4.0 Milestone (1,000+ Automated Tests)
+This historic release synchronizes the VS Code extension version directly with GujaratiLang core runtime **v4.4.0**, expanding syntax recognition to **2,403 built-in functions** and adding **260 intelligent autocomplete snippets** across all modern computational media domains:
+
+- **Chitra & Dhvani (v4.4.0)**:
+  - Tarang DSP: `dsp_fft_radix2`, `dsp_ifft_radix2`, `dsp_power_spectrum`, `dsp_filter_butterworth`, `dsp_biquad_apply`, `dsp_dwt_haar_step`, `dsp_convolution_1d`.
+  - Chitra Computer Vision: `vision_gaussian_blur`, `vision_sobel_gradients`, `vision_canny_edge`, `vision_hough_lines`, `vision_harris_corners`, `vision_fast_keypoints`.
+  - Dhwani Sound Synthesis: `synth_oscillator_generate`, `synth_adsr_envelope`, `synth_fm_modulate`, `synth_chord_compose`, `synth_convolution_reverb`, `synth_wav_write`, `synth_wav_read`.
+  - Bhasha-Dhvani Speech Processing: `speech_preemphasis`, `speech_hamming_window`, `speech_mel_filterbank`, `speech_mfcc_extract`, `speech_dtw_distance`, `speech_zero_crossing_rate`.
+  - Trilingual snippets for Cooley-Tukey FFT, Canny edge detection, FM sound synthesis, and 13-dim MFCC speech recognition.
+
 ## [4.3.0] - 2026-11-05
 
 ### Major Release — Synchronized with GujaratiLang v4.3.0 Milestone
