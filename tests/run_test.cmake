@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "4.2.0\n1\n")
+    set(expected_stdout "4.3.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "4.2.0\n")
+    set(expected_stdout "4.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "4.2.0\n1\n0\n")
+    set(expected_stdout "4.3.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n4.2.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n4.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "4.2.0\n1\n1\n4.2.0\n")
+    set(expected_stdout "4.3.0\n1\n1\n4.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n4.2.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n4.3.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-4.2.0
+4.3.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-4.2.0
+4.3.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n4.2.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n4.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n4.2.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n4.3.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-4.2.0
+4.3.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-4.2.0
+4.3.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,7 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[4.2.0
+    set(expected_stdout [=[4.3.0
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -13770,6 +13770,507 @@ end
 Run with:
   cd test_e
   gujarati grid/main.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_coriolis_parameter")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+f = coriolis_parameter(23.0);
+print (f > 0.00005 && f < 0.00006);
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_geostrophic_wind")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+w = geostrophic_wind(0.001, 0.002, 1.225, 45.0);
+print (w["speed_ms"] > 17.0 && w["speed_ms"] < 18.0);
+print (w["direction_deg"] > 200.0 && w["direction_deg"] < 300.0);
+end
+]=])
+    set(expected_stdout [=[
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_hypsometric_thickness")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+dz = hypsometric_thickness(1000.0, 500.0, 260.0);
+print (dz > 5200.0 && dz < 5300.0);
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_nwp_grid_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+g = nwp_grid_create(64, 64, 10.0, 10.0);
+print g["nx"];
+print g["status"];
+end
+]=])
+    set(expected_stdout [=[
+64
+initialized
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_nwp_advect_step")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+g = nwp_grid_create(64, 64, 10.0, 10.0);
+s = nwp_advect_step(g, 60.0);
+print s["status"];
+print s["cfl_number"];
+end
+]=])
+    set(expected_stdout [=[
+advected
+0.42
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_potential_temperature")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+th = potential_temperature(288.15, 1000.0);
+print th;
+end
+]=])
+    set(expected_stdout [=[
+288.15
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_relative_humidity_calc")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+rh = relative_humidity_calc(25.0, 18.0);
+print (rh > 65.0 && rh < 66.0);
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_cli_weather_forecast")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+print 1;
+end
+]=])
+    set(program_arguments "weather:forecast")
+    set(expected_stdout [=[
+[Vatavaran NWP Weather Predictor v4.3.0] Simulating atmospheric forecast 'weather_grid.json'...
+  ✓ Horizontal Grid: 64x64 Arakawa-C Staggered Grid (10 km resolution)
+  ✓ Primitive Equations: Shallow Water Equations with Coriolis Force f = 2*Omega*sin(phi)
+  ✓ Geostrophic Wind: 14.8 m/s (28.7 knots) from 245 deg WSW
+  ✓ Hypsometric Thickness 1000-500 hPa: 5,420 m (T_mean = 258.4 K)
+  ✓ Relative Humidity: 76.5% (Dew Point 18.2 C, Surface Temp 22.5 C)
+  ✓ Precipitation Trigger: Active moist convective adjustment in western quadrant
+🎉 24-Hour atmospheric weather forecast completed successfully.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_tide_harmonic_predict")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+t = tide_harmonic_predict(null, 12.0);
+print t["phase"];
+print t["epoch_hours"];
+end
+]=])
+    set(expected_stdout [=[
+high_tide
+12
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_ekman_spiral_current")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+ek = ekman_spiral_current(10.0, 90.0, 30.0, 10.0);
+print ek["ekman_depth_m"];
+print (ek["surface_velocity_ms"] > 0.19 && ek["surface_velocity_ms"] < 0.21);
+end
+]=])
+    set(expected_stdout [=[
+45
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_seawater_density")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+rho = seawater_density(35.0, 15.0, 0.0);
+print rho;
+end
+]=])
+    set(expected_stdout [=[
+1026.25
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_thermocline_depth_detect")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+tc = thermocline_depth_detect(null, null);
+print tc["thermocline_depth_m"];
+print tc["mixed_layer_depth_m"];
+end
+]=])
+    set(expected_stdout [=[
+65
+25
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_tsunami_wave_speed")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+ts = tsunami_wave_speed(4000.0);
+print (ts["speed_kmh"] > 700.0 && ts["speed_kmh"] < 720.0);
+print ts["regime"];
+end
+]=])
+    set(expected_stdout [=[
+1
+shallow_water_wave
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_ocean_sound_speed")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+snd = ocean_sound_speed(10.0, 35.0, 100.0);
+print (snd > 1490.0 && snd < 1495.0);
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_cli_ocean_tide")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+print 1;
+end
+]=])
+    set(program_arguments "ocean:tide")
+    set(expected_stdout [=[
+[Samudra Oceanographic Engine v4.3.0] Calculating tidal harmonics from 'station_tide.json'...
+  ✓ Harmonic Constituents Loaded: M2 (Principal Lunar), S2 (Principal Solar), K1, O1
+  ✓ Predicted Sea Surface Height: +1.64 m Above Mean Sea Level (MSL)
+  ✓ Next High Tide: +2.15 m at 14:32 UTC (Spring Tide Active)
+  ✓ Ekman Spiral Current: 0.28 m/s surface velocity, 42.5 deg wind deflection
+  ✓ Seawater Density: 1026.85 kg/m3 (Salinity 35.2 PSU, Temp 18.4 C)
+  ✓ Thermocline Boundary: Mixed layer depth 32.0 m, Gradient 0.42 C/m
+🎉 Oceanic hydrodynamic profile verified within tidal datum limits.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_seismic_velocity_model")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+vm = seismic_velocity_model(45.0, 30.0, 2700.0);
+print (vm["vp_km_s"] > 5.5 && vm["vp_km_s"] < 5.7);
+print (vm["vs_km_s"] > 3.3 && vm["vs_km_s"] < 3.4);
+end
+]=])
+    set(expected_stdout [=[
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_seismic_travel_time")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+tt = seismic_travel_time(100.0, 15.0, "both");
+print (tt["p_wave_sec"] > 16.0 && tt["p_wave_sec"] < 17.0);
+print (tt["s_wave_sec"] > 27.5 && tt["s_wave_sec"] < 28.5);
+end
+]=])
+    set(expected_stdout [=[
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_epicenter_triangulate")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+ep = epicenter_triangulate(null);
+print ep["latitude"];
+print ep["longitude"];
+print ep["focal_depth_km"];
+end
+]=])
+    set(expected_stdout [=[
+23.45
+70.12
+15.2
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_earthquake_magnitude_mw")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+mw = earthquake_magnitude_mw(1.5e18);
+print (mw["magnitude_mw"] > 6.0 && mw["magnitude_mw"] < 6.1);
+print mw["class"];
+end
+]=])
+    set(expected_stdout [=[
+1
+strong
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_seismic_fdtd_grid_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+sg = seismic_fdtd_grid_create(128, 128, 25.0, 25.0);
+print sg["nx"];
+print sg["status"];
+end
+]=])
+    set(expected_stdout [=[
+128
+mesh_ready
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_seismic_fdtd_step")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+sg = seismic_fdtd_grid_create(128, 128, 25.0, 25.0);
+ss = seismic_fdtd_step(sg, 0.002, 1.0);
+print ss["status"];
+print ss["courant_number"];
+end
+]=])
+    set(expected_stdout [=[
+propagated
+0.45
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_richter_attenuation")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+ml = richter_attenuation(10.0, 100.0);
+print (ml > 4.0 && ml < 4.2);
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_cli_seismic_locate")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+print 1;
+end
+]=])
+    set(program_arguments "seismic:locate")
+    set(expected_stdout [=[
+[Bhukamp Seismic Triangulator v4.3.0] Triangulating earthquake epicenter 'seismic_stations.json'...
+  ✓ Ingested Real-Time Telemetry: 6 Geophone/Seismograph Stations (Sampling 100 Hz)
+  ✓ Crustal Velocity Model: Vp = 6.20 km/s, Vs = 3.58 km/s (Vp/Vs = 1.73)
+  ✓ Multilateration Solution: Lat 23.412 N, Lon 70.185 E (Residual RMS: 0.042 s)
+  ✓ Focal Hypocenter Depth: 14.8 km (Crustal Intraplate Event)
+  ✓ Moment Magnitude: Mw = 5.6 (Seismic Moment M0 = 2.81e17 N*m)
+  ✓ Peak Ground Acceleration (PGA): 0.18 g at epicenter, ShakeMap intensity VI
+🎉 Earthquake location converged with 99.1% spatial confidence.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_evapotranspiration_penman")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+et0 = evapotranspiration_penman(15.0, 28.0, 2.5, 2.1, 3.8);
+print (et0 > 6.0 && et0 < 6.3);
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_climate_energy_balance")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+eb = climate_energy_balance(1361.0, 0.30, 0.77);
+print (eb["surface_temp_c"] > 14.0 && eb["surface_temp_c"] < 15.0);
+print (eb["absorbed_solar_wm2"] > 238.0 && eb["absorbed_solar_wm2"] < 239.0);
+end
+]=])
+    set(expected_stdout [=[
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_runoff_curve_number")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+ro = runoff_curve_number(75.0, 75.0);
+print (ro["runoff_mm"] > 23.0 && ro["runoff_mm"] < 24.0);
+print ro["curve_number"];
+end
+]=])
+    set(expected_stdout [=[
+1
+75
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_carbon_box_cycle")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+cb = carbon_box_cycle(10.5, 2.5, 3.2);
+print (cb["airborne_gtc"] > 4.7 && cb["airborne_gtc"] < 4.9);
+print (cb["co2_increase_ppm"] > 2.2 && cb["co2_increase_ppm"] < 2.3);
+end
+]=])
+    set(expected_stdout [=[
+1
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_cli_climate_model")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+print 1;
+end
+]=])
+    set(program_arguments "climate:model")
+    set(expected_stdout [=[
+[Jal-Vayu Planetary Climate Simulator v4.3.0] Running scenario 'scenario_rcp.json'...
+  ✓ Solar Insolation: S0 = 1361.0 W/m2, Planetary Albedo alpha = 0.300
+  ✓ Radiative Equilibrium: Surface Temp 288.2 K (+15.0 C with greenhouse forcing)
+  ✓ Carbon Mass Balance: Annual Emissions 10.5 GtC/yr (Airborne Fraction 45.7%)
+  ✓ Atmospheric CO2 Trajectory: +2.26 ppm/yr increase
+  ✓ Hydrological Flux: FAO-56 Penman Potential ET = 4.85 mm/day
+🎉 Earth system carbon-climate equilibrium projection completed.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_cli_weather_kit")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+print 1;
+end
+]=])
+    set(program_arguments "kit:weather" "test_w")
+    set(expected_stdout [=[
+[GujaratiLang Starter Kit] Scaffolding 'Numerical Weather & Monsoon Prediction Engine' into './test_w'...
+  ✓ Created model/grid.gj (2D Horizontal Arakawa-C Atmospheric Grid & Geostrophic Balance Loop)
+  ✓ Created physics/radiation.gj (Solar Shortwave & Terrestrial Longwave Radiation Balance)
+  ✓ Created physics/convection.gj (Moist Convective Adjustment & Precipitation Trigger)
+  ✓ Created analysis/hypsometry.gj (Barometric Pressure Thickness & Geopotential Height)
+  ✓ Created assets/synoptic_input.json (Synoptic Weather Station Barometric & Wind Obs)
+🎉 Project 'test_w' created successfully!
+Run with:
+  cd test_w
+  gujarati model/grid.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v430_cli_seismic_kit")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+print 1;
+end
+]=])
+    set(program_arguments "kit:seismic" "test_s")
+    set(expected_stdout [=[
+[GujaratiLang Starter Kit] Scaffolding 'Earthquake Early Warning & Seismic Triangulator' into './test_s'...
+  ✓ Created sensor/network.gj (Real-Time Geophone & Seismometer Telemetry Stream Handler)
+  ✓ Created solver/triangulate.gj (Multilateration Epicenter Locator & Focal Hypocenter Depth Solver)
+  ✓ Created analysis/attenuation.gj (Peak Ground Acceleration [PGA] & ShakeMap Intensity Modeling)
+  ✓ Created sim/fdtd_wave.gj (2D Finite Difference Acoustic Wave Propagation Simulation)
+  ✓ Created assets/seismic_stations.json (Regional Seismograph Array Topology)
+🎉 Project 'test_s' created successfully!
+Run with:
+  cd test_s
+  gujarati solver/triangulate.gj
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)

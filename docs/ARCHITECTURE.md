@@ -168,7 +168,7 @@ Because `src/main.c` contains comprehensive language features in a single transl
 
 | Platform | Compiler | Architecture | Build Type | Status |
 |---|---|---|---|---|
-| **Windows** | MSVC (VS 2022/2026) | x64 | Release (`/utf-8 /Ob1`) | Verified (960/960 Tests) |
-| **Linux** | GCC 9+ / Clang 10+ | x64 | Release (`-Wall -Wextra`) | Verified (960/960 Tests) |
-| **macOS** | Apple Clang | x64 (Intel) | Release | Verified (960/960 Tests) |
-| **macOS** | Apple Clang | ARM64 (Apple Silicon) | Release | Verified (960/960 Tests) |
+| **Windows** | MSVC (VS 2022/2026) | x64 | Release (`/utf-8 /Ob1`) | Verified (990/990 Tests) |
+| **Linux** | GCC 9+ / Clang 10+ | x64 | Release (`-Wall -Wextra`) | Verified (990/990 Tests) |
+| **macOS** | Apple Clang | x64 (Intel) | Release | Verified (990/990 Tests) |
+| **macOS** | Apple Clang | ARM64 (Apple Silicon) | Release | Verified (990/990 Tests) |

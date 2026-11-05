@@ -12,13 +12,54 @@ you use Visual Studio Code, install the
 
 Whether you are writing applications in GujaratiLang or contributing to the C99 engine itself, explore our comprehensive developer guides:
 
-- 🚀 **[Getting Started Guide](docs/GETTING_STARTED.md)**: Quick installation, writing programs across all 3 language styles, REPL usage, and scaffolding projects with the 9 pre-coded starter kits.
+- 🚀 **[Getting Started Guide](docs/GETTING_STARTED.md)**: Quick installation, writing programs across all 3 language styles, REPL usage, and scaffolding projects with the 16 pre-coded starter kits.
 - 🛠️ **[Core Engine Developer Guide](docs/DEVELOPER_GUIDE.md)**: Definitive guide for contributing to the C99 interpreter, compiler, build workflows (MSVC / GCC / Clang), and a step-by-step tutorial on adding new built-in functions.
 - 🏛️ **[Runtime Architecture](docs/ARCHITECTURE.md)**: Deep dive into lexical analysis, recursive descent AST parsing, the tagged union `Value` system, environment scoping, and zero-dependency subsystems.
 - 📖 **[Complete Language Reference](docs/LANGUAGE_REFERENCE.md)**: Exhaustive catalog of trilingual keywords, operators, control flow, object-oriented classes, and standard library built-ins.
 - 🤝 **[Contributing Guidelines](CONTRIBUTING.md)**: Code of conduct, pull request checklist, and quality assurance rules (C99 purity, trilingual parity, 100% test pass rate).
 
 ## Current features
+
+### What's New in v4.3.0: Samudra & Hava — Pure C99 Numerical Weather Prediction, Physical Oceanography, Seismic Geophysics & Earth Climate Systems (990 Tests Milestone)
+
+GujaratiLang v4.3.0 is the planetary milestone uniting numerical weather prediction, physical oceanography, seismic geophysics, and Earth climate modeling into 100% pure ANSI C99 with **zero external C dependencies**, accompanied by two new production-grade starter kits — **Numerical Weather & Monsoon Prediction Engine (`--kit=weather`, `--kit=monsoon`)** and **Earthquake Early Warning & Seismic Triangulator (`--kit=seismic`, `--kit=earthquake`)** — expanding automated testing to the historic **990 Tests Milestone (100% Pass Rate)**:
+
+- **Pillar 1: Vatavaran (વાતાવરણ-ગતિ) Numerical Weather Prediction & Atmospheric Dynamics (8 Points)**:
+  - `weather_coriolis_param(lat)` / `vatavaran_coriolis(akshansh)` / `વાતાવરણ_કોરિઓલિસ(અક્ષાંશ)`: Computes Coriolis frequency parameter $f = 2\Omega\sin\phi$ ($s^{-1}$).
+  - `weather_geostrophic_wind(grad_p, lat, rho)` / `vatavaran_geostrophic_pavan(...)` / `વાતાવરણ_ભૂસ્તરીય_પવન(...)`: Calculates geostrophic wind balances $(u_g, v_g)$ between pressure gradients and Coriolis acceleration.
+  - `weather_hypsometric_thickness(p1, p2, mean_t_k)` / `vatavaran_zaadayi(...)` / `વાતાવરણ_જાડાઈ(...)`: Computes geopotential thickness $\Delta z = (R_d \bar{T}_v / g) \ln(p_1/p_2)$ between isobaric pressure surfaces.
+  - `weather_arakawa_grid_create(nx, ny, dx, dy)` / `vatavaran_jaal_bnavo(...)` / `વાતાવરણ_જાળ_બનાવો(...)`: Allocates an Arakawa staggered C-grid for atmospheric fluid discretization.
+  - `weather_advection_2d_step(grid, u, v, dt)` / `vatavaran_advection_paglu(...)` / `વાતાવરણ_એડવેક્શન_પગલું(...)`: Advances scalar quantities across the grid via upstream advection.
+  - `weather_potential_temperature(temp_c, p_hpa)` / `vatavaran_sambhavit_taman(...)` / `વાતાવરણ_સંભવિત_તાપમાન(...)`: Computes potential temperature $\theta = T (P_0/P)^{R/c_p}$.
+  - `weather_relative_humidity(temp_c, dewpoint_c)` / `vatavaran_bhej_taka(...)` / `વાતાવરણ_ભેજ_ટકા(...)`: Magnus-Tetens relative humidity formulation.
+  - CLI `weather:forecast [grid.json]` / `વાતાવરણ:આગાહી`: Atmospheric barotropic vorticity integration & 24-hour weather prediction.
+- **Pillar 2: Samudra (સમુદ્ર-તરંગ) Physical Oceanography & Marine Hydrodynamics (7 Points)**:
+  - `ocean_tide_harmonic(constituents, hours)` / `samudra_oat_bharati(...)` / `સમુદ્ર_ઓટ_ભરતી(...)`: Synthesizes astronomical tidal elevation curves ($M_2, S_2, K_1, O_1$).
+  - `ocean_ekman_spiral(wind_speed, lat, depth)` / `samudra_ekman_pravah(...)` / `સમુદ્ર_એકમન_પ્રવાહ(...)`: Wind-driven ocean current velocity and deflection angle depth profile.
+  - `ocean_seawater_density(salinity, temp_c, pressure_dbar)` / `samudra_pani_ghanata(...)` / `સમુદ્ર_પાણી_ઘનતા(...)`: UNESCO/TEOS-10 polynomial seawater equation of state.
+  - `ocean_thermocline_depth(depths, temps)` / `samudra_thermocline_undayi(...)` / `સમુદ્ર_થર્મોક્લાઇન_ઊંડાઈ(...)`: Mixed-layer boundary and maximum temperature gradient detection.
+  - `ocean_tsunami_speed(depth_meters)` / `samudra_tsunami_gati(...)` / `સમુદ્ર_સુનામી_ગતિ(...)`: Shallow-water gravity wave speed $c = \sqrt{gh}$.
+  - `ocean_sound_speed(temp_c, salinity, depth_meters)` / `samudra_dhvani_gati(...)` / `સમુદ્ર_ધ્વનિ_ગતિ(...)`: Underwater acoustic velocity via Mackenzie formulation.
+  - CLI `ocean:tide [tide.json]` / `સમુદ્ર:ભરતી`: Astronomical harmonic tide predictions and Ekman surface deflection.
+- **Pillar 3: Bhukamp (ભૂકંપ-તરંગ) Seismic Geophysics & Wave Propagation (8 Points)**:
+  - `seismic_p_wave_velocity(k, mu, rho)` / `bhukamp_p_tarang_gati(...)` / `ભૂકંપ_પી_તરંગ_ગતિ(...)`: Compressional P-wave velocity $v_p = \sqrt{(K + \frac{4}{3}\mu)/\rho}$.
+  - `seismic_s_wave_velocity(mu, rho)` / `bhukamp_s_tarang_gati(...)` / `ભૂકંપ_એસ_તરંગ_ગતિ(...)`: Shear S-wave velocity $v_s = \sqrt{\mu/\rho}$.
+  - `seismic_travel_time(distance_km, velocity_km_s)` / `bhukamp_pravas_samay(...)` / `ભૂકંપ_પ્રવાસ_સમય(...)`: Raypath transit duration calculation.
+  - `seismic_triangulate_epicenter(st1, st2, st3)` / `bhukamp_kendrabindu_shodho(...)` / `ભૂકંપ_કેન્દ્રબિંદુ_શોધો(...)`: 3-station multilateration epicenter pinpointing $(x_0, y_0)$.
+  - `seismic_moment_magnitude(moment_nm)` / `bhukamp_tivrata_mw(...)` / `ભૂકંપ_તીવ્રતા_એમડબલ્યુ(...)`: Moment magnitude scale $M_w = \frac{2}{3}\log_{10}(M_0) - 9.1$.
+  - `seismic_wavefield_2d_create(nx, ny)` / `bhukamp_kshetra_bnavo(...)` / `ભૂકંપ_ક્ષેત્ર_બનાવો(...)`: 2D scalar stress-displacement field allocation.
+  - `seismic_fdtd_acoustic_step(field, c_grid, dx, dt)` / `bhukamp_fdtd_paglu(...)` / `ભૂકંપ_એફડીટીડી_પગલું(...)`: Explicit FDTD acoustic wave stepping under CFL stability constraint.
+  - CLI `seismic:locate [stations.json]` / `ભૂકંપ:શોધો`: Multilateration epicenter triangulation and Richter magnitude estimation.
+- **Pillar 4: Jal-Vayu (જળવાયુ-ચક્ર) Hydrological Cycle & Earth Climate Energy Balance (7 Points)**:
+  - `climate_penman_monteith(net_rad, temp_c, wind_speed, vpd)` / `jalvayu_bhavan_ganatri(...)` / `જળવાયુ_બાષ્પીભવન_ગણતરી(...)`: FAO-56 Penman-Monteith reference evapotranspiration ($ET_0$).
+  - `climate_planetary_temp(solar, albedo, emissivity)` / `jalvayu_graha_taman(...)` / `જળવાયુ_ગ્રહ_તાપમાન(...)`: Stefan-Boltzmann equilibrium temperature $T_{eq} = [S_0(1-\alpha)/(4\epsilon\sigma)]^{1/4}$.
+  - `climate_scs_runoff(rainfall_mm, cn)` / `jalvayu_pani_pravah(...)` / `જળવાયુ_પાણી_પ્રવાહ(...)`: USDA SCS Runoff Curve Number surface runoff depth.
+  - `climate_carbon_box_model(emissions_gt, years)` / `jalvayu_carbon_chakra(...)` / `જળવાયુ_કાર્બન_ચક્ર(...)`: Multi-box carbon partitioning between atmosphere, shallow ocean, and biosphere.
+  - CLI `climate:model [forcing.json]` / `જળવાયુ:મોડલ`: Climate temperature response, runoff simulation, and carbon trajectory.
+- **Starter Kits 15 & 16**:
+  - `gujarati --kit=weather [project]` / `--kit=monsoon`: Numerical Weather & Monsoon Prediction Engine.
+  - `gujarati --kit=seismic [project]` / `--kit=earthquake`: Earthquake Early Warning & Seismic Triangulator.
+
 
 ### What's New in v4.2.0: Parmanu & Shakti — Pure C99 Quantum Circuit Simulator, SIMD Vectorization, Smart Energy Grid & Lattice Boltzmann CFD (960 Tests Milestone)
 

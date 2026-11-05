@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 4.2.0 LANGUAGES C)
+project(gujaratilang VERSION 4.3.0 LANGUAGES C)
 
 include(CTest)
 
@@ -972,7 +972,37 @@ if(BUILD_TESTING)
             v420_lbm_reynolds_number
             v420_cli_cfd_simulate
             v420_cli_quantum_kit
-            v420_cli_energy_kit)
+            v420_cli_energy_kit
+            v430_coriolis_parameter
+            v430_geostrophic_wind
+            v430_hypsometric_thickness
+            v430_nwp_grid_create
+            v430_nwp_advect_step
+            v430_potential_temperature
+            v430_relative_humidity_calc
+            v430_cli_weather_forecast
+            v430_tide_harmonic_predict
+            v430_ekman_spiral_current
+            v430_seawater_density
+            v430_thermocline_depth_detect
+            v430_tsunami_wave_speed
+            v430_ocean_sound_speed
+            v430_cli_ocean_tide
+            v430_seismic_velocity_model
+            v430_seismic_travel_time
+            v430_epicenter_triangulate
+            v430_earthquake_magnitude_mw
+            v430_seismic_fdtd_grid_create
+            v430_seismic_fdtd_step
+            v430_richter_attenuation
+            v430_cli_seismic_locate
+            v430_evapotranspiration_penman
+            v430_climate_energy_balance
+            v430_runoff_curve_number
+            v430_carbon_box_cycle
+            v430_cli_climate_model
+            v430_cli_weather_kit
+            v430_cli_seismic_kit)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

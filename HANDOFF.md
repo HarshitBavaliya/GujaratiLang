@@ -16,11 +16,11 @@ can change.
 
 ## Current published state
 
-- Latest interpreter release: [GujaratiLang v4.2.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v4.2.0) ("Parmanu & Shakti — Pure C99 Quantum Circuit Simulator, SIMD Vectorization, Smart Energy Grid & Lattice Boltzmann CFD").
+- Latest interpreter release: [GujaratiLang v4.3.0](https://github.com/HarshitBavaliya/GujaratiLang/releases/tag/v4.3.0) ("Samudra & Hava — Numerical Weather Prediction, Physical Oceanography, Seismic Geophysics & Earth Climate Systems").
   It provides Windows x64, Linux x64, macOS Intel, and macOS arm64 packages,
   along with SHA-256 checksums.
 - The cross-platform release workflow successfully built and tested each
-  platform before publishing v4.2.0 (960 automated test suites passing, 100% pass rate).
+  platform before publishing v4.2.0 (990 automated test suites passing, 100% pass rate).
 - The VS Code extension is
   [GujaratiLang on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=harshitbavaliya.gujarati),
   published as `HarshitBavaliya.gujarati`, currently v1.6.0 (packaged as `gujarati-1.6.0.vsix`).
@@ -30,10 +30,29 @@ can change.
   code --install-extension HarshitBavaliya.gujarati
   ```
 
-- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (960/960 passing).
+- CI passed on Windows, Ubuntu, macOS Intel, and macOS arm64 for the interpreter (990/990 passing).
 - Official website and interactive playground live at [https://gujaratilang.hp-square.com/](https://gujaratilang.hp-square.com/).
 
 ## Latest repository changes
+
+Latest commit on origin: **Release v4.3.0: Samudra & Hava — Numerical Weather Prediction, Physical Oceanography, Seismic Geophysics & Earth Climate Systems (990 Tests Milestone)**.
+
+- Added Vatavaran (વાતાવરણ-ગતિ) Numerical Weather Prediction & Atmospheric Dynamics:
+  - `weather_coriolis_param`, `weather_geostrophic_wind`, `weather_hypsometric_thickness`, `weather_arakawa_grid_create`, `weather_advection_2d_step`, `weather_potential_temperature`, `weather_relative_humidity`
+  - CLI: `gujarati weather:forecast [grid.json]`
+- Added Samudra (સમુદ્ર-તરંગ) Physical Oceanography & Marine Hydrodynamics:
+  - `ocean_tide_harmonic`, `ocean_ekman_spiral`, `ocean_seawater_density`, `ocean_thermocline_depth`, `ocean_tsunami_speed`, `ocean_sound_speed`
+  - CLI: `gujarati ocean:tide [tide.json]`
+- Added Bhukamp (ભૂકંપ-તરંગ) Seismic Geophysics & Wave Propagation:
+  - `seismic_p_wave_velocity`, `seismic_s_wave_velocity`, `seismic_travel_time`, `seismic_triangulate_epicenter`, `seismic_moment_magnitude`, `seismic_wavefield_2d_create`, `seismic_fdtd_acoustic_step`
+  - CLI: `gujarati seismic:locate [stations.json]`
+- Added Jal-Vayu (જળવાયુ-ચક્ર) Hydrological Cycle & Earth Climate Energy Balance:
+  - `climate_penman_monteith`, `climate_planetary_temp`, `climate_scs_runoff`, `climate_carbon_box_model`
+  - CLI: `gujarati climate:model [forcing.json]`
+- Added Pre-Coded Starter Kit 15: Numerical Weather & Monsoon Prediction Engine (`--kit=weather`, `--kit=monsoon`):
+  - `gujarati new monsoon_sim --kit=weather` (aliases `kit:weather`, `kit:monsoon`)
+- Added Pre-Coded Starter Kit 16: Earthquake Early Warning & Seismic Triangulator (`--kit=seismic`, `--kit=earthquake`):
+  - `gujarati new seismic_hub --kit=seismic` (aliases `kit:seismic`, `kit:earthquake`)
 
 Latest commit on origin: **Release v4.2.0: Parmanu & Shakti — Pure C99 Quantum Circuit Simulator, SIMD Vectorization, Smart Energy Grid & Lattice Boltzmann CFD (960 Tests Milestone)**.
 

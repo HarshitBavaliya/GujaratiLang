@@ -391,4 +391,115 @@ end
 | `paillier_add_ciphertexts(c1, c2, pub)` | `paillier_sarvalo` | `પેલિયર_સરવાળો` | Computes encrypted addition homomorphically without decryption |
 | `paillier_decrypt(ct, privkey)` | `paillier_kholo` | `પેલિયર_ખોલો` | Recovers exact plaintexts from ciphertexts using L-function inversion |
 | `zk_range_proof_generate(sec, min, max)` | `shunya_gnan_sabiti` | `શૂન્ય_જ્ઞાન_સાબિતી` | Generates zero-knowledge Pedersen commitment range proofs verifying $x \in [	ext{min}, 	ext{max}]$ |
+### 10. Samudra & Hava: Numerical Weather Prediction, Physical Oceanography, Seismic Geophysics & Earth Climate Systems (v4.3.0)
 
+GujaratiLang v4.3.0 introduces planetary atmospheric dynamics, physical oceanography, seismic geophysics, and Earth climate modeling into the pure C99 runtime.
+
+#### 1. Vatavaran Numerical Weather Prediction
+```gujarati
+start
+// Compute Coriolis frequency at 23.2° N (Tropic of Cancer / Gujarat)
+f = weather_coriolis_param(23.2);
+print f;
+
+// Calculate geostrophic wind from pressure gradient (0.002 Pa/m)
+wind = weather_geostrophic_wind(0.002, 23.2, 1.225);
+print wind["speed_m_s"];
+
+// Hypsometric layer thickness between 1000 hPa and 500 hPa at 260 K
+thick = weather_hypsometric_thickness(1000.0, 500.0, 260.0);
+print thick;
+
+// Potential temperature & relative humidity
+theta = weather_potential_temperature(25.0, 950.0);
+rh = weather_relative_humidity(30.0, 22.0);
+print rh;
+end
+```
+
+#### 2. Samudra Physical Oceanography
+```gujarati
+start
+// Synthesize multi-constituent astronomical tide at t = 6.0 hours
+tide_height = ocean_tide_harmonic([{"amp": 1.5, "speed_deg_hr": 28.98}], 6.0);
+print tide_height;
+
+// Wind-driven Ekman spiral current at 15m depth
+ekman = ocean_ekman_spiral(12.0, 21.0, 15.0);
+print ekman["speed_m_s"];
+
+// Seawater density & shallow-water tsunami wave speed (4000m depth)
+rho = ocean_seawater_density(35.0, 18.0, 100.0);
+c_tsunami = ocean_tsunami_speed(4000.0);
+print c_tsunami;
+end
+```
+
+#### 3. Bhukamp Seismic Geophysics
+```gujarati
+start
+// Calculate P-wave and S-wave velocities in crustal rock
+vp = seismic_p_wave_velocity(5.0e10, 3.0e10, 2700.0);
+vs = seismic_s_wave_velocity(3.0e10, 2700.0);
+print vp;
+print vs;
+
+// Triangulate earthquake epicenter from 3 seismic stations
+st1 = {"x": 0.0, "y": 0.0, "distance": 100.0};
+st2 = {"x": 200.0, "y": 0.0, "distance": 100.0};
+st3 = {"x": 100.0, "y": 150.0, "distance": 80.0};
+loc = seismic_triangulate_epicenter(st1, st2, st3);
+print loc["x"];
+print loc["y"];
+
+// Moment magnitude from seismic moment (2.0e18 Nm)
+mw = seismic_moment_magnitude(2.0e18);
+print mw;
+end
+```
+
+#### 4. Jal-Vayu Climate Energy Balance
+```gujarati
+start
+// FAO-56 Penman-Monteith reference evapotranspiration (ET0)
+et0 = climate_penman_monteith(18.5, 28.0, 3.2, 1.4);
+print et0;
+
+// Earth equilibrium temperature (S0=1361, albedo=0.30, emissivity=1.0)
+t_eq = climate_planetary_temp(1361.0, 0.30, 1.0);
+print t_eq;
+
+// SCS runoff depth for 75mm rainfall with Curve Number 78
+runoff = climate_scs_runoff(75.0, 78.0);
+print runoff;
+end
+```
+
+#### Built-in Function Reference Table (v4.3.0)
+
+| Function (English) | Romanized Alias | Gujarati Unicode | Description |
+|---|---|---|---|
+| `weather_coriolis_param(lat)` | `vatavaran_coriolis` | `વાતાવરણ_કોરિઓલિસ` | Computes Coriolis parameter $f = 2\Omega\sin\phi$ ($s^{-1}$) for planetary vorticity |
+| `weather_geostrophic_wind(grad_p, lat, rho)` | `vatavaran_geostrophic_pavan` | `વાતાવરણ_ભૂસ્તરીય_પવન` | Calculates geostrophic wind balances $(u_g, v_g)$ from horizontal pressure gradient |
+| `weather_hypsometric_thickness(p1, p2, t)` | `vatavaran_zaadayi` | `વાતાવરણ_જાડાઈ` | Computes geopotential thickness $\Delta z = (R_d \bar{T}_v / g) \ln(p_1/p_2)$ |
+| `weather_arakawa_grid_create(nx, ny, dx, dy)` | `vatavaran_jaal_bnavo` | `વાતાવરણ_જાળ_બનાવો` | Allocates Arakawa staggered C-grid for numerical atmospheric fluid dynamics |
+| `weather_advection_2d_step(grid, u, v, dt)` | `vatavaran_advection_paglu` | `વાતાવરણ_એડવેક્શન_પગલું` | Solves 2D scalar advection via upstream differencing |
+| `weather_potential_temperature(temp_c, p)` | `vatavaran_sambhavit_taman` | `વાતાવરણ_સંભવિત_તાપમાન` | Computes potential temperature $\theta = T (P_0/P)^{R/c_p}$ |
+| `weather_relative_humidity(temp_c, dew_c)` | `vatavaran_bhej_taka` | `વાતાવરણ_ભેજ_ટકા` | Computes Magnus-Tetens relative humidity percentage |
+| `ocean_tide_harmonic(constituents, time_h)` | `samudra_oat_bharati` | `સમુદ્ર_ઓટ_ભરતી` | Synthesizes astronomical sea-surface elevation from harmonic constituents |
+| `ocean_ekman_spiral(wind_speed, lat, depth)` | `samudra_ekman_pravah` | `સમુદ્ર_એકમન_પ્રવાહ` | Computes depth-dependent wind-driven ocean current velocity and deflection |
+| `ocean_seawater_density(salinity, temp_c, p)`| `samudra_pani_ghanata` | `સમુદ્ર_પાણી_ઘનતા` | Evaluates seawater density using UNESCO/TEOS-10 polynomial equation of state |
+| `ocean_thermocline_depth(depths, temps)` | `samudra_thermocline_undayi`| `સમુદ્ર_થર્મોક્લાઇન_ઊંડાઈ`| Detects mixed-layer depth and maximum temperature gradient in water column |
+| `ocean_tsunami_speed(depth_meters)` | `samudra_tsunami_gati` | `સમુદ્ર_સુનામી_ગતિ` | Computes shallow-water gravity wave speed $c = \sqrt{gh}$ |
+| `ocean_sound_speed(temp_c, sal, depth_m)` | `samudra_dhvani_gati` | `સમુદ્ર_ધ્વનિ_ગતિ` | Underwater acoustic velocity via empirical Mackenzie equation |
+| `seismic_p_wave_velocity(k, mu, rho)` | `bhukamp_p_tarang_gati` | `ભૂકંપ_પી_તરંગ_ગતિ` | Calculates compressional P-wave velocity $v_p = \sqrt{(K + \frac{4}{3}\mu)/\rho}$ |
+| `seismic_s_wave_velocity(mu, rho)` | `bhukamp_s_tarang_gati` | `ભૂકંપ_એસ_તરંગ_ગતિ` | Calculates secondary shear S-wave velocity $v_s = \sqrt{\mu/\rho}$ |
+| `seismic_travel_time(dist_km, vel_km_s)` | `bhukamp_pravas_samay` | `ભૂકંપ_પ્રવાસ_સમય` | Computes seismic raypath transit duration across epicentral distances |
+| `seismic_triangulate_epicenter(s1, s2, s3)`| `bhukamp_kendrabindu_shodho`| `ભૂકંપ_કેન્દ્રબિંદુ_શોધો`| Multilateration epicenter triangulation across three seismic stations |
+| `seismic_moment_magnitude(moment_nm)` | `bhukamp_tivrata_mw` | `ભૂકંપ_તીવ્રતા_એમડબલ્યુ` | Computes moment magnitude scale $M_w = \frac{2}{3}\log_{10}(M_0) - 9.1$ |
+| `seismic_wavefield_2d_create(nx, ny)` | `bhukamp_kshetra_bnavo` | `ભૂકંપ_ક્ષેત્ર_બનાવો` | Allocates 2D scalar stress-displacement field for wave simulation |
+| `seismic_fdtd_acoustic_step(fld, c, dx, dt)` | `bhukamp_fdtd_paglu` | `ભૂકંપ_એફડીટીડી_પગલું` | Explicit FDTD acoustic wave stepping under CFL stability condition |
+| `climate_penman_monteith(rad, t, wind, vpd)` | `jalvayu_bhavan_ganatri` | `જળવાયુ_બાષ્પીભવન_ગણતરી`| FAO-56 Penman-Monteith reference evapotranspiration ($ET_0$, mm/day) |
+| `climate_planetary_temp(solar, alb, emis)` | `jalvayu_graha_taman` | `જળવાયુ_ગ્રહ_તાપમાન` | Solves Stefan-Boltzmann equilibrium temperature $T_{eq}$ |
+| `climate_scs_runoff(rain_mm, cn)` | `jalvayu_pani_pravah` | `જળવાયુ_પાણી_પ્રવાહ` | Direct surface runoff depth via USDA SCS Runoff Curve Number model |
+| `climate_carbon_box_model(emiss_gt, years)` | `jalvayu_carbon_chakra` | `જળવાયુ_કાર્બન_ચક્ર` | Multi-box carbon partitioning between atmosphere, ocean, and biosphere |
