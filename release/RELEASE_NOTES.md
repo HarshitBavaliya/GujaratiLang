@@ -30,7 +30,8 @@ With v4.4.0, the automated test suite expands to the historic milestone of **1,0
 - **`vision_gaussian_blur(grid, sigma)` / `chitra_gaussian_blur` / `ચિત્ર_ગોસિયન_બ્લર`**: 2D separable Gaussian smoothing convolution.
 - **`vision_sobel_gradients(grid)` / `chitra_sobel_dhal` / `ચિત્ર_સોબેલ_ઢાળ`**: Directional spatial gradients $G_x, G_y$, gradient magnitude, and orientation angles.
 - **`vision_canny_edge(grid, low, high)` / `chitra_canny_kinari` / `ચિત્ર_કેની_કિનારી`**: Complete Canny edge detector featuring non-maximum suppression (NMS) and hysteresis thresholding.
-- **`vision_hough_lines(edge_grid, thresh, min_len)` / `chitra_hough_rekha` / `ચિત્ર_હોફ_રેખા`**: Hough transform parameter accumulator voting for straight line detection ($ho, 	heta$).
+- **`vision_hough_lines(edge_grid, thresh, min_len)` / `chitra_hough_rekha` / `ચિત્ર_હોફ_રેખા`**: Hough transform parameter accumulator voting for straight line detection ($
+ho, 	heta$).
 - **`vision_harris_corners(grid, k, thresh)` / `chitra_harris_khuna` / `ચિત્ર_હેરીસ_ખૂણા`**: Harris corner response $R = \det(M) - k \operatorname{Tr}(M)^2$ localized feature extractor.
 - **`vision_fast_keypoints(grid, thresh)` / `chitra_fast_bindu` / `ચિત્ર_ફાસ્ટ_બિંદુ`**: High-speed FAST corner keypoint detector over 16-pixel Bresenham circles.
 - **Terminal CLI Command `vision:detect [image.bmp]` / `ચિત્ર:શોધો`**: Edge and corner feature detection CLI with bounding boxes and keypoint summaries.
