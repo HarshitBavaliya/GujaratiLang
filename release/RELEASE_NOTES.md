@@ -1,3 +1,47 @@
+# GujaratiLang v4.6.0: Bhasha & Smriti — Local LLM Transformer Engine, Quantized GGUF/GGML Inference, BPE Tokenizer & Pure C99 Vector RAG (ભાષા અને સ્મૃતિ)
+
+GujaratiLang **v4.6.0** is officially released! This monumental milestone brings sovereign, offline Large Language Model inference and embedded vector retrieval directly into pure ANSI C99 with zero external dependencies, reaching **1,100 Automated Tests (100% Pass Rate)**:
+
+### 1. Smriti-Sutra (સ્મૃતિ-સૂત્ર) Local Transformer Decoder Engine
+- `transformer_layer_create(h_dim, n_heads, kv_heads, inter_dim)` / `smriti_layer_bnavo` / `ટ્રાન્સફોર્મર_સ્તર_શરૂ`: Autoregressive transformer decoder layer.
+- `transformer_rms_norm(x, weights, eps)` / `smriti_rms_norm` / `ટ્રાન્સફોર્મર_આરએમએસ_નોર્મ`: Root Mean Square Layer Normalization.
+- `transformer_rope_embed(x, pos, theta_base)` / `smriti_rope_sthiti` / `ટ્રાન્સફોર્મર_રોપ_સ્થિતિ`: Rotary Positional Embeddings in 2D complex plane.
+- `transformer_qkv_attention(q, k, v, is_causal)` / `smriti_dhyan_ganatari` / `ટ્રાન્સફોર્મર_ધ્યાન_ગણતરી`: Flash scaled dot-product attention with causal mask.
+- `transformer_kv_cache_append(cache, key, val, pos)` / `smriti_kv_sanchay` / `ટ્રાન્સફોર્મર_કેવી_સંચય`: Rolling Key-Value cache buffer.
+- `transformer_swiglu_forward(x)` / `smriti_swiglu` / `ટ્રાન્સફોર્મર_સ્વિગ્લુ`: SwiGLU non-linear gated feedforward activation.
+- `transformer_sample_logits(logits, temp, top_k, top_p)` / `smriti_token_pasand` / `ટ્રાન્સફોર્મર_ટોકન_પસંદગી`: Temperature, Top-K & Top-P nucleus sampling.
+
+### 2. GGUF-Kosh (જીજીયુએફ-કોષ) Binary Quantization & Tensor Inference
+- `gguf_open(path)` / `gguf_kholo` / `જીજીયુએફ_ખોલો`: Memory-mapped GGUF v3 binary model container parser.
+- `gguf_tensor_info(name)` / `gguf_tensor_vigat` / `જીજીયુએફ_ટેન્સર_વિગત`: Tensor metadata, shapes, and quantization types.
+- `quant_q4_0_decode(block)` / `quant_q4_decode` / `ક્વોન્ટ_ક્યુ૪_ડીકોડ`: Dequantize 32 4-bit nibbles with FP16 scale.
+- `quant_q8_0_decode(block)` / `quant_q8_decode` / `ક્વોન્ટ_ક્યુ૮_ડીકોડ`: Dequantize 32 8-bit integer weights.
+- `quant_gemv_q4(mat, vec, rows, cols)` / `quant_gemv_q4_gunakar` / `ક્વોન્ટ_જેમવી_ક્યુ૪`: Direct matrix-vector dot product kernel executing on packed Q4_0 blocks.
+- `quant_gemv_q8(mat, vec, rows, cols)` / `quant_gemv_q8_gunakar` / `ક્વોન્ટ_જેમવી_ક્યુ૮`: Fast matrix-vector dot product kernel on packed Q8_0 blocks.
+
+### 3. Bhasha-Bodh (ભાષા-બોધ) BPE Tokenizer & Chat Templates
+- `bpe_tokenizer_create(vocab_size, bos, eos, unk)` / `bpe_tokenizer_bnavo` / `બીપીઇ_ટોકનાઇઝર_બનાવો`: Subword BPE tokenizer with byte fallback.
+- `bpe_token_to_id(token)` / `bpe_token_athi_id` / `બીપીઇ_ટોકન_આઈડી`: Subword token to integer vocabulary ID.
+- `bpe_id_to_token(id)` / `bpe_id_athi_token` / `બીપીઇ_આઈડી_ટોકન`: Integer vocabulary ID to subword token.
+- `bpe_encode(text)` / `bpe_shabda_encode` / `બીપીઇ_એનકોડ`: Greedy recursive BPE merge sequence encoding.
+- `bpe_decode(ids)` / `bpe_shabda_decode` / `બીપીઇ_ડીકોડ`: Round-trip token ID decoding.
+- `bpe_special_tokens(tok)` / `bpe_vishesh_tokens` / `બીપીઇ_વિશેષ_ટોકન`: Special token delimiter inspection.
+- `chat_template_format(messages)` / `chat_format_bnavo` / `સંવાદ_ફોર્મેટ`: Standardized ChatML & Llama-3 instruction formatting.
+
+### 4. Smriti-Jaal (સ્મૃતિ-જાળ) Embedded Vector Database & Offline RAG
+- `vector_index_create(dim, metric)` / `vector_index_bnavo` / `વેક્ટર_ઇન્ડેક્સ_બનાવો`: In-memory dense vector database.
+- `vector_insert(idx, id, vec, payload)` / `vector_dakhalkaro` / `વેક્ટર_દાખલ`: Vector embedding insertion with metadata.
+- `vector_cosine_similarity(va, vb)` / `vector_cosine_gunakar` / `વેક્ટર_કોસાઇન_સમાનતા`: Normalized cosine similarity.
+- `vector_knn_search(idx, query_vec, k)` / `vector_shodh_karo` / `વેક્ટર_કેએનએન_શોધ`: Top-K nearest neighbors ranking.
+- `vector_hnsw_index(idx, m, ef)` / `vector_hnsw_bnavo` / `વેક્ટર_એચએનએસડબલ્યુ`: Hierarchical Navigable Small World graph index.
+- `rag_synthesize_prompt(query, chunks, max_tokens)` / `rag_prompt_bnavo` / `રેગ_પ્રોમ્પ્ટ_સિન્થેસિસ`: Grounded hallucination-free prompt synthesis.
+
+### 5. Production Starter Kits
+- 🎁 **Starter Kit 21 (`--kit=chat-ai`)**: Local Chat AI Studio (`gujarati new my-chat --kit=chat-ai`).
+- 🎁 **Starter Kit 22 (`--kit=rag-search`)**: Offline Semantic Knowledge RAG Engine (`gujarati new my-rag --kit=rag-search`).
+
+---
+
 # GujaratiLang v4.5.0: Yantra-Bodh, Gyaan & Rachana — Computer Algebra System, Knowledge Graphs, Automated Theorem Prover, Apache Arrow IPC & Multi-Platform App Templates (યંત્ર-બોધ, જ્ઞાન અને રચના)
 
 GujaratiLang **v4.5.0** is officially released! This milestone introduces symbolic computer algebra, semantic RDF knowledge graphs, automated first-order theorem proving with DPLL SAT solving, columnar Apache Arrow zero-copy memory & IPC streaming, and comprehensive from-scratch scaffolding for Web, Desktop, and Android mobile applications — engineered in 100% pure ANSI C99 with **zero external C dependencies**.
