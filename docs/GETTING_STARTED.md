@@ -91,7 +91,7 @@ gujarati hello.gj
 Run `gujarati` with no arguments to enter the interactive Read-Eval-Print Loop:
 ```text
 $ gujarati
-=== ગુજરાતીલેંગ્વેજ (GujaratiLang) v4.0.0 Interactive Shell ===
+=== ગુજરાતીલેંગ્વેજ (GujaratiLang) v4.5.0 Interactive Shell ===
 ટાઇપ કરો 'bahar' અથવા 'exit' બહાર નીકળવા માટે.
 >> a = 10;
 10
