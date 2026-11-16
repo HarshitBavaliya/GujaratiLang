@@ -2998,5 +2998,72 @@
       "chhapo app[\"package\"];"
     ],
     "description": "Scaffold Android NDK native application with multi-touch event polling (v4.5.0)"
+  },
+  "Smriti-Sutra Transformer Decoder Layer (v4.6.0)": {
+    "prefix": [
+      "transformer_layer",
+      "smriti_layer"
+    ],
+    "body": [
+      "// Initialize Sovereign C99 Transformer Decoder Layer (768-dim, 12 heads, 4 KV heads, 2048 intermediate)",
+      "layer = transformer_layer_create(${1:768}, ${2:12}, ${3:4}, ${4:2048});",
+      "norm = transformer_rms_norm(${5:vec}, ${6:weights}, 1e-5);",
+      "rope = transformer_rope_embed(norm[\"norm_vec\"], ${7:pos}, 10000.0);",
+      "attn = transformer_qkv_attention(rope[\"rotated_vec\"], ${8:key_vec}, ${9:val_vec}, 1);",
+      "swiglu = transformer_swiglu_forward(attn[\"attn_heads\"]);",
+      "token = transformer_sample_logits(${10:logits}, 0.7, 40, 0.9);",
+      "print(\"Sampled Token: \" + token[\"selected_token\"]);"
+    ],
+    "description": "Scaffold a sovereign pure C99 Llama-3 style Transformer autoregressive decoder block."
+  },
+  "GGUF Binary Tensor Loading & Dequantization (v4.6.0)": {
+    "prefix": [
+      "gguf_load",
+      "gguf_quant"
+    ],
+    "body": [
+      "// Inspect and decode quantized GGUF v3 binary tensor files",
+      "model = gguf_open(\"${1:models/model.Q4_0.gguf}\");",
+      "print(\"GGUF Architecture: \" + model[\"arch\"]);",
+      "tinfo = gguf_tensor_info(\"blk.0.attn_q.weight\");",
+      "q4 = quant_q4_0_decode(${2:raw_tensor_block});",
+      "res = quant_gemv_q4(q4[\"decoded_values\"], ${3:act_vec}, 4, 32);",
+      "print(\"GEMV Output Rows: \" + res[\"rows\"]);"
+    ],
+    "description": "Inspect GGUF v3 headers and execute fast pure C99 Q4_0/Q8_0 matrix-vector dequantization."
+  },
+  "Bhasha-Bodh BPE Tokenizer & Chat Template (v4.6.0)": {
+    "prefix": [
+      "bpe_tokenizer",
+      "chat_template"
+    ],
+    "body": [
+      "// Byte-Pair Encoding (BPE) & Llama-3 / ChatML template formatting",
+      "tok = bpe_tokenizer_create(${1:32000}, 1, 2, 3);",
+      "ids = bpe_encode(\"${2:નમસ્તે વિશ્વ!}\");",
+      "print(\"Encoded token count: \" + lambai(ids));",
+      "formatted = chat_template_format([",
+      "    {\"role\": \"system\", \"content\": \"You are a helpful GujaratiLang assistant.\"},",
+      "    {\"role\": \"user\", \"content\": \"${3:Hello!}\"}",
+      "]);",
+      "print(formatted);"
+    ],
+    "description": "Tokenize multilingual text with byte fallback and render chat instruction prompts."
+  },
+  "Smriti-Jaal HNSW Vector Index & RAG Synthesis (v4.6.0)": {
+    "prefix": [
+      "vector_rag",
+      "hnsw_index"
+    ],
+    "body": [
+      "// Embedded pure C99 Vector Database and Offline Knowledge Retrieval (RAG)",
+      "vidx = vector_index_create(${1:384}, \"cosine\");",
+      "vector_insert(vidx, 1, ${2:[0.15, 0.42, 0.88, 0.12]}, \"docs/GETTING_STARTED.md\");",
+      "hnsw = vector_hnsw_index(vidx, 16, 64);",
+      "hits = vector_knn_search(vidx, ${3:query_vec}, 3);",
+      "prompt = rag_synthesize_prompt(\"${4:Explain borrow checker}\", hits, 512);",
+      "print(prompt);"
+    ],
+    "description": "Scaffold an embedded Vector Index with HNSW search and offline RAG prompt synthesis."
   }
 }

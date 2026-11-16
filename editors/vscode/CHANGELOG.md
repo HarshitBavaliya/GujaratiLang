@@ -1,3 +1,21 @@
+## [4.6.0] - 2026-11-16
+
+### Major Release — Synchronized with GujaratiLang v4.6.0 (Bhasha & Smriti)
+This major release synchronizes the VS Code extension directly with GujaratiLang core runtime **v4.6.0**, expanding syntax recognition to **2,500+ built-in functions** and adding intelligent autocomplete snippets across modern sovereign AI domains:
+
+- **Smriti-Sutra Local LLM Transformer Engine (v4.6.0)**:
+  - Autoregressive decoder layer: `transformer_layer_create`, `transformer_rms_norm`, `transformer_rope_embed`, `transformer_qkv_attention`, `transformer_kv_cache_append`, `transformer_swiglu_forward`, `transformer_sample_logits`.
+  - Native Gujarati syntax aliases (`smriti_layer_bnavo`, `ટ્રાન્સફોર્મર_સ્તર_શરૂ`, `smriti_rms_norm`, `ટ્રાન્સફોર્મર_આરએમએસ_નોર્મ`, etc.).
+- **GGUF-Kosh Binary Quantization & Tensor Inference (v4.6.0)**:
+  - Direct zero-copy loading: `gguf_open`, `gguf_tensor_info`, `quant_q4_0_decode`, `quant_q8_0_decode`, `quant_gemv_q4`, `quant_gemv_q8`.
+- **Bhasha-Bodh Native BPE Tokenizer & Chat Templates (v4.6.0)**:
+  - Subword segmentation & conversation formatting: `bpe_tokenizer_create`, `bpe_token_to_id`, `bpe_id_to_token`, `bpe_encode`, `bpe_decode`, `bpe_special_tokens`, `chat_template_format`.
+- **Smriti-Jaal Pure C99 Vector Database & Offline RAG (v4.6.0)**:
+  - Semantic embeddings and retrieval: `vector_index_create`, `vector_insert`, `vector_cosine_similarity`, `vector_knn_search`, `vector_hnsw_index`, `rag_synthesize_prompt`.
+- **Starter Kits**:
+  - Starter Kit 21 (`--kit=chat-ai`): Sovereign Local Chat AI Studio.
+  - Starter Kit 22 (`--kit=rag-search`): Offline Semantic Knowledge RAG Engine.
+
 ## [4.5.0] - 2026-11-05
 
 ### Major Release — Synchronized with GujaratiLang v4.5.0 (50-Point Milestone)

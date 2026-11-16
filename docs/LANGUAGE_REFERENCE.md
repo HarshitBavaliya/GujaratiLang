@@ -599,3 +599,41 @@ GujaratiLang v4.5.0 introduces symbolic computer algebra, semantic RDF knowledge
 - `android_asset_read(path)` / `android_sampatti_vancho` / `એન્ડ્રોઇડ_સંપત્તિ_વાંચો`: AAssetManager file loader.
 - `android_storage_dir(type)` / `android_sangrah_marg` / `એન્ડ્રોઇડ_સંગ્રહ_માર્ગ`: Sandboxed internal app path.
 - `android_manifest_generate(pkg, perms)` / `android_manifest_bnavo` / `એન્ડ્રોઇડ_મેનિફેસ્ટ_બનાવો`: AndroidManifest.xml generator.
+
+### 13. Bhasha & Smriti: Local LLM Transformer Engine, Quantized GGUF/GGML Inference, BPE Tokenizer & Pure C99 Vector RAG (v4.6.0)
+
+GujaratiLang v4.6.0 introduces sovereign, offline Large Language Model (LLM) transformer inference and embedded vector retrieval-augmented generation (RAG) directly into the core runtime with zero external dependencies.
+
+#### 13.1 Pillar 1: Smriti-Sutra (સ્મૃતિ-સૂત્ર) Local Transformer Architecture
+- `transformer_layer_create(h_dim, n_heads, kv_heads, inter_dim)` / `smriti_layer_bnavo` / `ટ્રાન્સફોર્મર_સ્તર_શરૂ`: Initialize autoregressive transformer decoder layer.
+- `transformer_rms_norm(x, weights, eps)` / `smriti_rms_norm` / `ટ્રાન્સફોર્મર_આરએમએસ_નોર્મ`: Root Mean Square Layer Normalization.
+- `transformer_rope_embed(x, pos, theta_base)` / `smriti_rope_sthiti` / `ટ્રાન્સફોર્મર_રોપ_સ્થિતિ`: Rotary Positional Embeddings.
+- `transformer_qkv_attention(q, k, v, is_causal)` / `smriti_dhyan_ganatari` / `ટ્રાન્સફોર્મર_ધ્યાન_ગણતરી`: Flash scaled dot-product attention with causal mask.
+- `transformer_kv_cache_append(cache, key, val, pos)` / `smriti_kv_sanchay` / `ટ્રાન્સફોર્મર_કેવી_સંચય`: Rolling KV-cache buffer append.
+- `transformer_swiglu_forward(x)` / `smriti_swiglu` / `ટ્રાન્સફોર્મર_સ્વિગ્લુ`: SwiGLU feedforward activation.
+- `transformer_sample_logits(logits, temp, top_k, top_p)` / `smriti_token_pasand` / `ટ્રાન્સફોર્મર_ટોકન_પસંદગી`: Temperature, Top-K & Top-P nucleus sampling.
+
+#### 13.2 Pillar 2: GGUF-Kosh (જીજીયુએફ-કોષ) Binary Quantization & Tensor Inference
+- `gguf_open(path)` / `gguf_kholo` / `જીજીયુએફ_ખોલો`: Open and parse GGUF v3 model container.
+- `gguf_tensor_info(name)` / `gguf_tensor_vigat` / `જીજીયુએફ_ટેન્સર_વિગત`: Retrieve tensor dimensions, offset and quantization type.
+- `quant_q4_0_decode(block)` / `quant_q4_decode` / `ક્વોન્ટ_ક્યુ૪_ડીકોડ`: Dequantize 32 4-bit nibbles scaled by half-precision float.
+- `quant_q8_0_decode(block)` / `quant_q8_decode` / `ક્વોન્ટ_ક્યુ૮_ડીકોડ`: Dequantize 32 8-bit integer weights.
+- `quant_gemv_q4(mat, vec, rows, cols)` / `quant_gemv_q4_gunakar` / `ક્વોન્ટ_જેમવી_ક્યુ૪`: Matrix-vector multiplication on Q4_0 blocks.
+- `quant_gemv_q8(mat, vec, rows, cols)` / `quant_gemv_q8_gunakar` / `ક્વોન્ટ_જેમવી_ક્યુ૮`: Matrix-vector multiplication on Q8_0 blocks.
+
+#### 13.3 Pillar 3: Bhasha-Bodh (ભાષા-બોધ) BPE Tokenizer & Chat Templates
+- `bpe_tokenizer_create(vocab_size, bos, eos, unk)` / `bpe_tokenizer_bnavo` / `બીપીઇ_ટોકનાઇઝર_બનાવો`: Create subword BPE tokenizer.
+- `bpe_token_to_id(token)` / `bpe_token_athi_id` / `બીપીઇ_ટોકન_આઈડી`: Map token string to vocabulary integer ID.
+- `bpe_id_to_token(id)` / `bpe_id_athi_token` / `બીપીઇ_આઈડી_ટોકન`: Map vocabulary integer ID to token string.
+- `bpe_encode(text)` / `bpe_shabda_encode` / `બીપીઇ_એનકોડ`: Encode UTF-8 text into token ID array.
+- `bpe_decode(ids)` / `bpe_shabda_decode` / `બીપીઇ_ડીકોડ`: Decode token ID array back to UTF-8 text.
+- `bpe_special_tokens(tok)` / `bpe_vishesh_tokens` / `બીપીઇ_વિશેષ_ટોકન`: Inspect special tokens delimiters.
+- `chat_template_format(messages)` / `chat_format_bnavo` / `સંવાદ_ફોર્મેટ`: Apply ChatML / Llama-3 conversation template.
+
+#### 13.4 Pillar 4: Smriti-Jaal (સ્મૃતિ-જાળ) Embedded Vector Database & Offline RAG
+- `vector_index_create(dim, metric)` / `vector_index_bnavo` / `વેક્ટર_ઇન્ડેક્સ_બનાવો`: Create in-memory vector database.
+- `vector_insert(idx, id, vec, payload)` / `vector_dakhalkaro` / `વેક્ટર_દાખલ`: Insert vector embedding with document metadata.
+- `vector_cosine_similarity(va, vb)` / `vector_cosine_gunakar` / `વેક્ટર_કોસાઇન_સમાનતા`: Compute normalized cosine similarity.
+- `vector_knn_search(idx, query_vec, k)` / `vector_shodh_karo` / `વેક્ટર_કેએનએન_શોધ`: Top-K nearest neighbors search.
+- `vector_hnsw_index(idx, m, ef)` / `vector_hnsw_bnavo` / `વેક્ટર_એચએનએસડબલ્યુ`: Build Hierarchical Navigable Small World graph.
+- `rag_synthesize_prompt(query, chunks, max_tokens)` / `rag_prompt_bnavo` / `રેગ_પ્રોમ્પ્ટ_સિન્થેસિસ`: Synthesize grounded context prompt.

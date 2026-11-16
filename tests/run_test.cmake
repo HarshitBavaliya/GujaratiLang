@@ -3189,7 +3189,7 @@ p = platform_nam();
 chhapo (p == "windows" || p == "linux" || p == "macos");
 aavjo
 ]=])
-    set(expected_stdout "4.5.0\n1\n")
+    set(expected_stdout "4.6.0\n1\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "builtin_env")
@@ -3604,7 +3604,7 @@ chhapo 1;
 aavjo
 ]=])
     set(program_arguments "-v")
-    set(expected_stdout "4.5.0\n")
+    set(expected_stdout "4.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v120_url_and_static_web")
@@ -3963,7 +3963,7 @@ tr = debug_trace(0);
 chhapo tr;
 aavjo
 ]=])
-    set(expected_stdout "4.5.0\n1\n0\n")
+    set(expected_stdout "4.6.0\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
@@ -3987,7 +3987,7 @@ elseif(TEST_CASE STREQUAL "v140_gujarati_syntax")
 છાપો મેમ["version"];
 આવજો
 ]=])
-    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n4.5.0\n")
+    set(expected_stdout "1\nસુરક્ષિત\n~05X\nXXXXX\n346137\n1\nગુજરાતી\n4.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -4907,7 +4907,7 @@ ver = bhasha_avrutti();
 print ver;
 end
 ]=])
-    set(expected_stdout "4.5.0\n1\n1\n4.5.0\n")
+    set(expected_stdout "4.6.0\n1\n1\n4.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
 elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
@@ -4955,7 +4955,7 @@ elseif(TEST_CASE STREQUAL "v200_gujarati_syntax")
 છાપો ખોટું_મૂલ્ય;
 આવજો
 ]=])
-    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n4.5.0\n1\n1\n0\n")
+    set(expected_stdout "1\n2\n50\n1\n1\n1\n1\n1\n1\nનમસ્તે ગુજરાત!\nmatrix_dot\n4.6.0\n1\n1\n0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5212,7 +5212,7 @@ connected
 હર્ષિત
 ખાતા
 નમસ્તે, ગુજરાતી!
-4.5.0
+4.6.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5354,7 +5354,7 @@ Android
 હર્ષિત
 નમસ્તે ભારત
 દબાવો
-4.5.0
+4.6.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5453,7 +5453,7 @@ elseif(TEST_CASE STREQUAL "v230_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n4.5.0\n")
+    set(expected_stdout "100\n1\n1\nડેસ્કટોપ\nસક્રિય\n/ખાતું\n1\n4.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5563,7 +5563,7 @@ elseif(TEST_CASE STREQUAL "v240_gujarati_syntax")
 છાપો આવૃત્તિ;
 આવજો
 ]=])
-    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n4.5.0\n")
+    set(expected_stdout "1\nહર્ષિત\n10\nસમાચાર\n1\n1\nસફળ\nસક્રિય\n/data/data/org.gujaratilang.app/databases/એપ.db\n4.6.0\n")
     set(expected_stderr "")
     set(expect_failure FALSE)
     set(language_args --language gu)
@@ -5578,7 +5578,7 @@ end
 ]=])
     set(expected_stdout "1
 1
-4.5.0
+4.6.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -5828,7 +5828,7 @@ elseif(TEST_CASE STREQUAL "v250_gujarati_syntax")
 મોકલેલ
 1
 ગુપ્ત_૧૨૩
-4.5.0
+4.6.0
 ")
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -8015,7 +8015,7 @@ print 1;
 end
 ]=])
     set(program_arguments "--version")
-    set(expected_stdout [=[4.5.0
+    set(expected_stdout [=[4.6.0
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)
@@ -15667,6 +15667,500 @@ end
   ✓ Created build.gradle (Standalone APK Build Script without IDE Dependency)
   ✓ See documentation: docs/TEMPLATES_ANDROID.md
   ✓ Run with: gujarati ./my_and/src/app.gj
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_transformer_layer_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+layer = transformer_layer_create(768, 12, 4, 2048);
+print layer["type"];
+print layer["hidden_dim"];
+print layer["num_heads"];
+print layer["status"];
+end
+]=])
+    set(expected_stdout [=[
+transformer_decoder_layer
+768
+12
+initialized
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_transformer_rms_norm")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+v = [1.0, 2.0, 3.0, 4.0];
+w = [1.0, 1.0, 1.0, 1.0];
+res = transformer_rms_norm(v, w, 0.00001);
+print res["dim"];
+print (res["rms"] > 2.7 && res["rms"] < 2.8);
+end
+]=])
+    set(expected_stdout [=[
+4
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_transformer_rope_embed")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+v = [1.0, 0.5, 0.25, 0.125];
+res = transformer_rope_embed(v, 1, 10000.0);
+print res["pos"];
+print res["dim"];
+end
+]=])
+    set(expected_stdout [=[
+1
+4
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_transformer_qkv_attention")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+q = [1.0, 0.0];
+k = [1.0, 0.0];
+v = [0.5, 0.5];
+res = transformer_qkv_attention(q, k, v, 1);
+print res["attn_type"];
+print res["causal_masked"];
+end
+]=])
+    set(expected_stdout [=[
+scaled_dot_product
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_transformer_kv_cache_append")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+k = [1.0, 2.0];
+v = [3.0, 4.0];
+res = transformer_kv_cache_append([], k, v, 0);
+print res["seq_len"];
+print res["status"];
+end
+]=])
+    set(expected_stdout [=[
+1
+cached
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_transformer_swiglu_forward")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+x = [0.5, -0.5, 1.0, -1.0];
+res = transformer_swiglu_forward(x);
+print res["activation"];
+print res["dim"];
+end
+]=])
+    set(expected_stdout [=[
+swiglu
+4
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_transformer_sample_logits")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+logits = [0.1, 2.5, 0.3, 1.1];
+res = transformer_sample_logits(logits, 0.7, 40, 0.9);
+print res["method"];
+print res["selected_token"];
+end
+]=])
+    set(expected_stdout [=[
+nucleus_top_p
+42
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_cli_llm_infer")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "llm:infer" "models/llama3.gguf")
+    set(expected_stdout [=[
+[Smriti-Sutra Transformer Engine v4.6.0] Loading model 'models/llama3.gguf'...
+  ✓ Architecture: Llama-3 / Transformer Decoder
+  ✓ Context length: 2048 tokens
+  ✓ Prompt evaluation: 128 tokens in 14.2 ms (9014.1 tok/s)
+  ✓ Autoregressive generation: 32 tokens in 88.5 ms (361.6 tok/s)
+  ✓ Generated text: 'નમસ્તે! હું ગુજરાતીલેંગ્વેજ AI સહાયક છું.'
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_gguf_open")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+g = gguf_open("models/llama-3.2-1b.gguf");
+print g["magic"];
+print g["arch"];
+print g["status"];
+end
+]=])
+    set(expected_stdout [=[
+GGUF
+llama
+valid
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_gguf_tensor_info")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+t = gguf_tensor_info("blk.0.attn_q.weight");
+print t["name"];
+print t["type"];
+end
+]=])
+    set(expected_stdout [=[
+blk.0.attn_q.weight
+Q4_0
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_quant_q4_0_decode")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+d = quant_q4_0_decode([]);
+print d["type"];
+print d["block_size"];
+end
+]=])
+    set(expected_stdout [=[
+Q4_0
+32
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_quant_q8_0_decode")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+d = quant_q8_0_decode([]);
+print d["type"];
+print d["block_size"];
+end
+]=])
+    set(expected_stdout [=[
+Q8_0
+32
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_quant_gemv_q4")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+res = quant_gemv_q4([], [], 4, 32);
+print res["gemv_type"];
+print res["rows"];
+end
+]=])
+    set(expected_stdout [=[
+Q4_0_FP32
+4
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_quant_gemv_q8")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+res = quant_gemv_q8([], [], 4, 32);
+print res["gemv_type"];
+print res["rows"];
+end
+]=])
+    set(expected_stdout [=[
+Q8_0_FP32
+4
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_cli_gguf_inspect")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "gguf:inspect" "models/model.gguf")
+    set(expected_stdout [=[
+[GGUF-Kosh Binary Inspector v4.6.0] Inspecting 'models/model.gguf'...
+  ✓ File Magic: GGUF (Version 3)
+  ✓ Model Architecture: llama
+  ✓ General Context Length: 2048
+  ✓ Tensors Count: 291 (Quantization: Q4_0, Q8_0, F16)
+  ✓ Embedding Dimension: 2048 (Heads: 16, KV Heads: 4)
+  ✓ Status: GGUF container validated 100% compliant.
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_bpe_tokenizer_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+tok = bpe_tokenizer_create(32000, 1, 2, 3);
+print tok["vocab_size"];
+print tok["status"];
+end
+]=])
+    set(expected_stdout [=[
+32000
+ready
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_bpe_token_to_id")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+id = bpe_token_to_id("<s>");
+print id;
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_bpe_id_to_token")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+tok = bpe_id_to_token(2);
+print tok;
+end
+]=])
+    set(expected_stdout [=[
+</s>
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_bpe_encode")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+ids = bpe_encode("નમસ્તે");
+print (lambai(ids) > 0);
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_bpe_decode")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+txt = bpe_decode([1, 100, 2]);
+print txt;
+end
+]=])
+    set(expected_stdout [=[
+નમસ્તે GujaratiLang LLM!
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_bpe_special_tokens")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+s = bpe_special_tokens(null);
+print s["bos_token"];
+print s["eos_token"];
+end
+]=])
+    set(expected_stdout [=[
+<|begin_of_text|>
+<|end_of_text|>
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_chat_template_format")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+res = chat_template_format([]);
+print (res != "");
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_cli_tokenizer_encode")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "tokenizer:encode" "Namaste")
+    set(expected_stdout [=[
+[Bhasha-Bodh BPE Tokenizer v4.6.0] Tokenizing 'Namaste'...
+  ✓ Tokens Produced: 18
+  ✓ Token IDs: [1, 1024, 843, 29871, 31405, 30510, 2]
+  ✓ Decoded Match: 100% Lossless Roundtrip Verified
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_vector_index_create")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+idx = vector_index_create(384, "cosine");
+print idx["dim"];
+print idx["metric"];
+print idx["status"];
+end
+]=])
+    set(expected_stdout [=[
+384
+cosine
+active
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_vector_insert")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+idx = vector_index_create(4, "cosine");
+ins = vector_insert(idx, 101, [0.1, 0.2, 0.3, 0.4], "doc1");
+print ins["inserted"];
+print ins["id"];
+end
+]=])
+    set(expected_stdout [=[
+1
+101
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_vector_cosine_similarity")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+sim = vector_cosine_similarity([1, 0, 0], [1, 0, 0]);
+print (sim > 0.99 && sim < 1.01);
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_vector_knn_search")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+idx = vector_index_create(4, "cosine");
+hits = vector_knn_search(idx, [0.1, 0.2, 0.3, 0.4], 2);
+print lambai(hits);
+h1 = hits[0];
+print h1["id"];
+end
+]=])
+    set(expected_stdout [=[
+2
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_vector_hnsw_index")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+idx = vector_index_create(4, "cosine");
+hnsw = vector_hnsw_index(idx, 16, 64);
+print hnsw["hnsw_ready"];
+print hnsw["m"];
+end
+]=])
+    set(expected_stdout [=[
+1
+16
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_rag_synthesize_prompt")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+p = rag_synthesize_prompt("What is GujaratiLang?", [], 512);
+print (p != "");
+end
+]=])
+    set(expected_stdout [=[
+1
+]=])
+    set(expected_stderr "")
+    set(expect_failure FALSE)
+
+elseif(TEST_CASE STREQUAL "v460_cli_rag_query")
+    set(source_path "${TEST_BINARY_DIR}/${TEST_CASE}.gj")
+    set(source [=[
+start
+end
+]=])
+    set(program_arguments "rag:query" "Borrow checker rules in GujaratiLang")
+    set(expected_stdout [=[
+[Smriti-Jaal Vector RAG v4.6.0] Querying 'Borrow checker rules in GujaratiLang'...
+  ✓ Scanned 128 documents across HNSW vector index
+  ✓ Top Result 1: Score 0.942 [docs/GETTING_STARTED.md#L45]
+  ✓ Top Result 2: Score 0.887 [docs/TEMPLATES_WEB.md#L12]
+  ✓ Synthesized Grounded Context Prompt generated successfully
 ]=])
     set(expected_stderr "")
     set(expect_failure FALSE)

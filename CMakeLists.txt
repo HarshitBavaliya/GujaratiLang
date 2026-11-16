@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 if(POLICY CMP0091)
     cmake_policy(SET CMP0091 NEW)
 endif()
-project(gujaratilang VERSION 4.5.0 LANGUAGES C)
+project(gujaratilang VERSION 4.6.0 LANGUAGES C)
 
 include(CTest)
 
@@ -1082,7 +1082,37 @@ if(BUILD_TESTING)
             v450_cli_ipc_arrow
             v450_cli_template_web
             v450_cli_template_desktop
-            v450_cli_template_android)
+            v450_cli_template_android
+            v460_transformer_layer_create
+            v460_transformer_rms_norm
+            v460_transformer_rope_embed
+            v460_transformer_qkv_attention
+            v460_transformer_kv_cache_append
+            v460_transformer_swiglu_forward
+            v460_transformer_sample_logits
+            v460_cli_llm_infer
+            v460_gguf_open
+            v460_gguf_tensor_info
+            v460_quant_q4_0_decode
+            v460_quant_q8_0_decode
+            v460_quant_gemv_q4
+            v460_quant_gemv_q8
+            v460_cli_gguf_inspect
+            v460_bpe_tokenizer_create
+            v460_bpe_token_to_id
+            v460_bpe_id_to_token
+            v460_bpe_encode
+            v460_bpe_decode
+            v460_bpe_special_tokens
+            v460_chat_template_format
+            v460_cli_tokenizer_encode
+            v460_vector_index_create
+            v460_vector_insert
+            v460_vector_cosine_similarity
+            v460_vector_knn_search
+            v460_vector_hnsw_index
+            v460_rag_synthesize_prompt
+            v460_cli_rag_query)
         add_test(
             NAME ${test_case}
             COMMAND "${CMAKE_COMMAND}"

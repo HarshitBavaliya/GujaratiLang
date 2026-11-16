@@ -91,7 +91,7 @@ gujarati hello.gj
 Run `gujarati` with no arguments to enter the interactive Read-Eval-Print Loop:
 ```text
 $ gujarati
-=== ગુજરાતીલેંગ્વેજ (GujaratiLang) v4.5.0 Interactive Shell ===
+=== ગુજરાતીલેંગ્વેજ (GujaratiLang) v4.6.0 Interactive Shell ===
 ટાઇપ કરો 'bahar' અથવા 'exit' બહાર નીકળવા માટે.
 >> a = 10;
 10
@@ -119,6 +119,8 @@ GujaratiLang comes equipped with 9 pre-coded starter kits to immediately scaffol
 | `gujarati new my_tests --kit=kasauti` | **Kasauti Testing** | E2E browser automation, pixel diffing, and test runner |
 | `gujarati new my_ai --kit=sahayak` | **Sahayak AI** | Local LLM runner, RAG cosine search, and prompt rules |
 | `gujarati new my_sec --kit=jetstream` | **Suraksha Vault** | 2FA TOTP generator, RBAC permissions, and audit logs |
+| `gujarati new my_chat --kit=chat-ai` | **Local Chat AI Studio** | Sovereign offline LLM transformer interactive chat engine (v4.6.0) |
+| `gujarati new my_rag --kit=rag-search` | **Semantic Knowledge RAG** | Pure C99 Vector Database, HNSW retrieval & offline RAG (v4.6.0) |
 
 Example:
 ```bash

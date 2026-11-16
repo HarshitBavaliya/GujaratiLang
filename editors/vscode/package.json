@@ -1,8 +1,8 @@
 {
   "name": "gujarati",
   "displayName": "GujaratiLang",
-  "description": "Syntax highlighting, autocomplete snippets, and language tooling for GujaratiLang source files (v4.5.0 Yantra-Bodh, Gyaan & Rachana).",
-  "version": "4.5.0",
+  "description": "Syntax highlighting, autocomplete snippets, and language tooling for GujaratiLang source files (v4.6.0 Bhasha & Smriti — Local LLM Transformer Engine, Quantized GGUF/GGML & Pure C99 Vector RAG).",
+  "version": "4.6.0",
   "publisher": "harshitbavaliya",
   "icon": "images/icon.png",
   "engines": {
